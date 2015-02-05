@@ -1,0 +1,4 @@
+/* config.h, generated from config.h.in by CMake ${CMAKE_VERSION} */
+
+#define GJITENKAI_DATADIR "${DATADIR}"
+#define GJITENKAI_DICDIR "${DICDIR}"
