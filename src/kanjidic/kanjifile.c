@@ -24,42 +24,36 @@ char* get_line_from_dic(gunichar kanji, GjitenDicfile *kanjidic) {
 }
 
 kanjifile_entry *do_kdicline(gchar *kstr) {
-  //explode this line into an array
-  char ** res  = NULL;
-  int n_spaces = 0, i, nb_word = 0;
-  char *  p = NULL;
-  p = strtok (kstr, " ");
-
-  while (p) {
-    res = realloc (res, sizeof (char*) * ++n_spaces);
-
-    if (res == NULL)exit (-1); //memory allocation failed
-
-    res[n_spaces-1] = p;
-    p = strtok (NULL, " ");
-    nb_word++;
-  }
-
+  char word[KBUFSIZE];
+  gint pos=sizeof(gunichar);
+  //g_printf("%s\n", kstr);
+  
   kanjifile_entry *entry = g_new0(kanjifile_entry, 1);
+  gchar *translation;
+
   //for each words in the array, check what information it is 
-  //the first word is the kanji
-  i=0;
-  entry->kanji = res[i];
+  //the first word is the kanji  
+  //entry->kanji = g_utf8_get_char(word);
 
-  for(i=1;i<nb_word;i++){
+  while(pos = get_word(word, kstr, sizeof(word), pos)){
+    //g_printf("%d\n", pos);
+  
     //the first character of a word indicates it's purpose
-    char *word = res[i];
     char first_char = word[0];
-
+    
     switch(first_char){
     case 'S':
       //Stroke number
       sscanf(word,"S%d", &entry->stroke);
       break;
+    case '{':
+      translation = strdup(word+1);  //+1 to skip the { character. todo Free me 
+      entry->translations = g_list_append(entry->translations, translation);
+      break;
     default:
       break;
-    }
+      }
   }
-
+    
   return entry;
 }

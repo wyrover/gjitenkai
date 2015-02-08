@@ -201,10 +201,23 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 
   //Display informations on the kanji 
   //TODO: filter what to be displayed TODO: set font
+
+  //strokes count
   gchar *tmp_entry = g_strdup_printf("Strokes:\t%d\n", kanji_data->stroke);
   gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
                                    tmp_entry, 
                                    strlen(tmp_entry));
+
+  //translations
+  for (kanji_data->translations;
+       kanji_data->translations != NULL;
+       kanji_data->translations = g_list_next(kanji_data->translations)) {
+
+    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
+                                     strcat(kanji_data->translations->data, "\n"), 
+                                     strlen(kanji_data->translations->data) + 1);
+  }
+
   g_free(tmp_entry);
 }
 
