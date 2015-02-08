@@ -39,6 +39,8 @@ typedef struct kanjifile_entry_t{
   gunichar kanji;
   gint stroke;
   GSList *translations;
+  GSList *kunyomi;
+  GSList *onyomi;
 }kanjifile_entry;
 
 
