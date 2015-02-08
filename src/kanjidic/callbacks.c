@@ -202,8 +202,23 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
   //Display informations on the kanji 
   //TODO: filter what to be displayed in what order TODO: set font
   
+  //radicals
+  gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
+                                   "\nRadicals:\t",
+                                   strlen("\nRadicals:\t"));
+  
+  KanjiInfo *kanji_info = g_hash_table_lookup(kanjidic->kanji_info_hash, kanji);
+  GList *kanji_info_list;
+  for (kanji_info_list = kanji_info->rad_info_list;
+       kanji_info_list != NULL;
+       kanji_info_list = kanji_info_list->next) { 
+    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
+                                     ((RadInfo *) kanji_info_list->data)->radical, 
+                                     strlen(((RadInfo *) kanji_info_list->data)->radical)); 
+  }
+
   //strokes count
-  gchar *tmp_entry = g_strdup_printf("Strokes:\t%d", kanji_data->stroke);
+  gchar *tmp_entry = g_strdup_printf("\nStrokes:\t%d", kanji_data->stroke);
   gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
                                    tmp_entry, 
                                    strlen(tmp_entry));

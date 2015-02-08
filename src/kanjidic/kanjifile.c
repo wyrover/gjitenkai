@@ -61,7 +61,7 @@ kanjifile_entry *do_kdicline(gchar *kstr) {
       }
       
       break;
-      }
+    }
     
   }
   
