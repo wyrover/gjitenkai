@@ -201,7 +201,10 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
   
   //Display informations on the kanji 
   //TODO: filter what to be displayed in what order TODO: set font
-  
+  //TODO edit the separation string in the pref menu
+  gchar separation[] = " | ";
+  gint separation_lenght = strlen(separation);
+
   //radicals
   gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
                                    "\nRadicals:\t",
@@ -230,14 +233,22 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
                                      "\nonyomi:\t",
                                      strlen("\nonyomi:\t"));
  
-  for (kanji_data->onyomi;
-       kanji_data->onyomi != NULL;
-       kanji_data->onyomi = g_slist_next(kanji_data->onyomi)){
+    for (kanji_data->onyomi;
+         kanji_data->onyomi != NULL;
+         kanji_data->onyomi = g_slist_next(kanji_data->onyomi)){
     
-    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                     kanji_data->onyomi->data,
-                                     strlen(kanji_data->onyomi->data));
-  }
+      gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
+                                       kanji_data->onyomi->data,
+                                       strlen(kanji_data->onyomi->data));
+
+      //if there is another entry for this definition, append a separation char
+      if(g_slist_next(kanji_data->onyomi) != NULL){
+        gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
+                                         separation,
+                                         separation_lenght);
+      }
+
+    }
 
   }
 
@@ -253,6 +264,13 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
       gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
                                        kanji_data->kunyomi->data,
                                        strlen(kanji_data->kunyomi->data));
+      //if there is another entry for this definition, append a separation char
+      if(g_slist_next(kanji_data->kunyomi) != NULL){
+        gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
+                                         separation,
+                                         separation_lenght);
+      }
+
     }
   }
   
@@ -267,6 +285,14 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
     gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
                                      kanji_data->translations->data, 
                                      strlen(kanji_data->translations->data));
+
+    //if there is another entry for this definition, append a separation char
+    if(g_slist_next(kanji_data->translations) != NULL){
+      gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
+                                       separation,
+                                       separation_lenght);
+    }
+
   }
 
   g_free(kanji_data->kanji);
