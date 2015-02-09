@@ -247,9 +247,7 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
                                          separation,
                                          separation_lenght);
       }
-
     }
-
   }
 
   //kunyomi
@@ -270,7 +268,6 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
                                          separation,
                                          separation_lenght);
       }
-
     }
   }
   
@@ -292,7 +289,6 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
                                        separation,
                                        separation_lenght);
     }
-
   }
 
   g_free(kanji_data->kanji);
