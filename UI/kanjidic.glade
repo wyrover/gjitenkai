@@ -108,12 +108,6 @@
                 <property name="top_attach">1</property>
               </packing>
             </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
           </object>
         </child>
         <child type="tab">
@@ -342,6 +336,30 @@
         <property name="can_focus">False</property>
         <property name="row_homogeneous">True</property>
         <property name="column_homogeneous">True</property>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
         <child>
           <placeholder/>
         </child>
@@ -605,6 +623,7 @@
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="editable">False</property>
+                        <property name="wrap_mode">word</property>
                         <property name="buffer">textbuffer_kanji_display</property>
                       </object>
                       <packing>
