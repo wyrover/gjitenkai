@@ -193,12 +193,25 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
   //get the  kanji informations from kdic
   gchar *kanji_info_line = get_line_from_dic(kanji, kanjidic->conf->kanjidic);
   kanjifile_entry *kanji_data= do_kdicline(kanji_info_line);
-  
-  //display the kanji display buffer
+
+  //iterators
+  GtkTextIter start, end;
+
+  //display the kanji in the kanji display buffer
   gtk_text_buffer_set_text(textbuffer_kanji_display, "", 0);
   gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, kanji, strlen(kanji));
-  gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, "\n", strlen("\n"));
-  
+
+  //Apply a tag to change the style of the displayed kanji  
+  gint cursor_pos;
+  g_object_get(textbuffer_kanji_display ,"cursor-position", &cursor_pos, NULL);
+  gtk_text_buffer_get_start_iter (textbuffer_kanji_display, &start);
+  gtk_text_buffer_get_end_iter (textbuffer_kanji_display, &end);
+  gtk_text_buffer_apply_tag_by_name (textbuffer_kanji_display,
+                                     "kanji_tag",
+                                     &start,
+                                     &end);
+
+
   //Display informations on the kanji 
   //TODO: filter what to be displayed in what order TODO: set font
   //TODO edit the separation string in the pref menu

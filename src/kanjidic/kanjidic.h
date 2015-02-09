@@ -27,6 +27,9 @@ typedef struct kanjidic_t
   gboolean filter_by_radical;
   gboolean filter_by_key;
 
+  //kanji tag style in the kanji display
+  GtkTextTag *texttag_kanji; 
+
 } kanjidic;
 
 
