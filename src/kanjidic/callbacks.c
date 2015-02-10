@@ -194,7 +194,7 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
   gchar *kanji_info_line = get_line_from_dic(kanji, kanjidic->conf->kanjidic);
   kanjifile_entry *kanji_data= do_kdicline(kanji_info_line);
 
-  //iterators
+  //iterators to apply tag between
   GtkTextIter start, end;
 
   //display the kanji in the kanji display buffer
@@ -202,8 +202,8 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
   gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, kanji, strlen(kanji));
 
   //Apply a tag to change the style of the displayed kanji  
-  gint cursor_pos;
-  g_object_get(textbuffer_kanji_display ,"cursor-position", &cursor_pos, NULL);
+  //gint cursor_pos;
+  //g_object_get(textbuffer_kanji_display ,"cursor-position", &cursor_pos, NULL);
   gtk_text_buffer_get_start_iter (textbuffer_kanji_display, &start);
   gtk_text_buffer_get_end_iter (textbuffer_kanji_display, &end);
   gtk_text_buffer_apply_tag_by_name (textbuffer_kanji_display,

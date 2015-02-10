@@ -34,17 +34,14 @@ void kanjidic_init (kanjidic *kanjidic)
                 kanjidic->rad_info_list);  
 
   //init the kanji display style
-  GdkRGBA *rgba_results_highlight_color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(rgba_results_highlight_color, "rgb(255, 255, 255)");
-
   GtkTextBuffer *textbuffer_kanji_display = gtk_builder_get_object(kanjidic->definitions, 
-                                                   "textbuffer_kanji_display");
+                                                                   "textbuffer_kanji_display");
   kanjidic->texttag_kanji = gtk_text_buffer_create_tag (textbuffer_kanji_display,
                                                         "kanji_tag",
                                                         "foreground-rgba",
-                                                        rgba_results_highlight_color,
+                                                        kanjidic->conf->kanji_color,
                                                         "font", 
-                                                        "KanjiStrokeOrders 52",
+                                                        kanjidic->conf->kanji_font,
                                                         NULL);
 
   //filters default value

@@ -111,8 +111,6 @@ void on_fontbutton_results_font_set(GtkFontButton *font_button,
   //apply the newly selected font to the results textview
   gtk_widget_modify_font(textview_search_results, font_desc);
 
-  //TODO conf set font 
-
   conf_save(worddic->conf);
 }
 

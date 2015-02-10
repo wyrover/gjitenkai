@@ -11,7 +11,7 @@
 #include <glib/gi18n.h>
 
 #include "../../config.h"
-#include "../common/error.h"
+#include "error.h"
 
 #include "constants.h"
 #include "dicfile.h"
@@ -41,7 +41,8 @@ struct _GjitenConfig {
 
   //Kanjidic configuration
   struct _GjitenDicfile *kanjidic;
-
+  GdkRGBA *kanji_color;
+  gchar *kanji_font;
 };
 
 typedef struct _GjitenConfig GjitenConfig;

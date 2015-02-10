@@ -19,12 +19,9 @@ GjitenConfig *conf_load() {
   //load the results highlight color from string
   char *str_results_highlight_color = g_settings_get_string(settings, "results-highlight-color");
 
-  //parse color to RGBA object
-  GdkRGBA *rgba_results_highlight_color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(rgba_results_highlight_color, str_results_highlight_color);
-
-  //set this color in the conf
-  conf->results_highlight_color = rgba_results_highlight_color;
+  //parse this color to RGBA object
+  conf->results_highlight_color = g_new0(GdkRGBA, 1);
+  gdk_rgba_parse(conf->results_highlight_color, str_results_highlight_color);
 
   //check if dictionaries where loaded
   if (conf->dicfile_list != NULL) {
@@ -56,13 +53,23 @@ GjitenConfig *conf_load() {
   conf->search_hira_on_kata = g_settings_get_boolean(settings, "search-hira-on-kata");
   conf->verb_deinflection = g_settings_get_boolean(settings, "deinflection-enabled");
 
-  //KANJIDIC OPTIONS
+  //KANJIDIC OPTIONS TODO rename ksettings to kanjidic_settings and settings to worddic_settings
   if (conf->kanjidic == NULL) conf->kanjidic = g_new0(GjitenDicfile, 1);
   conf->kanjidic->name = g_strdup("kanjidic");
   conf->kanjidic->path = g_settings_get_string(ksettings, "kanjidicfile");
   if ((conf->kanjidic->path == NULL) || (strlen(conf->kanjidic->path)) == 0) {
     conf->kanjidic->path = g_strdup(GJITENKAI_DICDIR"/kanjidic.utf8");
   }
+
+  //kanji tag font and color
+  conf->kanji_font = g_settings_get_string(ksettings, "kanji-font");
+
+  //load the results highlight color from string
+  char *str_kanji_color = g_settings_get_string(ksettings, "kanji-color");
+
+  //parse this color to RGBA object
+  conf->kanji_color = g_new0(GdkRGBA, 1);
+  gdk_rgba_parse(conf->kanji_color, str_kanji_color);
 
   return conf;
 }
