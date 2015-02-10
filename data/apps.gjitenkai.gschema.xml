@@ -144,6 +144,12 @@
     <key name="jisascii" type="b">
       <default>false</default>
     </key>
+    <key name="kanji-font" type="s">
+      <default>'KanjiStrokeOrders 52'</default>
+    </key>
+    <key name="kanji-color" type="s">
+      <default>'rgb(255,0,0)'</default>
+    </key>
     <key name="kanjidicfile" type="s">
       <default>'/usr/share/dict/kanjidic.utf8'</default>
       <summary>Kanjidic dictionary file</summary>
