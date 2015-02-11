@@ -132,11 +132,13 @@ void search_and_display_kanji(kanjidic *kanjidic){
     GtkEntry *entry_filter_radical = gtk_builder_get_object(kanjidic->definitions, 
                                                             "entry_filter_radical");
     gchar *radicals = gtk_entry_get_text(entry_filter_radical);
-
-    //get all kanji with the entered radicals
-    GList *kanji_by_radical_list=NULL;
-    kanji_by_radical_list = get_kanji_by_radical(radicals, kanjidic->rad_info_hash);
-    kanji_list = list_merge_str(kanji_list, kanji_by_radical_list);
+    //if the entry is empty, ignore the filter
+    if(strcmp(radicals, "")){
+      //get all kanji with the entered radicals
+      GList *kanji_by_radical_list=NULL;
+      kanji_by_radical_list = get_kanji_by_radical(radicals, kanjidic->rad_info_hash);
+      kanji_list = list_merge_str(kanji_list, kanji_by_radical_list);
+    }
   }
 
   //filter by key
@@ -145,11 +147,14 @@ void search_and_display_kanji(kanjidic *kanjidic){
                                                             "entry_filter_key");
     gchar *key = gtk_entry_get_text(entry_filter_key);
 
-    GList *kanji_by_key_list=NULL;
-    kanji_by_key_list = get_kanji_by_key(key, 
-                                         kanji_by_key_list, 
-                                         kanjidic->conf->kanjidic);
-    kanji_list = list_merge_str(kanji_list, kanji_by_key_list);
+    //if the entry is empty, ignore the filter
+    if(strcmp(key, "")){
+      GList *kanji_by_key_list=NULL;
+      kanji_by_key_list = get_kanji_by_key(key, 
+                                           kanji_by_key_list, 
+                                           kanjidic->conf->kanjidic);
+      kanji_list = list_merge_str(kanji_list, kanji_by_key_list);
+    }
   }
 
   //with the list of kanji found from the radicals and/or strokes, append a gtk 
@@ -174,7 +179,6 @@ void search_and_display_kanji(kanjidic *kanjidic){
   GdkWindow *gdk_window = gtk_text_view_get_window (textview_kanji_result,
                                                     GTK_TEXT_WINDOW_TEXT);
   gdk_window_set_cursor(gdk_window, cursor);
-
 
   //for each kanji in the list
   for (kanji_list;
