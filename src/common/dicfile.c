@@ -214,22 +214,22 @@ gint search_string(gint srchtype, GjitenDicfile *dicfile, gchar *srchstrg,
   }
   if (dicfile->status != DICFILE_OK) return SRCH_FAIL;
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////  
+  /////////////////////////////////////////////////////////////////////////////  
   //if the mapped dictionary is not the requested dictionnary then clear it 
   if ((dicfile != conf.mmaped_dicfile) && (conf.mmaped_dicfile != NULL)) {
-    //puts("free mem of previously used dicfile");
+    g_printf("free mem of previously used dicfile\n");
     dicutil_unload_dic();
   }
-	
+
   //if no mapped dictionary, load into memory from file
   if (conf.mmaped_dicfile == NULL) {
-    printf("mmap dicfile %s %s into memory\n", dicfile->name, dicfile->path);
+    g_printf("mmap dicfile %s %s into memory\n", dicfile->name, dicfile->path);
     conf.mmaped_dicfile = dicfile;
     dicfile->mem = (gchar *) mmap(NULL, dicfile->size, PROT_READ, MAP_SHARED, dicfile->file, 0);
     if (dicfile->mem == NULL) gjiten_abort_with_msg("mmap() failed\n");
     conf.mmaped_dicfile = dicfile;
   }
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   //if first time this expression is searched
   if (srchtype == SRCH_START) {

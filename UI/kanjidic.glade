@@ -143,6 +143,7 @@
               <object class="GtkFileChooserButton" id="filechooserbutton_kdic">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <signal name="file-set" handler="on_filechooserbutton_kdic_file_set" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
