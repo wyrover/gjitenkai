@@ -1,10 +1,67 @@
 #include "kanjidic.h"
+#include "kanji_item.h"
+
+gint cmp_name(gconstpointer a,
+                 gconstpointer b){
+  kanji_item *ki1 = a;
+  kanji_item *ki2 = b;
+  return strcmp(ki1->name, ki2->name);
+}
+
+void on_kanji_item_toggled(GtkCheckButton* checkbutton, kanjidic *kanjidic){
+  gboolean toggled = gtk_toggle_button_get_active(checkbutton);
+  gchar* name = gtk_button_get_label(checkbutton);
+
+  //search for the kanji item from the button name
+  kanji_item tmp_ki;
+  tmp_ki.name = name;
+  GSList* kanji_item_head = g_slist_find_custom (kanji_item_list, &tmp_ki, cmp_name);
+  
+  if(kanji_item_head){
+    kanji_item *ki = kanji_item_head->data;
+    ki->active = toggled;
+    kanji_item_save(ki);
+  }
+}
+
 //init
 void init_prefs_kanjidic(kanjidic *kanjidic){
   //init the kdic file chooser button title with the path of the dict
   GtkFileChooserButton *filechooserbutton = gtk_builder_get_object(kanjidic->definitions, 
 								   "filechooserbutton_kdic");
   gtk_file_chooser_select_filename(filechooserbutton, kanjidic->conf->kanjidic->path);
+
+  //init the color chooser
+
+  //init the font chooser
+
+  //init the separator entry
+
+  //init the item list, expose what must be displayed in the kanji area
+
+  GtkListBox *listbox_item = gtk_builder_get_object(kanjidic->definitions,
+						     "listbox_kdic_item");
+  kanji_item_list_init();
+  GSList* kanji_item_head = kanji_item_list;
+  while (kanji_item_head != NULL) {
+    //add the kanji item with a checkbox TODO position
+    GtkBox *box_item = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    kanji_item *kanji_item = kanji_item_head->data;
+    GtkCheckButton *display_item = gtk_check_button_new_with_label(kanji_item->name);
+    gtk_toggle_button_set_active (display_item, kanji_item->active);
+    //GtkButton *btn_up = gtk_button_new_with_label("UP");
+    //GtkButton *btn_down = gtk_button_new_with_label("DOWN");
+    gtk_box_pack_start(box_item, display_item, TRUE, FALSE, 0);
+    //gtk_box_pack_start(box_item, btn_up, FALSE, FALSE, 0);
+    //gtk_box_pack_start(box_item, btn_down, FALSE, FALSE, 0);
+    //insert the listbox in the list
+    gtk_list_box_insert (listbox_item, box_item, -1);
+    g_signal_connect(display_item, "toggled", on_kanji_item_toggled, kanjidic);
+
+    //gtk_drag_source_set(box_item, GDK_BUTTON1_MASK, NULL, 0, GDK_ACTION_MOVE);
+
+    kanji_item_head = g_slist_next(kanji_item_head);
+  }
 }
 
 //callback

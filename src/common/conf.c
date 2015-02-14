@@ -72,6 +72,9 @@ GjitenConfig *conf_load() {
   conf->kanji_color = g_new0(GdkRGBA, 1);
   gdk_rgba_parse(conf->kanji_color, str_kanji_color);
 
+  //items to display in the kanji result area
+  
+  
   return conf;
 }
 
@@ -137,7 +140,7 @@ gboolean conf_init_handler() {
 
   if (settings == NULL) {
     settings = g_settings_new(SETTINGS_WORDDIC);
-    kanjidic_settings = g_settings_new("apps.gjitenkai.kanjidic");
+    kanjidic_settings = g_settings_new(SETTINGS_KANJIDIC);
   }
 
   return TRUE;
