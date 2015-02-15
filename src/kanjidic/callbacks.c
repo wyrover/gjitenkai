@@ -214,15 +214,10 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 
 
   //Display informations on the kanji 
-  //TODO position and edit separation chars
-  gchar separation[] = " | ";
-  gint separation_lenght = strlen(separation);
-
   gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
 				   "\n",
 				   strlen("\n"));
-    
-  ///////////////
+
   GSList *kanji_item_head;  //browse thought the kanji items 
   for (kanji_item_head = kanji_item_list;
        kanji_item_head != NULL;
@@ -273,8 +268,8 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 	  //if there is another entry for this definition, append a separation char
 	  if(g_slist_next(item) != NULL){
 	    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-					     separation,
-					     separation_lenght);
+					     kanjidic->conf->separator,
+					     strlen(kanjidic->conf->separator));
 	  }
 	}
        gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,

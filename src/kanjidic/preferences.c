@@ -42,7 +42,10 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
   gtk_color_chooser_set_rgba(color_chooser, kanjidic->conf->kanji_color);
   
   //init the separator entry
-
+  GtkEntry *entry_separator = gtk_builder_get_object(kanjidic->definitions, 
+                                                          "entry_separator");  
+  gtk_entry_set_text(entry_separator, kanjidic->conf->separator);
+  
   //init the item list, expose what must be displayed in the kanji area
 
   GtkListBox *listbox_item = gtk_builder_get_object(kanjidic->definitions,
@@ -71,6 +74,12 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
 }
 
 //callback
+void on_entry_separator_activate(GtkEntry *entry, kanjidic *kanjidic){
+  kanjidic->conf->separator = gtk_entry_get_text(entry);
+
+  conf_save(kanjidic->conf);
+}
+
 void on_kanjidic_button_OK_clicked(GtkButton* button, kanjidic *kanjidic){
   GtkDialog *dialog_prefs = (GtkWindow*)gtk_builder_get_object(kanjidic->definitions, 
                                                                   "dialog_preferences");

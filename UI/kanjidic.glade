@@ -64,6 +64,7 @@
               <object class="GtkEntry" id="entry_separator">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <signal name="activate" handler="on_entry_separator_activate" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
