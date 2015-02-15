@@ -12,7 +12,7 @@ void on_menuitem_edit_prefs_activate(GtkMenuItem *menuitem, kanjidic *kanjidic){
   GtkDialog *prefs = (GtkWindow*)gtk_builder_get_object(kanjidic->definitions, 
                                                                "dialog_preferences");
   //set size and display the preference window
-  gtk_window_set_default_size(GTK_WINDOW(prefs), 320, 220);
+  gtk_window_set_default_size(GTK_WINDOW(prefs), 360, 320);
   gtk_widget_show_all ((GtkWidget*)prefs);
 }
 
@@ -246,6 +246,14 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 					   strlen(((RadInfo *) kanji_info_list->data)->radical)); 
 	}
       }
+      else if(!strcmp(ki->gsettings_name, "strokes")){
+	//strokes count
+	gchar *tmp_entry = g_strdup_printf("%d", kanji_data->stroke);
+	gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
+					 tmp_entry, 
+					 strlen(tmp_entry));
+	g_free(tmp_entry);
+      }
       else if(!strcmp(ki->gsettings_name, "onyomi")){
 	item = kanji_data->onyomi;
       }
@@ -277,61 +285,6 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 				       strlen("\n"));      
     }
   }
-    
-     
-  
-  /*
-  //strokes count
-  gchar *tmp_entry = g_strdup_printf("\nStrokes:\t%d", kanji_data->stroke);
-  gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
-                                   tmp_entry, 
-                                   strlen(tmp_entry));
-  g_free(tmp_entry);
-  
-  //kunyomi
-  if(kanji_data->kunyomi){
-    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                     "\nkunyomi:\t",
-                                     strlen("\nkunyomi:\t"));
-    for (kanji_data->kunyomi;
-         kanji_data->kunyomi != NULL;
-         kanji_data->kunyomi = g_slist_next(kanji_data->kunyomi)) {
-      
-      gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                       kanji_data->kunyomi->data,
-                                       strlen(kanji_data->kunyomi->data));
-      //if there is another entry for this definition, append a separation char
-      if(g_slist_next(kanji_data->kunyomi) != NULL){
-        gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                         separation,
-                                         separation_lenght);
-      }
-    }
-  }
-  
-  //translations
-  gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                   "\ntranslations:\t",
-                                   strlen("\ntranslations:\t"));
-  for (kanji_data->translations;
-       kanji_data->translations != NULL;
-       kanji_data->translations = g_slist_next(kanji_data->translations)) {
-
-    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                     kanji_data->translations->data, 
-                                     strlen(kanji_data->translations->data));
-
-    //if there is another entry for this definition, append a separation char
-    if(g_slist_next(kanji_data->translations) != NULL){
-      gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                       separation,
-                                       separation_lenght);
-    }
-  }
-
-  g_free(kanji_data->kanji);
-  g_free(kanji_data);
-  */
 }
 
 void on_button_search_clicked(GtkWidget *widget, kanjidic *kanjidic) {
