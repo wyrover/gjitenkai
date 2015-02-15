@@ -236,8 +236,8 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 				       ki->name,
 				       strlen(ki->name));
       gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-				       ":",
-				       strlen(":"));
+				       ": ",
+				       strlen(": "));
       
       if(!strcmp(ki->gsettings_name, "radical")){
 	//list radicals without separation chars

@@ -109,7 +109,13 @@ void conf_save(GjitenConfig *conf) {
   }
   
   //Kanjidic options save
+  //path of the kanjidic
   g_settings_set_string(kanjidic_settings, "kanjidicfile", conf->kanjidic->path);
+
+  //kanji font and color
+  g_settings_set_string(kanjidic_settings, "kanji-font", conf->kanji_font);
+  char *str_kanji_color = gdk_rgba_to_string(conf->kanji_color);
+  g_settings_set_string(kanjidic_settings, "kanji-color", str_kanji_color);
 }
 
 void conf_save_history(GList *history, GjitenConfig *conf) {

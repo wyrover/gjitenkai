@@ -31,10 +31,14 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
 								   "filechooserbutton_kdic");
   gtk_file_chooser_select_filename(filechooserbutton, kanjidic->conf->kanjidic->path);
 
-  //init the color chooser
+  //init the kanji font chooser
 
-  //init the font chooser
-
+  //init the kanji color chooser
+  GtkColorChooser *color_chooser = (GtkColorChooser*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                            "colorbutton_kanji");
+  
+  gtk_color_chooser_set_rgba(color_chooser, kanjidic->conf->kanji_color);
+  
   //init the separator entry
 
   //init the item list, expose what must be displayed in the kanji area
