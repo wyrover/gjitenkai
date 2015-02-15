@@ -66,8 +66,7 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
     //insert the listbox in the list
     gtk_list_box_insert (listbox_item, box_item, -1);
     g_signal_connect(display_item, "toggled", on_kanji_item_toggled, kanjidic);
-
-    //gtk_drag_source_set(box_item, GDK_BUTTON1_MASK, NULL, 0, GDK_ACTION_MOVE);
+    gtk_widget_set_halign(box_item, GTK_ALIGN_START);
 
     kanji_item_head = g_slist_next(kanji_item_head);
   }

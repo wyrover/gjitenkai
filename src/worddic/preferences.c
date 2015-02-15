@@ -66,14 +66,14 @@ void init_prefs_window(worddic *worddic){
 
     dicfile = dicfile_node->data;
     GtkBox *box_dic = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_halign(box_dic, GTK_ALIGN_START);
 
     //name of the dictionary
     GtkLabel *lab_dicname = gtk_label_new(dicfile->name);
-    gtk_box_pack_start(box_dic, lab_dicname, TRUE, TRUE, 0);
-
+    gtk_box_pack_start(box_dic, lab_dicname, FALSE, FALSE, 10);
+    
     //path of the dictionary
     GtkLabel *lab_dicpath = gtk_label_new(dicfile->path);
-    gtk_label_set_justify(GTK_LABEL(lab_dicpath), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start(box_dic, lab_dicpath, TRUE, TRUE, 0);
 
     //insert the listbox in the list
