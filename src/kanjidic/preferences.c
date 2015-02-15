@@ -32,7 +32,9 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
   gtk_file_chooser_select_filename(filechooserbutton, kanjidic->conf->kanjidic->path);
 
   //init the kanji font chooser
-
+  GtkFontButton *font_button = gtk_builder_get_object(kanjidic->definitions, "fontbutton_kanji");
+  gtk_font_button_set_font_name (font_button, kanjidic->conf->kanji_font);
+  
   //init the kanji color chooser
   GtkColorChooser *color_chooser = (GtkColorChooser*)gtk_builder_get_object(kanjidic->definitions, 
                                                                             "colorbutton_kanji");
