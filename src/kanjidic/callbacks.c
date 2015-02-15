@@ -257,6 +257,9 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
       else if(!strcmp(ki->gsettings_name, "kunyomi")){
 	item = kanji_data->kunyomi;
       }
+      else if(!strcmp(ki->gsettings_name, "translation")){
+	item = kanji_data->translations;
+      }
 
       //item point to one of the kanji_entry's list to display or NULL if no match
       for (item;
@@ -268,7 +271,7 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 					 strlen(item->data));
 
 	  //if there is another entry for this definition, append a separation char
-	  if(g_slist_next(kanji_data->onyomi) != NULL){
+	  if(g_slist_next(item) != NULL){
 	    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
 					     separation,
 					     separation_lenght);
