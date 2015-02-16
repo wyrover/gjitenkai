@@ -1,6 +1,8 @@
 #include "worddic.h"
 #include "../common/dicfile.h"
 
+gboolean is_update;  //update or add dic
+
 //pref dictionaries callbacks
 gboolean on_button_dictionary_remove_clicked(GtkWidget *widget, worddic *worddic) {
 
@@ -23,6 +25,7 @@ gboolean on_button_dictionary_remove_clicked(GtkWidget *widget, worddic *worddic
 }
 
 gboolean on_button_dictionary_edit_clicked(GtkWidget *widget, worddic *worddic) {
+  is_update = TRUE;
   GtkListBox *listbox_dic = (GtkListBox*)gtk_builder_get_object(worddic->definitions, 
                                                                 "listbox_dic");
   GtkListBoxRow *row = gtk_list_box_get_selected_row(listbox_dic);
@@ -46,7 +49,27 @@ gboolean on_button_dictionary_edit_clicked(GtkWidget *widget, worddic *worddic) 
   gtk_widget_show (dialog_dic_edit);
 }
 
+void display_dic_in_listbox(GtkListBox *listbox_dic, GjitenDicfile *dicfile){  
+  GtkBox *box_dic = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_set_halign(box_dic, GTK_ALIGN_START);
+  
+  //name of the dictionary
+  GtkLabel *lab_dicname = gtk_label_new(dicfile->name);
+  gtk_box_pack_start(box_dic, lab_dicname, FALSE, FALSE, 10);
+    
+  //path of the dictionary
+  GtkLabel *lab_dicpath = gtk_label_new(dicfile->path);
+  gtk_box_pack_start(box_dic, lab_dicpath, TRUE, TRUE, 0);
+
+  //insert the listbox in the list
+  gtk_list_box_insert (listbox_dic, box_dic, -1);
+
+  gtk_widget_show_all (box_dic);
+}
+
 gboolean on_button_dictionary_add_clicked(GtkWidget *widget, worddic *worddic) {
+  is_update = FALSE;
+  
   GtkListBox *listbox_dic = (GtkListBox*)gtk_builder_get_object(worddic->definitions, 
                                                                 "listbox_dic");
 
@@ -69,6 +92,32 @@ gboolean on_button_dictionary_add_clicked(GtkWidget *widget, worddic *worddic) {
 gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddic *worddic) {
   GtkDialog *dialog_dic_edit = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
                                                         "dialog_dic_edit");
+  GtkEntry* entry_edit_dic_name = gtk_builder_get_object(worddic->definitions, 
+								  "entry_edit_dic_name");
+  GtkFileChooserButton *fcb_edit_dic_path = NULL;
+  fcb_edit_dic_path = gtk_builder_get_object(worddic->definitions, 
+					     "filechooserbutton_edit_dic_path");
+  //update or add a dictionary
+  if(is_update){
+    //get the dictionary to update
+  }
+  else{
+    //add a new dictionary in the conf
+    GjitenDicfile *dicfile = g_new0(GjitenDicfile, 1);
+    dicfile->name = gtk_entry_get_text(entry_edit_dic_name);
+    dicfile->path = gtk_file_chooser_get_filename(fcb_edit_dic_path);
+    worddic->conf->dicfile_list = g_slist_append(worddic->conf->dicfile_list, dicfile);
+
+    GtkListBox *listbox_dic = (GtkListBox*)gtk_builder_get_object(worddic->definitions, 
+								  "listbox_dic");
+    
+    display_dic_in_listbox(listbox_dic, dicfile);
+  }
+
+  GtkDialog *prefs = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
+                                                               "prefs");
+  conf_save(worddic->conf);
+  
   gtk_widget_hide (dialog_dic_edit);
 }
 
@@ -94,22 +143,8 @@ void init_prefs_window(worddic *worddic){
   GjitenDicfile *dicfile;
   GSList *dicfile_node = worddic->conf->dicfile_list;
   while (dicfile_node != NULL) {
-    if (dicfile_node->data == NULL) break;
-
     dicfile = dicfile_node->data;
-    GtkBox *box_dic = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-    gtk_widget_set_halign(box_dic, GTK_ALIGN_START);
-
-    //name of the dictionary
-    GtkLabel *lab_dicname = gtk_label_new(dicfile->name);
-    gtk_box_pack_start(box_dic, lab_dicname, FALSE, FALSE, 10);
-    
-    //path of the dictionary
-    GtkLabel *lab_dicpath = gtk_label_new(dicfile->path);
-    gtk_box_pack_start(box_dic, lab_dicpath, TRUE, TRUE, 0);
-
-    //insert the listbox in the list
-    gtk_list_box_insert (listbox_dic, box_dic, -1);
+    display_dic_in_listbox(listbox_dic, dicfile);
 
     dicfile_node = g_slist_next(dicfile_node);
   }
