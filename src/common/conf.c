@@ -93,20 +93,19 @@ void conf_save(GjitenConfig *conf) {
   g_settings_set_boolean(settings, "search-hira-on-kata", conf->search_hira_on_kata);
   g_settings_set_boolean(settings, "deinflection-enabled", conf->verb_deinflection);
 
-  {
-    //Save dicfiles [path and name seperated with linebreak]
-    GVariantBuilder builder;
 
-    g_variant_builder_init(&builder, G_VARIANT_TYPE("a(ss)"));
-    diclist = conf->dicfile_list;
-    while (diclist != NULL) {
-      if (diclist->data == NULL) break;
-      dicfile = diclist->data;
-      g_variant_builder_add(&builder, "(ss)", dicfile->path, dicfile->name);
-      diclist = g_slist_next(diclist);
-    }
-    g_settings_set_value(settings, "dictionaries", g_variant_builder_end(&builder));
+  //Save dicfiles [path and name seperated with linebreak]
+  GVariantBuilder builder;
+  g_variant_builder_init(&builder, G_VARIANT_TYPE("a(ss)"));
+  diclist = conf->dicfile_list;
+  while (diclist != NULL) {
+    if (diclist->data == NULL) break;
+    dicfile = diclist->data;
+    g_variant_builder_add(&builder, "(ss)", dicfile->path, dicfile->name);
+    diclist = g_slist_next(diclist);
   }
+  g_settings_set_value(settings, "dictionaries", g_variant_builder_end(&builder));
+
   
   //Kanjidic options save
   //path of the kanjidic

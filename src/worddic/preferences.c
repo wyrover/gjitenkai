@@ -3,9 +3,21 @@
 
 //pref dictionaries callbacks
 gboolean on_button_dictionary_remove_clicked(GtkWidget *widget, worddic *worddic) {
+
   GtkListBox *listbox_dic = (GtkListBox*)gtk_builder_get_object(worddic->definitions, 
                                                                 "listbox_dic");
   GtkListBoxRow *row = gtk_list_box_get_selected_row(listbox_dic);
+
+  //remove from the conf
+  gint index = gtk_list_box_row_get_index(row);
+  
+  GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
+  
+  worddic->conf->dicfile_list = g_slist_remove(worddic->conf->dicfile_list,
+					       selected_element->data);
+  conf_save(worddic->conf);
+
+  //remove the row
   gtk_container_remove(listbox_dic, row);
 
 }
@@ -31,7 +43,7 @@ gboolean on_button_dictionary_add_clicked(GtkWidget *widget, worddic *worddic) {
   GtkDialog *dialog_dic_edit = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
                                                         "dialog_dic_edit");
 
-    gtk_widget_show (dialog_dic_edit);
+  gtk_widget_show (dialog_dic_edit);
 }
 
 gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddic *worddic) {

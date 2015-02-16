@@ -67,7 +67,7 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
       }
     }
   
-  ////normal search
+  ////standard search
   //concat the results of the current dictionary to the result list
   results = g_list_concat(results, dicfile_search(dicfile, 
                                                        entry_text, 
