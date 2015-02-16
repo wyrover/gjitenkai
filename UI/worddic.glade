@@ -640,7 +640,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
               </packing>
             </child>
             <child>
-              <object class="GtkFileChooserButton" id="filechooserbutton1">
+              <object class="GtkFileChooserButton" id="filechooserbutton_edit_dic_path">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
               </object>
@@ -661,7 +661,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry1">
+              <object class="GtkEntry" id="entry_edit_dic_name">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="hexpand">True</property>

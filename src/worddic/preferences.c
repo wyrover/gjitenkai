@@ -26,13 +26,23 @@ gboolean on_button_dictionary_edit_clicked(GtkWidget *widget, worddic *worddic) 
   GtkListBox *listbox_dic = (GtkListBox*)gtk_builder_get_object(worddic->definitions, 
                                                                 "listbox_dic");
   GtkListBoxRow *row = gtk_list_box_get_selected_row(listbox_dic);
-  GtkWidget *children = gtk_container_get_children(row);
+  gint index = gtk_list_box_row_get_index(row);  
+  GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
+  GjitenDicfile *dic = selected_element->data;
 
-  gchar *t = gtk_label_get_text(children);
-  g_printf("->%s\n", t);
-
+  //init the edit dic dialog with the selected dic name and path
   GtkDialog *dialog_dic_edit = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
                                                         "dialog_dic_edit");
+
+  GtkEntry* entry_edit_dic_name = gtk_builder_get_object(worddic->definitions, 
+								  "entry_edit_dic_name");
+  GtkFileChooserButton *fcb_edit_dic_path = NULL;
+  fcb_edit_dic_path = gtk_builder_get_object(worddic->definitions, 
+					     "filechooserbutton_edit_dic_path");
+
+  gtk_entry_set_text(entry_edit_dic_name, dic->name);
+  gtk_file_chooser_select_filename(fcb_edit_dic_path, dic->path);
+  
   gtk_widget_show (dialog_dic_edit);
 }
 
@@ -40,9 +50,19 @@ gboolean on_button_dictionary_add_clicked(GtkWidget *widget, worddic *worddic) {
   GtkListBox *listbox_dic = (GtkListBox*)gtk_builder_get_object(worddic->definitions, 
                                                                 "listbox_dic");
 
+  //set edit dialog widgets to blank
   GtkDialog *dialog_dic_edit = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
                                                         "dialog_dic_edit");
 
+  GtkEntry* entry_edit_dic_name = gtk_builder_get_object(worddic->definitions, 
+								  "entry_edit_dic_name");
+  GtkFileChooserButton *fcb_edit_dic_path = NULL;
+  fcb_edit_dic_path = gtk_builder_get_object(worddic->definitions, 
+					     "filechooserbutton_edit_dic_path");
+
+  gtk_entry_set_text(entry_edit_dic_name, "");
+  gtk_file_chooser_select_filename(fcb_edit_dic_path, "");
+  
   gtk_widget_show (dialog_dic_edit);
 }
 
