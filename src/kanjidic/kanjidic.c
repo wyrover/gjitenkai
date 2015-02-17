@@ -21,6 +21,9 @@ void kanjidic_init (kanjidic *kanjidic)
   //load configuration 
   kanjidic->conf = conf_load();
 
+  //init kdic
+  dicfile_load(kanjidic->conf->kanjidic);
+  
   //init the radical and kanji hash
   kanjidic->kanji_info_hash = g_hash_table_new((GHashFunc)g_str_hash,
                                                (GEqualFunc)g_str_equal);
@@ -30,8 +33,8 @@ void kanjidic_init (kanjidic *kanjidic)
 
   //load radical and kanji from the radkfile
   kanjidic->rad_info_list = load_radkfile(&kanjidic->rad_info_hash, 
-                &kanjidic->kanji_info_hash,
-                kanjidic->rad_info_list);  
+					  &kanjidic->kanji_info_hash,
+					  kanjidic->rad_info_list);
 
   //init the kanji display style
   GtkTextBuffer *textbuffer_kanji_display = gtk_builder_get_object(kanjidic->definitions, 
@@ -68,6 +71,9 @@ void kanjidic_init (kanjidic *kanjidic)
 
   //init the radical window with the radical buttons
   radical_list_init(kanjidic);
+
+  //init the preference window's widgets
+  init_prefs_kanjidic(kanjidic);
 }
 
 void set_ui_radical_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic){

@@ -3,7 +3,7 @@
 extern gchar *kanjidicstrg[];
 extern gchar *gnome_dialog_msg;
 GjitenConfig conf;
-GSettings *settings, *ksettings;
+GSettings *settings, *kanjidic_settings;
 
 GjitenConfig *conf_load() {
   gchar *tmpstrg, *tmpptr;
@@ -53,24 +53,28 @@ GjitenConfig *conf_load() {
   conf->search_hira_on_kata = g_settings_get_boolean(settings, "search-hira-on-kata");
   conf->verb_deinflection = g_settings_get_boolean(settings, "deinflection-enabled");
 
-  //KANJIDIC OPTIONS TODO rename ksettings to kanjidic_settings and settings to worddic_settings
+  //KANJIDIC options
+  //new kanjidic file
   if (conf->kanjidic == NULL) conf->kanjidic = g_new0(GjitenDicfile, 1);
   conf->kanjidic->name = g_strdup("kanjidic");
-  conf->kanjidic->path = g_settings_get_string(ksettings, "kanjidicfile");
+  conf->kanjidic->path = g_settings_get_string(kanjidic_settings, "kanjidicfile");
   if ((conf->kanjidic->path == NULL) || (strlen(conf->kanjidic->path)) == 0) {
     conf->kanjidic->path = g_strdup(GJITENKAI_DICDIR"/kanjidic.utf8");
   }
 
   //kanji tag font and color
-  conf->kanji_font = g_settings_get_string(ksettings, "kanji-font");
+  conf->kanji_font = g_settings_get_string(kanjidic_settings, "kanji-font");
 
   //load the results highlight color from string
-  char *str_kanji_color = g_settings_get_string(ksettings, "kanji-color");
+  char *str_kanji_color = g_settings_get_string(kanjidic_settings, "kanji-color");
 
   //parse this color to RGBA object
   conf->kanji_color = g_new0(GdkRGBA, 1);
   gdk_rgba_parse(conf->kanji_color, str_kanji_color);
 
+  conf->separator = g_settings_get_string(kanjidic_settings, "separator");
+  
+  
   return conf;
 }
 
@@ -89,20 +93,30 @@ void conf_save(GjitenConfig *conf) {
   g_settings_set_boolean(settings, "search-hira-on-kata", conf->search_hira_on_kata);
   g_settings_set_boolean(settings, "deinflection-enabled", conf->verb_deinflection);
 
-  {
-    //Save dicfiles [path and name seperated with linebreak]
-    GVariantBuilder builder;
 
-    g_variant_builder_init(&builder, G_VARIANT_TYPE("a(ss)"));
-    diclist = conf->dicfile_list;
-    while (diclist != NULL) {
-      if (diclist->data == NULL) break;
-      dicfile = diclist->data;
-      g_variant_builder_add(&builder, "(ss)", dicfile->path, dicfile->name);
-      diclist = g_slist_next(diclist);
-    }
-    g_settings_set_value(settings, "dictionaries", g_variant_builder_end(&builder));
+  //Save dicfiles [path and name seperated with linebreak]
+  GVariantBuilder builder;
+  g_variant_builder_init(&builder, G_VARIANT_TYPE("a(ss)"));
+  diclist = conf->dicfile_list;
+  while (diclist != NULL) {
+    if (diclist->data == NULL) break;
+    dicfile = diclist->data;
+    g_variant_builder_add(&builder, "(ss)", dicfile->path, dicfile->name);
+    diclist = g_slist_next(diclist);
   }
+  g_settings_set_value(settings, "dictionaries", g_variant_builder_end(&builder));
+
+  
+  //Kanjidic options save
+  //path of the kanjidic
+  g_settings_set_string(kanjidic_settings, "kanjidicfile", conf->kanjidic->path);
+
+  //kanji font and color
+  g_settings_set_string(kanjidic_settings, "kanji-font", conf->kanji_font);
+  char *str_kanji_color = gdk_rgba_to_string(conf->kanji_color);
+  g_settings_set_string(kanjidic_settings, "kanji-color", str_kanji_color);
+
+  g_settings_set_string(kanjidic_settings, "separator", conf->separator);  
 }
 
 void conf_save_history(GList *history, GjitenConfig *conf) {
@@ -133,7 +147,7 @@ gboolean conf_init_handler() {
 
   if (settings == NULL) {
     settings = g_settings_new(SETTINGS_WORDDIC);
-    ksettings = g_settings_new("apps.gjitenkai.kanjidic");
+    kanjidic_settings = g_settings_new(SETTINGS_KANJIDIC);
   }
 
   return TRUE;
@@ -144,9 +158,9 @@ void conf_close_handler() {
   if (settings != NULL) {
     GJITEN_DEBUG("calling g_object_unref(G_OBJECT(settings)) [%d]\n", (int) settings);
     g_object_unref(G_OBJECT(settings));
-    g_object_unref(G_OBJECT(ksettings));
+    g_object_unref(G_OBJECT(kanjidic_settings));
     settings = NULL;
-    ksettings = NULL;
+    kanjidic_settings = NULL;
   }
 }
 

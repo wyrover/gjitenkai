@@ -43,6 +43,7 @@ struct _GjitenConfig {
   struct _GjitenDicfile *kanjidic;
   GdkRGBA *kanji_color;
   gchar *kanji_font;
+  gchar *separator;
 };
 
 typedef struct _GjitenConfig GjitenConfig;

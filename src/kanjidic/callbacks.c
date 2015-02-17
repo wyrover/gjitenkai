@@ -2,6 +2,7 @@
 #include "kanjiutils.h"
 #include "kanjifile.h"
 #include "radical_list.h"
+#include "kanji_item.h"
 
 //////////////////////
 //Menu items callbacks
@@ -11,7 +12,7 @@ void on_menuitem_edit_prefs_activate(GtkMenuItem *menuitem, kanjidic *kanjidic){
   GtkDialog *prefs = (GtkWindow*)gtk_builder_get_object(kanjidic->definitions, 
                                                                "dialog_preferences");
   //set size and display the preference window
-  gtk_window_set_default_size(GTK_WINDOW(prefs), 320, 220);
+  gtk_window_set_default_size(GTK_WINDOW(prefs), 360, 320);
   gtk_widget_show_all ((GtkWidget*)prefs);
 }
 
@@ -213,99 +214,77 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 
 
   //Display informations on the kanji 
-  //TODO: filter what to be displayed in what order TODO: set font
-  //TODO edit the separation string in the pref menu
-  gchar separation[] = " | ";
-  gint separation_lenght = strlen(separation);
-
-  //radicals
   gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                   "\nRadicals:\t",
-                                   strlen("\nRadicals:\t"));
-  
-  KanjiInfo *kanji_info = g_hash_table_lookup(kanjidic->kanji_info_hash, kanji);
-  GList *kanji_info_list;
-  for (kanji_info_list = kanji_info->rad_info_list;
-       kanji_info_list != NULL;
-       kanji_info_list = kanji_info_list->next) { 
-    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
-                                     ((RadInfo *) kanji_info_list->data)->radical, 
-                                     strlen(((RadInfo *) kanji_info_list->data)->radical)); 
-  }
+				   "\n",
+				   strlen("\n"));
 
-  //strokes count
-  gchar *tmp_entry = g_strdup_printf("\nStrokes:\t%d", kanji_data->stroke);
-  gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
-                                   tmp_entry, 
-                                   strlen(tmp_entry));
-  g_free(tmp_entry);
-  
-  //onyomi
-  if(kanji_data->onyomi){
-    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                     "\nonyomi:\t",
-                                     strlen("\nonyomi:\t"));
- 
-    for (kanji_data->onyomi;
-         kanji_data->onyomi != NULL;
-         kanji_data->onyomi = g_slist_next(kanji_data->onyomi)){
+  GSList *kanji_item_head;  //browse thought the kanji items 
+  for (kanji_item_head = kanji_item_list;
+       kanji_item_head != NULL;
+       kanji_item_head = g_slist_next(kanji_item_head)){
+
+    GSList *item = NULL;   //the kanji item content to list
     
+    kanji_item *ki = kanji_item_head->data;
+    if(ki->active){
       gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                       kanji_data->onyomi->data,
-                                       strlen(kanji_data->onyomi->data));
-
-      //if there is another entry for this definition, append a separation char
-      if(g_slist_next(kanji_data->onyomi) != NULL){
-        gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                         separation,
-                                         separation_lenght);
-      }
-    }
-  }
-
-  //kunyomi
-  if(kanji_data->kunyomi){
-    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                     "\nkunyomi:\t",
-                                     strlen("\nkunyomi:\t"));
-    for (kanji_data->kunyomi;
-         kanji_data->kunyomi != NULL;
-         kanji_data->kunyomi = g_slist_next(kanji_data->kunyomi)) {
+				       ki->name,
+				       strlen(ki->name));
+      gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
+				       ": ",
+				       strlen(": "));
       
-      gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                       kanji_data->kunyomi->data,
-                                       strlen(kanji_data->kunyomi->data));
-      //if there is another entry for this definition, append a separation char
-      if(g_slist_next(kanji_data->kunyomi) != NULL){
-        gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                         separation,
-                                         separation_lenght);
+      if(!strcmp(ki->gsettings_name, "radical")){
+	//list radicals without separation chars
+	KanjiInfo *kanji_info = g_hash_table_lookup(kanjidic->kanji_info_hash, kanji);
+	GList *kanji_info_list;
+	for (kanji_info_list = kanji_info->rad_info_list;
+	     kanji_info_list != NULL;
+	     kanji_info_list = kanji_info_list->next) { 
+	  gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
+					   ((RadInfo *) kanji_info_list->data)->radical, 
+					   strlen(((RadInfo *) kanji_info_list->data)->radical)); 
+	}
       }
+      else if(!strcmp(ki->gsettings_name, "strokes")){
+	//strokes count
+	gchar *tmp_entry = g_strdup_printf("%d", kanji_data->stroke);
+	gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
+					 tmp_entry, 
+					 strlen(tmp_entry));
+	g_free(tmp_entry);
+      }
+      else if(!strcmp(ki->gsettings_name, "onyomi")){
+	item = kanji_data->onyomi;
+      }
+      else if(!strcmp(ki->gsettings_name, "kunyomi")){
+	item = kanji_data->kunyomi;
+      }
+      else if(!strcmp(ki->gsettings_name, "translation")){
+	item = kanji_data->translations;
+      }
+
+      //item point to one of the kanji_entry's list to display or NULL if no match
+      for (item;
+	   item != NULL;
+	   item = g_slist_next(item)){
+    
+	gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
+					 item->data,
+					 strlen(item->data));
+
+	  //if there is another entry for this definition, append a separation char
+	  if(g_slist_next(item) != NULL){
+	    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
+					     kanjidic->conf->separator,
+					     strlen(kanjidic->conf->separator));
+	  }
+	}
+       gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
+				       "\n",
+				       strlen("\n"));      
     }
   }
-  
-  //translations
-  gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                   "\ntranslations:\t",
-                                   strlen("\ntranslations:\t"));
-  for (kanji_data->translations;
-       kanji_data->translations != NULL;
-       kanji_data->translations = g_slist_next(kanji_data->translations)) {
-
-    gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                     kanji_data->translations->data, 
-                                     strlen(kanji_data->translations->data));
-
-    //if there is another entry for this definition, append a separation char
-    if(g_slist_next(kanji_data->translations) != NULL){
-      gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
-                                       separation,
-                                       separation_lenght);
-    }
-  }
-
-  g_free(kanji_data->kanji);
-  g_free(kanji_data);
 }
 
 void on_button_search_clicked(GtkWidget *widget, kanjidic *kanjidic) {

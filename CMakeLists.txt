@@ -40,6 +40,7 @@ add_executable(
   src/kanjidic/kanjifile.c
   src/kanjidic/radical_list.c
   src/kanjidic/preferences.c
+  src/kanjidic/kanji_item.c
   src/common/conf.c 
   src/common/dicutil.c 
   src/common/dicfile.c 
@@ -72,6 +73,7 @@ add_executable(
   src/kanjidic/callbacks.c
   src/kanjidic/radical_list.c
   src/kanjidic/preferences.c
+  src/kanjidic/kanji_item.c
   src/common/dicfile.c 
   src/common/conf.c 
   src/common/dicutil.c 

@@ -26,6 +26,7 @@
 #define END_WITH_MATCH 3 	//jp
 #define ANY_MATCH 4 		//jp latin
 #define WORD_MATCH 5 		//latin
+#define REGEX 6                  //jp latin
 
 #define SRCH_OK		0
 #define SRCH_FAIL	1
@@ -50,7 +51,7 @@ DICFILE_NOT_INITIALIZED,
   DICFILE_OK
   };
 
-
+void dicfile_load(GjitenDicfile* dicfile);
 gboolean dicfile_is_utf8(GjitenDicfile *dicfile);
 gboolean dicfile_init(GjitenDicfile *dicfile);
 void dicfile_close(GjitenDicfile *dicfile);
