@@ -7,6 +7,7 @@
 
 #include "constants.h"
 #include "kanjiutils.h"
+#include "../common/dicfile.h"
 
 #define UI_DEFINITIONS_FILE_KANJIDIC "UI/kanjidic.glade"
 

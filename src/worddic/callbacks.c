@@ -31,6 +31,9 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
 
   //in each dictionaries
   while (dicfile_node != NULL) {
+
+    dicfile_load(dicfile);
+  
     if (dicfile_node->data == NULL) break;
     dicfile = dicfile_node->data; 
     dicfile_node = g_slist_next(dicfile_node);
@@ -148,6 +151,12 @@ void on_menuitem_search_japanese_any_activate (GtkMenuItem *menuitem,
   worddic->match_criteria_jp = ANY_MATCH;
 }
 
+void on_menuitem_search_japanese_regex_activate (GtkMenuItem *menuitem, 
+                                            worddic *worddic){
+  worddic->match_criteria_jp = REGEX;
+}
+
+
 ///Latin
 void on_menuitem_search_latin_whole_expressions_activate (GtkMenuItem *menuitem, 
                                                          worddic *worddic){
@@ -163,6 +172,12 @@ void on_menuitem_search_latin_any_matches_activate (GtkMenuItem *menuitem,
                                             worddic *worddic){
   worddic->match_criteria_lat = ANY_MATCH;
 }
+
+void on_menuitem_search_latin_regex_activate (GtkMenuItem *menuitem, 
+                                            worddic *worddic){
+  worddic->match_criteria_lat = REGEX;
+}
+
 
 //Help
 ///About

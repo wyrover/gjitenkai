@@ -2,6 +2,31 @@
 
 extern GjitenConfig conf;
 
+void dicfile_load(GjitenDicfile* dicfile){
+  //if the dictionary is not initialized, init: open a file descriptor
+  if (dicfile->status == DICFILE_NOT_INITIALIZED) {
+    if (dicfile_init(dicfile) == FALSE) return SRCH_FAIL; 
+  }
+  if (dicfile->status != DICFILE_OK) return SRCH_FAIL;
+
+  //if the mapped dictionary is not the requested dictionnary then clear it 
+  if ((dicfile != conf.mmaped_dicfile) && (conf.mmaped_dicfile != NULL)) {
+    g_printf("free mem of previously used dicfile\n");
+    dicutil_unload_dic();
+  }
+
+  //if no mapped dictionary, load into memory from the dic's file descriptor
+  if (conf.mmaped_dicfile == NULL) {
+    g_printf("mmap dicfile %s %s into memory\n", dicfile->name, dicfile->path);
+    conf.mmaped_dicfile = dicfile;
+    dicfile->mem = (gchar *) mmap(NULL, dicfile->size, PROT_READ, MAP_SHARED,
+				  dicfile->file, 0);
+    if (dicfile->mem == NULL) gjiten_abort_with_msg("mmap() failed\n");
+    conf.mmaped_dicfile = dicfile;
+  }
+}
+
+
 gboolean dicfile_check_all(GSList *dicfile_list) {
   GSList *node;
   GjitenDicfile *dicfile;
@@ -120,12 +145,13 @@ GList *dicfile_search(GjitenDicfile *dicfile, gchar *srchstrg,
 
   int srchpos;
   oldrespos = srchpos = 0;
-  
+    
   //search loop
   do {
     gchar *repstr = g_new(gchar*, 1024);
     oldrespos = respos;
-        
+
+    
     srchresp = search_string(gjit_search, dicfile, srchstrg, &respos, &roff, &rlen, repstr);
 
     if (srchresp != SRCH_OK)  {
@@ -180,6 +206,8 @@ GList *dicfile_search(GjitenDicfile *dicfile, gchar *srchstrg,
       case ANY_MATCH:
         match_criteria = TRUE;
         break;
+      case REGEX:
+	break;
       }
     } 
     
@@ -209,29 +237,7 @@ gint search_string(gint srchtype, GjitenDicfile *dicfile, gchar *srchstrg,
   gchar *linestart, *lineend; 
   gint copySize = 1023;
   static gchar *linsrchptr;
-
-  if (dicfile->status == DICFILE_NOT_INITIALIZED) {
-    if (dicfile_init(dicfile) == FALSE) return SRCH_FAIL; 
-  }
-  if (dicfile->status != DICFILE_OK) return SRCH_FAIL;
-
-  /////////////////////////////////////////////////////////////////////////////  
-  //if the mapped dictionary is not the requested dictionnary then clear it 
-  if ((dicfile != conf.mmaped_dicfile) && (conf.mmaped_dicfile != NULL)) {
-    g_printf("free mem of previously used dicfile\n");
-    dicutil_unload_dic();
-  }
-
-  //if no mapped dictionary, load into memory from file
-  if (conf.mmaped_dicfile == NULL) {
-    g_printf("mmap dicfile %s %s into memory\n", dicfile->name, dicfile->path);
-    conf.mmaped_dicfile = dicfile;
-    dicfile->mem = (gchar *) mmap(NULL, dicfile->size, PROT_READ, MAP_SHARED, dicfile->file, 0);
-    if (dicfile->mem == NULL) gjiten_abort_with_msg("mmap() failed\n");
-    conf.mmaped_dicfile = dicfile;
-  }
-  //////////////////////////////////////////////////////////////////////////////
-
+  
   //if first time this expression is searched
   if (srchtype == SRCH_START) {
     //start the search from the begining 

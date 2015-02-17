@@ -448,6 +448,16 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
                                 <accelerator key="a" signal="activate" modifiers="GDK_MOD1_MASK"/>
                               </object>
                             </child>
+                            <child>
+                              <object class="GtkRadioMenuItem" id="menuitem_search_japanese_regex">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Regular Expression</property>
+                                <property name="use_underline">True</property>
+                                <property name="draw_as_radio">True</property>
+                                <property name="group">radiomenuitem_search_japanese</property>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>
@@ -495,6 +505,16 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
                                 <property name="group">radiomenuitem_search_latin</property>
                                 <signal name="activate" handler="on_menuitem_search_latin_any_matches_activate" swapped="no"/>
                                 <accelerator key="m" signal="activate" modifiers="GDK_MOD1_MASK"/>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkRadioMenuItem" id="menuitem_search_latin_regex">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Regular Expression</property>
+                                <property name="use_underline">True</property>
+                                <property name="draw_as_radio">True</property>
+                                <property name="group">radiomenuitem_search_latin</property>
                               </object>
                             </child>
                           </object>
