@@ -13,7 +13,7 @@ int main( int argc, char **argv )
   
   GtkWindow *window = (GtkWindow*)gtk_builder_get_object(gjitenkai.definitions, 
                                                          "gjiten");
-  gtk_window_set_default_size(GTK_WINDOW(window), 800, 560);
+  gtk_window_set_default_size(GTK_WINDOW(window), 800, 400);
 
   //get the top level box of worddic and kanjidic
   GtkWidget *box_worddic = (GtkWidget*)gtk_builder_get_object(gjitenkai.worddic->definitions, 
@@ -26,8 +26,9 @@ int main( int argc, char **argv )
   gjitenkai.notebook = gtk_notebook_new();
 
   //by default, use the paned widget
-  gtk_paned_add1(gjitenkai.paned, box_worddic);
-  gtk_paned_add2(gjitenkai.paned, box_kanjidic);
+  gtk_paned_pack1(gjitenkai.paned, box_worddic, TRUE, FALSE);
+  gtk_paned_pack2(gjitenkai.paned, box_kanjidic, TRUE, FALSE);
+  gtk_paned_set_position(gjitenkai.paned, 400);
 
   //create the page where to append the worddic and kanjidic boxes if the
   //selected view changes to notebook
