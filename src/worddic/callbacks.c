@@ -34,7 +34,7 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
 
     dicfile = dicfile_node->data; 
     
-    //free previously used dic load in the current dic to mmaped memory
+    //free previously used dic and load current dic to mmaped memory
     dicfile_load(dicfile);
     
     ////Special searches
