@@ -11,6 +11,12 @@
 typedef struct gjitenkai_t
 {
   GtkBuilder *definitions;
+  worddic   *worddic;
+  kanjidic  kanjidic;
+
+  //display worddic and kanjidic in a pane
+  GtkWidget *main_container;
+  
 } gjitenkai;
 
 

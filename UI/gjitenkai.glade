@@ -75,6 +75,7 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Worddic</property>
                         <property name="use_underline">True</property>
+                        <signal name="toggled" handler="on_menuitem_view_worddic_toggled" swapped="no"/>
                       </object>
                     </child>
                     <child>
