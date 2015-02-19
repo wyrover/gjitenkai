@@ -4,12 +4,12 @@ int main( int argc, char **argv )
 {
   gjitenkai gjitenkai;
   gjitenkai.worddic = g_new0(worddic, 1);
-  kanjidic  kanjidic = gjitenkai.kanjidic;
+  gjitenkai.kanjidic = g_new0(kanjidic, 1);
 
   gtk_init (&argc, &argv);
   gjitenkai_init (&gjitenkai);
   worddic_init(gjitenkai.worddic);
-  kanjidic_init(&kanjidic);
+  kanjidic_init(gjitenkai.kanjidic);
   
   GtkWindow *window = (GtkWindow*)gtk_builder_get_object(gjitenkai.definitions, 
                                                          "gjiten");
@@ -17,7 +17,7 @@ int main( int argc, char **argv )
   //get the top level box of worddic and kanjidic
   GtkWidget *box_worddic = (GtkWidget*)gtk_builder_get_object(gjitenkai.worddic->definitions, 
                                                               "box_toplevel");
-  GtkWidget *box_kanjidic = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions, 
+  GtkWidget *box_kanjidic = (GtkWidget*)gtk_builder_get_object(gjitenkai.kanjidic->definitions, 
                                                                "box_toplevel");
 
   gjitenkai.main_container = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
@@ -31,7 +31,7 @@ int main( int argc, char **argv )
   //pref content box at toplevel for worddic and kanjidic
   GtkWidget *worddic_box_toplevel_prefs = (GtkWidget*)gtk_builder_get_object(gjitenkai.worddic->definitions, 
                                                                              "box_toplevel_prefs");
-  GtkWidget *kanjidic_box_toplevel_prefs = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions, 
+  GtkWidget *kanjidic_box_toplevel_prefs = (GtkWidget*)gtk_builder_get_object(gjitenkai.kanjidic->definitions, 
                                                                               "box_toplevel_prefs");
   //append the worddic and kanjidic preferences boxes in the gjitenkai 
   //applications notebook

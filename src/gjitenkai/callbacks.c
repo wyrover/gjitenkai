@@ -26,6 +26,13 @@ void on_menuitem_view_worddic_toggled(GtkCheckMenuItem *menu_item, gjitenkai *gj
 }
 
 void on_menuitem_view_kanjidic_toggled(GtkMenuItem *menu_item, gjitenkai *gjitenkai){
-
+  GtkWidget *box_kanjidic = (GtkWidget*)gtk_builder_get_object(gjitenkai->kanjidic->definitions, 
+							       "box_toplevel");  
+  if(gtk_check_menu_item_get_active(menu_item)){
+    gtk_widget_show(box_kanjidic);
+  }
+  else{
+    gtk_widget_hide(box_kanjidic);
+  }
 }
 
