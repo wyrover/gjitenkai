@@ -15,12 +15,8 @@ void on_gjitenkai_button_prefs_OK_clicked(GtkButton *button, gjitenkai *gjitenka
 }
 
 void on_menuitem_view_worddic_toggled(GtkCheckMenuItem *menu_item, gjitenkai *gjitenkai){
-  GtkPaned *paned = gjitenkai->main_container;
-  //gtk_paned_add1(paned, NULL);
   GtkWidget *box_worddic = (GtkWidget*)gtk_builder_get_object(gjitenkai->worddic->definitions, 
                                                               "box_toplevel");  
-
-
   if(gtk_check_menu_item_get_active(menu_item)){
     gtk_widget_show(box_worddic);
   }
@@ -30,7 +26,6 @@ void on_menuitem_view_worddic_toggled(GtkCheckMenuItem *menu_item, gjitenkai *gj
 }
 
 void on_menuitem_view_kanjidic_toggled(GtkMenuItem *menu_item, gjitenkai *gjitenkai){
-  GtkPaned *paned = gjitenkai->main_container;
-  //gtk_paned_add2(paned, NULL);
+
 }
 
