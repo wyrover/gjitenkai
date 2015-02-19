@@ -456,6 +456,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
                                 <property name="use_underline">True</property>
                                 <property name="draw_as_radio">True</property>
                                 <property name="group">radiomenuitem_search_japanese</property>
+                                <signal name="activate" handler="on_menuitem_search_japanese_regex_activate" swapped="no"/>
                               </object>
                             </child>
                           </object>
@@ -515,6 +516,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
                                 <property name="use_underline">True</property>
                                 <property name="draw_as_radio">True</property>
                                 <property name="group">radiomenuitem_search_latin</property>
+                                <signal name="activate" handler="on_menuitem_search_latin_regex_activate" swapped="no"/>
                               </object>
                             </child>
                           </object>

@@ -120,6 +120,75 @@ void dicfile_list_free(GSList *dicfile_list) {
   g_slist_free(dicfile_list);
 }
 
+GList *dicfile_search_regex(GjitenDicfile *dicfile, gchar *srchstrg_regex){
+  GList *results = NULL;      //list of matched dictonnary entries text
+
+  gint search_result;
+  gchar *linestart, *lineend;
+
+  GError *error = NULL;
+  gint string_len = -1;
+  gint start_position = 0;
+  gboolean match;
+  GMatchInfo *match_info;
+
+  GRegex * regex = g_regex_new (srchstrg_regex,
+				G_REGEX_OPTIMIZE,
+				0,
+				error);
+  gboolean end_of_mem = FALSE;
+  gchar *line = NULL;
+
+  lineend = dicfile->mem;
+    
+  //until the end of mem chunk is reached
+  while(!end_of_mem){
+    linestart = lineend;
+    // find end of line
+    while (*lineend != '\n') {
+
+      //multibyte character or single byte character 
+      if (g_unichar_iswide(lineend))lineend = g_utf8_next_char(lineend);
+      else lineend++;
+      
+      if (lineend >= dicfile->mem + dicfile->size) {
+	end_of_mem = TRUE;
+        break;
+      }
+      
+    }
+
+    lineend++;  //skip the carriage return
+    gulong linesize = lineend - linestart;
+    line = g_realloc(line, linesize + 1);
+    memmove(line, linestart, linesize);
+    line[linesize] = '\0';
+    
+    //g_printf("%p %p size:%d \n%s\n", lineend, linestart, linesize, line);
+    
+    //search match of the regex in the current line
+    match = g_regex_match_full (regex, line, string_len,
+    				start_position, 0, &match_info, error);
+
+    //if there is a match, copy the line into the result list
+    //while (g_match_info_matches (match_info)){
+    if(match){
+      //fetch the matched info (the matched string)
+      /*gchar *word = g_match_info_fetch (match_info, 0);
+      g_print ("Found: %s in %s\n", word, line);
+      g_free (word);*/
+
+      //duplicate line as it may be reallocated
+      gchar *line_cpy = strdup(line);
+      results = g_list_append(results, line_cpy);
+
+      //g_match_info_next (match_info, &error);
+    }
+  }
+
+  return results;
+}
+
 GList *dicfile_search(GjitenDicfile *dicfile, gchar *srchstrg, 
                       gint match_criteria_jp, gint match_criteria_lat, 
                       gint match_type)
@@ -134,10 +203,10 @@ GList *dicfile_search(GjitenDicfile *dicfile, gchar *srchstrg,
   //according to the match criteria
   gboolean match_criteria;
 
-  //tels if it's the first time the expression is searched
+  //tells if it's the first time the expression is searched
   gint gjit_search = SRCH_START;
 
-  //detect is the search expression in in japanese or latin char
+  //detect is the search expression is in japanese or latin char
   int jpsrch = FALSE;
   if(detect_japanese(srchstrg)){
     jpsrch = TRUE;
@@ -145,7 +214,7 @@ GList *dicfile_search(GjitenDicfile *dicfile, gchar *srchstrg,
 
   int srchpos;
   oldrespos = srchpos = 0;
-    
+  
   //search loop
   do {
     gchar *repstr = g_new(gchar*, 1024);

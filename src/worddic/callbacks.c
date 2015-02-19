@@ -32,16 +32,16 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
   //in each dictionaries
   while (dicfile_node != NULL) {
 
-    dicfile_load(dicfile);
-  
-    if (dicfile_node->data == NULL) break;
     dicfile = dicfile_node->data; 
-    dicfile_node = g_slist_next(dicfile_node);
-  
+    
+    //free previously used dic load in the current dic to mmaped memory
+    dicfile_load(dicfile);
+    
     ////Special searches
     //search for deinflections
     if(deinflection){
-      results = g_list_concat(results, search_verb_inflections(dicfile, entry_text));
+      results = g_list_concat(results,
+			      search_verb_inflections(dicfile, entry_text));
     }
 
     //search katakana on hiragana
@@ -69,14 +69,24 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
         g_free(katakana);
       }
     }
-  
-  ////standard search
-  //concat the results of the current dictionary to the result list
-  results = g_list_concat(results, dicfile_search(dicfile, 
-                                                       entry_text, 
-                                                       match_criteria_jp, 
-                                                       match_criteria_lat, 
-                                                       match_type));
+
+    if((match_criteria_lat == REGEX)||
+       (match_criteria_jp == REGEX)){
+      //regex search
+      results = g_list_concat(results, dicfile_search_regex(dicfile, 
+							    entry_text));
+    }
+    else{
+      //standard search
+      results = g_list_concat(results, dicfile_search(dicfile, 
+						      entry_text, 
+						      match_criteria_jp, 
+						      match_criteria_lat, 
+						      match_type));
+    }
+
+    //get the next node in the dic list
+    dicfile_node = g_slist_next(dicfile_node);
   }
 
   //clear the display result buffer
@@ -89,7 +99,7 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
                                      l->data, strlen(l->data));
   }
 
-  //highlight the search expression in the result buffer
+  //highlight the searched expression in the result buffer
   gboolean has_iter;
   GtkTextIter iter, match_start, match_end;
   gtk_text_buffer_get_start_iter (textbuffer_search_results, &iter);
