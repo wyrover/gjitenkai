@@ -171,7 +171,10 @@ void on_entry_filter_radical_activate(GtkWidget *entry, kanjidic *kanjidic){
 
 //click on a 'kanji button': display the kanji information of this kanji
 void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
-  
+
+  //init kdic
+  dicfile_load(kanjidic->conf->kanjidic);
+    
   //the label of the button is the kanji to be searched/displayed
   gchar* kanji = gtk_button_get_label(button);
 

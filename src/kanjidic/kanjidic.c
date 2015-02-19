@@ -20,9 +20,6 @@ void kanjidic_init (kanjidic *kanjidic)
 
   //load configuration 
   kanjidic->conf = conf_load();
-
-  //init kdic
-  dicfile_load(kanjidic->conf->kanjidic);
   
   //init the radical and kanji hash
   kanjidic->kanji_info_hash = g_hash_table_new((GHashFunc)g_str_hash,
