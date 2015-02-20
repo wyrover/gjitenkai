@@ -1,6 +1,37 @@
 #include "worddic.h"
 #include "../common/dicfile.h"
 
+//highlight the searched expression in the result buffer
+void highlight_result(GtkTextBuffer *textbuffer_search_results,
+		      GtkTextTag *highlight,
+		      gchar *text_to_highlight){
+  gboolean has_iter;
+  GtkTextIter iter, match_start, match_end;
+  gtk_text_buffer_get_start_iter (textbuffer_search_results, &iter);
+  
+  do{
+    //search where the result string is located in the result buffer
+    has_iter = gtk_text_iter_forward_search (&iter,
+                                             text_to_highlight,
+                                             GTK_TEXT_SEARCH_VISIBLE_ONLY,
+                                             &match_start,
+                                             &match_end,
+                                             NULL);
+    if(has_iter){
+      //highlight at this location
+      gtk_text_buffer_apply_tag (textbuffer_search_results,
+                                 highlight,
+                                 &match_start, 
+                                 &match_end);
+
+      //next iteration starts at the end of this iteration
+      iter = match_end;
+    }
+
+  }while(has_iter);
+}
+
+
 /**
    search entry activate signal callback:
    Search in the dictionaries the entered text in the search entry
@@ -27,8 +58,12 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
   GjitenDicfile *dicfile;
   dicfile_node = worddic->conf->dicfile_list;
   dicfile = dicfile_node->data;
-  GList *results=NULL;
+  GList *results=NULL;  //matched dictionary entries
+  GList *l = NULL;      //browse results
 
+  //clear the display result buffer
+  gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
+  
   //in each dictionaries
   while (dicfile_node != NULL) {
 
@@ -44,28 +79,51 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
 			      search_verb_inflections(dicfile, entry_text));
     }
 
-    //search katakana on hiragana
-    if (worddic->conf->search_kata_on_hira) {
+    //search hiragana on katakana
+    if (worddic->conf->search_hira_on_kata) {
       if (isKatakanaString(entry_text) == TRUE) {
         gchar *hiragana = kata2hira(entry_text);
-        results = g_list_concat(results, dicfile_search(dicfile, 
-                                                        hiragana, 
-                                                        match_criteria_jp, 
-                                                        match_criteria_lat, 
-                                                        match_type));
+	
+        GList *results_hiragana = dicfile_search(dicfile, 
+						 hiragana,
+						 match_criteria_jp, 
+						 match_criteria_lat, 
+						 match_type);
+	//insert
+	for (l = results_hiragana; l != NULL; l = l->next){
+	  gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					   "•", strlen("•"));
+	  gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					   l->data, strlen(l->data));
+	}
+
+	//highlight
+	highlight_result(textbuffer_search_results, worddic->conf->highlight, hiragana);
+	
         g_free(hiragana);
       }
     }
 
-    //search hiragana on katakana
-    if (worddic->conf->search_hira_on_kata) {
+    //search katakana on hiragana
+    if (worddic->conf->search_kata_on_hira) {
       if (isHiraganaString(entry_text) == TRUE) {
         gchar *katakana = hira2kata(entry_text);
-        results = g_list_concat(results, dicfile_search(dicfile, 
-                                                        katakana,
-                                                        match_criteria_jp, 
-                                                        match_criteria_lat, 
-                                                        match_type));
+        GList *results_katakana = dicfile_search(dicfile, 
+						 katakana,
+						 match_criteria_jp, 
+						 match_criteria_lat, 
+						 match_type);
+	//insert
+	for (l = results_katakana; l != NULL; l = l->next){
+	  gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					   "•", strlen("•"));
+	  gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					   l->data, strlen(l->data));
+	}
+
+	//highlight
+	highlight_result(textbuffer_search_results, worddic->conf->highlight, katakana);
+  
         g_free(katakana);
       }
     }
@@ -89,41 +147,16 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
     dicfile_node = g_slist_next(dicfile_node);
   }
 
-  //clear the display result buffer
-  gtk_text_buffer_set_text(textbuffer_search_results, "", 0); 
-
-  //insert all search results via the result buffer
-  GList *l;
+  //insert results
   for (l = results; l != NULL; l = l->next){
-        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                     "•", strlen("•"));
+    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
                                      l->data, strlen(l->data));
   }
 
-  //highlight the searched expression in the result buffer
-  gboolean has_iter;
-  GtkTextIter iter, match_start, match_end;
-  gtk_text_buffer_get_start_iter (textbuffer_search_results, &iter);
+  highlight_result(textbuffer_search_results, worddic->conf->highlight, entry_text);
   
-  do{
-    //search where the result string is located in the result buffer
-    has_iter = gtk_text_iter_forward_search (&iter,
-                                             entry_text,
-                                             GTK_TEXT_SEARCH_VISIBLE_ONLY,
-                                             &match_start,
-                                             &match_end,
-                                             NULL);
-    if(has_iter){
-      //highlight at this location
-      gtk_text_buffer_apply_tag (textbuffer_search_results,
-                                 worddic->conf->highlight,
-                                 &match_start, 
-                                 &match_end);
-
-      //next iteration starts at the end of this iteration
-      iter = match_end;
-    }
-
-  }while(has_iter);
 }
 
 //////////////////////
@@ -165,7 +198,6 @@ void on_menuitem_search_japanese_regex_activate (GtkMenuItem *menuitem,
                                             worddic *worddic){
   worddic->match_criteria_jp = REGEX;
 }
-
 
 ///Latin
 void on_menuitem_search_latin_whole_expressions_activate (GtkMenuItem *menuitem, 

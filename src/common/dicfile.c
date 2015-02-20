@@ -171,18 +171,15 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile, gchar *srchstrg_regex){
     				start_position, 0, &match_info, error);
 
     //if there is a match, copy the line into the result list
-    //while (g_match_info_matches (match_info)){
     if(match){
-      //fetch the matched info (the matched string)
-      /*gchar *word = g_match_info_fetch (match_info, 0);
+      //fetch the matched string
+      gchar *word = g_match_info_fetch (match_info, 0);
       g_print ("Found: %s in %s\n", word, line);
-      g_free (word);*/
+      g_free (word);
 
-      //duplicate line as it may be reallocated
+      //duplicate line as it wil be reallocated
       gchar *line_cpy = strdup(line);
       results = g_list_append(results, line_cpy);
-
-      //g_match_info_next (match_info, &error);
     }
   }
 

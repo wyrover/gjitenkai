@@ -11,12 +11,12 @@
 
 typedef struct worddic_t
 {
-GtkBuilder *definitions;
+  GtkBuilder *definitions;
 
-GjitenConfig *conf;
+  GjitenConfig *conf;
 
-gint match_criteria_lat;
-gint match_criteria_jp;
+  gint match_criteria_lat;
+  gint match_criteria_jp;
 } worddic;
 
 
