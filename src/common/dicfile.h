@@ -58,7 +58,9 @@ void dicfile_close(GjitenDicfile *dicfile);
 void dicfile_list_free(GSList *dicfile_list);
 gboolean dicfile_check_all(GSList *dicfile_list);
 
-GList *dicfile_search_regex(GjitenDicfile *dicfile, gchar *srchstrg_regex);
+GList *dicfile_search_regex(GjitenDicfile *dicfile,
+			    gchar *srchstrg_regex,
+			    GList **matched_part);
 
 GList *dicfile_search(GjitenDicfile *dicfile, gchar *srchstrg, 
                         gint match_criteria_jp, gint match_criteria_lat, 

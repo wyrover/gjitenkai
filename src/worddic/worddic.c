@@ -42,4 +42,10 @@ void worddic_init (worddic *worddic)
 
   //Init the preference window's widgets
   init_prefs_window(worddic);
+
+  // enable clickable kanji
+  //g_signal_connect(G_OBJECT(wordDic->text_results_view), "button-release-event", G_CALLBACK(kanji_clicked), worddic);
+  //g_signal_connect(G_OBJECT(wordDic->text_results_view), "motion-notify-event", G_CALLBACK(result_view_motion), NULL);
+  
 }
+

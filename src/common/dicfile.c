@@ -120,7 +120,9 @@ void dicfile_list_free(GSList *dicfile_list) {
   g_slist_free(dicfile_list);
 }
 
-GList *dicfile_search_regex(GjitenDicfile *dicfile, gchar *srchstrg_regex){
+GList *dicfile_search_regex(GjitenDicfile *dicfile,
+			    gchar *srchstrg_regex,
+			    GList **matched_part){
   GList *results = NULL;      //list of matched dictonnary entries text
 
   gint search_result;
@@ -174,12 +176,12 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile, gchar *srchstrg_regex){
     if(match){
       //fetch the matched string
       gchar *word = g_match_info_fetch (match_info, 0);
-      g_print ("Found: %s in %s\n", word, line);
-      g_free (word);
 
       //duplicate line as it wil be reallocated
       gchar *line_cpy = strdup(line);
       results = g_list_append(results, line_cpy);
+
+      *matched_part = g_list_append(*matched_part, word);
     }
   }
 

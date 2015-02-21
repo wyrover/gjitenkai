@@ -98,7 +98,7 @@ void Verbinit() {
   verbinit_done = TRUE;
 }
 
-GList* search_verb_inflections(GjitenDicfile *dicfile, gchar *srchstrg) {
+GList* search_verb_inflections(GjitenDicfile *dicfile, gchar *srchstrg, GList **match) {
   GList *results = NULL;      //list of inflections
   int srchresp, roff, rlen;
   guint32 oldrespos, respos;
@@ -132,7 +132,7 @@ GList* search_verb_inflections(GjitenDicfile *dicfile, gchar *srchstrg) {
         oldrespos = respos;
         gchar *repstr = (gchar *) g_malloc(1024);
         srchresp = search_string(gjit_search, dicfile, deinflected, &respos, &roff, &rlen, repstr);
-        //    printf("respos:%d, oldrespos:%d, roffset:%d, rlen:%d\nrepstr:%s\n", respos, oldrespos, roff, rlen, repstr);
+        //g_printf("desinflected:%s, respos:%d, oldrespos:%d, roffset:%d, rlen:%d\nrepstr:%s\n", deinflected, respos, oldrespos, roff, rlen, repstr);
         if (srchresp != SRCH_OK)  {
           break;   //No more matches
         }
@@ -154,21 +154,21 @@ GList* search_verb_inflections(GjitenDicfile *dicfile, gchar *srchstrg) {
           printit = FALSE; // Display only EXACT_MATCHes
 
         if (printit == TRUE) {
-
-          //          print_matches_in(dicfile);
           
-          gchar *str_inflection = g_new(gchar*, 1024);
+          gchar *str_inflection = g_new(gchar*, 2048);
           sprintf(str_inflection, 
-                  "possible inflected verb of adjective: %s %s -> %s\n", 
-                 tmp_vinfl_struct->type, 
-                 tmp_vinfl_struct->conj, 
-                 tmp_vinfl_struct->infl);
+                  "possible inflected verb of adjective: %s %s -> %s\n%s", 
+		  tmp_vinfl_struct->type, 
+		  tmp_vinfl_struct->conj, 
+		  tmp_vinfl_struct->infl,
+		  repstr);
           
-          //append the deinflection
+          //append the deinflection string
           results = g_list_append (results, str_inflection);
 
-          //append the definition of the deinflection
-          results = g_list_append (results, repstr);
+	  //append the deinflected part that matched the search
+	  *match = g_list_append(*match, strdup(deinflected));
+	  
           word_matches++;
         }
       } while (srchresp == SRCH_OK);

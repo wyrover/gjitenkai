@@ -1,6 +1,40 @@
 #include "worddic.h"
 #include "../common/dicfile.h"
 
+gboolean kanji_clicked(GtkWidget *text_view,
+		       GdkEventButton *event,
+		       worddic *worddic) {
+  GtkTextIter mouse_iter;
+  gint x, y;
+  gint trailing;
+  gunichar kanji;
+  /*
+  GtkTextBuffer*textbuffer_search_results = (GtkTextBuffer*)
+    gtk_builder_get_object(worddic->definitions, 
+                           "textbuffer_search_results");
+  if (gtk_text_buffer_get_selection_bounds(textbuffer_search_results, NULL, NULL) == TRUE )
+    {
+      // don't look up kanji if it is in a selection
+      return FALSE;
+    }
+  */
+
+  if (event->button != 1) return FALSE;
+  
+  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), 
+					GTK_TEXT_WINDOW_WIDGET,
+					event->x, event->y, &x, &y);
+
+  gtk_text_view_get_iter_at_position(GTK_TEXT_VIEW(text_view), &mouse_iter, &trailing, x, y);
+  kanji = gtk_text_iter_get_char(&mouse_iter);
+  if ((kanji != 0xFFFC) && (kanji != 0) && (isKanjiChar(kanji) == TRUE)) {
+    g_printf("kanji: %c\n", kanji);
+  }
+
+  return FALSE;
+}
+
+
 //highlight the searched expression in the result buffer
 void highlight_result(GtkTextBuffer *textbuffer_search_results,
 		      GtkTextTag *highlight,
@@ -58,8 +92,9 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
   GjitenDicfile *dicfile;
   dicfile_node = worddic->conf->dicfile_list;
   dicfile = dicfile_node->data;
-  GList *results=NULL;  //matched dictionary entries
-  GList *l = NULL;      //browse results
+  GList *results=NULL;               //matched dictionary entries
+  GList *l = NULL;                   //browse results
+  GList *results_highlight = NULL;   //what to highlight in the result (in case of a regex or inflection)
 
   //clear the display result buffer
   gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
@@ -75,8 +110,21 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
     ////Special searches
     //search for deinflections
     if(deinflection){
-      results = g_list_concat(results,
-			      search_verb_inflections(dicfile, entry_text));
+      GList *results_inflection = search_verb_inflections(dicfile,
+							  entry_text,
+							  &results_highlight);
+      //insert
+      for (l = results_inflection; l != NULL; l = l->next){
+	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					 "•", strlen("•"));
+	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					 l->data, strlen(l->data));
+	//highligh
+	highlight_result(textbuffer_search_results, worddic->conf->highlight, results_highlight->data);
+	highlight_result(textbuffer_search_results, worddic->conf->highlight, "possible inflected verb of adjective:");
+	results_highlight = results_highlight->next;
+      }
+	
     }
 
     //search hiragana on katakana
@@ -130,9 +178,22 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
 
     if((match_criteria_lat == REGEX)||
        (match_criteria_jp == REGEX)){
+      
       //regex search
-      results = g_list_concat(results, dicfile_search_regex(dicfile, 
-							    entry_text));
+      GList *results_regex = dicfile_search_regex(dicfile, 
+					   entry_text,
+					   &results_highlight);
+
+      //insert
+      for (l = results_regex; l != NULL; l = l->next){
+	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					 "•", strlen("•"));
+	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					 l->data, strlen(l->data));
+	//highligh
+	highlight_result(textbuffer_search_results, worddic->conf->highlight, results_highlight->data);
+	results_highlight = results_highlight->next;
+      }
     }
     else{
       //standard search
@@ -141,22 +202,20 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
 						      match_criteria_jp, 
 						      match_criteria_lat, 
 						      match_type));
+      //insert results
+      for (l = results; l != NULL; l = l->next){
+	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					 "•", strlen("•"));
+	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					 l->data, strlen(l->data));
+      }
+
+      highlight_result(textbuffer_search_results, worddic->conf->highlight, entry_text);      
     }
 
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);
   }
-
-  //insert results
-  for (l = results; l != NULL; l = l->next){
-    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                     "•", strlen("•"));
-    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                     l->data, strlen(l->data));
-  }
-
-  highlight_result(textbuffer_search_results, worddic->conf->highlight, entry_text);
-  
 }
 
 //////////////////////

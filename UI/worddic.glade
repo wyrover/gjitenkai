@@ -745,6 +745,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
                 <property name="wrap_mode">word</property>
                 <property name="cursor_visible">False</property>
                 <property name="buffer">textbuffer_search_results</property>
+                <signal name="button-release-event" handler="kanji_clicked" swapped="no"/>
               </object>
             </child>
           </object>
