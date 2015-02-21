@@ -1,9 +1,9 @@
 #include "worddic.h"
 #include "../common/dicfile.h"
 
-gboolean kanji_clicked(GtkWidget *text_view,
-		       GdkEventButton *event,
-		       worddic *worddic) {
+gboolean on_search_results_button_release_event(GtkWidget *text_view,
+						GdkEventButton *event,
+						worddic *worddic) {
   GtkTextIter mouse_iter;
   gint x, y;
   gint trailing;
