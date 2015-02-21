@@ -14,5 +14,6 @@ void gjitenkai_init (gjitenkai *gjitenkai)
     gtk_main_quit ();
   }
   gtk_builder_connect_signals (gjitenkai->definitions, gjitenkai);
+  
 }
 

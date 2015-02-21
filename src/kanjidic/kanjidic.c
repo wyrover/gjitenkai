@@ -20,9 +20,6 @@ void kanjidic_init (kanjidic *kanjidic)
 
   //load configuration 
   kanjidic->conf = conf_load();
-
-  //init kdic
-  dicfile_load(kanjidic->conf->kanjidic);
   
   //init the radical and kanji hash
   kanjidic->kanji_info_hash = g_hash_table_new((GHashFunc)g_str_hash,
@@ -180,7 +177,7 @@ void search_and_display_kanji(kanjidic *kanjidic){
     return;
   }
   
-  //set the pointer over the results kanji a pointer
+  //set the mouse pointer
   cursor = gdk_cursor_new(GDK_LEFT_PTR);
   GdkWindow *gdk_window = gtk_text_view_get_window (textview_kanji_result,
                                                     GTK_TEXT_WINDOW_TEXT);

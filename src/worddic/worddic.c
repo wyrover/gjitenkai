@@ -43,3 +43,33 @@ void worddic_init (worddic *worddic)
   //Init the preference window's widgets
   init_prefs_window(worddic);
 }
+
+void highlight_result(GtkTextBuffer *textbuffer_search_results,
+		      GtkTextTag *highlight,
+		      gchar *text_to_highlight){
+  gboolean has_iter;
+  GtkTextIter iter, match_start, match_end;
+  gtk_text_buffer_get_start_iter (textbuffer_search_results, &iter);
+  
+  do{
+    //search where the result string is located in the result buffer
+    has_iter = gtk_text_iter_forward_search (&iter,
+                                             text_to_highlight,
+                                             GTK_TEXT_SEARCH_VISIBLE_ONLY,
+                                             &match_start,
+                                             &match_end,
+                                             NULL);
+    if(has_iter){
+      //highlight at this location
+      gtk_text_buffer_apply_tag (textbuffer_search_results,
+                                 highlight,
+                                 &match_start, 
+                                 &match_end);
+
+      //next iteration starts at the end of this iteration
+      iter = match_end;
+    }
+
+  }while(has_iter);
+}
+

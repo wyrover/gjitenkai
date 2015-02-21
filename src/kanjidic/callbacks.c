@@ -112,7 +112,7 @@ void on_entry_filter_radical_insert_text(GtkEntry    *entry,
       radical[at] = '\0';
 
       if(!strcmp(radical, text)){
-        g_signal_stop_emission_by_name (G_OBJECT (editable), "insert_text");        
+        g_signal_stop_emission_by_name (G_OBJECT (editable), "insert_text");
       }
 
       radstrg_ptr = g_utf8_next_char(radstrg_ptr);
@@ -171,7 +171,10 @@ void on_entry_filter_radical_activate(GtkWidget *entry, kanjidic *kanjidic){
 
 //click on a 'kanji button': display the kanji information of this kanji
 void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
-  
+
+  //init kdic
+  dicfile_load(kanjidic->conf->kanjidic);
+    
   //the label of the button is the kanji to be searched/displayed
   gchar* kanji = gtk_button_get_label(button);
 
@@ -288,6 +291,7 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 }
 
 void on_button_search_clicked(GtkWidget *widget, kanjidic *kanjidic) {
+  dicfile_load(kanjidic->conf->kanjidic);
   search_and_display_kanji(kanjidic);
 }
 

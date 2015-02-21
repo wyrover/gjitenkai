@@ -1,0 +1,138 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-02-19 19:40+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: DREVET Olivier <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: Français\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: UI/worddic.glade:173
+msgid "Add"
+msgstr "Ajouter"
+
+#: UI/worddic.glade:444 UI/worddic.glade:504
+msgid "Any Matches"
+msgstr "Tout"
+
+#: UI/worddic.glade:143
+msgid "Appearance"
+msgstr "Apparance"
+
+#: UI/worddic.glade:231
+msgid "Dictionaries"
+msgstr "Dictionnaires"
+
+#: UI/worddic.glade:201
+msgid "Edit"
+msgstr "Edition"
+
+#: UI/worddic.glade:433
+msgid "End With Expression"
+msgstr "Fini par l'expression"
+
+#: UI/worddic.glade:723
+msgid "Enter expression"
+msgstr "Entrer une expression"
+
+#: UI/worddic.glade:409
+msgid "Exact Match"
+msgstr "Exacte"
+
+#: UI/worddic.glade:480
+msgid "Exact match"
+msgstr ""
+
+#: UI/worddic.glade:327
+msgid "Gjiten Kai グジテン改 - Worddic"
+msgstr ""
+
+#: UI/worddic.glade:108
+msgid "Highlight color"
+msgstr "Couleur de surlignage"
+
+#: UI/worddic.glade:399
+msgid "Japanese"
+msgstr "Japonais"
+
+#: UI/worddic.glade:470
+msgid "Latin"
+msgstr ""
+
+#: UI/worddic.glade:678
+msgid "Name"
+msgstr "Nom"
+
+#: UI/worddic.glade:585 UI/worddic.glade:629
+msgid "OK"
+msgstr ""
+
+#: UI/worddic.glade:657
+msgid "Path"
+msgstr "Chemin"
+
+#: UI/worddic.glade:376
+msgid "Preferences"
+msgstr ""
+
+#: UI/worddic.glade:455 UI/worddic.glade:515
+msgid "Regular Expression"
+msgstr "Expression regulière"
+
+#: UI/worddic.glade:187
+msgid "Remove"
+msgstr "Enlever"
+
+#: UI/worddic.glade:300
+msgid "Search"
+msgstr "Chercher"
+
+#: UI/worddic.glade:261
+msgid "Search for Hiragana on Katakana input"
+msgstr "Chercher des Hiragana au lieu de Katakana"
+
+#: UI/worddic.glade:245
+msgid "Search for Katakana on Hiragana input"
+msgstr "Chercher des Katakana au lieu d'Hiragana"
+
+#: UI/worddic.glade:68
+msgid "Search results font"
+msgstr "Police pour les resultats de la recherche"
+
+#: UI/worddic.glade:421
+msgid "Start With Expression"
+msgstr "Commence avec l'expression"
+
+#: UI/worddic.glade:277
+msgid "Verbs and adjectives deinflection"
+msgstr "Déinflexion de varbes ou d'adjectifs"
+
+#: UI/worddic.glade:493
+msgid "Whole Words"
+msgstr "Mot entier"
+
+#: UI/worddic.glade:366
+msgid "_Edit"
+msgstr "_Edition"
+
+#: UI/worddic.glade:342
+msgid "_File"
+msgstr "_Fichier"
+
+#: UI/worddic.glade:534
+msgid "_Help"
+msgstr "_Aide"
+
+#: UI/worddic.glade:389
+msgid "_Search"
+msgstr "_Recherche"

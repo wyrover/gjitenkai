@@ -11,15 +11,17 @@
 
 typedef struct worddic_t
 {
-GtkBuilder *definitions;
+  GtkBuilder *definitions;
 
-GjitenConfig *conf;
+  GjitenConfig *conf;
 
-gint match_criteria_lat;
-gint match_criteria_jp;
+  gint match_criteria_lat;
+  gint match_criteria_jp;
 } worddic;
 
 
 void worddic_init (worddic * );
-
+void highlight_result(GtkTextBuffer *textbuffer_search_results,
+		      GtkTextTag *highlight,
+		      gchar *text_to_highlight);
 #endif

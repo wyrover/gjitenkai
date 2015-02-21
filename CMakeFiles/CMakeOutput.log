@@ -1,0 +1,190 @@
+The system is: Linux - 3.18.6-1-ARCH - i686
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags: 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/home/odrevet/builds/gjitenkai/CMakeFiles/3.1.2/CompilerIdC/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec77340346/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec77340346.dir/build.make CMakeFiles/cmTryCompileExec77340346.dir/build
+make[1]: Entering directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec77340346.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec77340346.dir/testCCompiler.c.o   -c /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTryCompileExec77340346
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec77340346.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTryCompileExec77340346.dir/testCCompiler.c.o  -o cmTryCompileExec77340346 -rdynamic 
+make[1]: Leaving directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp'
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2151506660/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2151506660.dir/build.make CMakeFiles/cmTryCompileExec2151506660.dir/build
+make[1]: Entering directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2151506660.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec2151506660.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.1/Modules/CMakeCCompilerABI.c
+Linking C executable cmTryCompileExec2151506660
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2151506660.dir/link.txt --verbose=1
+/usr/bin/cc     -v CMakeFiles/cmTryCompileExec2151506660.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec2151506660 -rdynamic  
+Using built-in specs.
+COLLECT_GCC=/usr/bin/cc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/lto-wrapper
+Target: i686-pc-linux-gnu
+Configured with: /build/gcc/src/gcc-4.9-20150204/configure --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://bugs.archlinux.org/ --enable-languages=c,c++,ada,fortran,go,lto,objc,obj-c++ --enable-shared --enable-threads=posix --with-system-zlib --enable-__cxa_atexit --disable-libunwind-exceptions --enable-clocale=gnu --disable-libstdcxx-pch --disable-libssp --enable-gnu-unique-object --enable-linker-build-id --enable-cloog-backend=isl --enable-lto --enable-plugin --enable-install-libiberty --with-linker-hash-style=gnu --disable-multilib --disable-werror --enable-checking=release
+Thread model: posix
+gcc version 4.9.2 20150204 (prerelease) (GCC) 
+COMPILER_PATH=/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/:/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/:/usr/lib/gcc/i686-pc-linux-gnu/:/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/:/usr/lib/gcc/i686-pc-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/:/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec2151506660' '-rdynamic' '-mtune=generic' '-march=pentiumpro'
+ /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/collect2 -plugin /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/liblto_plugin.so -plugin-opt=/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/lto-wrapper -plugin-opt=-fresolution=/tmp/cc3NPib8.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu -m elf_i386 -export-dynamic -dynamic-linker /lib/ld-linux.so.2 -o cmTryCompileExec2151506660 /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../crt1.o /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../crti.o /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/crtbegin.o -L/usr/lib/gcc/i686-pc-linux-gnu/4.9.2 -L/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../.. CMakeFiles/cmTryCompileExec2151506660.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/crtend.o /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../crtn.o
+make[1]: Leaving directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp'
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTryCompileExec2151506660/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTryCompileExec2151506660.dir/build.make CMakeFiles/cmTryCompileExec2151506660.dir/build]
+  ignore line: [make[1]: Entering directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp']
+  ignore line: [/usr/bin/cmake -E cmake_progress_report /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp/CMakeFiles 1]
+  ignore line: [Building C object CMakeFiles/cmTryCompileExec2151506660.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTryCompileExec2151506660.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.1/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTryCompileExec2151506660]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2151506660.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc     -v CMakeFiles/cmTryCompileExec2151506660.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec2151506660 -rdynamic  ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/cc]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/lto-wrapper]
+  ignore line: [Target: i686-pc-linux-gnu]
+  ignore line: [Configured with: /build/gcc/src/gcc-4.9-20150204/configure --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://bugs.archlinux.org/ --enable-languages=c,c++,ada,fortran,go,lto,objc,obj-c++ --enable-shared --enable-threads=posix --with-system-zlib --enable-__cxa_atexit --disable-libunwind-exceptions --enable-clocale=gnu --disable-libstdcxx-pch --disable-libssp --enable-gnu-unique-object --enable-linker-build-id --enable-cloog-backend=isl --enable-lto --enable-plugin --enable-install-libiberty --with-linker-hash-style=gnu --disable-multilib --disable-werror --enable-checking=release]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 4.9.2 20150204 (prerelease) (GCC) ]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/:/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/:/usr/lib/gcc/i686-pc-linux-gnu/:/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/:/usr/lib/gcc/i686-pc-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/:/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTryCompileExec2151506660' '-rdynamic' '-mtune=generic' '-march=pentiumpro']
+  link line: [ /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/collect2 -plugin /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/liblto_plugin.so -plugin-opt=/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/lto-wrapper -plugin-opt=-fresolution=/tmp/cc3NPib8.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu -m elf_i386 -export-dynamic -dynamic-linker /lib/ld-linux.so.2 -o cmTryCompileExec2151506660 /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../crt1.o /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../crti.o /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/crtbegin.o -L/usr/lib/gcc/i686-pc-linux-gnu/4.9.2 -L/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../.. CMakeFiles/cmTryCompileExec2151506660.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/crtend.o /usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../crtn.o]
+    arg [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/cc3NPib8.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [--hash-style=gnu] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_i386] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib/ld-linux.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTryCompileExec2151506660] ==> ignore
+    arg [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../crt1.o] ==> ignore
+    arg [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../crti.o] ==> ignore
+    arg [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/crtbegin.o] ==> ignore
+    arg [-L/usr/lib/gcc/i686-pc-linux-gnu/4.9.2] ==> dir [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2]
+    arg [-L/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../..] ==> dir [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../..]
+    arg [CMakeFiles/cmTryCompileExec2151506660.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/crtend.o] ==> ignore
+    arg [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../../crtn.o] ==> ignore
+  remove lib [gcc]
+  remove lib [gcc_s]
+  remove lib [gcc]
+  remove lib [gcc_s]
+  collapse library dir [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2] ==> [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2]
+  collapse library dir [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2/../../..] ==> [/usr/lib]
+  implicit libs: [c]
+  implicit dirs: [/usr/lib/gcc/i686-pc-linux-gnu/4.9.2;/usr/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3900299399/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3900299399.dir/build.make CMakeFiles/cmTryCompileExec3900299399.dir/build
+make[1]: Entering directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3900299399.dir/feature_tests.c.o
+/usr/bin/cc   -std=c90 -o CMakeFiles/cmTryCompileExec3900299399.dir/feature_tests.c.o   -c /home/odrevet/builds/gjitenkai/CMakeFiles/feature_tests.c
+Linking C executable cmTryCompileExec3900299399
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3900299399.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTryCompileExec3900299399.dir/feature_tests.c.o  -o cmTryCompileExec3900299399 -rdynamic 
+make[1]: Leaving directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1475598616/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1475598616.dir/build.make CMakeFiles/cmTryCompileExec1475598616.dir/build
+make[1]: Entering directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1475598616.dir/feature_tests.c.o
+/usr/bin/cc   -std=c99 -o CMakeFiles/cmTryCompileExec1475598616.dir/feature_tests.c.o   -c /home/odrevet/builds/gjitenkai/CMakeFiles/feature_tests.c
+Linking C executable cmTryCompileExec1475598616
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1475598616.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTryCompileExec1475598616.dir/feature_tests.c.o  -o cmTryCompileExec1475598616 -rdynamic 
+make[1]: Leaving directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:0c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1965442062/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1965442062.dir/build.make CMakeFiles/cmTryCompileExec1965442062.dir/build
+make[1]: Entering directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1965442062.dir/feature_tests.c.o
+/usr/bin/cc   -std=c11 -o CMakeFiles/cmTryCompileExec1965442062.dir/feature_tests.c.o   -c /home/odrevet/builds/gjitenkai/CMakeFiles/feature_tests.c
+Linking C executable cmTryCompileExec1965442062
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1965442062.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTryCompileExec1965442062.dir/feature_tests.c.o  -o cmTryCompileExec1965442062 -rdynamic 
+make[1]: Leaving directory '/home/odrevet/builds/gjitenkai/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:0c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros

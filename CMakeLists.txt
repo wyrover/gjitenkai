@@ -4,6 +4,9 @@ project(gjiten-kai C)
 # Set the minimum version of cmake required to build this project
 cmake_minimum_required(VERSION 2.6)
 
+#install directories variables
+include(GNUInstallDirs)
+
 # Use the package PkgConfig to detect GTK+ headers/library files
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
@@ -18,8 +21,8 @@ add_definitions(${GTK3_CFLAGS_OTHER})
 
 #set some variable 
 ##dir where to install / find files
-set(DATADIR "/usr/share/gjiten-kai")
-set(DICDIR "/usr/share/dict")
+set(DATADIR ${CMAKE_INSTALL_DATA_DIR}/gjiten-kai)
+set(DICDIR ${CMAKE_INSTALL_DATAROOTDIR}/dict)
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
@@ -99,5 +102,9 @@ INSTALL(FILES data/radkfile.utf8 data/vconj.utf8 DESTINATION ${DATADIR})
 # Install dictionaries
 INSTALL(FILES data/edict.utf8 data/kanjidic.utf8 DESTINATION ${DICDIR})
 
+# Install locales
+#Français
+INSTALL(FILES po/fr/worddic.mo DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
+
 # Install programs
-INSTALL(PROGRAMS bin/gjitenkai bin/worddic bin/kanjidic DESTINATION bin)
+INSTALL(PROGRAMS bin/gjitenkai bin/worddic bin/kanjidic DESTINATION ${CMAKE_INSTALL_BINDIR})

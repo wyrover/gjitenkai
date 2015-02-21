@@ -1,12 +1,21 @@
+#include <locale.h>
+#include <libintl.h>
+
 #include "worddic.h"
 
 int main( int argc, char **argv )
 {
+  // the system locale data base.
+  bindtextdomain("worddic", "/usr/local/share/locale");
+
+  // Set the current default message catalog to DOMAINNAME.
+  textdomain("worddic");
+
   worddic worddic;
 
   gtk_init (&argc, &argv);
   worddic_init (&worddic);
-
+  
   //construct the worrdic main window
   //worddic window
   GtkWindow *window = (GtkWindow*)gtk_builder_get_object(worddic.definitions, 

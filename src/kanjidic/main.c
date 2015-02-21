@@ -1,7 +1,13 @@
+#include <locale.h>
+#include <libintl.h>
+
 #include "kanjidic.h"
 
 int main( int argc, char **argv )
 {
+  bindtextdomain("worddic", "/usr/local/share/locale");
+  textdomain("worddic");
+  
   kanjidic kanjidic;
 
   gtk_init (&argc, &argv);
