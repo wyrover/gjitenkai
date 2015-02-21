@@ -34,15 +34,3 @@ $make
 = Credits =
 * Original Gjiten developer (1999 - 2005) Botond Botyanszki
 * Gjiten kai developer (2015 - ...) Olivier Drevet
-
-= Version =
-
-Even if the goal is to have more functionality in the future, these early 
-version will be inferior compare to gjiten.
-
-The version 1.0 will be reach when the functionalities are equals or above 
-the original gjiten. 
-
-*version 0.1 codename 最低限度
-Words can be found in worrdic and kanji in kanjidic, but the results are raw
-and incomplete. Some search options are not available. 

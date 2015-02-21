@@ -103,8 +103,8 @@ INSTALL(FILES data/radkfile.utf8 data/vconj.utf8 DESTINATION ${DATADIR})
 INSTALL(FILES data/edict.utf8 data/kanjidic.utf8 DESTINATION ${DICDIR})
 
 # Install locales
-#francais
-INSTALL(FILES po/worddic_fr.mo DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/worddic.mo)
+#Français
+INSTALL(FILES po/fr/worddic.mo DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
 
 # Install programs
 INSTALL(PROGRAMS bin/gjitenkai bin/worddic bin/kanjidic DESTINATION ${CMAKE_INSTALL_BINDIR})

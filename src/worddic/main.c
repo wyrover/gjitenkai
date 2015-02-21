@@ -5,19 +5,9 @@
 
 int main( int argc, char **argv )
 {
-  //local
-  // Set the current local to default
-  setlocale(LC_ALL, "fr_FR");
-
-  // bindtextdomain(DOMAINNAME, DIRNAME)
-  //
-  // Specify that the DOMAINNAME message catalog
-  // will be found in DIRNAME rather than in 
   // the system locale data base.
   bindtextdomain("worddic", "/usr/share/locale");
 
-  // testdomain(DOMAINNAME)
-  //
   // Set the current default message catalog to DOMAINNAME.
   textdomain("worddic");
 

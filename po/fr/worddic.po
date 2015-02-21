@@ -23,7 +23,7 @@ msgstr "Ajouter"
 
 #: UI/worddic.glade:444 UI/worddic.glade:504
 msgid "Any Matches"
-msgstr ""
+msgstr "Tout"
 
 #: UI/worddic.glade:143
 msgid "Appearance"
@@ -35,19 +35,19 @@ msgstr "Dictionnaires"
 
 #: UI/worddic.glade:201
 msgid "Edit"
-msgstr ""
+msgstr "Edition"
 
 #: UI/worddic.glade:433
 msgid "End With Expression"
-msgstr ""
+msgstr "Fini par l'expression"
 
 #: UI/worddic.glade:723
 msgid "Enter expression"
-msgstr ""
+msgstr "Entrer une expression"
 
 #: UI/worddic.glade:409
 msgid "Exact Match"
-msgstr ""
+msgstr "Exacte"
 
 #: UI/worddic.glade:480
 msgid "Exact match"
@@ -59,11 +59,11 @@ msgstr ""
 
 #: UI/worddic.glade:108
 msgid "Highlight color"
-msgstr ""
+msgstr "Couleur de surlignage"
 
 #: UI/worddic.glade:399
 msgid "Japanese"
-msgstr ""
+msgstr "Japonais"
 
 #: UI/worddic.glade:470
 msgid "Latin"
@@ -71,7 +71,7 @@ msgstr ""
 
 #: UI/worddic.glade:678
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: UI/worddic.glade:585 UI/worddic.glade:629
 msgid "OK"
@@ -79,7 +79,7 @@ msgstr ""
 
 #: UI/worddic.glade:657
 msgid "Path"
-msgstr ""
+msgstr "Chemin"
 
 #: UI/worddic.glade:376
 msgid "Preferences"
@@ -87,52 +87,52 @@ msgstr ""
 
 #: UI/worddic.glade:455 UI/worddic.glade:515
 msgid "Regular Expression"
-msgstr ""
+msgstr "Expression regulière"
 
 #: UI/worddic.glade:187
 msgid "Remove"
-msgstr ""
+msgstr "Enlever"
 
 #: UI/worddic.glade:300
 msgid "Search"
-msgstr ""
+msgstr "Chercher"
 
 #: UI/worddic.glade:261
 msgid "Search for Hiragana on Katakana input"
-msgstr ""
+msgstr "Chercher des Hiragana au lieu de Katakana"
 
 #: UI/worddic.glade:245
 msgid "Search for Katakana on Hiragana input"
-msgstr ""
+msgstr "Chercher des Katakana au lieu d'Hiragana"
 
 #: UI/worddic.glade:68
 msgid "Search results font"
-msgstr ""
+msgstr "Police pour les resultats de la recherche"
 
 #: UI/worddic.glade:421
 msgid "Start With Expression"
-msgstr ""
+msgstr "Commence avec l'expression"
 
 #: UI/worddic.glade:277
 msgid "Verbs and adjectives deinflection"
-msgstr ""
+msgstr "Déinflexion de varbes ou d'adjectifs"
 
 #: UI/worddic.glade:493
 msgid "Whole Words"
-msgstr ""
+msgstr "Mot entier"
 
 #: UI/worddic.glade:366
 msgid "_Edit"
-msgstr ""
+msgstr "_Edition"
 
 #: UI/worddic.glade:342
 msgid "_File"
-msgstr ""
+msgstr "_Fichier"
 
 #: UI/worddic.glade:534
 msgid "_Help"
-msgstr ""
+msgstr "_Aide"
 
 #: UI/worddic.glade:389
 msgid "_Search"
-msgstr ""
+msgstr "_Recherche"
