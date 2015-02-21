@@ -6,7 +6,7 @@
 int main( int argc, char **argv )
 {
   // the system locale data base.
-  bindtextdomain("worddic", "/usr/share/locale");
+  bindtextdomain("worddic", "/usr/local/share/locale");
 
   // Set the current default message catalog to DOMAINNAME.
   textdomain("worddic");
