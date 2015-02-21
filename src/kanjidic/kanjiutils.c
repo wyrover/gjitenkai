@@ -167,7 +167,7 @@ GList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash) {
 }
 
 GList* get_kanji_by_key(gchar *srchkey, GList *list, GjitenDicfile *dicfile)  {
-  gint srch_resp, roff, rlen;
+  gint srch_resp = 0, roff = 0, rlen = 0;
   gchar repstr[1024];
   guint32 respos, oldrespos; 
   gint loopnum = 0;
