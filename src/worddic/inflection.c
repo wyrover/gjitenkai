@@ -8,8 +8,6 @@ void Verbinit() {
   int vinfl_size = 0;
   struct stat vinfl_stat;
   gchar *vinfl_start, *vinfl_ptr, *vinfl_end;
-  int error = FALSE;
-  int fd = 0;
   int vinfl_part = 1;
   int conj_type = 40;
   struct vinfl_struct *tmp_vinfl_struct;
@@ -20,26 +18,7 @@ void Verbinit() {
     return;
   }
 
-  if (stat(VINFL_FILENAME, &vinfl_stat) != 0) {
-    printf("**ERROR** %s: stat() \n", VINFL_FILENAME);
-    error = TRUE;
-  }
-  vinfl_size = vinfl_stat.st_size;
-  fd = open(VINFL_FILENAME, O_RDONLY);
-  if (fd == -1) {
-    printf("**ERROR** %s: open()\n", VINFL_FILENAME);
-    error = TRUE;
-  }
-  // printf("SIZE: %d\n", radkfile_size);
-  vinfl_start = (gchar *) mmap(NULL, vinfl_size, PROT_READ, MAP_SHARED, fd, 0);
-  if (vinfl_start == NULL) gjiten_abort_with_msg("mmap() failed for "VINFL_FILENAME"\n");
-
-  //  printf("STRLEN: %d\n", strlen(radkfile));
-
-  if (error == TRUE) {
-    puts("deinflection error");
-    return;
-  }
+  vinfl_start = read_file(VINFL_FILENAME);
 
   vinfl_end = vinfl_start + strlen(vinfl_start);
   vinfl_ptr = vinfl_start;

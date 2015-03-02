@@ -1,56 +1,36 @@
 #include "kanjiutils.h"
 
 GList* load_radkfile(GHashTable **pp_rad_info_hash, 
-                   GHashTable **pp_kanji_info_hash,
-                   GList      *rad_info_list) {
+                     GHashTable **pp_kanji_info_hash,
+                     GList      *rad_info_list) {
   int error = FALSE;
-  struct stat radk_stat;
   gint rad_cnt = 0;
-  gchar *radkfile_name = RADKFILE_NAME;
   gchar *radkfile_ptr;
   gchar *radkfile_end;
   RadInfo *rad_info = NULL;
   KanjiInfo *kanji_info;
 
   gchar *radkfile = NULL;
-  guint32 radkfile_size;
-  int radkfile_fd = -1;
 
   GHashTable *rad_info_hash   = *pp_rad_info_hash;
   GHashTable *kanji_info_hash = *pp_kanji_info_hash;
   //  GList      *rad_info_list   = *pp_rad_info_list;
 
-  //is the radkfile present ? 
-  if (stat(radkfile_name, &radk_stat) != 0) {
-    g_error("**ERROR** radkfile: stat() \n");
-    error = TRUE;
-  }
+  radkfile = read_file(RADKFILE_NAME);
 
-  //open radkfile and get the content
-  radkfile_size = radk_stat.st_size;
-  radkfile_fd = open(radkfile_name, O_RDONLY);
-  if (radkfile_fd == -1) {
-    g_error("**ERROR** radkfile: open()\n");
-    error = TRUE;
-  }
-  radkfile = (gchar *) mmap(NULL, radkfile_size, PROT_READ, MAP_SHARED, radkfile_fd, 0);
-  if (radkfile == NULL) gjiten_abort_with_msg("mmap() failed for radkfile\n");
-  if ( radkfile_fd != -1 ) {
-    close(radkfile_fd);
-  }
-  radkfile_fd = -1;
+  if (radkfile == NULL) gjiten_abort_with_msg("failed to read radkfile\n");
   
   if (error == TRUE) {
     gjiten_print_error("Error opening %s.\n "                           \
                        "Check your preferences or read the documentation!",
-                       radkfile_name);
+                       RADKFILE_NAME);
     return;
   }
 
   radkfile_end = radkfile + strlen(radkfile); //FIXME: lseek
   radkfile_ptr = radkfile;
     
-  //read the content of the file
+  //parse the content of the file
   while((radkfile_ptr < radkfile_end) && (radkfile_ptr != NULL)) {
 
     //if comment (first char on this line is #), skip this line
@@ -159,8 +139,8 @@ GList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash) {
        kanji_info_list != NULL;
        kanji_info_list = kanji_info_list->next) {
     radical_list = g_list_prepend(radical_list, 
-                                        (gpointer) ((RadInfo *) kanji_info_list->data)->radical
-                                        );
+                                  (gpointer) ((RadInfo *) kanji_info_list->data)->radical
+                                  );
   }
   
   return radical_list;

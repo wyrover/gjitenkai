@@ -11,6 +11,7 @@
 #include "dicfile.h"
 #include "error.h"
 
+gchar *read_file(gchar *filename);
 gchar *get_eof_line(gchar *ptr, gchar *end_ptr);
 void to_utf8(gunichar c, char* utf8_c);
 

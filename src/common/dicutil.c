@@ -1,5 +1,56 @@
 #include "dicutil.h"
 
+gchar *read_file(gchar *filename){
+
+  guint32 file_content_size;
+  gchar *file_content = NULL;
+
+#ifdef USE_MMAP
+  int file_content_fd = -1;
+
+  struct stat file_stat;
+
+  //is the file_content present ? 
+  //assume that since we are using MMAP other POSIX functions are available
+  if (stat(filename, &file_stat) != 0) {
+    g_error("**ERROR** file_content: stat() \n");
+  }
+
+  //open file_content and get the content
+  file_content_size = file_stat.st_size;
+  file_content_fd = open(filename, O_RDONLY);
+  if (file_content_fd == -1) {
+    g_error("**ERROR** file_content: open()\n");
+  }
+
+  file_content = (gchar *) mmap(NULL, file_content_size, PROT_READ, MAP_SHARED, file_content_fd, 0);
+#else
+  FILE * pFile;
+  size_t result;
+
+  pFile = fopen (filename, "rb" );
+  if (pFile==NULL) {fputs ("File error",stderr); exit (1);}
+
+  // obtain file size:
+  fseek (pFile , 0 , SEEK_END);
+  file_content_size = ftell (pFile);
+  rewind (pFile);
+
+  // allocate memory to contain the whole file:
+  file_content = (char*) malloc (sizeof(char)*file_content_size);
+  if (file_content == NULL) {fputs ("Memory error",stderr); exit (2);}
+
+  // copy the file into the file_content:
+  result = fread (file_content,1,file_content_size,pFile);
+  if (result != file_content_size) {fputs ("Reading error",stderr); exit (3);}
+
+  fclose (pFile);
+
+#endif
+
+  return file_content;
+}
+
 gchar *get_eof_line(gchar *ptr, gchar *end_ptr) {
   static gchar *tmpptr; //FIXME: this is called from kanjidic and worddic!!!
   tmpptr = ptr;
