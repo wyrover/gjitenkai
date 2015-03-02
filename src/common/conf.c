@@ -167,7 +167,12 @@ void conf_close_handler() {
 void dicutil_unload_dic() {
   if (conf.mmaped_dicfile != NULL) {
     //free mem of previously used dicfile	
+    #ifdef USE_MMAP
     munmap(conf.mmaped_dicfile->mem, conf.mmaped_dicfile->size);
+    #else
+    free(conf.mmaped_dicfile->mem);
+    #endif
+
     conf.mmaped_dicfile->mem = NULL;
     conf.mmaped_dicfile = NULL;
   }

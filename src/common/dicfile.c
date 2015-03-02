@@ -17,10 +17,10 @@ int dicfile_load(GjitenDicfile* dicfile){
 
   //if no mapped dictionary, load into memory from the dic's file descriptor
   if (conf.mmaped_dicfile == NULL) {
-    g_printf("mmap dicfile %s %s into memory\n", dicfile->name, dicfile->path);
+    g_printf("load dicfile %s %s into memory\n", dicfile->name, dicfile->path);
     conf.mmaped_dicfile = dicfile;
-    dicfile->mem = (gchar *) mmap(NULL, dicfile->size, PROT_READ, MAP_SHARED,
-				  dicfile->file, 0);
+    dicfile->mem = read_file(dicfile->path);
+
     if (dicfile->mem == NULL) gjiten_abort_with_msg("mmap() failed\n");
     conf.mmaped_dicfile = dicfile;
   }
