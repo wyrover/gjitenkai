@@ -1,3 +1,0 @@
-/home/odrevet/builds/gjitenkai/CMakeFiles/bin/kanjidic.dir
-/home/odrevet/builds/gjitenkai/CMakeFiles/bin/gjitenkai.dir
-/home/odrevet/builds/gjitenkai/CMakeFiles/bin/worddic.dir
