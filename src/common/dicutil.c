@@ -1,6 +1,6 @@
 #include "dicutil.h"
 
-gchar *read_file(gchar *filename){
+gchar *read_file(const gchar *filename){
 
   guint32 file_content_size;
   gchar *file_content = NULL;
@@ -13,15 +13,15 @@ gchar *read_file(gchar *filename){
   //is the file_content present ? 
   //assume that since we are using MMAP other POSIX functions are available
   if (stat(filename, &file_stat) != 0) {
-    g_error("**ERROR** file_content: stat() \n");
-  }
+  g_error("**ERROR** file_content: stat() \n");
+}
 
   //open file_content and get the content
   file_content_size = file_stat.st_size;
   file_content_fd = open(filename, O_RDONLY);
   if (file_content_fd == -1) {
-    g_error("**ERROR** file_content: open()\n");
-  }
+  g_error("**ERROR** file_content: open()\n");
+}
 
   file_content = (gchar *) mmap(NULL, file_content_size, PROT_READ, MAP_SHARED, file_content_fd, 0);
 #else
@@ -69,10 +69,10 @@ void to_utf8(gunichar c, char* utf8_c){
 
 // Compares strg1 with strg2.
 // If strg1 == strg3|strg2 then returns TRUE (End of strg1 matches strg2)
-int strg_end_compare(gchar *strg1, gchar *strg2) {
+int strg_end_compare(const gchar *strg1, const gchar *strg2) {
   int i = 0;
   int matching = TRUE;
-  gchar *strg1_end, *strg2_end;
+  const gchar *strg1_end, *strg2_end;
 
   if (strlen(strg1) < strlen(strg2)) return FALSE;
 
@@ -88,24 +88,24 @@ int strg_end_compare(gchar *strg1, gchar *strg2) {
   return matching;
 }
 
-gboolean is_kanji_only(gchar *line) {
-  gchar *currentchar;
-	gchar *line_end;
+gboolean is_kanji_only(const gchar *line) {
+  const gchar *currentchar = line;
+  const gchar *line_end;
 
   currentchar = line;
-	line_end = line + strlen(line);
+  line_end = line + strlen(line);
 
   while (g_unichar_isspace(*currentchar) == FALSE) { // find first space
     if (currentchar == line_end) break;
-		if (isKanjiChar(g_utf8_get_char(currentchar)) == FALSE) return FALSE;
-		currentchar = g_utf8_next_char(currentchar);
+    if (isKanjiChar(g_utf8_get_char(currentchar)) == FALSE) return FALSE;
+    currentchar = g_utf8_next_char(currentchar);
   }
 
-	return TRUE;
+  return TRUE;
 }
 
 //Finds out if the result is EXACT_MATCH, START_WITH_MATCH, END_WITH_MATCH, ANY_MATCH
-int get_jp_match_type(gchar *line, gchar *srchstrg, int offset) {
+int get_jp_match_type(gchar *line, const gchar *srchstrg, int offset) {
   int srchstrglen;
 
   srchstrglen = strlen(srchstrg);
@@ -116,13 +116,13 @@ int get_jp_match_type(gchar *line, gchar *srchstrg, int offset) {
   else { //Check for Furigana
     if (g_unichar_isalpha(g_utf8_get_char(g_utf8_prev_char(line + offset))) == FALSE) {
       if (g_unichar_isalpha(g_utf8_get_char(line + offset + srchstrglen)) == FALSE) {
-				return EXACT_MATCH;
+        return EXACT_MATCH;
       }
       else return START_WITH_MATCH;
     }
     else { // has an alpha char before
       if (g_unichar_isalpha(g_utf8_get_char(line + offset + srchstrglen)) == FALSE)
-				return END_WITH_MATCH;
+        return END_WITH_MATCH;
     }
   }
   if ((*(line + offset + srchstrglen)) == ' ') return END_WITH_MATCH;
@@ -138,45 +138,45 @@ int get_word(char *dest, char *src, int size, int pos) {
   
   j = 0;
   if (src[k] == '{') {
-	  while ((src[k] != '}') && (j < size))  {
-		  dest[j] = src[k];
-		  j++;
-		  k++;
-	  }
+    while ((src[k] != '}') && (j < size))  {
+      dest[j] = src[k];
+      j++;
+      k++;
+    }
   }
   else while ((src[k] != ' ') && (j < size)) {
-			dest[j] = src[k];
-			j++;
-			k++;
-		}
-	if (j == size) dest[size - 1] = 0;
-	else dest[j] = 0;
+      dest[j] = src[k];
+      j++;
+      k++;
+    }
+  if (j == size) dest[size - 1] = 0;
+  else dest[j] = 0;
 
   return k;
 }
 
 
-gboolean isJPChar(gunichar c) {
+gboolean isJPChar(const gunichar c) {
   if (isKanaChar(c) == TRUE) return TRUE;
   if (isKanjiChar(c) == TRUE) return TRUE;
   if (isOtherChar(c) == TRUE) return TRUE;
   return FALSE;
 }
-gboolean isKanaChar(gunichar c) {
+gboolean isKanaChar(const gunichar c) {
   if (isKatakanaChar(c) == TRUE) return TRUE;
   if (isHiraganaChar(c) == TRUE) return TRUE;
   return FALSE;
 }
-gboolean isKatakanaChar(gunichar c) {
+gboolean isKatakanaChar(const gunichar c) {
   if ((c >= 0x30A0) && (c <= 0x30FF)) return TRUE; // Full and half Katakana
   if ((c >= 0xFF65) && (c <= 0xFF9F)) return TRUE; // Narrow Katakana
   return FALSE;
 }
-gboolean isHiraganaChar(gunichar c) {
+gboolean isHiraganaChar(const gunichar c) {
   if ((c >= 0x3040) && (c <= 0x309F)) return TRUE; // Hiragana
   return FALSE;
 }
-gboolean isKanjiChar(gunichar c) {
+gboolean isKanjiChar(const gunichar c) {
   if ((c >= 0x3300) && (c <= 0x33FF)) return TRUE; //cjk compatibility
   if ((c >= 0x3400) && (c <= 0x4DBF)) return TRUE; //cjk ext A
   if ((c >= 0x4E00) && (c <= 0x9FAF)) return TRUE; // cjk unified
@@ -184,7 +184,7 @@ gboolean isKanjiChar(gunichar c) {
   if ((c >= 0x2F800) && (c <= 0x2FA1F)) return TRUE;  //cjk supplement
   return FALSE;
 }
-gboolean isOtherChar(gunichar c) {
+gboolean isOtherChar(const gunichar c) {
   if ((c >= 0x2E80) && (c <= 0x2EFF)) return TRUE;  //cjk radical
   if ((c >= 0x2F00) && (c <= 0x2FDF)) return TRUE;  //cjk kangxi radicals
   if ((c >= 0x2FF0) && (c <= 0x2FFF)) return TRUE;  //ideographic
@@ -197,13 +197,12 @@ gboolean isOtherChar(gunichar c) {
 }
 
 /* Convert Hiragana -> Katakana.*/
-gchar *hira2kata(gchar *hirastr) {
-  gchar *hiraptr;
+gchar *hira2kata(const gchar *hirastr) {
+  const gchar *hiraptr = hirastr;
   gchar *kata = g_new0(gchar, strlen(hirastr) + 6);
   gchar *kataptr = kata;
   int length;
 
-  hiraptr = hirastr;
   while (*hiraptr != 0) {
     if (isHiraganaChar(g_utf8_get_char(hiraptr)) == TRUE) {
       g_unichar_to_utf8(g_utf8_get_char(hiraptr) + 96, kataptr);
@@ -221,13 +220,12 @@ gchar *hira2kata(gchar *hirastr) {
 }
 
 /* Convert Katakana to Hiragana*/
-gchar *kata2hira(gchar *katastr) {
-  gchar *kataptr;
+gchar *kata2hira(const gchar *katastr) {
+  const gchar *kataptr = katastr;
   gchar *hira = g_new0(gchar, strlen(katastr) + 6);
   gchar *hiraptr = hira;
   int length;
 
-  kataptr = katastr;
   while (*kataptr != 0) {
     if (isKatakanaChar(g_utf8_get_char(kataptr)) == TRUE) {
       g_unichar_to_utf8(g_utf8_get_char(kataptr) - 96, hiraptr);
@@ -244,31 +242,28 @@ gchar *kata2hira(gchar *katastr) {
   return hira;
 }
 
-gboolean isHiraganaString(gchar *strg) {
-  gchar *hiraptr;
+gboolean isHiraganaString(const gchar *strg) {
+  const gchar *hiraptr = strg;
 
-	hiraptr = strg;
   while (*hiraptr != 0) {
     if (isHiraganaChar(g_utf8_get_char(hiraptr)) == FALSE) return FALSE;
-		hiraptr = g_utf8_next_char(hiraptr);
-	}
-	return TRUE;
+    hiraptr = g_utf8_next_char(hiraptr);
+  }
+  return TRUE;
 }
 
-gboolean isKatakanaString(gchar *strg) {
-  gchar *kataptr;
+gboolean isKatakanaString(const gchar *strg) {
+  const gchar *kataptr = strg;
 
-	kataptr = strg;
   while (*kataptr != 0) {
     if (isKatakanaChar(g_utf8_get_char(kataptr)) == FALSE) return FALSE;
-		kataptr = g_utf8_next_char(kataptr);
-	}
-	return TRUE;
+    kataptr = g_utf8_next_char(kataptr);
+  }
+  return TRUE;
 }
 
-gboolean detect_japanese(gchar *srchstrg){
-  gchar *currchar;
-  currchar = srchstrg;
+gboolean detect_japanese(const gchar *srchstrg){
+  const gchar *currchar = srchstrg;
   do { 
     //FIXME: this doesn't detect all Japanese
     if (g_unichar_iswide(g_utf8_get_char(currchar)) == TRUE) {

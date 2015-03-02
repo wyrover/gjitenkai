@@ -31,10 +31,10 @@ int main( int argc, char **argv )
   GtkWidget *box_toplevel_prefs = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions, 
                                                                      "box_toplevel_prefs");
   //preference pack
-  gtk_box_pack_start(dialog_vbox_prefs, box_toplevel_prefs, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(dialog_vbox_prefs), box_toplevel_prefs, TRUE, TRUE, 0);
 
   //add the kanjidic box in the topbox
-  gtk_box_pack_start(box_top, box_kanjidic, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(box_top), box_kanjidic, TRUE, TRUE, 0);
 
   gtk_window_set_default_size(GTK_WINDOW(window), 440, 500);
   gtk_widget_show_all ((GtkWidget*)window);

@@ -11,26 +11,26 @@
 #include "dicfile.h"
 #include "error.h"
 
-gchar *read_file(gchar *filename);
+gchar *read_file(const gchar *filename);
 gchar *get_eof_line(gchar *ptr, gchar *end_ptr);
 void to_utf8(gunichar c, char* utf8_c);
 
-gchar *hira2kata(gchar *hirastr);
-gchar *kata2hira(gchar *hirastr);
-gchar *full2half(gchar *instr);
-gboolean isKanaChar(gunichar c);
-gboolean isKatakanaChar(gunichar c);
-gboolean isHiraganaChar(gunichar c);
-gboolean isKanjiChar(gunichar c);
-gboolean isJPChar(gunichar c);
-gboolean isOtherChar(gunichar c);
+gchar *hira2kata(const gchar *hirastr);
+gchar *kata2hira(const gchar *hirastr);
+gchar *full2half(const gchar *instr);
+gboolean isKanaChar(const gunichar c);
+gboolean isKatakanaChar(const gunichar c);
+gboolean isHiraganaChar(const gunichar c);
+gboolean isKanjiChar(const gunichar c);
+gboolean isJPChar(const gunichar c);
+gboolean isOtherChar(const gunichar c);
 
 /*0 if no more words in src, else new pos*/
 int get_word(char *dest, char *src, int size, int pos);
-int strg_end_compare(gchar *strg1, gchar *strg2);
-int get_jp_match_type(gchar *line, gchar *srchstrg, int offset);
-gboolean is_kanji_only(gchar *line);
-gboolean isHiraganaString(gchar *strg);
-gboolean isKatakanaString(gchar *strg);
-gboolean detect_japanese(gchar *srchstrg);
+int strg_end_compare(const gchar *strg1, const gchar *strg2);
+int get_jp_match_type(gchar *line, const gchar *srchstrg, int offset);
+gboolean is_kanji_only(const gchar *line);
+gboolean isHiraganaString(const gchar *strg);
+gboolean isKatakanaString(const gchar *strg);
+gboolean detect_japanese(const gchar *srchstrg);
 #endif

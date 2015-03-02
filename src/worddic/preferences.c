@@ -21,7 +21,7 @@ gboolean on_button_dictionary_remove_clicked(GtkWidget *widget, worddic *worddic
   conf_save(worddic->conf);
 
   //remove the row
-  gtk_container_remove(listbox_dic, row);
+  gtk_container_remove(GTK_CONTAINER(listbox_dic), GTK_WIDGET(row));
 
 }
 
@@ -37,37 +37,37 @@ gboolean on_button_dictionary_edit_clicked(GtkWidget *widget, worddic *worddic) 
   GjitenDicfile *dic = selected_element->data;
 
   //init the edit dic dialog with the selected dic name and path
-  GtkDialog *dialog_dic_edit = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
+  GtkDialog *dialog_dic_edit = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                         "dialog_dic_edit");
 
-  GtkEntry* entry_edit_dic_name = gtk_builder_get_object(worddic->definitions, 
+  GtkEntry* entry_edit_dic_name = (GtkEntry*)gtk_builder_get_object(worddic->definitions, 
 								  "entry_edit_dic_name");
   GtkFileChooserButton *fcb_edit_dic_path = NULL;
-  fcb_edit_dic_path = gtk_builder_get_object(worddic->definitions, 
-					     "filechooserbutton_edit_dic_path");
+  fcb_edit_dic_path = (GtkFileChooserButton *)gtk_builder_get_object(worddic->definitions, 
+                                                                     "filechooserbutton_edit_dic_path");
 
   gtk_entry_set_text(entry_edit_dic_name, dic->name);
-  gtk_file_chooser_select_filename(fcb_edit_dic_path, dic->path);
+  gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(fcb_edit_dic_path), dic->path);
   
-  gtk_widget_show (dialog_dic_edit);
+  gtk_widget_show (GTK_WIDGET(dialog_dic_edit));
 }
 
 void display_dic_in_listbox(GtkListBox *listbox_dic, GjitenDicfile *dicfile, gint position){
-  GtkBox *box_dic = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_widget_set_halign(box_dic, GTK_ALIGN_START);
+  GtkBox *box_dic = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_set_halign(GTK_WIDGET(box_dic), GTK_ALIGN_START);
   
   //name of the dictionary
-  GtkLabel *lab_dicname = gtk_label_new(dicfile->name);
-  gtk_box_pack_start(box_dic, lab_dicname, FALSE, FALSE, 10);
+  GtkLabel *lab_dicname = (GtkLabel*)gtk_label_new(dicfile->name);
+  gtk_box_pack_start(box_dic, GTK_WIDGET(lab_dicname), FALSE, FALSE, 10);
     
   //path of the dictionary
-  GtkLabel *lab_dicpath = gtk_label_new(dicfile->path);
-  gtk_box_pack_start(box_dic, lab_dicpath, TRUE, TRUE, 0);
+  GtkLabel *lab_dicpath = (GtkLabel*)gtk_label_new(dicfile->path);
+  gtk_box_pack_start(box_dic, GTK_WIDGET(lab_dicpath), TRUE, TRUE, 0);
 
   //insert the listbox in the list
-  gtk_list_box_insert (listbox_dic, box_dic, position);
+  gtk_list_box_insert (listbox_dic, GTK_WIDGET(box_dic), position);
 
-  gtk_widget_show_all (box_dic);
+  gtk_widget_show_all (GTK_WIDGET(box_dic));
 }
 
 gboolean on_button_dictionary_add_clicked(GtkWidget *widget, worddic *worddic) {
@@ -77,30 +77,29 @@ gboolean on_button_dictionary_add_clicked(GtkWidget *widget, worddic *worddic) {
                                                                 "listbox_dic");
 
   //set edit dialog widgets to blank
-  GtkDialog *dialog_dic_edit = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
+  GtkDialog* dialog_dic_edit = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                         "dialog_dic_edit");
 
-  GtkEntry* entry_edit_dic_name = gtk_builder_get_object(worddic->definitions, 
+  GtkEntry* entry_edit_dic_name = (GtkEntry*)gtk_builder_get_object(worddic->definitions, 
 								  "entry_edit_dic_name");
-  GtkFileChooserButton *fcb_edit_dic_path = NULL;
-  fcb_edit_dic_path = gtk_builder_get_object(worddic->definitions, 
-					     "filechooserbutton_edit_dic_path");
+  GtkFileChooserButton* fcb_edit_dic_path = NULL;
+  fcb_edit_dic_path = (GtkFileChooserButton*)gtk_builder_get_object(worddic->definitions, 
+                                                                    "filechooserbutton_edit_dic_path");
 
   gtk_entry_set_text(entry_edit_dic_name, "");
-  gtk_file_chooser_select_filename(fcb_edit_dic_path, "");
+  gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(fcb_edit_dic_path), "");
   
-  gtk_widget_show (dialog_dic_edit);
+  gtk_widget_show (GTK_WIDGET(dialog_dic_edit));
 }
 
 gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddic *worddic) {
-  GtkDialog *dialog_dic_edit = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
-                                                        "dialog_dic_edit");
-  GtkEntry* entry_edit_dic_name = gtk_builder_get_object(worddic->definitions, 
-								  "entry_edit_dic_name");
-  GtkFileChooserButton *fcb_edit_dic_path = NULL;
-  fcb_edit_dic_path = gtk_builder_get_object(worddic->definitions, 
-					     "filechooserbutton_edit_dic_path");
-
+  GtkDialog *dialog_dic_edit = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
+                                                                  "dialog_dic_edit");
+  GtkEntry* entry_edit_dic_name = (GtkEntry*)gtk_builder_get_object(worddic->definitions, 
+                                                                    "entry_edit_dic_name");
+  GtkFileChooserButton* fcb_edit_dic_path = NULL;
+  fcb_edit_dic_path = (GtkFileChooserButton*)gtk_builder_get_object(worddic->definitions, 
+                                                                    "filechooserbutton_edit_dic_path");
   
   //update or add a dictionary
   if(is_update){
@@ -115,17 +114,17 @@ gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddic *worddic) {
 
     //set the new name and path
     dicfile->name = strdup(gtk_entry_get_text(entry_edit_dic_name));
-    dicfile->path = gtk_file_chooser_get_filename(fcb_edit_dic_path);
+    dicfile->path = gtk_file_chooser_get_filename((GtkFileChooser*) fcb_edit_dic_path);
 
     //replace the current row with a new one
-    gtk_container_remove(listbox_dic, row);
+    gtk_container_remove(GTK_CONTAINER(listbox_dic), GTK_WIDGET(row));
     display_dic_in_listbox(listbox_dic, dicfile, index);
   }
   else{
     //add a new dictionary in the conf
     GjitenDicfile *dicfile = g_new0(GjitenDicfile, 1);
     dicfile->name = gtk_entry_get_text(entry_edit_dic_name);
-    dicfile->path = gtk_file_chooser_get_filename(fcb_edit_dic_path);
+    dicfile->path = gtk_file_chooser_get_filename((GtkFileChooser*)fcb_edit_dic_path);
     worddic->conf->dicfile_list = g_slist_append(worddic->conf->dicfile_list, dicfile);
 
     GtkListBox *listbox_dic = (GtkListBox*)gtk_builder_get_object(worddic->definitions, 
@@ -134,11 +133,11 @@ gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddic *worddic) {
     display_dic_in_listbox(listbox_dic, dicfile, -1);
   }
 
-  GtkDialog *prefs = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
+  GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                                "prefs");
   conf_save(worddic->conf);
   
-  gtk_widget_hide (dialog_dic_edit);
+  gtk_widget_hide (GTK_WIDGET(dialog_dic_edit));
 }
 
 void init_prefs_window(worddic *worddic){
@@ -171,16 +170,16 @@ void init_prefs_window(worddic *worddic){
 
   ////Search tab 
   GtkToggleButton *check_button;
-  check_button = gtk_builder_get_object(worddic->definitions, 
-					"checkbutton_verbadj_deinflection");
+  check_button = (GtkToggleButton*)gtk_builder_get_object(worddic->definitions, 
+                                                          "checkbutton_verbadj_deinflection");
   gtk_toggle_button_set_active(check_button, worddic->conf->verb_deinflection);
 
-  check_button = gtk_builder_get_object(worddic->definitions, 
-					"checkbutton_search_hiragana_on_katakana");
+  check_button = (GtkToggleButton*)gtk_builder_get_object(worddic->definitions, 
+                                                          "checkbutton_search_hiragana_on_katakana");
   gtk_toggle_button_set_active(check_button, worddic->conf->search_hira_on_kata);
 
-  check_button = gtk_builder_get_object(worddic->definitions, 
-					"checkbutton_search_katakana_on_hiragana");
+  check_button = (GtkToggleButton*)gtk_builder_get_object(worddic->definitions, 
+                                                          "checkbutton_search_katakana_on_hiragana");
 
   gtk_toggle_button_set_active(check_button, worddic->conf->search_kata_on_hira);
 }
@@ -188,15 +187,15 @@ void init_prefs_window(worddic *worddic){
 
 void on_fontbutton_results_font_set(GtkFontButton *font_button, 
                                     worddic *worddic){
-  gchar *font_name= gtk_font_button_get_font_name (font_button);
+  const gchar *font_name= gtk_font_button_get_font_name (font_button);
   PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
 
   //get the textview
   GtkTextView *textview_search_results = 
-    (GtkTextBuffer*)gtk_builder_get_object(worddic->definitions, "search_results");
+    (GtkTextView*)gtk_builder_get_object(worddic->definitions, "search_results");
 
   //apply the newly selected font to the results textview
-  gtk_widget_modify_font(textview_search_results, font_desc);
+  gtk_widget_override_font(GTK_WIDGET(textview_search_results), font_desc);
 
   conf_save(worddic->conf);
 }
@@ -236,8 +235,8 @@ void on_checkbutton_verbadj_deinflection_toggled(GtkCheckButton* check_button,
 }
 
 gboolean on_button_OK_clicked(GtkWidget *widget, worddic *worddic) {
-  GtkDialog *prefs = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
+  GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                         "prefs");
-  gtk_widget_hide (prefs);
+  gtk_widget_hide (GTK_WIDGET(prefs));
 }
 

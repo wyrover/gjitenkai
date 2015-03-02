@@ -192,8 +192,8 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
 //Edit
 ///Preferences
 void on_menuitem_prefs_activate(GtkMenuItem *menuitem, worddic *worddic){
-  GtkDialog *prefs = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
-                                                               "prefs");
+  GtkDialog *prefs = GTK_DIALOG(gtk_builder_get_object(worddic->definitions, 
+                                                       "prefs"));
   //set size and display the preference window
   gtk_window_set_default_size(GTK_WINDOW(prefs), 320, 220);
   gtk_widget_show_all ((GtkWidget*)prefs);
@@ -254,6 +254,6 @@ void on_menuitem_help_about_activate (GtkMenuItem *menuitem,
                                       worddic *worddic){
   GtkWindow *window_about = (GtkWindow*)gtk_builder_get_object(worddic->definitions,
                                                                "aboutdialog");
-  gtk_dialog_run(window_about);
-  gtk_widget_hide (window_about); 
+  gtk_dialog_run(GTK_DIALOG(window_about));
+  gtk_widget_hide (GTK_WIDGET(window_about)); 
 }

@@ -5,7 +5,7 @@
 #include "../common/constants.h"
 
 typedef struct kanji_item{
-  gchar *name;
+  const gchar *name;
   gchar *gsettings_name;
   gshort position;
   gboolean active;

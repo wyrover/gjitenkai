@@ -77,7 +77,7 @@ void Verbinit() {
   verbinit_done = TRUE;
 }
 
-GList* search_verb_inflections(GjitenDicfile *dicfile, gchar *srchstrg, GList **match) {
+GList* search_verb_inflections(GjitenDicfile *dicfile, const gchar *srchstrg, GList **match) {
   GList *results = NULL;      //list of inflections
   int srchresp, roff, rlen;
   guint32 oldrespos, respos;
@@ -134,7 +134,7 @@ GList* search_verb_inflections(GjitenDicfile *dicfile, gchar *srchstrg, GList **
 
         if (printit == TRUE) {
           
-          gchar *str_inflection = g_new(gchar*, 2048);
+          gchar *str_inflection = (gchar*)g_new(gchar*, 2048);
           sprintf(str_inflection, 
                   "possible inflected verb of adjective: %s %s -> %s\n%s", 
 		  tmp_vinfl_struct->type, 

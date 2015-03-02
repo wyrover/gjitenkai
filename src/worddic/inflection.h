@@ -36,6 +36,6 @@ guint32 srchpos;
 
 void Verbinit();
 
-GList* search_verb_inflections(GjitenDicfile *dicfile, gchar *srchstrg, GList **match);
+GList* search_verb_inflections(GjitenDicfile *dicfile, const gchar *srchstrg, GList **match);
 
 #endif

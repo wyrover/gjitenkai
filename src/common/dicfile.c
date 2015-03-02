@@ -2,7 +2,7 @@
 
 extern GjitenConfig conf;
 
-void dicfile_load(GjitenDicfile* dicfile){
+int dicfile_load(GjitenDicfile* dicfile){
   //if the dictionary is not initialized, init: open a file descriptor
   if (dicfile->status == DICFILE_NOT_INITIALIZED) {
     if (dicfile_init(dicfile) == FALSE) return SRCH_FAIL; 
@@ -121,7 +121,7 @@ void dicfile_list_free(GSList *dicfile_list) {
 }
 
 GList *dicfile_search_regex(GjitenDicfile *dicfile,
-			    gchar *srchstrg_regex,
+			    const gchar *srchstrg_regex,
 			    GList **matched_part){
   GList *results = NULL;      //list of matched dictonnary entries text
 
@@ -137,7 +137,7 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile,
   GRegex * regex = g_regex_new (srchstrg_regex,
 				G_REGEX_OPTIMIZE,
 				0,
-				error);
+				&error);
   gboolean end_of_mem = FALSE;
   gchar *line = NULL;
 
@@ -150,7 +150,7 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile,
     while (*lineend != '\n') {
 
       //multibyte character or single byte character 
-      if (g_unichar_iswide(lineend))lineend = g_utf8_next_char(lineend);
+      if (g_unichar_iswide((gunichar)lineend))lineend = (gchar*)g_utf8_next_char(lineend);
       else lineend++;
       
       if (lineend >= dicfile->mem + dicfile->size) {
@@ -166,11 +166,9 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile,
     memmove(line, linestart, linesize);
     line[linesize] = '\0';
     
-    //g_printf("%p %p size:%d \n%s\n", lineend, linestart, linesize, line);
-    
     //search match of the regex in the current line
     match = g_regex_match_full (regex, line, string_len,
-    				start_position, 0, &match_info, error);
+    				start_position, 0, &match_info, &error);
 
     //if there is a match, copy the line into the result list
     if(match){
@@ -188,7 +186,7 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile,
   return results;
 }
 
-GList *dicfile_search(GjitenDicfile *dicfile, gchar *srchstrg, 
+GList *dicfile_search(GjitenDicfile *dicfile, const gchar *srchstrg, 
                       gint match_criteria_jp, gint match_criteria_lat, 
                       gint match_type)
 {
@@ -216,7 +214,7 @@ GList *dicfile_search(GjitenDicfile *dicfile, gchar *srchstrg,
   
   //search loop
   do {
-    gchar *repstr = g_new(gchar*, 1024);
+    gchar *repstr = (gchar*)g_new(gchar*, 1024);
     oldrespos = respos;
 
     
@@ -299,7 +297,7 @@ GList *dicfile_search(GjitenDicfile *dicfile, gchar *srchstrg,
   return results;
 }
 
-gint search_string(gint srchtype, GjitenDicfile *dicfile, gchar *srchstrg,
+gint search_string(gint srchtype, GjitenDicfile *dicfile, const gchar *srchstrg,
                    guint32 *res_index, gint *hit_pos, gint *res_len, gchar *res_str){
   gint search_result;
   gchar *linestart, *lineend; 

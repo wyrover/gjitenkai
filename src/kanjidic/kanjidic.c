@@ -34,8 +34,8 @@ void kanjidic_init (kanjidic *kanjidic)
 					  kanjidic->rad_info_list);
 
   //init the kanji display style
-  GtkTextBuffer *textbuffer_kanji_display = gtk_builder_get_object(kanjidic->definitions, 
-                                                                   "textbuffer_kanji_display");
+  GtkTextBuffer *textbuffer_kanji_display = (GtkTextBuffer*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                                   "textbuffer_kanji_display");
   kanjidic->texttag_kanji = gtk_text_buffer_create_tag (textbuffer_kanji_display,
                                                         "kanji_tag",
                                                         "foreground-rgba",
@@ -56,15 +56,20 @@ void kanjidic_init (kanjidic *kanjidic)
   set_ui_key_filter_sensitivity(kanjidic->filter_by_key, kanjidic);
 
   //check/uncheck checkbutton with default values
-  GtkButton *checkbutton_filter_radicals = gtk_builder_get_object(kanjidic->definitions, 
-                                                                  "checkbutton_filter_radicals");
-  gtk_toggle_button_set_active(checkbutton_filter_radicals, kanjidic->filter_by_radical);
-  GtkButton *checkbutton_filter_strokes = gtk_builder_get_object(kanjidic->definitions, 
-                                                                  "checkbutton_filter_strokes");
-  gtk_toggle_button_set_active(checkbutton_filter_strokes, kanjidic->filter_by_stroke);
+  GtkButton *checkbutton_filter_radicals = (GtkButton*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                              "checkbutton_filter_radicals");
+  gtk_toggle_button_set_active(checkbutton_filter_radicals,
+                               kanjidic->filter_by_radical);
+  
+  GtkButton *checkbutton_filter_strokes = (GtkButton*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                             "checkbutton_filter_strokes");
+  gtk_toggle_button_set_active(checkbutton_filter_strokes, 
+                               kanjidic->filter_by_stroke);
+
   GtkButton *checkbutton_filter_key = gtk_builder_get_object(kanjidic->definitions, 
-                                                                  "checkbutton_filter_key");
-  gtk_toggle_button_set_active(checkbutton_filter_key, kanjidic->filter_by_key);
+                                                             "checkbutton_filter_key");
+  gtk_toggle_button_set_active(checkbutton_filter_key, 
+                               kanjidic->filter_by_key);
 
   //init the radical window with the radical buttons
   radical_list_init(kanjidic);

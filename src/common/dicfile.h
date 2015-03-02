@@ -36,7 +36,7 @@
 
 struct _GjitenDicfile {
   gchar *path;
-  gchar *name;
+  const gchar *name;
   gchar *mem;
   int file;
   gint status;
@@ -52,7 +52,7 @@ enum {
   DICFILE_OK
   };
 
-void dicfile_load(GjitenDicfile* dicfile);
+int dicfile_load(GjitenDicfile* dicfile);
 gboolean dicfile_is_utf8(GjitenDicfile *dicfile);
 gboolean dicfile_init(GjitenDicfile *dicfile);
 void dicfile_close(GjitenDicfile *dicfile);
@@ -60,14 +60,14 @@ void dicfile_list_free(GSList *dicfile_list);
 gboolean dicfile_check_all(GSList *dicfile_list);
 
 GList *dicfile_search_regex(GjitenDicfile *dicfile,
-			    gchar *srchstrg_regex,
+			    const gchar *srchstrg_regex,
 			    GList **matched_part);
 
-GList *dicfile_search(GjitenDicfile *dicfile, gchar *srchstrg, 
+GList *dicfile_search(GjitenDicfile *dicfile, const gchar *srchstrg, 
                         gint match_criteria_jp, gint match_criteria_lat, 
                         gint match_type);
 
-gint search_string(gint srchtype, GjitenDicfile *dicfile, gchar *srchstrg,
+gint search_string(gint srchtype, GjitenDicfile *dicfile, const gchar *srchstrg,
                      guint32 *res_index, gint *hit_pos, gint *res_len, gchar *res_str);
 
 #endif

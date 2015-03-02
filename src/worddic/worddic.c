@@ -46,7 +46,7 @@ void worddic_init (worddic *worddic)
 
 void highlight_result(GtkTextBuffer *textbuffer_search_results,
 		      GtkTextTag *highlight,
-		      gchar *text_to_highlight){
+		      const gchar *text_to_highlight){
   gboolean has_iter;
   GtkTextIter iter, match_start, match_end;
   gtk_text_buffer_get_start_iter (textbuffer_search_results, &iter);

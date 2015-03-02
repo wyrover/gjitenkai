@@ -28,7 +28,7 @@ int main( int argc, char **argv )
   GtkWidget *box_worddic = (GtkWidget*)gtk_builder_get_object(worddic.definitions, 
                                                               "box_toplevel");
   
-  gtk_box_pack_start(box_top, box_worddic, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(box_top), box_worddic, TRUE, TRUE, 0);
 
   gtk_window_set_default_size(GTK_WINDOW(window), 640, 320);
 
@@ -40,7 +40,7 @@ int main( int argc, char **argv )
   //preferences box at toplevel
   GtkWidget *box_toplevel_prefs = (GtkWidget*)gtk_builder_get_object(worddic.definitions, 
                                                                      "box_toplevel_prefs");
-  gtk_box_pack_start(dialog_vbox_prefs, box_toplevel_prefs, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(dialog_vbox_prefs), box_toplevel_prefs, TRUE, TRUE, 0);
 
 
   //show the main window
