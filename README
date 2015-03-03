@@ -31,6 +31,25 @@ $make
 --install dictionnaries, settings and binaries
 #make install
 
+== Under Windows with MinGW/MSYS ==
+
+Install MSYS/MinGW and CMake for Windows
+Install GTK for Windows http://www.gtk.org/download/win32.php
+
+--generate Makefile and config.h
+$cmake -G "MSYS Makefiles" . 
+--generate binaries worrdic, kanidic and gjitenkai
+$make
+--install dictionnaries, settings and binaries
+$make install
+
+... will produce the commands equivalent to: 
+$ gcc `pkg-config gtk+-3.0 --cflags` ./src/kanjidic/* ./src/common/* -o bin/kanjidic `pkg-config gtk+-3.0 --libs`
+$ gcc `pkg-config gtk+-3.0 --cflags` ./src/worddic/* ./src/common/* -o bin/worddic `pkg-config gtk+-3.0 --libs`
+$ gcc `pkg-config gtk+-3.0 --cflags` ./src/kanjidic/* ./src/worddic/* ./src/common/* -o bin/gjitenkai `pkg-config gtk+-3.0 --libs`
+
+To use the exe you'll also need Japanese font and a Japanse input system. 
+
 = Credits =
 * Original Gjiten developer (1999 - 2005) Botond Botyanszki
 * Gjiten kai developer (2015 - ...) Olivier Drevet
