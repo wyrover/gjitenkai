@@ -22,8 +22,8 @@ int main( int argc, char **argv )
                                                                "box_toplevel");
 
   //create the paned widget and the notbook
-  gjitenkai.paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
-  gjitenkai.notebook = gtk_notebook_new();
+  gjitenkai.paned = (GtkPaned*)gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+  gjitenkai.notebook = (GtkNotebook*)gtk_notebook_new();
 
   //by default, use the paned widget
   gtk_paned_pack1(gjitenkai.paned, box_worddic, TRUE, FALSE);
@@ -45,7 +45,7 @@ int main( int argc, char **argv )
   GtkWindow *box_top = (GtkWindow*)gtk_builder_get_object(gjitenkai.definitions, 
                                                           "box_top");
 
-  gtk_box_pack_start(box_top, gjitenkai.paned, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(box_top), GTK_WIDGET(gjitenkai.paned), TRUE, TRUE, 0);
   
   //Construct the pref dialog
   //pref content box at toplevel for worddic and kanjidic
@@ -57,11 +57,11 @@ int main( int argc, char **argv )
   //applications notebook
   GtkWidget *notebook_apps = (GtkWidget*)gtk_builder_get_object(gjitenkai.definitions, 
                                                                 "notebook_apps");
-  gtk_notebook_append_page_menu (notebook_apps,
+  gtk_notebook_append_page_menu (GTK_NOTEBOOK(notebook_apps),
                                  worddic_box_toplevel_prefs,
                                  gtk_label_new("Worddic"),
                                  NULL);  
-  gtk_notebook_append_page_menu (notebook_apps,
+  gtk_notebook_append_page_menu (GTK_NOTEBOOK(notebook_apps),
                                  kanjidic_box_toplevel_prefs,
                                  gtk_label_new("Kanjidic"),
                                  NULL);  

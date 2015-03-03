@@ -2,9 +2,6 @@
 #define KANJIUTILS_H
 
 #include <gtk/gtk.h>
-#include <sys/types.h>
-#include <sys/mman.h>
-#include <err.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,7 +61,7 @@ GList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash);
    Search in the dictionary the kanji that matches a key
    (see keys from kanjidic file)
  */
-GList* get_kanji_by_key(gchar *srchkey, GList *list, GjitenDicfile *dicfile);
+GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfile);
 
 /**
    Search the kanji with a certain amount of strokes +/- plusmin
@@ -76,7 +73,7 @@ GList* get_kanji_by_stroke(int stroke, int plusmin, GList *list, GjitenDicfile *
 /**
    get kanji from radicals by looking into the rad_info_hash 
  */
-GList* get_kanji_by_radical(gchar *radstrg, GHashTable *rad_info_hash);
+GList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash);
 
 /**
    Merge two list of kanji. 

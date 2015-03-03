@@ -41,7 +41,10 @@ void radical_list_init(kanjidic *kanjidic){
 
     //add the button
     GtkButton *button_radical = (GtkButton*)gtk_button_new_with_label(radical);
-    g_signal_connect(button_radical, "clicked", on_radical_button_clicked, kanjidic);
+    g_signal_connect(button_radical, 
+                     "clicked", 
+                     G_CALLBACK(on_radical_button_clicked), 
+                     kanjidic);
     gtk_grid_attach(GTK_GRID(grid_radical_list), GTK_WIDGET(button_radical), i, j, 1, 1);
     
     //add this button in the button list

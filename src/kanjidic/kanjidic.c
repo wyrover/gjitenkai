@@ -58,17 +58,17 @@ void kanjidic_init (kanjidic *kanjidic)
   //check/uncheck checkbutton with default values
   GtkButton *checkbutton_filter_radicals = (GtkButton*)gtk_builder_get_object(kanjidic->definitions, 
                                                                               "checkbutton_filter_radicals");
-  gtk_toggle_button_set_active(checkbutton_filter_radicals,
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_filter_radicals),
                                kanjidic->filter_by_radical);
   
   GtkButton *checkbutton_filter_strokes = (GtkButton*)gtk_builder_get_object(kanjidic->definitions, 
                                                                              "checkbutton_filter_strokes");
-  gtk_toggle_button_set_active(checkbutton_filter_strokes, 
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_filter_strokes), 
                                kanjidic->filter_by_stroke);
 
-  GtkButton *checkbutton_filter_key = gtk_builder_get_object(kanjidic->definitions, 
-                                                             "checkbutton_filter_key");
-  gtk_toggle_button_set_active(checkbutton_filter_key, 
+  GtkButton *checkbutton_filter_key = (GtkButton *)gtk_builder_get_object(kanjidic->definitions, 
+                                                                          "checkbutton_filter_key");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_filter_key), 
                                kanjidic->filter_by_key);
 
   //init the radical window with the radical buttons
@@ -80,31 +80,32 @@ void kanjidic_init (kanjidic *kanjidic)
 
 void set_ui_radical_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic){
 
-  GtkEntry *entry_filter_radical = gtk_builder_get_object(kanjidic->definitions, 
-                                                          "entry_filter_radical");
-  GtkButton *button_clear = gtk_builder_get_object(kanjidic->definitions, 
-                                                   "button_clear_radical");
-  GtkButton *button_show_radical_list = gtk_builder_get_object(kanjidic->definitions, 
-                                                   "button_show_radical_list");
+  GtkEntry *entry_filter_radical = (GtkEntry *)gtk_builder_get_object(kanjidic->definitions, 
+                                                                      "entry_filter_radical");
+  GtkButton *button_clear = (GtkButton *)gtk_builder_get_object(kanjidic->definitions, 
+                                                                "button_clear_radical");
+  GtkButton *button_show_radical_list = (GtkButton *)gtk_builder_get_object(kanjidic->definitions, 
+                                                                            "button_show_radical_list");
 
-  gtk_widget_set_sensitive(entry_filter_radical, sensitivity);
-  gtk_widget_set_sensitive(button_clear, sensitivity);
-  gtk_widget_set_sensitive(button_show_radical_list, sensitivity);
+  gtk_widget_set_sensitive(GTK_WIDGET(entry_filter_radical), sensitivity);
+  gtk_widget_set_sensitive(GTK_WIDGET(button_clear), sensitivity);
+  gtk_widget_set_sensitive(GTK_WIDGET(button_show_radical_list), sensitivity);
 }
 
 void set_ui_stroke_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic){
-  GtkSpinButton *spinbutton_filter_stroke = gtk_builder_get_object(kanjidic->definitions, 
-                                                                   "spinbutton_filter_stroke");
-  GtkSpinButton *spinbutton_filter_stroke_diff = gtk_builder_get_object(kanjidic->definitions, 
-                                                                        "spinbutton_filter_stroke_diff");
-  gtk_widget_set_sensitive(spinbutton_filter_stroke, sensitivity);
-  gtk_widget_set_sensitive(spinbutton_filter_stroke_diff, sensitivity);
+  GtkSpinButton *spinbutton_filter_stroke = (GtkSpinButton *)gtk_builder_get_object(kanjidic->definitions, 
+                                                                                    "spinbutton_filter_stroke");
+  GtkSpinButton *spinbutton_filter_stroke_diff = (GtkSpinButton *)gtk_builder_get_object(kanjidic->definitions, 
+                                                                                         "spinbutton_filter_stroke_diff");
+
+  gtk_widget_set_sensitive(GTK_WIDGET(spinbutton_filter_stroke), sensitivity);
+  gtk_widget_set_sensitive(GTK_WIDGET(spinbutton_filter_stroke_diff), sensitivity);
 }
 
 void set_ui_key_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic){
-  GtkEntry *entry_filter_key = gtk_builder_get_object(kanjidic->definitions, 
-                                                          "entry_filter_key");
-  gtk_widget_set_sensitive(entry_filter_key, sensitivity);
+  GtkEntry *entry_filter_key = (GtkEntry*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                 "entry_filter_key");
+  gtk_widget_set_sensitive(GTK_WIDGET(entry_filter_key), sensitivity);
 }
 
 void search_and_display_kanji(kanjidic *kanjidic){
@@ -119,10 +120,11 @@ void search_and_display_kanji(kanjidic *kanjidic){
   
   //filter by strokes
   if(kanjidic->filter_by_stroke){
-    GtkSpinButton *spinbutton_filter_stroke = gtk_builder_get_object(kanjidic->definitions, 
-                                                               "spinbutton_filter_stroke");
-    GtkSpinButton *spinbutton_filter_stroke_diff = gtk_builder_get_object(kanjidic->definitions, 
-                                                               "spinbutton_filter_stroke_diff");
+    GtkSpinButton *spinbutton_filter_stroke = (GtkSpinButton*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                                     "spinbutton_filter_stroke");
+    GtkSpinButton *spinbutton_filter_stroke_diff = (GtkSpinButton*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                                          "spinbutton_filter_stroke_diff");
+
     gint stroke_filter = gtk_spin_button_get_value_as_int(spinbutton_filter_stroke);
     gint stroke_filter_diff = gtk_spin_button_get_value_as_int(spinbutton_filter_stroke_diff);
     
@@ -137,9 +139,9 @@ void search_and_display_kanji(kanjidic *kanjidic){
   
   //filter by radical
   if(kanjidic->filter_by_radical){
-    GtkEntry *entry_filter_radical = gtk_builder_get_object(kanjidic->definitions, 
-                                                            "entry_filter_radical");
-    gchar *radicals = gtk_entry_get_text(entry_filter_radical);
+    GtkEntry *entry_filter_radical = (GtkEntry*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                       "entry_filter_radical");
+    const gchar *radicals = gtk_entry_get_text(entry_filter_radical);
     //if the entry is empty, ignore the filter
     if(strcmp(radicals, "")){
       //get all kanji with the entered radicals
@@ -151,9 +153,9 @@ void search_and_display_kanji(kanjidic *kanjidic){
 
   //filter by key
   if(kanjidic->filter_by_key){
-    GtkEntry *entry_filter_key = gtk_builder_get_object(kanjidic->definitions, 
-                                                            "entry_filter_key");
-    gchar *key = gtk_entry_get_text(entry_filter_key);
+    GtkEntry *entry_filter_key = (GtkEntry*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                   "entry_filter_key");
+    const gchar *key = gtk_entry_get_text(entry_filter_key);
 
     //if the entry is empty, ignore the filter
     if(strcmp(key, "")){
@@ -169,10 +171,10 @@ void search_and_display_kanji(kanjidic *kanjidic){
   //button for each kanji, with the kanji as label
 
   //get the widget where to append the 'kanji button'
-  GtkTextView *textview_kanji_result = gtk_builder_get_object(kanjidic->definitions, 
-                                                              "textview_kanji_result");
-  GtkTextBuffer *textbuffer_kanji_result = gtk_builder_get_object(kanjidic->definitions, 
-                                                                  "textbuffer_kanji_result");
+  GtkTextView *textview_kanji_result = (GtkTextView*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                            "textview_kanji_result");
+  GtkTextBuffer *textbuffer_kanji_result = (GtkTextBuffer*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                                  "textbuffer_kanji_result");
   
   //clear the results and get the set the iterator at the begining
   gtk_text_buffer_set_text(textbuffer_kanji_result, "", 0);
@@ -194,10 +196,10 @@ void search_and_display_kanji(kanjidic *kanjidic){
        kanji_list = g_list_next(kanji_list)) {
 
     //create the kanji button
-    GtkButton *button_kanji = gtk_button_new_with_label(kanji_list->data);
+    GtkButton *button_kanji = (GtkButton*)gtk_button_new_with_label(kanji_list->data);
     g_signal_connect(button_kanji, 
                      "clicked", 
-                     on_button_kanji_clicked, 
+                     G_CALLBACK(on_button_kanji_clicked), 
                      kanjidic);
 
     //add the button in the textview at the anchor position
@@ -205,10 +207,10 @@ void search_and_display_kanji(kanjidic *kanjidic){
                                                                &kanji_results_iter);
 
     gtk_text_view_add_child_at_anchor(textview_kanji_result, 
-                                      button_kanji, 
+                                      GTK_WIDGET(button_kanji), 
                                       kanji_results_anchor);
   }
   
   //show what has been added
-  gtk_widget_show_all(textview_kanji_result);
+  gtk_widget_show_all(GTK_WIDGET(textview_kanji_result));
 }

@@ -9,8 +9,8 @@
 //Edit
 ///Preferences
 void on_menuitem_edit_prefs_activate(GtkMenuItem *menuitem, kanjidic *kanjidic){
-  GtkDialog *prefs = (GtkWindow*)gtk_builder_get_object(kanjidic->definitions, 
-                                                               "dialog_preferences");
+  GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(kanjidic->definitions, 
+                                                        "dialog_preferences");
   //set size and display the preference window
   gtk_window_set_default_size(GTK_WINDOW(prefs), 360, 320);
   gtk_widget_show_all ((GtkWidget*)prefs);
@@ -92,8 +92,8 @@ void on_entry_filter_radical_insert_text(GtkEntry    *entry,
   }
   
   //if the entered character is alderly in the list entry, do not insert it
-  gchar *radicals = gtk_entry_get_text(entry);
-  gchar* radstrg_ptr = radicals;
+  const gchar *radicals = gtk_entry_get_text(entry);
+  const gchar* radstrg_ptr = radicals;
   gint radnum;                   //number of character in radstrg
 
   radnum = g_utf8_strlen(radicals, -1); 
@@ -156,8 +156,8 @@ void on_entry_filter_radical_insert_text(GtkEntry    *entry,
 
 void on_button_clear_radical_clicked(GtkButton* button, kanjidic *kanjidic){
   //get the radical entry
-  GtkEntry *entry_filter_radical = gtk_builder_get_object(kanjidic->definitions, 
-                                                          "entry_filter_radical");
+  GtkEntry *entry_filter_radical = (GtkEntry*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                     "entry_filter_radical");
 
   gtk_entry_set_text(entry_filter_radical, "");
 
@@ -176,26 +176,26 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
   dicfile_load(kanjidic->conf->kanjidic);
     
   //the label of the button is the kanji to be searched/displayed
-  gchar* kanji = gtk_button_get_label(button);
+  const gchar* kanji = gtk_button_get_label(button);
 
   //TODO from g_slist of buttons
   //add a button in the history box
-  GtkButton *button_history = gtk_button_new_with_label(kanji);
+  GtkButton *button_history = (GtkButton*)gtk_button_new_with_label(kanji);
   g_signal_connect(button_history, 
                    "clicked", 
-                   on_button_kanji_clicked, 
+                   G_CALLBACK(on_button_kanji_clicked),
                    kanjidic);
 
-  GtkBox *box_history = gtk_builder_get_object(kanjidic->definitions, 
-                                               "box_history");
-  gtk_box_pack_start(box_history, button_history, FALSE, FALSE, 0);
-  gtk_widget_show_all(box_history);
+  GtkBox *box_history = (GtkBox*)gtk_builder_get_object(kanjidic->definitions, 
+                                                        "box_history");
+  gtk_box_pack_start(box_history, GTK_WIDGET(button_history), FALSE, FALSE, 0);
+  gtk_widget_show_all(GTK_WIDGET(box_history));
 
   //get the area where to display the kanji
-  GtkTextBuffer *textbuffer_kanji_display = gtk_builder_get_object(kanjidic->definitions, 
-                                                   "textbuffer_kanji_display");
+  GtkTextBuffer *textbuffer_kanji_display = (GtkTextBuffer*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                                   "textbuffer_kanji_display");
   //get the  kanji informations from kdic
-  gchar *kanji_info_line = get_line_from_dic(kanji, kanjidic->conf->kanjidic);
+  gchar *kanji_info_line = get_line_from_dic((gunichar)kanji, kanjidic->conf->kanjidic);
   kanjifile_entry *kanji_data= do_kdicline(kanji_info_line);
 
   //iterators to apply tag between
@@ -245,8 +245,8 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 	     kanji_info_list != NULL;
 	     kanji_info_list = kanji_info_list->next) { 
 	  gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
-					   ((RadInfo *) kanji_info_list->data)->radical, 
-					   strlen(((RadInfo *) kanji_info_list->data)->radical)); 
+					   (const char*)((RadInfo *) kanji_info_list->data)->radical, 
+					   strlen((const char*)((RadInfo *) kanji_info_list->data)->radical)); 
 	}
       }
       else if(!strcmp(ki->gsettings_name, "strokes")){
@@ -310,7 +310,7 @@ void on_button_show_radical_list_clicked(GtkButton *button, kanjidic *kanjidic){
 //the radical list is never deleted, just hidded (so it does not have to be 
 //reconstructed from the builder and repopulated 
 gboolean on_radical_list_delete_event(GtkWindow *window, kanjidic *kanjidic){
-  gtk_widget_hide(window);
+  gtk_widget_hide(GTK_WIDGET(window));
   return TRUE;
 }
 
@@ -318,11 +318,11 @@ gboolean on_radical_list_delete_event(GtkWindow *window, kanjidic *kanjidic){
 void on_radical_button_clicked(GtkButton *button, kanjidic *kanjidic){
 
   //get the clicked kanji
-  gchar* radical = gtk_button_get_label(button);
+  const gchar* radical = gtk_button_get_label(button);
 
   //add it to the entry filter
-  GtkEntry *entry_filter_radical = gtk_builder_get_object(kanjidic->definitions, 
-                                                          "entry_filter_radical");
+  GtkEntry *entry_filter_radical = (GtkEntry*)gtk_builder_get_object(kanjidic->definitions, 
+                                                                     "entry_filter_radical");
   GtkEditable *editable = GTK_EDITABLE(entry_filter_radical);
 
   gint position = 1;

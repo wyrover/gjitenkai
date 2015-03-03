@@ -59,7 +59,7 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
       //the characters in the file are in UTF8 format. We need unicode.  
       gunichar utf8radical = g_utf8_get_char(radkfile_ptr);
       gunichar *p_str_radical = g_new0(gunichar, 1);
-      g_unichar_to_utf8(utf8radical, p_str_radical);
+      g_unichar_to_utf8(utf8radical, (gchar*)p_str_radical);
       rad_info->radical = p_str_radical;
       
       //g_printf("(%s)", rad_info->radical);
@@ -73,7 +73,7 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
       rad_info->strokes = atoi(radkfile_ptr);  
 
       //insert this radical as key and the info as value
-      g_hash_table_insert(rad_info_hash, rad_info->radical, rad_info);
+      g_hash_table_insert(rad_info_hash, (gpointer)rad_info->radical, rad_info);
       
       //Goto next line
       radkfile_ptr = get_eof_line(radkfile_ptr, radkfile_end);
@@ -89,7 +89,7 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
 
         gunichar utf8kanji = g_utf8_get_char(radkfile_ptr);
 
-        gchar *kanji = g_new0(gchar, 6);
+        gchar *kanji = g_new0(gchar, sizeof(gunichar));
         g_unichar_to_utf8(utf8kanji, kanji);
         
         //search in the kanji infohash if this kanji is alderly present, 
@@ -146,7 +146,7 @@ GList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash) {
   return radical_list;
 }
 
-GList* get_kanji_by_key(gchar *srchkey, GList *list, GjitenDicfile *dicfile)  {
+GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfile)  {
   gint srch_resp = 0, roff = 0, rlen = 0;
   gchar repstr[1024];
   guint32 respos, oldrespos; 
@@ -197,12 +197,12 @@ GList* get_kanji_by_stroke(int stroke, int plusmin, GList *list, GjitenDicfile *
   return list;
 }
 
-GList* get_kanji_by_radical(gchar *radstrg, GHashTable *rad_info_hash) { 
+GList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash) { 
   gint radnum;                   //number of character in radstrg
   RadInfo *rad_info;             
   GList *kanji_info_list = NULL;
   GList *result = NULL;          //list of matched kanji to return
-  gchar *radstrg_ptr;            //pointer to browse radstrg
+  const gchar *radstrg_ptr;            //pointer to browse radstrg
 
   radnum = g_utf8_strlen(radstrg, -1); 
   if (radnum == 0) return;  //no character in radstrg

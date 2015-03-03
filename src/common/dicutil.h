@@ -2,11 +2,11 @@
 #define DICUTIL_H
 
 #include <glib.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <sys/mman.h>
-#include <stdio.h>
 
 #include "dicfile.h"
 #include "error.h"

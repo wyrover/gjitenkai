@@ -66,7 +66,10 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
 
     gtk_box_pack_start(box_item, GTK_WIDGET(display_item), TRUE, FALSE, 0);
     gtk_list_box_insert (listbox_item, GTK_WIDGET(box_item), -1);
-    g_signal_connect(display_item, "toggled", on_kanji_item_toggled, kanjidic);
+    g_signal_connect(display_item, 
+                     "toggled", 
+                     G_CALLBACK(on_kanji_item_toggled), 
+                     kanjidic);
     gtk_widget_set_halign(GTK_WIDGET(box_item), GTK_ALIGN_START);
 
     kanji_item_head = g_slist_next(kanji_item_head);
