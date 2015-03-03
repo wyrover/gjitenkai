@@ -2,3 +2,4 @@
 
 #define GJITENKAI_DATADIR "${DATADIR}"
 #define GJITENKAI_DICDIR "${DICDIR}"
+#define LOCALDIR "${LOCALDIR}"

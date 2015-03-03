@@ -7,6 +7,8 @@ cmake_minimum_required(VERSION 2.6)
 #install directories variables
 include(GNUInstallDirs)
 
+#add_definitions(-DUSE_MMAP)
+
 # Use the package PkgConfig to detect GTK+ headers/library files
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
@@ -23,6 +25,7 @@ add_definitions(${GTK3_CFLAGS_OTHER})
 ##dir where to install / find files
 set(DATADIR ${CMAKE_INSTALL_DATA_DIR}/gjiten-kai)
 set(DICDIR ${CMAKE_INSTALL_DATAROOTDIR}/dict)
+set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
