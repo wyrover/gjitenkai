@@ -8,7 +8,7 @@ gint cmp_name(gconstpointer a,
   return strcmp(ki1->name, ki2->name);
 }
 
-void on_kanji_item_toggled(GtkCheckButton* checkbutton, kanjidic *kanjidic){
+G_MODULE_EXPORT void on_kanji_item_toggled(GtkCheckButton* checkbutton, kanjidic *kanjidic){
   gboolean toggled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton));
   const gchar* name = gtk_button_get_label(GTK_BUTTON(checkbutton));
 
@@ -53,11 +53,13 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
   gtk_entry_set_text(entry_separator, kanjidic->conf->separator);
   
   //init the item list, expose what must be displayed in the kanji area
-  GtkListBox *listbox_item = (GtkListBox*)gtk_builder_get_object(kanjidic->definitions,
-                                                                 "listbox_kdic_item");
+  GtkBox *box_items = (GtkBox*)gtk_builder_get_object(kanjidic->definitions,
+                                                      "box_kdic_items");
+
   kanji_item_list_init();
   GSList* kanji_item_head = kanji_item_list;
   while (kanji_item_head != NULL) {
+
     //add the kanji item with a checkbox TODO position
     GtkBox *box_item = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     kanji_item *kanji_item = kanji_item_head->data;
@@ -65,32 +67,36 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
     gtk_toggle_button_set_active ((GtkToggleButton*)display_item, kanji_item->active);
 
     gtk_box_pack_start(box_item, GTK_WIDGET(display_item), TRUE, FALSE, 0);
-    gtk_list_box_insert (listbox_item, GTK_WIDGET(box_item), -1);
+    
+
     g_signal_connect(display_item, 
                      "toggled", 
                      G_CALLBACK(on_kanji_item_toggled), 
                      kanjidic);
     gtk_widget_set_halign(GTK_WIDGET(box_item), GTK_ALIGN_START);
 
+    //insert the box into the box of items
+    gtk_box_pack_start(box_items, GTK_WIDGET(box_item), TRUE, FALSE, 0);
+    
     kanji_item_head = g_slist_next(kanji_item_head);
-  }
+    }
 }
 
 //callback
-void on_entry_separator_activate(GtkEntry *entry, kanjidic *kanjidic){
+G_MODULE_EXPORT void on_entry_separator_activate(GtkEntry *entry, kanjidic *kanjidic){
   kanjidic->conf->separator = gtk_entry_get_text(entry);
 
   conf_save(kanjidic->conf);
 }
 
-void on_kanjidic_button_OK_clicked(GtkButton* button, kanjidic *kanjidic){
+G_MODULE_EXPORT void on_kanjidic_button_OK_clicked(GtkButton* button, kanjidic *kanjidic){
   GtkDialog *dialog_prefs = (GtkDialog*)gtk_builder_get_object(kanjidic->definitions, 
                                                                   "dialog_preferences");
   gtk_widget_hide (GTK_WIDGET(dialog_prefs));
   
 }
 
-void on_fontbutton_kanji_font_set(GtkFontButton *font_button, 
+G_MODULE_EXPORT void on_fontbutton_kanji_font_set(GtkFontButton *font_button, 
                                   kanjidic *kanjidic){
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
   kanjidic->conf->kanji_font = font_name;
@@ -101,7 +107,7 @@ void on_fontbutton_kanji_font_set(GtkFontButton *font_button,
   conf_save(kanjidic->conf);
 }
 
-void on_colorbutton_kanji_color_set(GtkColorChooser *color_chooser, 
+G_MODULE_EXPORT void on_colorbutton_kanji_color_set(GtkColorChooser *color_chooser, 
                                   kanjidic *kanjidic){
   //get the color
   gtk_color_chooser_get_rgba(color_chooser, 
@@ -115,7 +121,7 @@ void on_colorbutton_kanji_color_set(GtkColorChooser *color_chooser,
   conf_save(kanjidic->conf);  
 }
 
-void on_filechooserbutton_kdic_file_set(GtkFileChooserButton *filechooserbutton,
+G_MODULE_EXPORT void on_filechooserbutton_kdic_file_set(GtkFileChooserButton *filechooserbutton,
 					kanjidic *kanjidic){
   GFile *file = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(filechooserbutton));
 

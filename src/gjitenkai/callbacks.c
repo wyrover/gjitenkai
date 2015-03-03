@@ -1,6 +1,6 @@
 #include "gjitenkai.h"
 
-void on_gjitenkai_menuitem_prefs_activate(GtkButton *button, gjitenkai *gjitenkai){
+G_MODULE_EXPORT void on_gjitenkai_menuitem_prefs_activate(GtkButton *button, gjitenkai *gjitenkai){
   //set size and display the preference window
   GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(gjitenkai->definitions, 
                                                                "prefs");
@@ -8,13 +8,13 @@ void on_gjitenkai_menuitem_prefs_activate(GtkButton *button, gjitenkai *gjitenka
   gtk_widget_show_all ((GtkWidget*)prefs);
 }
 
-void on_gjitenkai_button_prefs_OK_clicked(GtkButton *button, gjitenkai *gjitenkai){
+G_MODULE_EXPORT void on_gjitenkai_button_prefs_OK_clicked(GtkButton *button, gjitenkai *gjitenkai){
  GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(gjitenkai->definitions, 
                                                                "prefs");
  gtk_widget_hide(GTK_WIDGET(prefs));
 }
 
-void on_menuitem_view_worddic_toggled(GtkCheckMenuItem *menu_item, gjitenkai *gjitenkai){
+G_MODULE_EXPORT void on_menuitem_view_worddic_toggled(GtkCheckMenuItem *menu_item, gjitenkai *gjitenkai){
   GtkWidget *box_worddic = (GtkWidget*)gtk_builder_get_object(gjitenkai->worddic->definitions, 
                                                               "box_toplevel");  
   if(gtk_check_menu_item_get_active(menu_item)){
@@ -25,7 +25,7 @@ void on_menuitem_view_worddic_toggled(GtkCheckMenuItem *menu_item, gjitenkai *gj
   }
 }
 
-void on_menuitem_view_kanjidic_toggled(GtkMenuItem *menu_item, gjitenkai *gjitenkai){
+G_MODULE_EXPORT void on_menuitem_view_kanjidic_toggled(GtkMenuItem *menu_item, gjitenkai *gjitenkai){
   GtkWidget *box_kanjidic = (GtkWidget*)gtk_builder_get_object(gjitenkai->kanjidic->definitions, 
 							       "box_toplevel");  
   if(gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item))){
@@ -36,7 +36,7 @@ void on_menuitem_view_kanjidic_toggled(GtkMenuItem *menu_item, gjitenkai *gjiten
   }
 }
 
-void on_menuitem_paned_toggled(GtkMenuItem *menu_item, gjitenkai *gjitenkai){
+G_MODULE_EXPORT void on_menuitem_paned_toggled(GtkMenuItem *menu_item, gjitenkai *gjitenkai){
   GtkWidget *box_worddic = (GtkWidget*)gtk_builder_get_object(gjitenkai->worddic->definitions, 
                                                               "box_toplevel");
   GtkWidget *box_kanjidic = (GtkWidget*)gtk_builder_get_object(gjitenkai->kanjidic->definitions, 
@@ -67,7 +67,7 @@ void on_menuitem_paned_toggled(GtkMenuItem *menu_item, gjitenkai *gjitenkai){
   gtk_widget_show_all(GTK_WIDGET(box_top));
 }
 
-void on_menuitem_notebook_toggled(GtkMenuItem *menu_item, gjitenkai *gjitenkai){
+G_MODULE_EXPORT void on_menuitem_notebook_toggled(GtkMenuItem *menu_item, gjitenkai *gjitenkai){
 
   GtkWidget *box_worddic = (GtkWidget*)gtk_builder_get_object(gjitenkai->worddic->definitions, 
                                                               "box_toplevel");

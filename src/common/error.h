@@ -1,6 +1,8 @@
 #ifndef ERROR_H
 #define ERROR_H
 
+#include <gtk/gtk.h>
+
 #ifdef DEBUG_GJITEN
 #define GJITEN_DEBUG(...) fprintf(stderr, __VA_ARGS__)
 #else 

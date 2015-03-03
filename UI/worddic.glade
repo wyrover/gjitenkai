@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.18.3 -->
 <interface>
-  <requires lib="gtk+" version="3.12"/>
+  <requires lib="gtk+" version="3.6"/>
   <object class="GtkAboutDialog" id="aboutdialog">
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
@@ -41,6 +41,23 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkListStore" id="liststore_dic">
+    <columns>
+      <!-- column-name Name -->
+      <column type="gchar"/>
+      <!-- column-name Path -->
+      <column type="gchar"/>
+      <!-- column-name Destination -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">3</col>
+        <col id="1">2</col>
+        <col id="2" translatable="yes">LOCAL</col>
+      </row>
+    </data>
   </object>
   <object class="GtkBox" id="box_toplevel_prefs">
     <property name="visible">True</property>
@@ -152,12 +169,16 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkListBox" id="listbox_dic">
+              <object class="GtkTreeView" id="treeview_dic">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can_focus">True</property>
+                <property name="model">liststore_dic</property>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection" id="treeview-selection1"/>
+                </child>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>

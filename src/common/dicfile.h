@@ -8,7 +8,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
-//#include <sys/mman.h>
 #include <stdio.h>
 #include <stdio.h>
 #include <glib/gi18n.h>

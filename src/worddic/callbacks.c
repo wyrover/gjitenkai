@@ -1,7 +1,7 @@
 #include "worddic.h"
 #include "../common/dicfile.h"
 
-gboolean on_search_results_button_release_event(GtkWidget *text_view,
+G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_view,
 						GdkEventButton *event,
 						worddic *worddic) {
   GtkTextIter mouse_iter;
@@ -39,7 +39,7 @@ gboolean on_search_results_button_release_event(GtkWidget *text_view,
    Search in the dictionaries the entered text in the search entry
    and put the results in the search result textview buffer
 */
-void on_search_activate(GtkEntry *entry, worddic *worddic){
+G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
 
   //get the expression to search from the search entry
   const gchar *entry_text = gtk_entry_get_text(entry);
@@ -191,7 +191,7 @@ void on_search_activate(GtkEntry *entry, worddic *worddic){
 
 //Edit
 ///Preferences
-void on_menuitem_prefs_activate(GtkMenuItem *menuitem, worddic *worddic){
+G_MODULE_EXPORT void on_menuitem_prefs_activate(GtkMenuItem *menuitem, worddic *worddic){
   GtkDialog *prefs = GTK_DIALOG(gtk_builder_get_object(worddic->definitions, 
                                                        "prefs"));
   //set size and display the preference window
@@ -201,48 +201,48 @@ void on_menuitem_prefs_activate(GtkMenuItem *menuitem, worddic *worddic){
 
 //Search
 ///Japanese
-void on_menuitem_search_japanese_exact_activate (GtkMenuItem *menuitem, 
+G_MODULE_EXPORT void on_menuitem_search_japanese_exact_activate (GtkMenuItem *menuitem, 
                                                  worddic *worddic){
   worddic->match_criteria_jp = EXACT_MATCH;
 }
 
-void on_menuitem_search_japanese_start_activate (GtkMenuItem *menuitem, 
+G_MODULE_EXPORT void on_menuitem_search_japanese_start_activate (GtkMenuItem *menuitem, 
                                                  worddic *worddic){
   worddic->match_criteria_jp = START_WITH_MATCH;
 }
 
-void on_menuitem_search_japanese_end_activate (GtkMenuItem *menuitem, 
+G_MODULE_EXPORT void on_menuitem_search_japanese_end_activate (GtkMenuItem *menuitem, 
                                                worddic *worddic){
   worddic->match_criteria_jp = END_WITH_MATCH;
 }
 
-void on_menuitem_search_japanese_any_activate (GtkMenuItem *menuitem, 
+G_MODULE_EXPORT void on_menuitem_search_japanese_any_activate (GtkMenuItem *menuitem, 
                                                worddic *worddic){
   worddic->match_criteria_jp = ANY_MATCH;
 }
 
-void on_menuitem_search_japanese_regex_activate (GtkMenuItem *menuitem, 
+G_MODULE_EXPORT void on_menuitem_search_japanese_regex_activate (GtkMenuItem *menuitem, 
                                             worddic *worddic){
   worddic->match_criteria_jp = REGEX;
 }
 
 ///Latin
-void on_menuitem_search_latin_whole_expressions_activate (GtkMenuItem *menuitem, 
+G_MODULE_EXPORT void on_menuitem_search_latin_whole_expressions_activate (GtkMenuItem *menuitem, 
                                                          worddic *worddic){
   worddic->match_criteria_lat = EXACT_MATCH;
 }
 
-void on_menuitem_search_latin_whole_words_activate (GtkMenuItem *menuitem, 
+G_MODULE_EXPORT void on_menuitem_search_latin_whole_words_activate (GtkMenuItem *menuitem, 
                                                    worddic *worddic){
   worddic->match_criteria_lat = WORD_MATCH;
 }
 
-void on_menuitem_search_latin_any_matches_activate (GtkMenuItem *menuitem, 
+G_MODULE_EXPORT void on_menuitem_search_latin_any_matches_activate (GtkMenuItem *menuitem, 
                                             worddic *worddic){
   worddic->match_criteria_lat = ANY_MATCH;
 }
 
-void on_menuitem_search_latin_regex_activate (GtkMenuItem *menuitem, 
+G_MODULE_EXPORT void on_menuitem_search_latin_regex_activate (GtkMenuItem *menuitem, 
                                             worddic *worddic){
   worddic->match_criteria_lat = REGEX;
 }
@@ -250,7 +250,7 @@ void on_menuitem_search_latin_regex_activate (GtkMenuItem *menuitem,
 
 //Help
 ///About
-void on_menuitem_help_about_activate (GtkMenuItem *menuitem, 
+G_MODULE_EXPORT void on_menuitem_help_about_activate (GtkMenuItem *menuitem, 
                                       worddic *worddic){
   GtkWindow *window_about = (GtkWindow*)gtk_builder_get_object(worddic->definitions,
                                                                "aboutdialog");

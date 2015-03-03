@@ -5,7 +5,7 @@
 
 int main( int argc, char **argv )
 {
-  bindtextdomain("worddic", "/usr/local/share/locale");
+  bindtextdomain("worddic", LOCALDIR);
   textdomain("worddic");
   
   kanjidic kanjidic;

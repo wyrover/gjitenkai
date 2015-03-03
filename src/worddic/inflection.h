@@ -15,7 +15,6 @@ diffent forms (which is called inflection).
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <sys/mman.h>
 #include <string.h>
 
 #include "../common/constants.h"

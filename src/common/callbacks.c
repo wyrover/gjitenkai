@@ -6,7 +6,7 @@
   character (CARRIAGE RETURN, BACKSPACE, DELETE), if so prevent these characters 
   to be added in the entry box (happend when using SCIM-Anthy with GTK3)
 */
-void on_text_insert_detect_unicode (GtkEntry    *entry,
+G_MODULE_EXPORT void on_text_insert_detect_unicode (GtkEntry    *entry,
                                     const gchar *text,
                                     gint         length,
                                     gint        *position,

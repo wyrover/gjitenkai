@@ -8,7 +8,7 @@
 //Menu items callbacks
 //Edit
 ///Preferences
-void on_menuitem_edit_prefs_activate(GtkMenuItem *menuitem, kanjidic *kanjidic){
+G_MODULE_EXPORT void on_menuitem_edit_prefs_activate(GtkMenuItem *menuitem, kanjidic *kanjidic){
   GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(kanjidic->definitions, 
                                                         "dialog_preferences");
   //set size and display the preference window
@@ -18,7 +18,7 @@ void on_menuitem_edit_prefs_activate(GtkMenuItem *menuitem, kanjidic *kanjidic){
 
 ///////////////////
 //Filters callbacks
-void on_checkbutton_filter_strokes_toggled(GtkCheckButton *check_button, 
+G_MODULE_EXPORT void on_checkbutton_filter_strokes_toggled(GtkCheckButton *check_button, 
                                            kanjidic *kanjidic){
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
 
@@ -30,7 +30,7 @@ void on_checkbutton_filter_strokes_toggled(GtkCheckButton *check_button,
   
 }
 
-void on_checkbutton_filter_radicals_toggled(GtkCheckButton *check_button, 
+G_MODULE_EXPORT void on_checkbutton_filter_radicals_toggled(GtkCheckButton *check_button, 
                                             kanjidic *kanjidic){
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
 
@@ -41,7 +41,7 @@ void on_checkbutton_filter_radicals_toggled(GtkCheckButton *check_button,
   set_ui_radical_filter_sensitivity(toggled, kanjidic);
 }
 
-void on_checkbutton_filter_key_toggled(GtkCheckButton *check_button, 
+G_MODULE_EXPORT void on_checkbutton_filter_key_toggled(GtkCheckButton *check_button, 
                                             kanjidic *kanjidic){
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
 
@@ -58,7 +58,7 @@ void on_checkbutton_filter_key_toggled(GtkCheckButton *check_button,
    -Check if this is a kanji, if not, remove it
    -if this is a non-radical kanji, replace it by it's radicals
  */
-void on_entry_filter_radical_insert_text(GtkEntry    *entry,
+G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
                                          const gchar *text,
                                          gint         length,
                                          gint        *position,
@@ -154,7 +154,7 @@ void on_entry_filter_radical_insert_text(GtkEntry    *entry,
 
 }
 
-void on_button_clear_radical_clicked(GtkButton* button, kanjidic *kanjidic){
+G_MODULE_EXPORT void on_button_clear_radical_clicked(GtkButton* button, kanjidic *kanjidic){
   //get the radical entry
   GtkEntry *entry_filter_radical = (GtkEntry*)gtk_builder_get_object(kanjidic->definitions, 
                                                                      "entry_filter_radical");
@@ -165,12 +165,12 @@ void on_button_clear_radical_clicked(GtkButton* button, kanjidic *kanjidic){
 
 }
 
-void on_entry_filter_radical_activate(GtkWidget *entry, kanjidic *kanjidic){
+G_MODULE_EXPORT void on_entry_filter_radical_activate(GtkWidget *entry, kanjidic *kanjidic){
   search_and_display_kanji(kanjidic);
 }
 
 //click on a 'kanji button': display the kanji information of this kanji
-void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
+G_MODULE_EXPORT void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 
   //init kdic
   dicfile_load(kanjidic->conf->kanjidic);
@@ -290,12 +290,12 @@ void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
   }
 }
 
-void on_button_search_clicked(GtkWidget *widget, kanjidic *kanjidic) {
+G_MODULE_EXPORT void on_button_search_clicked(GtkWidget *widget, kanjidic *kanjidic) {
   dicfile_load(kanjidic->conf->kanjidic);
   search_and_display_kanji(kanjidic);
 }
 
-void on_button_show_radical_list_clicked(GtkButton *button, kanjidic *kanjidic){
+G_MODULE_EXPORT void on_button_show_radical_list_clicked(GtkButton *button, kanjidic *kanjidic){
   radical_list_update_sensitivity(kanjidic);
 
   GtkWindow *radicals = (GtkWindow*)gtk_builder_get_object(kanjidic->definitions, 
@@ -309,13 +309,13 @@ void on_button_show_radical_list_clicked(GtkButton *button, kanjidic *kanjidic){
 //Radical list callbacks
 //the radical list is never deleted, just hidded (so it does not have to be 
 //reconstructed from the builder and repopulated 
-gboolean on_radical_list_delete_event(GtkWindow *window, kanjidic *kanjidic){
+G_MODULE_EXPORT gboolean on_radical_list_delete_event(GtkWindow *window, kanjidic *kanjidic){
   gtk_widget_hide(GTK_WIDGET(window));
   return TRUE;
 }
 
 //a radical button in the radical button list has been clicked
-void on_radical_button_clicked(GtkButton *button, kanjidic *kanjidic){
+G_MODULE_EXPORT void on_radical_button_clicked(GtkButton *button, kanjidic *kanjidic){
 
   //get the clicked kanji
   const gchar* radical = gtk_button_get_label(button);
