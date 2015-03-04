@@ -1,40 +1,50 @@
-#include "worddic.h"
-#include "../common/dicfile.h"
+#include "preferences.h"
 
 gboolean is_update;  //update or add dic
+
+int getsingleselect ( GtkTreeView * tv, GtkTreeIter *iter)
+{
+  GtkTreeSelection * tsel = gtk_tree_view_get_selection (tv);
+  GtkTreeModel * tm ;
+  GtkTreePath * path ;
+  int * i ;
+  if ( gtk_tree_selection_get_selected ( tsel , &tm , iter ) )
+    {
+      path = gtk_tree_model_get_path ( tm , iter ) ;
+      i = gtk_tree_path_get_indices ( path ) ;
+      return i [ 0 ] ;
+    }
+  return -1;
+}
 
 //pref dictionaries callbacks
 G_MODULE_EXPORT gboolean on_button_dictionary_remove_clicked(GtkWidget *widget, worddic *worddic) {
 
   GtkTreeView *treeview_dic = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
-                                                                "treeview_dic");
-  //GtkListBoxRow *row = gtk_list_box_get_selected_row(listbox_dic);
+                                                                "treeview_dic");  
+  GtkTreeIter iter ;
+  gint index = getsingleselect(treeview_dic, &iter);
 
-  //if(!row) return FALSE;
-    
   //remove from the conf
-  /*gint index = gtk_list_box_row_get_index(row);  
+  if(index == -1) return FALSE;
+
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
-  
-  worddic->conf->dicfile_list = g_slist_remove(worddic->conf->dicfile_list,
-  selected_element->data);*/
+  GjitenDicfile *dic = selected_element->data;  
+  worddic->conf->dicfile_list = g_slist_remove(worddic->conf->dicfile_list, selected_element->data);
   conf_save(worddic->conf);
 
-  //remove the row
-  //gtk_container_remove(GTK_CONTAINER(listbox_dic), GTK_WIDGET(row));
-
+  //remove from the list store
+  GtkListStore *store = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
+                                                              "liststore_dic");
+  gtk_list_store_remove(store, &iter);
 }
 
 G_MODULE_EXPORT gboolean on_button_dictionary_edit_clicked(GtkWidget *widget, worddic *worddic) {
   is_update = TRUE;
   GtkTreeView *treeview_dic = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
                                                                 "treeview_dic");
-  //GtkListBoxRow *row = gtk_list_box_get_selected_row(listbox_dic);
-  //if(!row) return FALSE;
-  
-  //gint index = gtk_list_box_row_get_index(row);  
-  //GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
-  //GjitenDicfile *dic = selected_element->data;
+  GtkTreeIter iter ;
+  gint index = getsingleselect(treeview_dic, &iter);
 
   //init the edit dic dialog with the selected dic name and path
   GtkDialog *dialog_dic_edit = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
@@ -46,41 +56,26 @@ G_MODULE_EXPORT gboolean on_button_dictionary_edit_clicked(GtkWidget *widget, wo
   fcb_edit_dic_path = (GtkFileChooserButton *)gtk_builder_get_object(worddic->definitions, 
                                                                      "filechooserbutton_edit_dic_path");
 
-  //gtk_entry_set_text(entry_edit_dic_name, dic->name);
-  //gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(fcb_edit_dic_path), dic->path);
+  GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
+  GjitenDicfile *dic = selected_element->data;  
+
+  gtk_entry_set_text(entry_edit_dic_name, dic->name);
+  gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(fcb_edit_dic_path), dic->path);
   
   gtk_widget_show (GTK_WIDGET(dialog_dic_edit));
-}
-
-void display_dics(GtkTreeView *treeview_dic, GjitenDicfile *dicfile, gint position){
-  GtkBox *box_dic = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_widget_set_halign(GTK_WIDGET(box_dic), GTK_ALIGN_START);
-  
-  //name of the dictionary
-  GtkLabel *lab_dicname = (GtkLabel*)gtk_label_new(dicfile->name);
-  gtk_box_pack_start(box_dic, GTK_WIDGET(lab_dicname), FALSE, FALSE, 10);
-    
-  //path of the dictionary
-  GtkLabel *lab_dicpath = (GtkLabel*)gtk_label_new(dicfile->path);
-  gtk_box_pack_start(box_dic, GTK_WIDGET(lab_dicpath), TRUE, TRUE, 0);
-
-  //gtk_list_box_insert (listbox_dic, GTK_WIDGET(box_dic), position);
-
-  gtk_widget_show_all (GTK_WIDGET(box_dic));
 }
 
 G_MODULE_EXPORT gboolean on_button_dictionary_add_clicked(GtkWidget *widget, worddic *worddic) {
   is_update = FALSE;
   
-  GtkListBox *listbox_dic = (GtkListBox*)gtk_builder_get_object(worddic->definitions, 
-                                                                "treeview_dic");
-
+  GtkTreeView *treeview_dic = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
+                                                                   "treeview_dic");
   //set edit dialog widgets to blank
   GtkDialog* dialog_dic_edit = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
-                                                        "dialog_dic_edit");
+                                                                  "dialog_dic_edit");
 
   GtkEntry* entry_edit_dic_name = (GtkEntry*)gtk_builder_get_object(worddic->definitions, 
-								  "entry_edit_dic_name");
+                                                                    "entry_edit_dic_name");
   GtkFileChooserButton* fcb_edit_dic_path = NULL;
   fcb_edit_dic_path = (GtkFileChooserButton*)gtk_builder_get_object(worddic->definitions, 
                                                                     "filechooserbutton_edit_dic_path");
@@ -93,6 +88,8 @@ G_MODULE_EXPORT gboolean on_button_dictionary_add_clicked(GtkWidget *widget, wor
 }
 
 G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddic *worddic) {
+  GtkListStore *store = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
+                                                              "liststore_dic");
   GtkDialog *dialog_dic_edit = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                                   "dialog_dic_edit");
   GtkEntry* entry_edit_dic_name = (GtkEntry*)gtk_builder_get_object(worddic->definitions, 
@@ -101,24 +98,32 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
   fcb_edit_dic_path = (GtkFileChooserButton*)gtk_builder_get_object(worddic->definitions, 
                                                                     "filechooserbutton_edit_dic_path");
   
+  GtkTreeView *treeview_dic = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
+                                                                "treeview_dic");  
+  GtkTreeIter iter ;
+  gint index = getsingleselect(treeview_dic, &iter);
+
   //update or add a dictionary
   if(is_update){
-    GtkTreeView *treeview_dic = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
-                                                                "treeview_dic");
-    //GtkListBoxRow *row = gtk_list_box_get_selected_row(listbox_dic);
-
     //get the dictionary to update
-    //gint index = gtk_list_box_row_get_index(row);  
-    //GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
-    //GjitenDicfile *dicfile = selected_element->data;
+    GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
+    GjitenDicfile *dicfile = selected_element->data;
 
     //set the new name and path
-    //dicfile->name = strdup(gtk_entry_get_text(entry_edit_dic_name));
-    //dicfile->path = gtk_file_chooser_get_filename((GtkFileChooser*) fcb_edit_dic_path);
+    dicfile->name = strdup(gtk_entry_get_text(entry_edit_dic_name));
+    dicfile->path = gtk_file_chooser_get_filename((GtkFileChooser*) fcb_edit_dic_path);
 
     //replace the current row with a new one
-    //gtk_container_remove(GTK_CONTAINER(listbox_dic), GTK_WIDGET(row));
-    //display_dics(treeview_dic, dicfile, index);
+    gtk_list_store_remove(store, &iter);
+
+    //insert a new row in the model
+    gtk_list_store_insert (store, &iter, -1);
+
+    //put the name and path of the dictionary in the row
+    gtk_list_store_set (store, &iter,
+                        COL_NAME, dicfile->name,
+                        COL_PATH, dicfile->path,
+                        -1);
   }
   else{
     //add a new dictionary in the conf
@@ -127,13 +132,25 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
     dicfile->path = gtk_file_chooser_get_filename((GtkFileChooser*)fcb_edit_dic_path);
     worddic->conf->dicfile_list = g_slist_append(worddic->conf->dicfile_list, dicfile);
 
+    //add in the tree
     GtkTreeView *treeview_dic = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
-                                                                     "treeview_dic");    
-    display_dics(treeview_dic, dicfile, -1);
+                                                                     "treeview_dic");
+    GtkListStore *store = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
+                                                                "liststore_dic");
+    GtkTreeIter iter;
+
+    //insert a new row in the model
+    gtk_list_store_insert (store, &iter, -1);
+
+    //put the name and path of the dictionary in the row
+    gtk_list_store_set (store, &iter,
+                        COL_NAME, dicfile->name,
+                        COL_PATH, dicfile->path,
+                        -1);
     }
 
   GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
-                                                               "prefs");
+                                                        "prefs");
   conf_save(worddic->conf);
   
   gtk_widget_hide (GTK_WIDGET(dialog_dic_edit));
@@ -148,19 +165,47 @@ void init_prefs_window(worddic *worddic){
   gtk_color_chooser_set_rgba(color_chooser, worddic->conf->results_highlight_color);
 
   ////Dictionary tab
-  /*GtkListBox *listbox_dic = (GtkListBox*)gtk_builder_get_object(worddic->definitions, 
-                                                                "listbox_dic");
+  GtkListStore *store = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
+                                                              "liststore_dic");
 
+  GtkTreeView *view = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
+                                                           "treeview_dic");
+
+
+  GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
+  gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (view),
+                                               -1,      
+                                               "Name",  
+                                               renderer,
+                                               "text", COL_NAME,
+                                               NULL);
+  gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (view),
+                                               -1,      
+                                               "Path",  
+                                               renderer,
+                                               "text", COL_PATH,
+                                               NULL);
+  GtkTreeIter iter;
+    
   //populate the list of dictionaries with widgets to edit/remove them
   GjitenDicfile *dicfile;
   GSList *dicfile_node = worddic->conf->dicfile_list;
   while (dicfile_node != NULL) {
     dicfile = dicfile_node->data;
-    display_dic_in_listbox(listbox_dic, dicfile, -1);
+
+    //insert a new row in the model
+    gtk_list_store_insert (store, &iter, -1);
+
+    //put the name and path of the dictionary in the row
+    gtk_list_store_set (store, &iter,
+                        COL_NAME, dicfile->name,
+                        COL_PATH, dicfile->path,
+                        -1);
 
     dicfile_node = g_slist_next(dicfile_node);
   }
-  */
+  
+
   ////Search tab 
   GtkToggleButton *check_button;
   check_button = (GtkToggleButton*)gtk_builder_get_object(worddic->definitions, 

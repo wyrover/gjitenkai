@@ -3,14 +3,21 @@
 
 #include <gtk/gtk.h>
 
-#include "conf.h"
-#include "dicfile.h"
+#include "worddic.h"
+#include "../common/dicfile.h"
+
+enum
+{
+  COL_NAME = 0,
+  COL_PATH,
+};
+
 
 /**
    preference window related functions: 
    initialisation and callbacks
  */
 
-void init_pref_window (worddic * );
+void init_prefs_window (worddic * );
 
 #endif

@@ -45,19 +45,10 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
   <object class="GtkListStore" id="liststore_dic">
     <columns>
       <!-- column-name Name -->
-      <column type="gchar"/>
+      <column type="gchararray"/>
       <!-- column-name Path -->
-      <column type="gchar"/>
-      <!-- column-name Destination -->
       <column type="gchararray"/>
     </columns>
-    <data>
-      <row>
-        <col id="0">3</col>
-        <col id="1">2</col>
-        <col id="2" translatable="yes">LOCAL</col>
-      </row>
-    </data>
   </object>
   <object class="GtkBox" id="box_toplevel_prefs">
     <property name="visible">True</property>
@@ -178,7 +169,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
