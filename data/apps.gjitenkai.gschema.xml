@@ -30,7 +30,7 @@
       <default>'Sans 10'</default>
     </key>
     <key name="dictionaries" type="a(ss)">
-      <default>[ ('/usr/share/dict/edict.utf8', 'English-main') ]</default>
+      <default>[]</default>
       <summary>List of dictionary files (paths and names)</summary>
       <description>List of dictionary files. Format is:  [/path/to/dicfile1\ndictionary-name1,/path/to/dicfile2\ndictionary-name2] Don't put a space after the comma!</description>
     </key>
