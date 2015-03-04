@@ -98,3 +98,67 @@ G_MODULE_EXPORT void on_menuitem_notebook_toggled(GtkMenuItem *menu_item, gjiten
   
   gtk_widget_show_all(GTK_WIDGET(box_top));
 }
+
+//Search
+///Japanese
+G_MODULE_EXPORT void on_gjitenkai_menuitem_search_japanese_exact_activate (GtkMenuItem *menuitem, 
+                                                                           gjitenkai *gjitenkai){
+  gjitenkai->worddic->match_criteria_jp = EXACT_MATCH;
+}
+
+G_MODULE_EXPORT void on_gjitenkai_menuitem_search_japanese_start_activate (GtkMenuItem *menuitem, 
+                                                                           gjitenkai *gjitenkai){
+  gjitenkai->worddic->match_criteria_jp = START_WITH_MATCH;
+}
+
+G_MODULE_EXPORT void on_gjitenkai_menuitem_search_japanese_end_activate (GtkMenuItem *menuitem, 
+                                                                         gjitenkai *gjitenkai){
+  gjitenkai->worddic->match_criteria_jp = END_WITH_MATCH;
+}
+
+G_MODULE_EXPORT void on_gjitenkai_menuitem_search_japanese_any_activate (GtkMenuItem *menuitem, 
+                                                                         gjitenkai *gjitenkai){
+  gjitenkai->worddic->match_criteria_jp = ANY_MATCH;
+}
+
+G_MODULE_EXPORT void on_gjitenkai_menuitem_search_japanese_regex_activate (GtkMenuItem *menuitem, 
+                                                                           gjitenkai *gjitenkai){
+  gjitenkai->worddic->match_criteria_jp = REGEX;
+}
+
+///Latin
+G_MODULE_EXPORT void on_gjitenkai_menuitem_search_latin_whole_expressions_activate (GtkMenuItem *menuitem, 
+                                                                                    gjitenkai *gjitenkai){
+  gjitenkai->worddic->match_criteria_lat = EXACT_MATCH;
+}
+
+G_MODULE_EXPORT void on_gjitenkai_menuitem_search_latin_whole_words_activate (GtkMenuItem *menuitem, 
+                                                                              gjitenkai *gjitenkai){
+  gjitenkai->worddic->match_criteria_lat = WORD_MATCH;
+}
+
+G_MODULE_EXPORT void on_gjitenkai_menuitem_search_latin_any_matches_activate (GtkMenuItem *menuitem, 
+                                                                              gjitenkai *gjitenkai){
+  gjitenkai->worddic->match_criteria_lat = ANY_MATCH;
+}
+
+G_MODULE_EXPORT void on_gjitenkai_menuitem_search_latin_regex_activate (GtkMenuItem *menuitem, 
+                                                                        gjitenkai *gjitenkai){
+  gjitenkai->worddic->match_criteria_lat = REGEX;
+}
+
+//about
+G_MODULE_EXPORT void on_gjiten_menuitem_help_about_activate(GtkMenuItem *menuitem, 
+                                                              gjitenkai *gjitenkai){
+  GtkWindow *window_about = (GtkWindow*)gtk_builder_get_object(gjitenkai->definitions,
+                                                               "aboutdialog");
+  gtk_dialog_run(GTK_DIALOG(window_about));
+  gtk_widget_hide (GTK_WIDGET(window_about)); 
+}
+
+//hide and prevent deletion
+G_MODULE_EXPORT gboolean on_gjitenkai_prefs_delete_event(GtkWindow *window, 
+                                                         gjitenkai *gjitenkai) {
+  gtk_widget_hide(GTK_WIDGET(window));
+  return TRUE;
+}
