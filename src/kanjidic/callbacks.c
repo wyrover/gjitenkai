@@ -335,3 +335,12 @@ G_MODULE_EXPORT void on_radical_button_clicked(GtkButton *button, kanjidic *kanj
   radical_list_update_sensitivity(kanjidic);
 
 }
+
+//about
+G_MODULE_EXPORT void on_kanjidic_menuitem_help_about_activate(GtkMenuItem *menuitem, 
+                                                              kanjidic *kanjidic){
+  GtkWindow *window_about = (GtkWindow*)gtk_builder_get_object(kanjidic->definitions,
+                                                               "aboutdialog");
+  gtk_dialog_run(GTK_DIALOG(window_about));
+  gtk_widget_hide (GTK_WIDGET(window_about)); 
+}
