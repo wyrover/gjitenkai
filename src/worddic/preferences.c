@@ -265,7 +265,7 @@ G_MODULE_EXPORT void on_checkbutton_search_hiragana_on_katakana_toggled(GtkCheck
 }
 
 G_MODULE_EXPORT void on_checkbutton_verbadj_deinflection_toggled(GtkCheckButton* check_button, 
-                                                worddic *worddic){
+                                                                 worddic *worddic){
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
   worddic->conf->verb_deinflection = toggled;
 
@@ -278,3 +278,17 @@ G_MODULE_EXPORT gboolean on_button_OK_clicked(GtkWidget *widget, worddic *worddi
   gtk_widget_hide (GTK_WIDGET(prefs));
 }
 
+//hide and prevent deletion
+G_MODULE_EXPORT gboolean on_dialog_dic_edit_delete_event(GtkWindow *window, 
+                                                         worddic *worddic) {
+  gtk_widget_hide(GTK_WIDGET(window));
+  return TRUE;
+
+}
+
+//hide and prevent deletion
+G_MODULE_EXPORT gboolean on_prefs_delete_event(GtkWindow *window, 
+                                               worddic *worddic) {
+  gtk_widget_hide(GTK_WIDGET(window));
+  return TRUE;
+}

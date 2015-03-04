@@ -580,6 +580,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
     <property name="transient_for">worddic</property>
+    <signal name="delete-event" handler="on_prefs_delete_event" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox_prefs">
         <property name="can_focus">False</property>
@@ -624,6 +625,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
     <property name="transient_for">prefs</property>
+    <signal name="delete-event" handler="on_dialog_dic_edit_delete_event" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox2">
         <property name="can_focus">False</property>

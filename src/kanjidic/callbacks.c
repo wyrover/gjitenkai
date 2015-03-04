@@ -307,8 +307,7 @@ G_MODULE_EXPORT void on_button_show_radical_list_clicked(GtkButton *button, kanj
 }
 
 //Radical list callbacks
-//the radical list is never deleted, just hidded (so it does not have to be 
-//reconstructed from the builder and repopulated 
+//prevent delete and hide
 G_MODULE_EXPORT gboolean on_radical_list_delete_event(GtkWindow *window, kanjidic *kanjidic){
   gtk_widget_hide(GTK_WIDGET(window));
   return TRUE;

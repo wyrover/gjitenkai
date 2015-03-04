@@ -8,16 +8,6 @@ G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_
   gint x, y;
   gint trailing;
   gunichar kanji;
-  /*
-  GtkTextBuffer*textbuffer_search_results = (GtkTextBuffer*)
-    gtk_builder_get_object(worddic->definitions, 
-                           "textbuffer_search_results");
-  if (gtk_text_buffer_get_selection_bounds(textbuffer_search_results, NULL, NULL) == TRUE )
-    {
-      // don't look up kanji if it is in a selection
-      return FALSE;
-    }
-  */
 
   if (event->button != 1) return FALSE;
   
