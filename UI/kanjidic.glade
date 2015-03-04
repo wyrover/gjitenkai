@@ -322,6 +322,7 @@
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
     <property name="transient_for">kanjidic</property>
+    <signal name="delete-event" handler="on_dialog_preferences_delete_event" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox_prefs">
         <property name="can_focus">False</property>

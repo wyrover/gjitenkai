@@ -140,3 +140,10 @@ G_MODULE_EXPORT void on_filechooserbutton_kdic_file_set(GtkFileChooserButton *fi
   
   conf_save(kanjidic->conf);
 }
+
+//hide and prevent deletion
+G_MODULE_EXPORT gboolean on_dialog_preferences_delete_event(GtkWindow *window, 
+                                                            kanjidic *kanjidic){
+  gtk_widget_hide(GTK_WIDGET(window));
+  return TRUE;
+}
