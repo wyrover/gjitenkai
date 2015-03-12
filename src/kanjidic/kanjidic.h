@@ -7,6 +7,7 @@
 
 #include "constants.h"
 #include "kanjiutils.h"
+#include "kanji_item.h"
 #include "../common/dicfile.h"
 
 #define UI_DEFINITIONS_FILE_KANJIDIC "UI/kanjidic.glade"
@@ -59,5 +60,6 @@ void set_ui_key_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic);
  */
 void search_and_display_kanji(kanjidic *kanjidic);
 
+void display_kanji(kanjidic *kanjidic, const char *kanji);
 
 #endif
