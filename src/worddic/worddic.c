@@ -24,6 +24,8 @@ void worddic_init (worddic *worddic)
   //by default search everything
   worddic->match_criteria_jp = ANY_MATCH;
   worddic->match_criteria_lat = ANY_MATCH;
+  
+  init_search_menu(worddic);
 
   //highlight style of the result text buffer
   GtkTextBuffer*textbuffer_search_results = (GtkTextBuffer*)
@@ -43,6 +45,55 @@ void worddic_init (worddic *worddic)
   //Init the preference window's widgets
   init_prefs_window(worddic);
 }
+
+void init_search_menu(worddic *worddic)
+{
+  
+  //get the search options
+  gint match_criteria_jp = worddic->match_criteria_jp;
+  gint match_criteria_lat = worddic->match_criteria_lat;
+ 
+  GtkRadioMenuItem* radio_jp;
+  GtkRadioMenuItem* radio_lat;
+ 
+  switch(match_criteria_lat){
+  case EXACT_MATCH:
+    radio_lat = gtk_builder_get_object(worddic->definitions, "menuitem_search_whole_expression");
+    break;
+  case WORD_MATCH:
+    radio_lat = gtk_builder_get_object(worddic->definitions, "menuitem_search_latin_word");
+    break;
+  case ANY_MATCH:
+    radio_lat = gtk_builder_get_object(worddic->definitions, "menuitem_search_latin_any");
+    break;
+  case REGEX:
+    radio_lat = gtk_builder_get_object(worddic->definitions, "menuitem_search_latin_regex");
+    break;
+  }
+
+  switch(match_criteria_jp){
+  case EXACT_MATCH:
+    radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_exact");
+    break;
+  case START_WITH_MATCH:
+    radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_start");
+    break;
+  case END_WITH_MATCH:
+    radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_end");
+    break;
+  case ANY_MATCH:
+    radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_any");
+    break;
+  case REGEX:
+    radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_regex");
+    break;
+  }
+ 
+  gtk_check_menu_item_set_active(radio_jp, TRUE);
+  gtk_check_menu_item_set_active(radio_lat, TRUE);
+ 
+}
+
 
 void highlight_result(GtkTextBuffer *textbuffer_search_results,
 		      GtkTextTag *highlight,

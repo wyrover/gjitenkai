@@ -86,7 +86,6 @@ int main( int argc, char **argv )
   //add the search item to the gjitenkai menubar
   gtk_menu_shell_append(main_menu_bar, menu_item_search);
 
-
   gtk_widget_show_all ((GtkWidget*)window);
   
   gtk_main ();

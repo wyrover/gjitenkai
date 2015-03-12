@@ -21,6 +21,7 @@ typedef struct worddic_t
 
 
 void worddic_init (worddic * );
+void init_search_menu(worddic *);
 void highlight_result(GtkTextBuffer *textbuffer_search_results,
 		      GtkTextTag *highlight,
 		      const gchar *text_to_highlight);

@@ -510,7 +510,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
                               </object>
                             </child>
                             <child>
-                              <object class="GtkRadioMenuItem" id="menuitem_search_latin_any_matches">
+                              <object class="GtkRadioMenuItem" id="menuitem_search_latin_any">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Any Matches</property>
