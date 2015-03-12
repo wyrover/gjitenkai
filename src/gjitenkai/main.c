@@ -67,6 +67,26 @@ int main( int argc, char **argv )
                                  NULL);  
 
 
+  //append the search menuitems of worddic to the gjitenkai main menubar
+  //main menubar from gjitenkai
+  GtkMenuBar* main_menu_bar = gtk_builder_get_object(gjitenkai.definitions, 
+                                                     "main_menubar");
+
+  //worddic search menu item
+  GtkMenuItem* menu_item_search = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                         "menuitem_search");
+
+  GtkMenuBar* worddic_menubar = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                         "menubar");
+
+  //remove the search item from the worddic menubar
+  g_object_ref(menu_item_search);  
+  gtk_container_remove (GTK_CONTAINER(worddic_menubar), GTK_WIDGET(menu_item_search));
+
+  //add the search item to the gjitenkai menubar
+  gtk_menu_shell_append(main_menu_bar, menu_item_search);
+
+
   gtk_widget_show_all ((GtkWidget*)window);
   
   gtk_main ();
