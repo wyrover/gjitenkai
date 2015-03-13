@@ -6,18 +6,14 @@ gchar kanjiselected[2];
 extern guint32 srchpos;
 extern gchar *strginfo[];
 
-char* get_line_from_dic(gunichar kanji, GjitenDicfile *kanjidic) {
+char* get_line_from_dic(gunichar *kanji, GjitenDicfile *kanjidic) {
   gint i;
   gint srch_resp, roff, rlen;
   gchar *repstr = g_new0(gchar, 1024);
   guint32 respos;
-  gchar kanjistr[6];
-
-  for (i = 0; i < 6; i++) kanjistr[i] = 0;
-  g_unichar_to_utf8(kanji, kanjistr);
   
   gint srchpos = 0;
-  srch_resp = search_string(SRCH_START, kanjidic, (const char*)kanji, 
+  srch_resp = search_string(SRCH_START, kanjidic, kanji, 
                             &respos, &roff, &rlen, repstr);
 
   return repstr;

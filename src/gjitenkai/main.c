@@ -1,5 +1,9 @@
 #include "gjitenkai.h"
 
+extern on_gjitenkai_search_results_button_release_event(GtkWidget *text_view,
+                                                        GdkEventButton *event,
+                                                        gjitenkai *gjitenkai);
+
 int main( int argc, char **argv )
 {
   gjitenkai gjitenkai;
@@ -85,6 +89,15 @@ int main( int argc, char **argv )
 
   //add the search item to the gjitenkai menubar
   gtk_menu_shell_append(main_menu_bar, menu_item_search);
+
+
+  //callback when the worrdic search result is clicked (search kanji)
+  GtkTextView *result_text_view = gtk_builder_get_object(gjitenkai.worddic->definitions,
+                                                         "search_results");
+  g_signal_connect(result_text_view, 
+                   "button-release-event", 
+                   G_CALLBACK(on_gjitenkai_search_results_button_release_event), 
+                   &gjitenkai);
 
   gtk_widget_show_all ((GtkWidget*)window);
   

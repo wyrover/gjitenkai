@@ -47,7 +47,7 @@ typedef struct kanjifile_entry_t{
 /**
    Search in the kanjidic the line corresponding of the given kanji
  */
-gchar* get_line_from_dic(gunichar kanji, GjitenDicfile *kanjidic);
+gchar* get_line_from_dic(gunichar *kanji, GjitenDicfile *kanjidic);
 
 /**
    Parse a line of the kdic

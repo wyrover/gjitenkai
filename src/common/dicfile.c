@@ -297,7 +297,7 @@ GList *dicfile_search(GjitenDicfile *dicfile, const gchar *srchstrg,
   return results;
 }
 
-gint search_string(gint srchtype, GjitenDicfile *dicfile, const gchar *srchstrg,
+gint search_string(gint srchtype, GjitenDicfile *dicfile, gunichar *srchstrg,
                    guint32 *res_index, gint *hit_pos, gint *res_len, gchar *res_str){
   gint search_result;
   gchar *linestart, *lineend; 

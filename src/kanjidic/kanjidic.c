@@ -215,10 +215,10 @@ void search_and_display_kanji(kanjidic *kanjidic){
   gtk_widget_show_all(GTK_WIDGET(textview_kanji_result));
 }
 
-void display_kanji(kanjidic *kanjidic, const char *kanji)
+void display_kanji(kanjidic *kanjidic, const gchar* kanji)
 {
-  //TODO from g_slist of buttons
   //add a button in the history box
+  //TODO from g_slist of buttons
   GtkButton *button_history = (GtkButton*)gtk_button_new_with_label(kanji);
   g_signal_connect(button_history, 
                    "clicked", 
@@ -235,7 +235,7 @@ void display_kanji(kanjidic *kanjidic, const char *kanji)
                                                                                    "textbuffer_kanji_display");
   
   //get the  kanji informations from kdic
-  gchar *kanji_info_line = get_line_from_dic((gunichar)kanji, kanjidic->conf->kanjidic);
+  gchar *kanji_info_line = get_line_from_dic(kanji, kanjidic->conf->kanjidic);
   kanjifile_entry *kanji_data= do_kdicline(kanji_info_line);
 
   //iterators to apply tag between
@@ -326,6 +326,7 @@ void display_kanji(kanjidic *kanjidic, const char *kanji)
       gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display,
                                        "\n",
                                        strlen("\n"));      
+      
     }
   }
 }

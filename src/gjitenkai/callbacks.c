@@ -114,3 +114,38 @@ G_MODULE_EXPORT gboolean on_gjitenkai_prefs_delete_event(GtkWindow *window,
   gtk_widget_hide(GTK_WIDGET(window));
   return TRUE;
 }
+
+/**
+   callback when the mouse button is released
+ */
+G_MODULE_EXPORT gboolean on_gjitenkai_search_results_button_release_event(GtkWidget *text_view,
+                                                                          GdkEventButton *event,
+                                                                          gjitenkai *gjitenkai) {
+  GtkTextIter mouse_iter;
+  gint x, y;
+  gint trailing;
+  gunichar kanji;
+
+  if (event->button != 1) return FALSE;
+  
+  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), 
+					GTK_TEXT_WINDOW_WIDGET,
+					event->x, event->y, &x, &y);
+
+  gtk_text_view_get_iter_at_position(GTK_TEXT_VIEW(text_view), &mouse_iter, &trailing, x, y);
+  kanji = gtk_text_iter_get_char(&mouse_iter);
+  if ((kanji != 0xFFFC) && (kanji != 0) && (isKanjiChar(kanji) == TRUE)) {
+
+    gchar *str_kanji = g_new0(gchar, sizeof(gunichar));
+    g_unichar_to_utf8(kanji, str_kanji);
+
+    g_printf("gjitenkai: kanji -> %c\n", kanji);
+
+    //free previously used dic and load current dic in memory
+    dicfile_load(gjitenkai->kanjidic->conf->kanjidic);    
+
+    display_kanji(gjitenkai->kanjidic, str_kanji);
+  }
+
+  return FALSE;
+}
