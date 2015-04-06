@@ -23,9 +23,9 @@ add_definitions(${GTK3_CFLAGS_OTHER})
 
 #set some variable 
 ##dir where to install / find files
-set(DATADIR ${CMAKE_INSTALL_DATA_DIR}/gjiten-kai)
-set(DICDIR ${CMAKE_INSTALL_DATAROOTDIR}/dict)
-set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
+set(DATADIR ${CMAKE_INSTALL_FULL_DATADIR}/gjiten-kai)
+set(DICDIR ${CMAKE_INSTALL_FULL_DATADIR}/dict)
+set(LOCALDIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
@@ -101,6 +101,9 @@ target_link_libraries(bin/kanjidic ${GTK3_LIBRARIES})
 
 # Install radicals and inflection rules in the data dir
 INSTALL(FILES data/radkfile.utf8 data/vconj.utf8 DESTINATION ${DATADIR})
+
+# Install UI definitions files
+INSTALL(FILES UI/worddic.glade UI/kanjidic.glade UI/gjitenkai.glade DESTINATION ${DATADIR})
 
 # Install dictionaries
 INSTALL(FILES data/edict.utf8 data/kanjidic.utf8 DESTINATION ${DICDIR})
