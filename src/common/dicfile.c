@@ -165,10 +165,14 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile,
     line = g_realloc(line, linesize + 1);
     memmove(line, linestart, linesize);
     line[linesize] = '\0';
-    
+
+    GjitenDicentry* dicentry = parse_line(line);
+        
     //search match of the regex in the current line
-    match = g_regex_match_full (regex, line, string_len,
-    				start_position, 0, &match_info, &error);
+    match = g_regex_match_full (regex, dicentry->jap_definition,
+                                strlen(dicentry->jap_definition),
+    				start_position, 0,
+                                &match_info, &error);
 
     //if there is a match, copy the line into the result list
     if(match){

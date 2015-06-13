@@ -6,8 +6,7 @@
 #include "../worddic/worddic.h"
 #include "../kanjidic/kanjidic.h"
 
-#define UI_DEFINITIONS_FILE_GJITENKAI "UI/gjitenkai.glade"
-
+#define UI_DEFINITIONS_FILE_GJITENKAI GJITENKAI_DATADIR"/gjitenkai.glade"
 typedef struct gjitenkai_t
 {
   GtkBuilder *definitions;

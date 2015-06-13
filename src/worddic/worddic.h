@@ -7,7 +7,7 @@
 #include "../common/dicfile.h"
 #include "inflection.h"
 
-#define UI_DEFINITIONS_FILE_WORDDIC "UI/worddic.glade"
+#define UI_DEFINITIONS_FILE_WORDDIC GJITENKAI_DATADIR"/worddic.glade"
 
 typedef struct worddic_t
 {
