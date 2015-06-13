@@ -141,6 +141,12 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile,
   gboolean end_of_mem = FALSE;
   gchar *line = NULL;
 
+  //detect is the search expression is in japanese or latin char
+  int jpsrch = FALSE;
+  if(detect_japanese(srchstrg_regex)){
+    jpsrch = TRUE;
+  }
+
   lineend = dicfile->mem;
     
   //until the end of mem chunk is reached
@@ -167,13 +173,30 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile,
     line[linesize] = '\0';
 
     GjitenDicentry* dicentry = parse_line(line);
-        
-    //search match of the regex in the current line
-    match = g_regex_match_full (regex, dicentry->jap_definition,
-                                strlen(dicentry->jap_definition),
-    				start_position, 0,
-                                &match_info, &error);
 
+
+    //if the search expression contains at least a japanese character,
+    //search matches in the japanese definition and japanese reading
+    //if there is no japanese characters, search matches in the translation
+    //definitions
+    if(jpsrch){
+      //search match of the regex in the current line
+      match = g_regex_match_full (regex, dicentry->jap_definition,
+                                  strlen(dicentry->jap_definition),
+                                  start_position, 0,
+                                  &match_info, &error);
+      if(!match){
+        match = g_regex_match_full (regex, dicentry->jap_reading,
+                                    strlen(dicentry->jap_reading),
+                                    start_position, 0,
+                                    &match_info, &error);
+      }
+
+    }
+    else{
+
+    }
+    
     //if there is a match, copy the line into the result list
     if(match){
       //fetch the matched string
@@ -185,6 +208,7 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile,
 
       *matched_part = g_list_append(*matched_part, word);
     }
+    
   }
 
   return results;
