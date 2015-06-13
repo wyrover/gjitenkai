@@ -51,6 +51,12 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
   GtkEntry *entry_separator = (GtkEntry*)gtk_builder_get_object(kanjidic->definitions, 
                                                                 "entry_separator");  
   gtk_entry_set_text(entry_separator, kanjidic->conf->separator);
+
+  //init the kanji_result font chooser
+  GtkFontButton *kanji_result_font_button = (GtkFontButton*)
+    gtk_builder_get_object(kanjidic->definitions, "fontbutton_kanji_result");
+  
+  gtk_font_button_set_font_name (kanji_result_font_button, kanjidic->conf->kanji_result_font);
   
   //init the item list, expose what must be displayed in the kanji area
   GtkBox *box_items = (GtkBox*)gtk_builder_get_object(kanjidic->definitions,
@@ -119,6 +125,14 @@ G_MODULE_EXPORT void on_colorbutton_kanji_color_set(GtkColorChooser *color_choos
 
   //save this value
   conf_save(kanjidic->conf);  
+}
+
+G_MODULE_EXPORT void on_fontbutton_kanji_result_font_set(GtkFontButton *font_button, 
+                                  kanjidic *kanjidic){
+  const gchar *font_name= gtk_font_button_get_font_name (font_button);
+  kanjidic->conf->kanji_result_font = font_name;
+
+  conf_save(kanjidic->conf);
 }
 
 G_MODULE_EXPORT void on_filechooserbutton_kdic_file_set(GtkFileChooserButton *filechooserbutton,

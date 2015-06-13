@@ -196,7 +196,12 @@ void search_and_display_kanji(kanjidic *kanjidic){
        kanji_list = g_list_next(kanji_list)) {
 
     //create the kanji button
+    PangoFontDescription *fd = NULL;
+    fd = pango_font_description_from_string (kanjidic->conf->kanji_result_font);
+    
     GtkButton *button_kanji = (GtkButton*)gtk_button_new_with_label(kanji_list->data);
+    gtk_widget_modify_font (button_kanji, fd);
+    
     g_signal_connect(button_kanji, 
                      "clicked", 
                      G_CALLBACK(on_button_kanji_clicked), 

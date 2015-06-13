@@ -44,6 +44,10 @@ struct _GjitenConfig {
   GdkRGBA *kanji_color;
   const gchar *kanji_font;
   const gchar *separator;
+
+  GdkRGBA *kanji_result_color;
+  const gchar *kanji_result_font;
+
 };
 
 typedef struct _GjitenConfig GjitenConfig;

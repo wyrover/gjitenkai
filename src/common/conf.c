@@ -66,14 +66,20 @@ GjitenConfig *conf_load() {
   conf->kanji_font = g_settings_get_string(kanjidic_settings, "kanji-font");
 
   //load the results highlight color from string
-  char *str_kanji_color = g_settings_get_string(kanjidic_settings, "kanji-color");
+  char *str_kanji_color = g_settings_get_string(kanjidic_settings,
+                                                "kanji-color");
 
   //parse this color to RGBA object
   conf->kanji_color = g_new0(GdkRGBA, 1);
   gdk_rgba_parse(conf->kanji_color, str_kanji_color);
 
   conf->separator = g_settings_get_string(kanjidic_settings, "separator");
-  
+
+
+  //kanji result font and color
+  //kanji tag font and color
+  conf->kanji_result_font = g_settings_get_string(kanjidic_settings,
+                                                  "kanji-result-font");
   
   return conf;
 }
@@ -116,7 +122,10 @@ void conf_save(GjitenConfig *conf) {
   char *str_kanji_color = gdk_rgba_to_string(conf->kanji_color);
   g_settings_set_string(kanjidic_settings, "kanji-color", str_kanji_color);
 
-  g_settings_set_string(kanjidic_settings, "separator", conf->separator);  
+  g_settings_set_string(kanjidic_settings, "separator", conf->separator);
+
+  //kanji result button font
+  g_settings_set_string(kanjidic_settings, "kanji-result-font", conf->kanji_result_font);
 }
 
 void conf_save_history(GList *history, GjitenConfig *conf) {
