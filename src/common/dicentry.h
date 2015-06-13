@@ -10,11 +10,11 @@ struct _GjitenDicentry {
   gchar *jap_definition;
   gchar *jap_reading;
   
-  gchar **type;
-  gchar **definition;
+  //  gchar **type;
+  GList *definitions;
 
-  gint number_of_type;
-  gint number_of_definition;
+  //gint number_of_type;
+  //gint number_of_definition;
 
 };
 

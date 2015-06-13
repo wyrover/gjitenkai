@@ -174,13 +174,9 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile,
 
     GjitenDicentry* dicentry = parse_line(line);
 
-
-    //if the search expression contains at least a japanese character,
-    //search matches in the japanese definition and japanese reading
-    //if there is no japanese characters, search matches in the translation
-    //definitions
     if(jpsrch){
-      //search match of the regex in the current line
+      //if the search expression contains at least a japanese character,
+      //search matches in the japanese definition and japanese reading
       match = g_regex_match_full (regex, dicentry->jap_definition,
                                   strlen(dicentry->jap_definition),
                                   start_position, 0,
@@ -194,6 +190,23 @@ GList *dicfile_search_regex(GjitenDicfile *dicfile,
 
     }
     else{
+      //if there is no japanese characters, search matches in the translation
+      //definitions
+      GList *definition = dicentry->definitions;  //browse definitions
+      
+      while(definition != NULL){
+        //g_printf("->%s\n", definition->data);
+        match = g_regex_match_full (regex, definition->data,
+                                    strlen(definition->data),
+                                    start_position, 0,
+                                    &match_info, &error);
+
+        if(match)break;
+        else definition = definition->next;
+        
+        
+      }
+      //g_printf("---------------\n");
 
     }
     
