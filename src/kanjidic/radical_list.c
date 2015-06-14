@@ -14,31 +14,35 @@ void radical_list_init(kanjidic *kanjidic){
   gint j = 0;
 
   gint last_strockes_count=0;
-
+  
   for (radical_list;
        radical_list != NULL;
        radical_list = g_list_next(radical_list)) {
-   
-    const gchar *radical      = (const gchar*)((RadInfo*)radical_list->data)->radical;
+     
+    const gchar* radical      = (const gchar*)((RadInfo*)radical_list->data)->radical;
     gint strokes_count  = ((RadInfo*)radical_list->data)->strokes;
 
     //the stroke count has change: display a label with the new count and
     //update the last stroke count
     if(last_strockes_count != strokes_count){
-      char str_stroke[52];
-      //TODO set color in pref menu
-      sprintf(str_stroke, "<span font_weight='bold' fgcolor='#EE0101'>%d</span>", strokes_count);
+      gchar* str_stroke;
+      
+      str_stroke = g_strdup_printf("<span font_weight='bold' fgcolor='#EE0101'>%d</span>",
+                                   strokes_count);
+      
       GtkLabel *label_stroke_count = (GtkLabel*)gtk_label_new("");
       gtk_label_set_markup(label_stroke_count, str_stroke);
       gtk_grid_attach(GTK_GRID(grid_radical_list), GTK_WIDGET(label_stroke_count), i, j, 1, 1);
 
+      g_free(str_stroke);
+      
       last_strockes_count = strokes_count;
 
       i++;
       if(i%RADICAL_PER_ROW == 0){j++;i=0;}
-
+      
     }
-
+  
     //add the button
     GtkButton *button_radical = (GtkButton*)gtk_button_new_with_label(radical);
     g_signal_connect(button_radical, 
@@ -53,7 +57,7 @@ void radical_list_init(kanjidic *kanjidic){
     i++;
     if(i%RADICAL_PER_ROW == 0){j++;i=0;}
 
-  }
+    }
 }
 
 void radical_list_update_sensitivity(kanjidic *kanjidic){
