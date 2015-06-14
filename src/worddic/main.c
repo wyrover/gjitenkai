@@ -1,3 +1,4 @@
+
 #include <locale.h>
 #include <libintl.h>
 
@@ -20,6 +21,13 @@ int main( int argc, char **argv )
   //worddic window
   GtkWindow *window = (GtkWindow*)gtk_builder_get_object(worddic.definitions, 
                                                           "worddic");
+  //set icon
+  GdkPixbuf *pixbuf;
+  GError *error = NULL;
+  pixbuf = gdk_pixbuf_new_from_file("pixmaps/jiten.png", &error);
+   
+  gtk_window_set_icon(GTK_WINDOW(window), pixbuf);
+  
   //box at the top of the worddic window
   GtkWidget *box_top = (GtkWidget*)gtk_builder_get_object(worddic.definitions, 
                                                               "box_top");

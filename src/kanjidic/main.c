@@ -16,6 +16,14 @@ int main( int argc, char **argv )
   //kanjidic window
   GtkWindow *window = (GtkWindow*)gtk_builder_get_object(kanjidic.definitions, 
                                                           "kanjidic");
+
+  //set icon
+  GdkPixbuf *pixbuf;
+  GError *error = NULL;
+  pixbuf = gdk_pixbuf_new_from_file("pixmaps/jiten.png", &error);
+   
+  gtk_window_set_icon(GTK_WINDOW(window), pixbuf);
+
   //box in the top of the window
   GtkWidget *box_top = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions, 
                                                               "box_top");

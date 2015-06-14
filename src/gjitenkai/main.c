@@ -18,14 +18,19 @@ int main( int argc, char **argv )
   GtkWindow *window = (GtkWindow*)gtk_builder_get_object(gjitenkai.definitions, 
                                                          "gjiten");
   gtk_window_set_default_size(GTK_WINDOW(window), 800, 400);
-
+  GdkPixbuf *pixbuf;
+  GError *error = NULL;
+  pixbuf = gdk_pixbuf_new_from_file("pixmaps/jiten.png", &error);
+   
+  gtk_window_set_icon(GTK_WINDOW(window), pixbuf);
+ 
   //get the top level box of worddic and kanjidic
   GtkWidget *box_worddic = (GtkWidget*)gtk_builder_get_object(gjitenkai.worddic->definitions, 
                                                               "box_toplevel");
   GtkWidget *box_kanjidic = (GtkWidget*)gtk_builder_get_object(gjitenkai.kanjidic->definitions, 
                                                                "box_toplevel");
 
-  //create the paned widget and the notbook
+  //create the paned widget and the notebook
   gjitenkai.paned = (GtkPaned*)gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
   gjitenkai.notebook = (GtkNotebook*)gtk_notebook_new();
 
@@ -80,10 +85,9 @@ int main( int argc, char **argv )
   GtkMenuItem* menu_item_search = gtk_builder_get_object(gjitenkai.worddic->definitions, 
                                                          "menuitem_search");
 
-  GtkMenuBar* worddic_menubar = gtk_builder_get_object(gjitenkai.worddic->definitions, 
-                                                         "menubar");
-
   //remove the search item from the worddic menubar
+  GtkMenuBar* worddic_menubar = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                       "menubar");
   g_object_ref(menu_item_search);  
   gtk_container_remove (GTK_CONTAINER(worddic_menubar), GTK_WIDGET(menu_item_search));
 
