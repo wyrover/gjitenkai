@@ -225,6 +225,9 @@
     <key name="kanji-color" type="s">
       <default>'rgb(255,0,0)'</default>
     </key>
+    <key name="kanji-result-font" type="s">
+      <default> 'Monospace 18'</default>
+    </key>
     <key name="separator" type="s">
       <default>' | '</default>
     </key>    
