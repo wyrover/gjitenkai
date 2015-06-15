@@ -1,4 +1,5 @@
 #include "worddic.h"
+#include "worddic_dicfile.h"
 #include "../common/dicfile.h"
 
 G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_view,

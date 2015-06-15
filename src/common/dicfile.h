@@ -14,7 +14,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "dicentry.h"
 #include "conf.h"
 #include "error.h"
 

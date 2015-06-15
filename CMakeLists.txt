@@ -41,6 +41,8 @@ add_executable(
   src/worddic/preferences.c
   src/worddic/inflection.c 
   src/worddic/callbacks.c
+  src/worddic/dicentry.c
+  src/worddic/worddic_dicfile.c 
   src/kanjidic/conf.c 
   src/kanjidic/kanjidic.c 
   src/kanjidic/kanjiutils.c 
@@ -52,7 +54,6 @@ add_executable(
   src/common/conf.c
   src/common/dicfile.c 
   src/common/dicutil.c
-  src/common/dicentry.c 
   src/common/callbacks.c
   src/common/error.c   
 )
@@ -65,11 +66,12 @@ add_executable(
   src/worddic/preferences.c
   src/worddic/inflection.c 
   src/worddic/callbacks.c
-  src/worddic/conf.c 
+  src/worddic/conf.c
+  src/worddic/dicentry.c
+  src/worddic/worddic_dicfile.c 
   src/common/conf.c
   src/common/dicfile.c
   src/common/dicutil.c 
-  src/common/dicentry.c 
   src/common/error.c 
   src/common/callbacks.c  
 )
@@ -89,7 +91,6 @@ add_executable(
   src/common/dicfile.c 
   src/common/conf.c 
   src/common/dicutil.c
-  src/common/dicentry.c 
   src/common/error.c 
   src/common/callbacks.c
 )
