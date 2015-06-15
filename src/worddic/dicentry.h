@@ -1,7 +1,7 @@
 #ifndef DICENTRY_H
 #define DICENTRY_H
 
-#include <glib.h>
+#include <gtk/gtk.h>
 
 //entry in a dictonary file
 //Jap definition SPACE [Jap reading] SPACE (type1,type2,..) def1/def2/...
@@ -9,13 +9,7 @@
 struct _GjitenDicentry {
   gchar *jap_definition;
   gchar *jap_reading;
-  
-  //  gchar **type;
   GList *definitions;
-
-  //gint number_of_type;
-  //gint number_of_definition;
-
 };
 
 typedef struct _GjitenDicentry GjitenDicentry;

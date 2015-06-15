@@ -21,6 +21,9 @@ void worddic_init (worddic *worddic)
   //load configuration 
   worddic->conf = worddic_conf_load(worddic);
 
+  //by default, no mmaped dictionary
+  worddic->conf->mmaped_dicfile = NULL;
+  
   //by default search everything
   worddic->match_criteria_jp = ANY_MATCH;
   worddic->match_criteria_lat = ANY_MATCH;

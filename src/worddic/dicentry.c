@@ -19,31 +19,22 @@ GjitenDicentry* parse_line(gchar* line){
   size_t len = strlen(dicentry->jap_reading);
   memmove(dicentry->jap_reading, dicentry->jap_reading+1, len-2);
   dicentry->jap_reading[len-2] = 0;
-    
-  /*
-  /////////////////////////////
-  //types
-  gchar *type=NULL;
-  while(type = (gchar*)strtok(NULL, " ")){
-    if(type[0] != '('){
-      break;
-    }
-
-    g_printf("type: %s\n", type);
-  }
-  */
   
   /////////////////////////////
   //translated definitions
   gchar *definition=NULL;
   dicentry->definitions = NULL;
   while(definition = strtok(NULL, "/")){
-    //g_printf("definition: %s\n", definition);
-    dicentry->definitions = g_list_append(dicentry->definitions,
-                                          g_strdup_printf("%s", definition));
+    if(strcmp(definition, "\n")){
+      dicentry->definitions = g_list_prepend(dicentry->definitions,
+                                             definition);
+    }
   }
   
-  g_free(line_cpy);
+  dicentry->definitions = g_list_reverse(dicentry->definitions);
+  
+  //g_free(line_cpy);
   
   return dicentry;
 }
+

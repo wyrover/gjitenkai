@@ -7,7 +7,8 @@ int dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile){
   }
   if (dicfile->status != DICFILE_OK) return SRCH_FAIL;
 
-  //if the mapped dictionary is not the requested dictionnary then clear it 
+  //if the mapped dictionary is not the requested dictionnary then clear the
+  //previously mapped dictionary
   if ((dicfile != mmaped_dicfile) && (mmaped_dicfile != NULL)) {
     g_printf("free mem of previously used dicfile\n");
     dicutil_unload_dic(mmaped_dicfile);

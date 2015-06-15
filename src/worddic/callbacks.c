@@ -19,7 +19,7 @@ G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_
   gtk_text_view_get_iter_at_position(GTK_TEXT_VIEW(text_view), &mouse_iter, &trailing, x, y);
   kanji = gtk_text_iter_get_char(&mouse_iter);
   if ((kanji != 0xFFFC) && (kanji != 0) && (isKanjiChar(kanji) == TRUE)) {
-    g_printf("kanji: %c\n", kanji);
+    //g_printf("kanji: %c\n", kanji);
   }
 
   return FALSE;
@@ -53,7 +53,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   dicfile = dicfile_node->data;
   GList *results=NULL;               //matched dictionary entries
   GList *l = NULL;                   //browse results
-  GList *results_highlight = NULL;   //what to highlight in the result (in case of a regex or inflection)
+  GList *results_highlight = NULL;   //what to highlight in the result
 
   //clear the display result buffer
   gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
@@ -62,10 +62,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   while (dicfile_node != NULL) {
 
     dicfile = dicfile_node->data; 
-    
-    //free previously used dic and load current dic in memory
-    dicfile_load(dicfile, worddic->conf->mmaped_dicfile);
-    
+          
     ////Special searches
     //search for deinflections
     if(deinflection){
@@ -145,10 +142,43 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
 
       //insert
       for (l = results_regex; l != NULL; l = l->next){
+        GjitenDicentry *entry = l->data;
+        
 	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
 					 "•", strlen("•"));
 	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					 l->data, strlen(l->data));
+					 entry->jap_definition,
+                                         strlen(entry->jap_definition));
+        
+	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					 " [", strlen(" ["));
+        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					 entry->jap_reading,
+                                         strlen(entry->jap_reading));
+        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+					 "] ", strlen("] "));
+
+
+        GList *m = NULL;
+        for(m = entry->definitions;
+            m != NULL;
+            m = m->next){
+
+          gchar* definition = (gchar*)m->data;
+          
+          gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                           definition,
+                                           strlen(definition));
+          
+          gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                           "/",
+                                           strlen("/"));
+        }
+        
+        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                         "\n",
+                                         strlen("\n"));          
+                  
 	//highligh
 	highlight_result(textbuffer_search_results, worddic->conf->highlight, results_highlight->data);
 	results_highlight = results_highlight->next;

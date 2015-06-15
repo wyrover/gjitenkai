@@ -13,6 +13,7 @@
 #include "../../config.h"
 
 #include "worddic.h"
+#include "worddic_dicfile.h"
 #include "error.h"
 
 #include "../common/conf.h"
