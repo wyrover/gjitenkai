@@ -63,7 +63,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     dicfile = dicfile_node->data; 
     
     //free previously used dic and load current dic in memory
-    dicfile_load(dicfile);
+    dicfile_load(dicfile, worddic->conf->mmaped_dicfile);
     
     ////Special searches
     //search for deinflections

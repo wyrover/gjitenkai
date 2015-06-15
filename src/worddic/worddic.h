@@ -3,17 +3,19 @@
 
 #include <gtk/gtk.h>
 
+#include "conf.h"
 #include "../common/conf.h"
 #include "../common/dicfile.h"
 #include "inflection.h"
 
+#define SETTINGS_WORDDIC "apps.gjitenkai.worddic"
 #define UI_DEFINITIONS_FILE_WORDDIC GJITENKAI_DATADIR"/worddic.glade"
 
 typedef struct worddic_t
 {
   GtkBuilder *definitions;
-
-  GjitenConfig *conf;
+  GSettings *settings;
+  struct _WorddicConfig *conf;
 
   gint match_criteria_lat;
   gint match_criteria_jp;

@@ -36,10 +36,12 @@ add_executable(
   src/gjitenkai/main.c 
   src/gjitenkai/gjitenkai.c
   src/gjitenkai/callbacks.c
+  src/worddic/conf.c 
   src/worddic/worddic.c 
   src/worddic/preferences.c
   src/worddic/inflection.c 
   src/worddic/callbacks.c
+  src/kanjidic/conf.c 
   src/kanjidic/kanjidic.c 
   src/kanjidic/kanjiutils.c 
   src/kanjidic/callbacks.c
@@ -47,10 +49,10 @@ add_executable(
   src/kanjidic/radical_list.c
   src/kanjidic/preferences.c
   src/kanjidic/kanji_item.c
-  src/common/conf.c 
+  src/common/conf.c
+  src/common/dicfile.c 
   src/common/dicutil.c
   src/common/dicentry.c 
-  src/common/dicfile.c 
   src/common/callbacks.c
   src/common/error.c   
 )
@@ -63,9 +65,10 @@ add_executable(
   src/worddic/preferences.c
   src/worddic/inflection.c 
   src/worddic/callbacks.c
-  src/common/conf.c 
-  src/common/dicutil.c 
+  src/worddic/conf.c 
+  src/common/conf.c
   src/common/dicfile.c
+  src/common/dicutil.c 
   src/common/dicentry.c 
   src/common/error.c 
   src/common/callbacks.c  
@@ -82,6 +85,7 @@ add_executable(
   src/kanjidic/radical_list.c
   src/kanjidic/preferences.c
   src/kanjidic/kanji_item.c
+  src/kanjidic/conf.c 
   src/common/dicfile.c 
   src/common/conf.c 
   src/common/dicutil.c

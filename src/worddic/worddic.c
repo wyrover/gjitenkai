@@ -16,10 +16,10 @@ void worddic_init (worddic *worddic)
   gtk_builder_connect_signals (worddic->definitions, worddic);
 
   //init the configuration handler
-  conf_init_handler();
+  worddic->settings = conf_init_handler(SETTINGS_WORDDIC);
 
   //load configuration 
-  worddic->conf = conf_load();
+  worddic->conf = worddic_conf_load(worddic);
 
   //by default search everything
   worddic->match_criteria_jp = ANY_MATCH;

@@ -9,7 +9,6 @@
 #define VINFL_FILENAME GJITENKAI_DATADIR"/vconj.utf8"
 #define RADKFILE_NAME GJITENKAI_DATADIR"/radkfile.utf8"
 
-#define SETTINGS_WORDDIC "apps.gjitenkai.worddic"
 #define SETTINGS_KANJIDIC "apps.gjitenkai.kanjidic"
 #define GCONF_ROOT "/apps/gjitenkai"
 #define GCONF_PATH_GJITEN GCONF_ROOT"/gjiten"

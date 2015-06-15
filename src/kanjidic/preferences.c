@@ -92,7 +92,7 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
 G_MODULE_EXPORT void on_entry_separator_activate(GtkEntry *entry, kanjidic *kanjidic){
   kanjidic->conf->separator = gtk_entry_get_text(entry);
 
-  conf_save(kanjidic->conf);
+  kanjidic_conf_save(kanjidic->conf, kanjidic->settings);
 }
 
 G_MODULE_EXPORT void on_kanjidic_button_OK_clicked(GtkButton* button, kanjidic *kanjidic){
@@ -110,7 +110,7 @@ G_MODULE_EXPORT void on_fontbutton_kanji_font_set(GtkFontButton *font_button,
   g_object_set(kanjidic->texttag_kanji, "font",
                kanjidic->conf->kanji_font, NULL);
 
-  conf_save(kanjidic->conf);
+  kanjidic_conf_save(kanjidic->conf, kanjidic->settings);
 }
 
 G_MODULE_EXPORT void on_colorbutton_kanji_color_set(GtkColorChooser *color_chooser, 
@@ -124,7 +124,7 @@ G_MODULE_EXPORT void on_colorbutton_kanji_color_set(GtkColorChooser *color_choos
                kanjidic->conf->kanji_color, NULL);
 
   //save this value
-  conf_save(kanjidic->conf);  
+  kanjidic_conf_save(kanjidic->conf, kanjidic->settings);
 }
 
 G_MODULE_EXPORT void on_fontbutton_kanji_result_font_set(GtkFontButton *font_button, 
@@ -132,7 +132,7 @@ G_MODULE_EXPORT void on_fontbutton_kanji_result_font_set(GtkFontButton *font_but
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
   kanjidic->conf->kanji_result_font = font_name;
 
-  conf_save(kanjidic->conf);
+  kanjidic_conf_save(kanjidic->conf, kanjidic->settings);
 }
 
 G_MODULE_EXPORT void on_filechooserbutton_kdic_file_set(GtkFileChooserButton *filechooserbutton,
@@ -146,13 +146,13 @@ G_MODULE_EXPORT void on_filechooserbutton_kdic_file_set(GtkFileChooserButton *fi
   kanjidic->conf->kanjidic->name = g_file_get_basename(file);
 
   //unload dictionary in conf
-  dicutil_unload_dic();
+  //dicutil_unload_dic(kanjidic->conf->kanjidic);
 
   //init the kanjidic with the selected path
   dicfile_init(kanjidic->conf->kanjidic);
   
+  kanjidic_conf_save(kanjidic->conf, kanjidic->settings);
   
-  conf_save(kanjidic->conf);
 }
 
 //hide and prevent deletion

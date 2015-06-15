@@ -51,7 +51,9 @@ enum {
   DICFILE_OK
   };
 
-int dicfile_load(GjitenDicfile* dicfile);
+int dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile);
+void dicutil_unload_dic(GjitenDicfile *dicfile);
+
 gboolean dicfile_is_utf8(GjitenDicfile *dicfile);
 gboolean dicfile_init(GjitenDicfile *dicfile);
 void dicfile_close(GjitenDicfile *dicfile);

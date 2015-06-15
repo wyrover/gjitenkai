@@ -25,7 +25,7 @@ gboolean isKanjiChar(const gunichar c);
 gboolean isJPChar(const gunichar c);
 gboolean isOtherChar(const gunichar c);
 
-/*0 if no more words in src, else new pos*/
+/*returns 0 if no more words in src, else new pos*/
 int get_word(char *dest, char *src, int size, int pos);
 int strg_end_compare(const gchar *strg1, const gchar *strg2);
 int get_jp_match_type(gchar *line, const gchar *srchstrg, int offset);
@@ -33,4 +33,5 @@ gboolean is_kanji_only(const gchar *line);
 gboolean isHiraganaString(const gchar *strg);
 gboolean isKatakanaString(const gchar *strg);
 gboolean detect_japanese(const gchar *srchstrg);
+
 #endif

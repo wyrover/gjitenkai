@@ -173,7 +173,7 @@ G_MODULE_EXPORT void on_entry_filter_radical_activate(GtkWidget *entry, kanjidic
 G_MODULE_EXPORT void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {
 
   //init kdic
-  dicfile_load(kanjidic->conf->kanjidic);
+  dicfile_load(kanjidic->conf->kanjidic, NULL);
     
   //the label of the button is the kanji to be searched/displayed
   const gchar* kanji = gtk_button_get_label(button);
@@ -182,7 +182,7 @@ G_MODULE_EXPORT void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjid
 }
 
 G_MODULE_EXPORT void on_button_search_clicked(GtkWidget *widget, kanjidic *kanjidic) {
-  dicfile_load(kanjidic->conf->kanjidic);
+  dicfile_load(kanjidic->conf->kanjidic, NULL);
   search_and_display_kanji(kanjidic);
 }
 

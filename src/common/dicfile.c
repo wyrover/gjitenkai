@@ -1,8 +1,6 @@
 #include "dicfile.h"
 
-extern GjitenConfig conf;
-
-int dicfile_load(GjitenDicfile* dicfile){
+int dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile){
   //if the dictionary is not initialized, init: open a file descriptor
   if (dicfile->status == DICFILE_NOT_INITIALIZED) {
     if (dicfile_init(dicfile) == FALSE) return SRCH_FAIL; 
@@ -10,22 +8,37 @@ int dicfile_load(GjitenDicfile* dicfile){
   if (dicfile->status != DICFILE_OK) return SRCH_FAIL;
 
   //if the mapped dictionary is not the requested dictionnary then clear it 
-  if ((dicfile != conf.mmaped_dicfile) && (conf.mmaped_dicfile != NULL)) {
+  if ((dicfile != mmaped_dicfile) && (mmaped_dicfile != NULL)) {
     g_printf("free mem of previously used dicfile\n");
-    dicutil_unload_dic();
+    dicutil_unload_dic(mmaped_dicfile);
   }
-
+  
+  
   //if no mapped dictionary, load into memory from the dic's file descriptor
-  if (conf.mmaped_dicfile == NULL) {
+  if (mmaped_dicfile == NULL) {
     g_printf("load dicfile %s %s into memory\n", dicfile->name, dicfile->path);
-    conf.mmaped_dicfile = dicfile;
+    mmaped_dicfile = dicfile;
     dicfile->mem = read_file(dicfile->path);
 
     if (dicfile->mem == NULL) gjiten_abort_with_msg("mmap() failed\n");
-    conf.mmaped_dicfile = dicfile;
-  }
+    mmaped_dicfile = dicfile;
+    }
 }
 
+
+void dicutil_unload_dic(GjitenDicfile *dicfile) {
+  if (dicfile != NULL) {
+    //free mem of previously used dicfile	
+    #ifdef USE_MMAP
+    munmap(dicfile->mem, dicfile->size);
+    #else
+    free(dicfile->mem);
+    #endif
+
+    dicfile->mem = NULL;
+    dicfile = NULL;
+  }
+}
 
 gboolean dicfile_check_all(GSList *dicfile_list) {
   GSList *node;

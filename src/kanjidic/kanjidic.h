@@ -5,6 +5,7 @@
 
 #include "../common/conf.h"
 
+#include "conf.h"
 #include "constants.h"
 #include "kanjiutils.h"
 #include "kanji_item.h"
@@ -12,12 +13,14 @@
 
 #define UI_DEFINITIONS_FILE_KANJIDIC GJITENKAI_DATADIR"/kanjidic.glade"
 
+#define SETTINGS_KANJIDIC "apps.gjitenkai.kanjidic"
+
 typedef struct kanjidic_t
 {
   GtkBuilder *definitions;
 
-  //TODO create a struct KanjidicConfig
-  GjitenConfig *conf;
+  GSettings *settings;
+  struct _KanjidicConfig *conf;
 
   //with these two hash, search can be performed on kanji and radicals
   GHashTable *kanji_info_hash;  //kanji   -> list of kanjiinfo

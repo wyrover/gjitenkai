@@ -31,7 +31,7 @@ G_MODULE_EXPORT gboolean on_button_dictionary_remove_clicked(GtkWidget *widget, 
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
   GjitenDicfile *dic = selected_element->data;  
   worddic->conf->dicfile_list = g_slist_remove(worddic->conf->dicfile_list, selected_element->data);
-  conf_save(worddic->conf);
+  worddic_conf_save(worddic);
 
   //remove from the list store
   GtkListStore *store = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
@@ -151,7 +151,7 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
 
   GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                         "prefs");
-  conf_save(worddic->conf);
+  worddic_conf_save(worddic);
   
   gtk_widget_hide (GTK_WIDGET(dialog_dic_edit));
 }
@@ -235,7 +235,7 @@ G_MODULE_EXPORT void on_fontbutton_results_font_set(GtkFontButton *font_button,
   //apply the newly selected font to the results textview
   gtk_widget_override_font(GTK_WIDGET(textview_search_results), font_desc);
 
-  conf_save(worddic->conf);
+  worddic_conf_save(worddic);
 }
 
 G_MODULE_EXPORT void on_colorbutton_results_highlight_color_set(GtkColorChooser *color_chooser, 
@@ -247,7 +247,7 @@ G_MODULE_EXPORT void on_colorbutton_results_highlight_color_set(GtkColorChooser 
   g_object_set(worddic->conf->highlight, "foreground-rgba",
              worddic->conf->results_highlight_color, NULL);
 
-  conf_save(worddic->conf);
+  worddic_conf_save(worddic);
 }
 
 G_MODULE_EXPORT void on_checkbutton_search_katakana_on_hiragana_toggled(GtkCheckButton* check_button, 
@@ -261,7 +261,7 @@ G_MODULE_EXPORT void on_checkbutton_search_hiragana_on_katakana_toggled(GtkCheck
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
   worddic->conf->search_hira_on_kata = toggled;
 
-  conf_save(worddic->conf);
+  worddic_conf_save(worddic);
 }
 
 G_MODULE_EXPORT void on_checkbutton_verbadj_deinflection_toggled(GtkCheckButton* check_button, 
@@ -269,7 +269,7 @@ G_MODULE_EXPORT void on_checkbutton_verbadj_deinflection_toggled(GtkCheckButton*
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
   worddic->conf->verb_deinflection = toggled;
 
-  conf_save(worddic->conf);
+  worddic_conf_save(worddic);
 }
 
 G_MODULE_EXPORT gboolean on_button_OK_clicked(GtkWidget *widget, worddic *worddic) {

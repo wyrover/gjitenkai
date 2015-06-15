@@ -16,19 +16,22 @@ void kanjidic_init (kanjidic *kanjidic)
   gtk_builder_connect_signals (kanjidic->definitions, kanjidic);
 
   //init the configuration handler
-  conf_init_handler();
+  kanjidic->settings = conf_init_handler(SETTINGS_KANJIDIC);
 
   //load configuration 
-  kanjidic->conf = conf_load();
+  kanjidic->conf = kanjidic_conf_load(kanjidic);
+
+  //load the kanji dictionary
+  dicfile_load(kanjidic->conf->kanjidic, NULL);  
   
   //init the radical and kanji hash
   kanjidic->kanji_info_hash = g_hash_table_new((GHashFunc)g_str_hash,
                                                (GEqualFunc)g_str_equal);
   kanjidic->rad_info_hash = g_hash_table_new((GHashFunc)g_str_hash,
                                              (GEqualFunc)g_str_equal);
-  kanjidic->rad_info_list = NULL;
 
   //load radical and kanji from the radkfile
+  kanjidic->rad_info_list = NULL;
   kanjidic->rad_info_list = load_radkfile(&kanjidic->rad_info_hash, 
 					  &kanjidic->kanji_info_hash,
 					  kanjidic->rad_info_list);
