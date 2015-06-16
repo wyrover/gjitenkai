@@ -3,37 +3,24 @@
 GjitenDicentry* parse_line(gchar* line){
   gchar *line_cpy = strdup(line);
   GjitenDicentry* dicentry = g_new0 (GjitenDicentry, 1);
-
   //g_printf("%s\n", line);
+  //cut until / 
+  gchar *chunk = strtok(line_cpy, "/");
   
-  //////////////////////////////
-  //get the japanese definition 
-  dicentry->jap_definition = g_strdup_printf("%s", strtok(line_cpy, " "));
-
-  /////////////////////////////
-  //get the japanese reading
-  gchar *reading = strtok(NULL, " ");
-  dicentry->jap_reading = g_strdup_printf("%s", reading);
- 
-  //trim the bracets []
-  size_t len = strlen(dicentry->jap_reading);
-  memmove(dicentry->jap_reading, dicentry->jap_reading+1, len-2);
-  dicentry->jap_reading[len-2] = 0;
-  
-  /////////////////////////////
-  //translated definitions
-  gchar *definition=NULL;
+  //read the definitions
   dicentry->definitions = NULL;
-  while(definition = strtok(NULL, "/")){
-    if(strcmp(definition, "\n")){
-      dicentry->definitions = g_list_prepend(dicentry->definitions,
-                                             definition);
-    }
-  }
+  gchar *definition = strtok(NULL, "/");
+  do{
+    //g_printf("def %s\n", definition);
+    if(definition && strcmp(definition, "\n")){
+      dicentry->definitions = g_list_append(dicentry->definitions,
+                                            g_strdup_printf("%s", definition));
+      }
+    definition = strtok(NULL, "/");
+  }while(definition);
   
-  dicentry->definitions = g_list_reverse(dicentry->definitions);
-  
-  //g_free(line_cpy);
+  dicentry->jap_definition = g_strdup_printf("%s", strtok(chunk, " "));
+  dicentry->jap_reading = g_strdup_printf("%s", strtok(NULL, " "));
   
   return dicentry;
 }

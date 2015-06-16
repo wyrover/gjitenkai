@@ -3,9 +3,13 @@
 
 #include <gtk/gtk.h>
 
-//entry in a dictonary file
-//Jap definition SPACE [Jap reading] SPACE (type1,type2,..) def1/def2/...
-//type can be: exp, v1, v3, v5, n, adj-i, adj-na
+/*entry in an EDICT dictonary file
+
+Optional Jap definition SPACE OPTIONAL [Jap reading] SPACE 
+type 1 def1/ type 2 def2/.../\n
+
+type can be: exp, v1, v3, v5, n, adj-i, adj-na
+*/
 struct _GjitenDicentry {
   gchar *jap_definition;
   gchar *jap_reading;

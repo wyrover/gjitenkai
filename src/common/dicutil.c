@@ -262,6 +262,26 @@ gboolean isKatakanaString(const gchar *strg) {
   return TRUE;
 }
 
+gboolean hasHiraganaString(const gchar *strg) {
+  const gchar *hiraptr = strg;
+
+  while (*hiraptr != 0) {
+    if (isHiraganaChar(g_utf8_get_char(hiraptr)) == TRUE) return TRUE;
+    hiraptr = g_utf8_next_char(hiraptr);
+  }
+  return FALSE;
+}
+
+gboolean hasKatakanaString(const gchar *strg) {
+  const gchar *kataptr = strg;
+
+  while (*kataptr != 0) {
+    if (isKatakanaChar(g_utf8_get_char(kataptr)) == TRUE) return TRUE;
+    kataptr = g_utf8_next_char(kataptr);
+  }
+  return FALSE;
+}
+
 gboolean detect_japanese(const gchar *srchstrg){
   const gchar *currchar = srchstrg;
   do { 

@@ -17,12 +17,11 @@
 #include "conf.h"
 #include "error.h"
 
-#define EXACT_MATCH 1 		//jp latin
-#define START_WITH_MATCH 2 	//jp
-#define END_WITH_MATCH 3 	//jp
-#define ANY_MATCH 4 		//jp latin
-#define WORD_MATCH 5 		//latin
-#define REGEX 6                 //jp latin
+#define EXACT_MATCH 1 	    //jp latin (whole expression)
+#define START_WITH_MATCH 2  //jp
+#define END_WITH_MATCH 3    //jp
+#define ANY_MATCH 4 	    //jp latin (any)
+#define WORD_MATCH 5 	    //latin (whole word)
 
 #define SRCH_OK		0
 #define SRCH_FAIL	1

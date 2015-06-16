@@ -204,8 +204,8 @@ GList *dicfile_search(GjitenDicfile *dicfile, const gchar *srchstrg,
       case ANY_MATCH:
         match_criteria = TRUE;
         break;
-      case REGEX:
-	break;
+        //case REGEX:
+	//break;
       }
     } 
     

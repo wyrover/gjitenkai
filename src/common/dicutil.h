@@ -32,6 +32,8 @@ int get_jp_match_type(gchar *line, const gchar *srchstrg, int offset);
 gboolean is_kanji_only(const gchar *line);
 gboolean isHiraganaString(const gchar *strg);
 gboolean isKatakanaString(const gchar *strg);
+gboolean hasHiraganaString(const gchar *strg);
+gboolean hasKatakanaString(const gchar *strg);
 gboolean detect_japanese(const gchar *srchstrg);
 
 #endif
