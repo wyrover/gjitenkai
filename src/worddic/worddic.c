@@ -111,15 +111,16 @@ void print_entry(GtkTextBuffer *textbuffer_search_results,
     gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
                                      entry->jap_definition,
                                      strlen(entry->jap_definition));
-        
-    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                     " [", strlen(" ["));
-    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                     entry->jap_reading,
-                                     strlen(entry->jap_reading));
-    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                     "] ", strlen("] "));
 
+    if(entry->jap_reading){
+      gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                       " [", strlen(" ["));
+      gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                       entry->jap_reading,
+                                       strlen(entry->jap_reading));
+      gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                       "] ", strlen("] "));
+    }
 
     GList *d = NULL;
     for(d = entry->definitions;

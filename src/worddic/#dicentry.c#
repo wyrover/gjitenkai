@@ -26,7 +26,7 @@ GjitenDicentry* parse_line(gchar* line){
     //trim the bracets []
     size_t len = strlen(dicentry->jap_reading);
     memmove(dicentry->jap_reading, dicentry->jap_reading+1, len-2);
-    dicentry->jap_reading[len-2] = 0;
+    dicentry->jap_reading[len-2] = 0; 
   }
   else{
     dicentry->jap_reading = NULL;

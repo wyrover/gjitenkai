@@ -78,7 +78,7 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
                                   strlen(dicentry->jap_definition),
                                   start_position, 0,
                                   &match_info, &error);
-      if(!match){
+      if(!match && dicentry->jap_reading){
         match = g_regex_match_full (regex, dicentry->jap_reading,
                                     strlen(dicentry->jap_reading),
                                     start_position, 0,
