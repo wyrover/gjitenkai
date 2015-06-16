@@ -93,10 +93,61 @@ void init_search_menu(worddic *worddic)
   }
  
   gtk_check_menu_item_set_active(radio_jp, TRUE);
-  gtk_check_menu_item_set_active(radio_lat, TRUE);
- 
+  gtk_check_menu_item_set_active(radio_lat, TRUE); 
 }
 
+void print_entry(GtkTextBuffer *textbuffer_search_results,
+                 GtkTextTag *highlight,
+                 GList *entries_highlight,
+                 GList *entries){
+
+  GList *l = NULL;                   //browse results
+    
+  for (l = entries; l != NULL; l = l->next){
+    GjitenDicentry *entry = l->data;
+        
+    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                     "•", strlen("•"));
+    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                     entry->jap_definition,
+                                     strlen(entry->jap_definition));
+        
+    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                     " [", strlen(" ["));
+    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                     entry->jap_reading,
+                                     strlen(entry->jap_reading));
+    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                     "] ", strlen("] "));
+
+
+    GList *d = NULL;
+    for(d = entry->definitions;
+        d != NULL;
+        d = d->next){
+
+      gchar* definition = (gchar*)d->data;
+          
+      gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                       definition,
+                                       strlen(definition));
+          
+      gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                       "/",
+                                       strlen("/"));
+    }
+        
+    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                     "\n",
+                                     strlen("\n"));
+    //highligh
+    highlight_result(textbuffer_search_results,
+                     highlight,
+                     entries_highlight->data);
+    
+    entries_highlight = entries_highlight->next;
+  }
+}
 
 void highlight_result(GtkTextBuffer *textbuffer_search_results,
 		      GtkTextTag *highlight,

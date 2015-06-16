@@ -3,8 +3,8 @@
 #include "../common/dicfile.h"
 
 G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_view,
-						GdkEventButton *event,
-						worddic *worddic) {
+                                                                GdkEventButton *event,
+                                                                worddic *worddic) {
   GtkTextIter mouse_iter;
   gint x, y;
   gint trailing;
@@ -57,146 +57,114 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
 
   //clear the display result buffer
   gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
+
+  gboolean is_jp = detect_japanese(entry_text);
   
   //in each dictionaries
   while (dicfile_node != NULL) {
 
     dicfile = dicfile_node->data; 
-          
-    ////Special searches
-    //search for deinflections
-    if(deinflection){
-      GList *results_inflection = search_verb_inflections(dicfile,
-							  entry_text,
-							  &results_highlight);
-      //insert
-      for (l = results_inflection; l != NULL; l = l->next){
-	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					 "•", strlen("•"));
-	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					 l->data, strlen(l->data));
-	//highligh
-	highlight_result(textbuffer_search_results, worddic->conf->highlight, results_highlight->data);
-	highlight_result(textbuffer_search_results, worddic->conf->highlight, "possible inflected verb of adjective:");
-	results_highlight = results_highlight->next;
+    
+    if(is_jp){
+      ////Special searches
+      //search for deinflections
+      if(deinflection){
+        GList *results_inflection = search_verb_inflections(dicfile,
+                                                            entry_text,
+                                                            &results_highlight);
+        //insert
+        for (l = results_inflection; l != NULL; l = l->next){
+          gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                           "•", strlen("•"));
+          gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                           l->data, strlen(l->data));
+          //highligh
+          highlight_result(textbuffer_search_results, worddic->conf->highlight,
+                           results_highlight->data);
+          highlight_result(textbuffer_search_results, worddic->conf->highlight,
+                           "possible inflected verb of adjective:");
+          results_highlight = results_highlight->next;
+        }
+	
       }
-	
-    }
 
-    //search hiragana on katakana
-    if (worddic->conf->search_hira_on_kata) {
-      if (isKatakanaString(entry_text) == TRUE) {
-        gchar *hiragana = kata2hira(entry_text);
+      //search hiragana on katakana
+      if (worddic->conf->search_hira_on_kata) {
+        if (isKatakanaString(entry_text) == TRUE) {
+          gchar *hiragana = kata2hira(entry_text);
 	
-        GList *results_hiragana = dicfile_search(dicfile, 
-						 hiragana,
-						 match_criteria_jp, 
-						 match_criteria_lat, 
-						 match_type);
-	//insert
-	for (l = results_hiragana; l != NULL; l = l->next){
-	  gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					   "•", strlen("•"));
-	  gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					   l->data, strlen(l->data));
-	}
+          GList *results_hiragana = dicfile_search(dicfile, 
+                                                   hiragana,
+                                                   match_criteria_jp, 
+                                                   match_criteria_lat, 
+                                                   match_type);
+          //insert
+          for (l = results_hiragana; l != NULL; l = l->next){
+            gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                             "•", strlen("•"));
+            gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                             l->data, strlen(l->data));
+          }
 
-	//highlight
-	highlight_result(textbuffer_search_results, worddic->conf->highlight, hiragana);
+          //highlight
+          highlight_result(textbuffer_search_results, worddic->conf->highlight, hiragana);
 	
-        g_free(hiragana);
+          g_free(hiragana);
+        }
       }
-    }
 
-    //search katakana on hiragana
-    if (worddic->conf->search_kata_on_hira) {
-      if (isHiraganaString(entry_text) == TRUE) {
-        gchar *katakana = hira2kata(entry_text);
-        GList *results_katakana = dicfile_search(dicfile, 
-						 katakana,
-						 match_criteria_jp, 
-						 match_criteria_lat, 
-						 match_type);
-	//insert
-	for (l = results_katakana; l != NULL; l = l->next){
-	  gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					   "•", strlen("•"));
-	  gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					   l->data, strlen(l->data));
-	}
+      //search katakana on hiragana
+      if (worddic->conf->search_kata_on_hira) {
+        if (isHiraganaString(entry_text) == TRUE) {
+          gchar *katakana = hira2kata(entry_text);
+          GList *results_katakana = dicfile_search(dicfile, 
+                                                   katakana,
+                                                   match_criteria_jp, 
+                                                   match_criteria_lat, 
+                                                   match_type);
+          //insert
+          for (l = results_katakana; l != NULL; l = l->next){
+            gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                             "•", strlen("•"));
+            gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                             l->data, strlen(l->data));
+          }
 
-	//highlight
-	highlight_result(textbuffer_search_results, worddic->conf->highlight, katakana);
+          //highlight
+          highlight_result(textbuffer_search_results, worddic->conf->highlight, katakana);
   
-        g_free(katakana);
+          g_free(katakana);
+        }
       }
     }
-
-    if((match_criteria_lat == REGEX)||
-       (match_criteria_jp == REGEX)){
+    
+    if((is_jp && match_criteria_jp == REGEX) ||
+       !is_jp && match_criteria_lat == REGEX){
       
       //regex search
       GList *results_regex = dicfile_search_regex(dicfile, 
-					   entry_text,
-					   &results_highlight);
+                                                  entry_text,
+                                                  &results_highlight);
 
-      //insert
-      for (l = results_regex; l != NULL; l = l->next){
-        GjitenDicentry *entry = l->data;
-        
-	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					 "•", strlen("•"));
-	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					 entry->jap_definition,
-                                         strlen(entry->jap_definition));
-        
-	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					 " [", strlen(" ["));
-        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					 entry->jap_reading,
-                                         strlen(entry->jap_reading));
-        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					 "] ", strlen("] "));
-
-
-        GList *m = NULL;
-        for(m = entry->definitions;
-            m != NULL;
-            m = m->next){
-
-          gchar* definition = (gchar*)m->data;
-          
-          gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                           definition,
-                                           strlen(definition));
-          
-          gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                           "/",
-                                           strlen("/"));
-        }
-        
-        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                         "\n",
-                                         strlen("\n"));          
-                  
-	//highligh
-	highlight_result(textbuffer_search_results, worddic->conf->highlight, results_highlight->data);
-	results_highlight = results_highlight->next;
-      }
+      print_entry(textbuffer_search_results,
+                  worddic->conf->highlight,
+                  results_highlight,
+                  results_regex);
+      
     }
     else{
       //standard search
       results = g_list_concat(results, dicfile_search(dicfile, 
-						      entry_text, 
-						      match_criteria_jp, 
-						      match_criteria_lat, 
-						      match_type));
+                                                      entry_text, 
+                                                      match_criteria_jp, 
+                                                      match_criteria_lat, 
+                                                      match_type));
       //insert results
       for (l = results; l != NULL; l = l->next){
-	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					 "•", strlen("•"));
-	gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-					 l->data, strlen(l->data));
+        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                         "•", strlen("•"));
+        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                         l->data, strlen(l->data));
       }
 
       highlight_result(textbuffer_search_results, worddic->conf->highlight, entry_text);      
@@ -223,48 +191,48 @@ G_MODULE_EXPORT void on_menuitem_prefs_activate(GtkMenuItem *menuitem, worddic *
 //Search
 ///Japanese
 G_MODULE_EXPORT void on_menuitem_search_japanese_exact_activate (GtkMenuItem *menuitem, 
-                                                 worddic *worddic){
+                                                                 worddic *worddic){
   worddic->match_criteria_jp = EXACT_MATCH;
 }
 
 G_MODULE_EXPORT void on_menuitem_search_japanese_start_activate (GtkMenuItem *menuitem, 
-                                                 worddic *worddic){
+                                                                 worddic *worddic){
   worddic->match_criteria_jp = START_WITH_MATCH;
 }
 
 G_MODULE_EXPORT void on_menuitem_search_japanese_end_activate (GtkMenuItem *menuitem, 
-                                               worddic *worddic){
+                                                               worddic *worddic){
   worddic->match_criteria_jp = END_WITH_MATCH;
 }
 
 G_MODULE_EXPORT void on_menuitem_search_japanese_any_activate (GtkMenuItem *menuitem, 
-                                               worddic *worddic){
+                                                               worddic *worddic){
   worddic->match_criteria_jp = ANY_MATCH;
 }
 
 G_MODULE_EXPORT void on_menuitem_search_japanese_regex_activate (GtkMenuItem *menuitem, 
-                                            worddic *worddic){
+                                                                 worddic *worddic){
   worddic->match_criteria_jp = REGEX;
 }
 
 ///Latin
 G_MODULE_EXPORT void on_menuitem_search_latin_whole_expressions_activate (GtkMenuItem *menuitem, 
-                                                         worddic *worddic){
+                                                                          worddic *worddic){
   worddic->match_criteria_lat = EXACT_MATCH;
 }
 
 G_MODULE_EXPORT void on_menuitem_search_latin_whole_words_activate (GtkMenuItem *menuitem, 
-                                                   worddic *worddic){
+                                                                    worddic *worddic){
   worddic->match_criteria_lat = WORD_MATCH;
 }
 
 G_MODULE_EXPORT void on_menuitem_search_latin_any_matches_activate (GtkMenuItem *menuitem, 
-                                            worddic *worddic){
+                                                                    worddic *worddic){
   worddic->match_criteria_lat = ANY_MATCH;
 }
 
 G_MODULE_EXPORT void on_menuitem_search_latin_regex_activate (GtkMenuItem *menuitem, 
-                                            worddic *worddic){
+                                                              worddic *worddic){
   worddic->match_criteria_lat = REGEX;
 }
 
@@ -272,7 +240,7 @@ G_MODULE_EXPORT void on_menuitem_search_latin_regex_activate (GtkMenuItem *menui
 //Help
 ///About
 G_MODULE_EXPORT void on_menuitem_help_about_activate (GtkMenuItem *menuitem, 
-                                      worddic *worddic){
+                                                      worddic *worddic){
   GtkWindow *window_about = (GtkWindow*)gtk_builder_get_object(worddic->definitions,
                                                                "aboutdialog");
   gtk_dialog_run(GTK_DIALOG(window_about));
