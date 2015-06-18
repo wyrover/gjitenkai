@@ -101,8 +101,7 @@ void print_entry(GtkTextBuffer *textbuffer_search_results,
                  GList *entries_highlight,
                  GList *entries){
 
-  GList *l = NULL;                   //browse results
-    
+  GList *l = NULL;                   //browse results    
   for (l = entries; l != NULL; l = l->next){
     GjitenDicentry *entry = l->data;
         

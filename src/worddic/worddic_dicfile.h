@@ -17,7 +17,7 @@ struct _WorddicDicfile {
   struct stat stat;
   gint size;
 
-  GList *entries;
+  GSList *entries;
   
 };
 

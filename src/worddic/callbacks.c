@@ -115,12 +115,17 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
                            "possible inflected verb of adjective:");
           results_highlight = results_highlight->next;
         }
+        
+        //free the results
+        GList *l = NULL;
+        for(l = results_inflection;l !=NULL; l = results_inflection->next){
+          g_free((gchar*)l->data);
+        }
       }
 
       //search hiragana on katakana
       if (worddic->conf->search_hira_on_kata &&
           hasKatakanaString(entry_text)) {
-        g_printf("search kata\n");
         gchar *hiragana = kata2hira(entry_text);
 
         GList *results_regex = dicfile_search_regex(dicfile, 
@@ -131,7 +136,8 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
                     worddic->conf->highlight,
                     results_highlight,
                     results_regex);
-	
+
+        //free memory
         g_free(hiragana);
         
       }
@@ -150,7 +156,8 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
                     worddic->conf->highlight,
                     results_highlight,
                     results_regex);
-  
+
+        //free memory
         g_free(katakana);
         
       }
@@ -166,7 +173,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
                 worddic->conf->highlight,
                 results_highlight,
                 results_regex);
-      
+    
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);
   }

@@ -36,11 +36,13 @@ GList *worddic_dicfile_parse(GjitenDicfile *dicfile){
     memmove(line, linestart, linesize);
     line[linesize] = '\0';
 
-    GjitenDicentry* dicentry = parse_line(line);
-    entries = g_list_prepend(entries, dicentry);
+    if(line){
+      GjitenDicentry* dicentry = parse_line(line);
+      entries = g_slist_prepend(entries, dicentry);
+    }
   }
 
-  entries = g_list_reverse(entries);
+  entries = g_slist_reverse(entries);
 }
 
 GList *dicfile_search_regex(WorddicDicfile *dicfile,
@@ -74,17 +76,11 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
     if(jpsrch){
       //if the search expression contains at least a japanese character,
       //search matches in the japanese definition and japanese reading
-      match = g_regex_match_full (regex, dicentry->jap_definition,
-                                  strlen(dicentry->jap_definition),
-                                  start_position, 0,
-                                  &match_info, &error);
+      match = g_regex_match (regex, dicentry->jap_definition, 0, &match_info);
+      
       if(!match && dicentry->jap_reading){
-        match = g_regex_match_full (regex, dicentry->jap_reading,
-                                    strlen(dicentry->jap_reading),
-                                    start_position, 0,
-                                    &match_info, &error);
+        match = g_regex_match(regex, dicentry->jap_reading, 0, &match_info);
       }
-
     }
     else{
       //if there is no japanese characters, search matches in the translation
@@ -92,10 +88,7 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
       GList *definition = dicentry->definitions;  //browse definitions
       
       while(definition != NULL){
-        match = g_regex_match_full (regex, definition->data,
-                                    strlen(definition->data),
-                                    start_position, 0,
-                                    &match_info, &error);
+        match = g_regex_match (regex, definition->data, 0, &match_info);
 
         if(match)break;
         else definition = definition->next; 
@@ -115,6 +108,9 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
     }
   }
 
+  g_match_info_free(match);
+  g_regex_unref (regex);
+  
   return results;
 }
 
