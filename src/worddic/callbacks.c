@@ -27,6 +27,41 @@ G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_
   return FALSE;
 }
 
+/*
+ * Update the cursor image if the pointer is above a kanji. 
+ */
+G_MODULE_EXPORT gboolean on_search_results_motion_notify_event(GtkWidget *text_view,
+                                                               GdkEventMotion *event){
+  gint x, y;
+  GtkTextIter mouse_iter;
+  gunichar kanji;
+  gint trailing;
+  
+  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(text_view), 
+                                        GTK_TEXT_WINDOW_WIDGET,
+                                        event->x, event->y, &x, &y);
+  
+  gtk_text_view_get_iter_at_position(GTK_TEXT_VIEW(text_view),
+                                     &mouse_iter, &trailing,
+                                     x , y);
+  
+  kanji = gtk_text_iter_get_char(&mouse_iter);
+
+  // Change the cursor if necessary
+  if ((isKanjiChar(kanji) == TRUE)) {
+    gdk_window_set_cursor(gtk_text_view_get_window(GTK_TEXT_VIEW(text_view),
+                                                   GTK_TEXT_WINDOW_TEXT),
+                          cursor_selection);
+  }
+  else{
+    gdk_window_set_cursor(gtk_text_view_get_window(GTK_TEXT_VIEW(text_view),
+                                                   GTK_TEXT_WINDOW_TEXT),
+                          cursor_default);
+  }
+  
+  return FALSE;
+}
+
 /**
    search entry activate signal callback:
    Search in the dictionaries the entered text in the search entry

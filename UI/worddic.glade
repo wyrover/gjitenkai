@@ -738,6 +738,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
                 <property name="cursor_visible">False</property>
                 <property name="buffer">textbuffer_search_results</property>
                 <signal name="button-release-event" handler="on_search_results_button_release_event" swapped="no"/>
+                <signal name="motion-notify-event" handler="on_search_results_motion_notify_event" swapped="no"/>
               </object>
             </child>
           </object>

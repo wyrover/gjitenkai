@@ -47,6 +47,11 @@ void worddic_init (worddic *worddic)
 
   //Init the preference window's widgets
   init_prefs_window(worddic);
+
+  //init cursors
+  cursor_selection = gdk_cursor_new(GDK_ARROW);
+  cursor_default = gdk_cursor_new(GDK_XTERM);
+  
 }
 
 void init_search_menu(worddic *worddic)
@@ -177,4 +182,3 @@ void highlight_result(GtkTextBuffer *textbuffer_search_results,
 
   }while(has_iter);
 }
-

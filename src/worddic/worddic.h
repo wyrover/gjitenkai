@@ -11,6 +11,9 @@
 #define SETTINGS_WORDDIC "apps.gjitenkai.worddic"
 #define UI_DEFINITIONS_FILE_WORDDIC GJITENKAI_DATADIR"/worddic.glade"
 
+GdkCursor *cursor_selection;
+GdkCursor *cursor_default;
+
 typedef struct worddic_t
 {
   GtkBuilder *definitions;
