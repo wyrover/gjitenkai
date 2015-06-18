@@ -14,7 +14,6 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
 
   GHashTable *rad_info_hash   = *pp_rad_info_hash;
   GHashTable *kanji_info_hash = *pp_kanji_info_hash;
-  //  GList      *rad_info_list   = *pp_rad_info_list;
 
   radkfile = read_file(RADKFILE_NAME);
 
@@ -61,8 +60,6 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
       gunichar *p_str_radical = g_new0(gunichar, 1);
       g_unichar_to_utf8(utf8radical, (gchar*)p_str_radical);
       rad_info->radical = p_str_radical;
-      
-      //g_printf("(%s)", rad_info->radical);
       
       //Find stroke number (move until digit detected)
       while (g_ascii_isdigit(*radkfile_ptr) == FALSE) {
@@ -154,7 +151,7 @@ GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfil
   gint srchpos = 0;
 
   srch_resp = search_string(SRCH_START, dicfile, srchkey, &respos, &roff, &rlen, repstr);
-  //g_printf("F: Returning:srch_resp:%d\n respos:%ld\n roff:%d rlen:%d\n repstr:%s\n", srch_resp,respos,roff,rlen,repstr); 
+
   if (srch_resp != SRCH_OK) return NULL;
   oldrespos = srchpos = respos;
   
@@ -167,7 +164,7 @@ GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfil
     srchpos++;
     loopnum++;
     srch_resp = search_string(SRCH_CONT, dicfile, srchkey, &respos, &roff, &rlen, repstr);
-    //g_printf("srch_resp:%d\n respos:%ld\n roff:%d rlen:%d\n repstr:%s\n",srch_resp,respos,roff,rlen,repstr);
+
     if (srch_resp != SRCH_OK) break;
     if (oldrespos == respos) continue;
 
