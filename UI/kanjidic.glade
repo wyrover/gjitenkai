@@ -565,6 +565,7 @@
               <object class="GtkEntry" id="entry_filter_key">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <signal name="activate" handler="on_entry_filter_radical_activate" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
