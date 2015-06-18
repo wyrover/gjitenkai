@@ -123,10 +123,13 @@ void search_and_display_kanji(kanjidic *kanjidic){
   
   //filter by strokes
   if(kanjidic->filter_by_stroke){
-    GtkSpinButton *spinbutton_filter_stroke = (GtkSpinButton*)gtk_builder_get_object(kanjidic->definitions, 
-                                                                                     "spinbutton_filter_stroke");
-    GtkSpinButton *spinbutton_filter_stroke_diff = (GtkSpinButton*)gtk_builder_get_object(kanjidic->definitions, 
-                                                                                          "spinbutton_filter_stroke_diff");
+    GtkSpinButton *spinbutton_filter_stroke = (GtkSpinButton*)
+      gtk_builder_get_object(kanjidic->definitions,
+                             "spinbutton_filter_stroke");
+    
+    GtkSpinButton *spinbutton_filter_stroke_diff = (GtkSpinButton*)
+      gtk_builder_get_object(kanjidic->definitions,
+                             "spinbutton_filter_stroke_diff");
 
     gint stroke_filter = gtk_spin_button_get_value_as_int(spinbutton_filter_stroke);
     gint stroke_filter_diff = gtk_spin_button_get_value_as_int(spinbutton_filter_stroke_diff);
@@ -179,7 +182,7 @@ void search_and_display_kanji(kanjidic *kanjidic){
   GtkTextBuffer *textbuffer_kanji_result = (GtkTextBuffer*)gtk_builder_get_object(kanjidic->definitions, 
                                                                                   "textbuffer_kanji_result");
   
-  //clear the results and get the set the iterator at the begining
+  //clear the results and set the iterator at the begining
   gtk_text_buffer_set_text(textbuffer_kanji_result, "", 0);
   gtk_text_buffer_get_start_iter(textbuffer_kanji_result, &kanji_results_iter);
 
