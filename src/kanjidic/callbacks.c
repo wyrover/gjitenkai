@@ -190,6 +190,9 @@ G_MODULE_EXPORT void on_button_show_radical_list_clicked(GtkButton *button, kanj
   //set size and display the preference window
   gtk_window_set_default_size(GTK_WINDOW(radicals), 320, 220);
   gtk_widget_show_all ((GtkWidget*)radicals);
+
+  GdkWindow *gdk_radicals = gtk_widget_get_window(GTK_WIDGET(radicals));
+  gdk_window_raise(gdk_radicals);
 }
 
 //Radical list callbacks
