@@ -155,7 +155,7 @@ GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfil
 
   srch_resp = search_string(SRCH_START, dicfile, srchkey, &respos, &roff, &rlen, repstr);
   //g_printf("F: Returning:srch_resp:%d\n respos:%ld\n roff:%d rlen:%d\n repstr:%s\n", srch_resp,respos,roff,rlen,repstr); 
-  if (srch_resp != SRCH_OK) return;
+  if (srch_resp != SRCH_OK) return NULL;
   oldrespos = srchpos = respos;
   
   char *repstr2 = strdup(repstr);
