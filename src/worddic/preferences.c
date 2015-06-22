@@ -158,11 +158,20 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
 
 void init_prefs_window(worddic *worddic){
   ////appearance tab
+
+  //set the font button
+    //init the kanji font chooser
+  GtkFontButton *font_button = (GtkFontButton*)gtk_builder_get_object(worddic->definitions, 
+                                                                      "fontbutton_results");
+  gtk_font_button_set_font_name (font_button, worddic->conf->resultsfont);
+
   //set the color of the color chooser button
-  GtkColorChooser *color_chooser = (GtkColorChooser*)gtk_builder_get_object(worddic->definitions, 
-                                                                            "colorbutton_results_highlight");
+  GtkColorChooser *color_chooser = (GtkColorChooser*)
+    gtk_builder_get_object(worddic->definitions,
+                           "colorbutton_results_highlight");
   
-  gtk_color_chooser_set_rgba(color_chooser, worddic->conf->results_highlight_color);
+  gtk_color_chooser_set_rgba(color_chooser,
+                             worddic->conf->results_highlight_color);
 
   ////Dictionary tab
   GtkListStore *store = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
