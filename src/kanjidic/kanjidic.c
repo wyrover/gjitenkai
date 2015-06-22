@@ -37,8 +37,9 @@ void kanjidic_init (kanjidic *kanjidic)
 					  kanjidic->rad_info_list);
 
   //init the kanji display style
-  GtkTextBuffer *textbuffer_kanji_display = (GtkTextBuffer*)gtk_builder_get_object(kanjidic->definitions, 
-                                                                                   "textbuffer_kanji_display");
+  GtkTextBuffer *textbuffer_kanji_display = (GtkTextBuffer*)
+    gtk_builder_get_object(kanjidic->definitions, "textbuffer_kanji_display");
+  
   kanjidic->texttag_kanji = gtk_text_buffer_create_tag (textbuffer_kanji_display,
                                                         "kanji_tag",
                                                         "foreground-rgba",
@@ -257,8 +258,6 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
   gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, kanji, strlen(kanji));
 
   //Apply a tag to change the style of the displayed kanji  
-  //gint cursor_pos;
-  //g_object_get(textbuffer_kanji_display ,"cursor-position", &cursor_pos, NULL);
   gtk_text_buffer_get_start_iter (textbuffer_kanji_display, &start);
   gtk_text_buffer_get_end_iter (textbuffer_kanji_display, &end);
   gtk_text_buffer_apply_tag_by_name (textbuffer_kanji_display,

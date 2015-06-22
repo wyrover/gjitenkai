@@ -1,11 +1,5 @@
 #include "kanjifile.h"
 
-//TODO remove those globals
-gchar *kdic_line = NULL;  /*size = KCFGNUM * KBUFSIZE */
-gchar kanjiselected[2];
-extern guint32 srchpos;
-extern gchar *strginfo[];
-
 char* get_line_from_dic(gunichar *kanji, GjitenDicfile *kanjidic) {
   gint i;
   gint srch_resp, roff, rlen;
