@@ -99,13 +99,13 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
       entry_string = g_string_append_c(entry_string, '$');      
     }
     else if(match_criteria_lat == WORD_MATCH){
-        entry_string = g_string_prepend(entry_string, "\b");
-        entry_string = g_string_append(entry_string, "\b");
+        entry_string = g_string_prepend(entry_string, "\\b");
+        entry_string = g_string_append(entry_string, "\\b");
     }
   }
   
   entry_text = entry_string->str;
-  
+  g_printf("%s\n", entry_text);
   //get the search result text entry to display matches
   GtkTextBuffer *textbuffer_search_results = 
     (GtkTextBuffer*)gtk_builder_get_object(worddic->definitions, 
@@ -249,11 +249,6 @@ G_MODULE_EXPORT void on_menuitem_search_japanese_any_activate (GtkMenuItem *menu
   worddic->match_criteria_jp = ANY_MATCH;
 }
 
-G_MODULE_EXPORT void on_menuitem_search_japanese_regex_activate (GtkMenuItem *menuitem, 
-                                                                 worddic *worddic){
-  //  worddic->match_criteria_jp = REGEX;
-}
-
 ///Latin
 G_MODULE_EXPORT void on_menuitem_search_latin_whole_expressions_activate (GtkMenuItem *menuitem, 
                                                                           worddic *worddic){
@@ -268,11 +263,6 @@ G_MODULE_EXPORT void on_menuitem_search_latin_whole_words_activate (GtkMenuItem 
 G_MODULE_EXPORT void on_menuitem_search_latin_any_matches_activate (GtkMenuItem *menuitem, 
                                                                     worddic *worddic){
   worddic->match_criteria_lat = ANY_MATCH;
-}
-
-G_MODULE_EXPORT void on_menuitem_search_latin_regex_activate (GtkMenuItem *menuitem, 
-                                                              worddic *worddic){
-  //worddic->match_criteria_lat = REGEX;
 }
 
 

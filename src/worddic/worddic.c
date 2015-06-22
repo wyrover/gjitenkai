@@ -103,9 +103,6 @@ void init_search_menu(worddic *worddic)
   case ANY_MATCH:
     radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_any");
     break;
-    /*case REGEX:
-    radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_regex");
-    break;*/
   }
  
   gtk_check_menu_item_set_active(radio_jp, TRUE);
