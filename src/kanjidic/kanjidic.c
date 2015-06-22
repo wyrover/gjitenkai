@@ -296,8 +296,10 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
              kanji_info_list != NULL;
              kanji_info_list = kanji_info_list->next) { 
           gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
-                                           (const char*)((RadInfo *) kanji_info_list->data)->radical, 
-                                           strlen((const char*)((RadInfo *) kanji_info_list->data)->radical)); 
+                                           (const char*)((RadInfo *)
+                                                         kanji_info_list->data)->radical, 
+                                           strlen((const char*)((RadInfo *)
+                                                                kanji_info_list->data)->radical));
         }
       }
       else if(!strcmp(ki->gsettings_name, "strokes")){
