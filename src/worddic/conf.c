@@ -69,7 +69,8 @@ void worddic_conf_save(struct worddic_t *p_worddic){
   GSettings *settings = p_worddic->settings;
   WorddicConfig *conf = p_worddic->conf;
   
-  g_settings_set_string(settings, "resultsfont", conf->resultsfont == NULL ? "" : conf->resultsfont);
+  g_settings_set_string(settings, "resultsfont",
+                        conf->resultsfont == NULL ? "" : conf->resultsfont);
 
   //save the result highlight color as a string
   char *str_results_highlight_color = gdk_rgba_to_string(conf->results_highlight_color);
@@ -78,7 +79,6 @@ void worddic_conf_save(struct worddic_t *p_worddic){
   g_settings_set_boolean(settings, "search-kata-on-hira", conf->search_kata_on_hira);
   g_settings_set_boolean(settings, "search-hira-on-kata", conf->search_hira_on_kata);
   g_settings_set_boolean(settings, "deinflection-enabled", conf->verb_deinflection);
-
 
   //Save dicfiles [path and name seperated with linebreak]
   GVariantBuilder builder;

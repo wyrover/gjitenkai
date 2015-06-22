@@ -38,6 +38,8 @@ the Japanese pronunciations or "readings" of the kanji. These are in the katakan
 typedef struct kanjifile_entry_t{
   gunichar *kanji;
   gint stroke;
+  gint unicode;
+  gint jouyou;
   GSList *translations;
   GSList *kunyomi;
   GSList *onyomi;

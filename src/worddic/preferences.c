@@ -228,6 +228,7 @@ G_MODULE_EXPORT void on_fontbutton_results_font_set(GtkFontButton *font_button,
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
   PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
 
+  worddic->conf->resultsfont = font_name;
   //get the textview
   GtkTextView *textview_search_results = 
     (GtkTextView*)gtk_builder_get_object(worddic->definitions, "search_results");

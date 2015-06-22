@@ -308,6 +308,14 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
                                          strlen(tmp_entry));
         g_free(tmp_entry);
       }
+      else if(!strcmp(ki->gsettings_name, "jouyou")){
+        //grade level
+        gchar *tmp_entry = g_strdup_printf("%d", kanji_data->jouyou);
+        gtk_text_buffer_insert_at_cursor(textbuffer_kanji_display, 
+                                         tmp_entry, 
+                                         strlen(tmp_entry));
+        g_free(tmp_entry);
+      }
       else if(!strcmp(ki->gsettings_name, "onyomi")){
         item = kanji_data->onyomi;
       }

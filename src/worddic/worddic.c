@@ -42,6 +42,17 @@ void worddic_init (worddic *worddic)
                                                       NULL);
   worddic->conf->highlight = highlight;
 
+  //default font for the search results
+  const gchar *font_name= worddic->conf->resultsfont;
+  PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
+
+  //get the textview
+  GtkTextView *textview_search_results = 
+    (GtkTextView*)gtk_builder_get_object(worddic->definitions, "search_results");
+
+  //apply the newly selected font to the results textview
+  gtk_widget_override_font(GTK_WIDGET(textview_search_results), font_desc);
+  
   //init the verb de-inflection mechanism
   Verbinit();
 
@@ -112,6 +123,9 @@ void print_entry(GtkTextBuffer *textbuffer_search_results,
         
     gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
                                      "•", strlen("•"));
+
+    //print the japanese definition
+    ////get the font from conf
     gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
                                      entry->jap_definition,
                                      strlen(entry->jap_definition));

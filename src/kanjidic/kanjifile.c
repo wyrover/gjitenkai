@@ -40,19 +40,26 @@ kanjifile_entry *do_kdicline(gchar *kstr) {
     switch(first_char){
     case 'S':
       //Stroke number
-      sscanf(word,"S%d", &entry->stroke);
+      sscanf(word, "S%d", &entry->stroke);
       break;
-      
+    case 'U':
+      //Unicode number
+      sscanf(word, "U%d", &entry->unicode);
+      break;
+    case 'G':
+      //Grade (jouyou)
+      sscanf(word, "G%d", &entry->jouyou);
+      break;
     case '{':
       translation = strdup(word+1);  //+1 to skip the { character.
         entry->translations = g_slist_append(entry->translations, translation);
       break;
     default:
-      //check if katakana (onyomi )or hiragana (kunyomi)
-      if (isKatakanaString(word)){
+      //check if katakana (onyomi) or hiragana (kunyomi)
+      if (hasKatakanaString(word)){
         entry->onyomi = g_slist_append(entry->onyomi, strdup(word));
       }
-      else if (isHiraganaString(word)){
+      else if (hasHiraganaString(word)){
         entry->kunyomi = g_slist_append(entry->kunyomi, strdup(word));
       }
       

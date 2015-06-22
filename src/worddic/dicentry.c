@@ -40,7 +40,6 @@ GjitenDicentry* parse_line(const gchar* line){
     dicentry->jap_reading = NULL;
   }
 
-
   g_free(line_cpy);
   
   return dicentry;
