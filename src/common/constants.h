@@ -3,9 +3,6 @@
 
 #include "../../config.h"
 
-#define DEFWORDFONTNAME "-*-fixed-medium-r-normal-*-14-*-*-*-*-*-jisx0208.1983-0"
-#define DEFBIGFONTNAME "-*-fixed-medium-r-normal-*-24-*-*-*-*-*-jisx0208.1983-0"
-
 #define VINFL_FILENAME GJITENKAI_DATADIR"/vconj.utf8"
 #define RADKFILE_NAME GJITENKAI_DATADIR"/radkfile.utf8"
 
