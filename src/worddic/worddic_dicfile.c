@@ -62,6 +62,8 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
 				G_REGEX_OPTIMIZE,
 				0,
 				&error);
+
+  if(!regex)return NULL;
   
   //detect is the search expression is in japanese or latin char
   gboolean jpsrch = detect_japanese(srchstrg_regex);
@@ -92,7 +94,7 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
 
         if(match)break;
         else definition = definition->next; 
-      }
+        }
     }
     
     //if there is a match, copy the entry into the result list
@@ -109,7 +111,7 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
   }
 
   g_match_info_free(match);
-  g_regex_unref (regex);
+  if(regex != NULL)g_regex_unref (regex);
   
   return results;
 }
