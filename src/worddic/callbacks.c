@@ -137,25 +137,14 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
         GList *results_inflection = search_verb_inflections(dicfile,
                                                             entry_text,
                                                             &results_highlight);
-        //insert
-        for (l = results_inflection; l != NULL; l = l->next){
-          gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                           "•", strlen("•"));
-          gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                           l->data, strlen(l->data));
-          //highligh
-          highlight_result(textbuffer_search_results, worddic->conf->highlight,
-                           results_highlight->data);
-          highlight_result(textbuffer_search_results, worddic->conf->highlight,
-                           "possible inflected verb of adjective:");
-          results_highlight = results_highlight->next;
-        }
-        
-        //free the results
-        GList *l = NULL;
-        for(l = results_inflection;l !=NULL; l = results_inflection->next){
-          g_free((gchar*)l->data);
-        }
+
+        print_entry(textbuffer_search_results,
+                    worddic->conf->highlight,
+                    results_highlight,
+                    results_inflection,
+                    worddic);
+
+        g_list_free_full(results_inflection, dicentry_free);
       }
 
       //search hiragana on katakana

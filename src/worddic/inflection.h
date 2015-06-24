@@ -17,6 +17,8 @@ diffent forms (which is called inflection).
 #include <fcntl.h>
 #include <string.h>
 
+#include "dicentry.h"
+
 #include "../common/constants.h"
 #include "../common/dicfile.h"
 #include "../common/dicutil.h"

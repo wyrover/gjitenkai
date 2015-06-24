@@ -1,6 +1,5 @@
 #include "inflection.h"
 
-// Load & initialize verb inflection details
 void Verbinit() {
   vinfl_list=NULL;
   static int verbinit_done = FALSE;
@@ -12,11 +11,6 @@ void Verbinit() {
   int conj_type = 40;
   struct vinfl_struct *tmp_vinfl_struct;
   GSList *tmp_list_ptr = NULL;
-
-  if (verbinit_done == TRUE) {
-    //printf("Verbinit already done!\n");
-    return;
-  }
 
   vinfl_start = read_file(VINFL_FILENAME);
 
@@ -38,10 +32,10 @@ void Verbinit() {
         if ((conj_type < 0) || (conj_type > 39)) break;
         while (g_ascii_isdigit(*vinfl_ptr) == TRUE) vinfl_ptr = g_utf8_next_char(vinfl_ptr); //skip the number
         while (g_ascii_isspace(*vinfl_ptr) == TRUE) vinfl_ptr = g_utf8_next_char(vinfl_ptr); //skip the space
-        tmp_ptr = vinfl_ptr; // beginning of conju	gation definition;
-        vinfl_ptr = get_eof_line(vinfl_ptr, vinfl_end); //	find end of line
+        tmp_ptr = vinfl_ptr; // beginning of conjugation definition;
+        vinfl_ptr = get_eof_line(vinfl_ptr, vinfl_end); //find end of line
         vconj_types[conj_type] = g_strndup(tmp_ptr, vinfl_ptr - tmp_ptr -1);
-        //printf("%d : %s\n", conj_type, vconj_types[conj_	type]);
+  
       }
       break;
     case 2:
@@ -68,7 +62,7 @@ void Verbinit() {
       }
       tmp_vinfl_struct->type = vconj_types[atoi(vinfl_ptr)];
       vinfl_ptr =  get_eof_line(vinfl_ptr, vinfl_end);
-      //printf("%s|%s|%s\n", tmp_vinfl_struct->conj, tmp_vinfl_struct->infl, tmp_vinfl_struct->type);
+  
       tmp_list_ptr = g_slist_append(tmp_list_ptr, tmp_vinfl_struct);
       if (vinfl_list == NULL) vinfl_list = tmp_list_ptr;
       break;
@@ -111,7 +105,6 @@ GList* search_verb_inflections(GjitenDicfile *dicfile, const gchar *srchstrg, GL
         oldrespos = respos;
         gchar *repstr = (gchar *) g_malloc(1024);
         srchresp = search_string(gjit_search, dicfile, deinflected, &respos, &roff, &rlen, repstr);
-        //g_printf("desinflected:%s, respos:%d, oldrespos:%d, roffset:%d, rlen:%d\nrepstr:%s\n", deinflected, respos, oldrespos, roff, rlen, repstr);
         if (srchresp != SRCH_OK)  {
           break;   //No more matches
         }
@@ -143,7 +136,8 @@ GList* search_verb_inflections(GjitenDicfile *dicfile, const gchar *srchstrg, GL
 		  repstr);
           
           //append the deinflection string
-          results = g_list_append (results, str_inflection);
+          GjitenDicentry *tmp_entry = parse_line(repstr);
+          results = g_list_append (results, tmp_entry);
 
 	  //append the deinflected part that matched the search
 	  *match = g_list_append(*match, strdup(deinflected));
@@ -151,7 +145,7 @@ GList* search_verb_inflections(GjitenDicfile *dicfile, const gchar *srchstrg, GL
           word_matches++;
         }
       } while (srchresp == SRCH_OK);
-        }
+    }
   } while ((tmp_list_ptr = g_slist_next(tmp_list_ptr)) != NULL);
   
   g_free(deinflected);
