@@ -115,7 +115,7 @@ msgstr "Commence avec l'expression"
 
 #: UI/worddic.glade:277
 msgid "Verbs and adjectives deinflection"
-msgstr "Déinflexion de varbes ou d'adjectifs"
+msgstr "Dé-inflexion des verbes et des adjectifs"
 
 #: UI/worddic.glade:493
 msgid "Whole Words"
