@@ -30,7 +30,8 @@ void init_search_menu(worddic *);
 void print_entry(GtkTextBuffer *textbuffer_search_results,
                  GtkTextTag *highlight,
                  GList *entries_highlight,
-                 GList *entries);
+                 GList *entries,
+                 worddic *worddic);
 void highlight_result(GtkTextBuffer *textbuffer_search_results,
 		      GtkTextTag *highlight,
 		      const gchar *text_to_highlight);

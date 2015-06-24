@@ -42,13 +42,44 @@ void worddic_init (worddic *worddic)
                                                       NULL);
   worddic->conf->highlight = highlight;
 
+  //japanese definition
+  GtkTextTag *jap_def = gtk_text_buffer_create_tag (textbuffer_search_results,
+                                                    "japanese_definition",
+                                                    "foreground-rgba",
+                                                    worddic->conf->jap_def_color,
+                                                    "font", 
+                                                    worddic->conf->jap_def_font,
+                                                    NULL);
+  worddic->conf->jap_def = jap_def;
+  
+  //japanese reading  
+  GtkTextTag *jap_reading = gtk_text_buffer_create_tag (textbuffer_search_results,
+                                                        "japanese_reading",
+                                                        "foreground-rgba",
+                                                        worddic->conf->jap_reading_color,
+                                                        "font", 
+                                                        worddic->conf->jap_reading_font,
+                                                        NULL);
+  worddic->conf->jap_reading = jap_reading;
+
+  //translations
+  GtkTextTag *translation = gtk_text_buffer_create_tag (textbuffer_search_results,
+                                                        "translation",
+                                                        "foreground-rgba",
+                                                        worddic->conf->translation_color,
+                                                        "font", 
+                                                        worddic->conf->translation_font,
+                                                        NULL);
+  worddic->conf->translation = translation;
+  
   //default font for the search results
   const gchar *font_name= worddic->conf->resultsfont;
   PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
 
   //get the textview
   GtkTextView *textview_search_results = 
-    (GtkTextView*)gtk_builder_get_object(worddic->definitions, "search_results");
+    (GtkTextView*)gtk_builder_get_object(worddic->definitions,
+                                         "search_results");
 
   //apply the newly selected font to the results textview
   gtk_widget_override_font(GTK_WIDGET(textview_search_results), font_desc);
@@ -67,7 +98,6 @@ void worddic_init (worddic *worddic)
 
 void init_search_menu(worddic *worddic)
 {
-  
   //get the search options
   gint match_criteria_jp = worddic->match_criteria_jp;
   gint match_criteria_lat = worddic->match_criteria_lat;
@@ -85,9 +115,6 @@ void init_search_menu(worddic *worddic)
   case ANY_MATCH:
     radio_lat = gtk_builder_get_object(worddic->definitions, "menuitem_search_latin_any");
     break;
-    /*  case REGEX:
-    radio_lat = gtk_builder_get_object(worddic->definitions, "menuitem_search_latin_regex");
-    break;*/
   }
 
   switch(match_criteria_jp){
@@ -112,29 +139,48 @@ void init_search_menu(worddic *worddic)
 void print_entry(GtkTextBuffer *textbuffer_search_results,
                  GtkTextTag *highlight,
                  GList *entries_highlight,
-                 GList *entries){
+                 GList *entries,
+                 worddic *worddic){
+  //get the textview
+  GtkTextView *textview_search_results = 
+    (GtkTextView*)gtk_builder_get_object(worddic->definitions, "search_results");
 
-  GList *l = NULL;                   //browse results    
+  GList *l = NULL;                   //browse results
   for (l = entries; l != NULL; l = l->next){
     GjitenDicentry *entry = l->data;
+
+    GtkTextIter iter;
         
+    //Japanese definition
     gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                     "•", strlen("•"));
-
-    //print the japanese definition
-    ////get the font from conf
-    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                     worddic->conf->jap_def_start,
+                                     strlen(worddic->conf->jap_def_start));
+    gtk_text_buffer_get_end_iter (textbuffer_search_results, &iter);
+    gtk_text_buffer_insert_with_tags(textbuffer_search_results,
+                                     &iter,
                                      entry->jap_definition,
-                                     strlen(entry->jap_definition));
+                                     strlen(entry->jap_definition),
+                                     worddic->conf->jap_def,
+                                     NULL);
+    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                     worddic->conf->jap_def_end,
+                                     strlen(worddic->conf->jap_def_end));
 
+    
     if(entry->jap_reading){
       gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                       " [", strlen(" ["));
-      gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                       worddic->conf->jap_reading_start,
+                                       strlen(worddic->conf->jap_reading_start));
+      gtk_text_buffer_get_end_iter (textbuffer_search_results, &iter);
+      gtk_text_buffer_insert_with_tags(textbuffer_search_results,
+                                       &iter,
                                        entry->jap_reading,
-                                       strlen(entry->jap_reading));
+                                       strlen(entry->jap_reading),
+                                       worddic->conf->jap_reading,
+                                       NULL);
       gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                       "] ", strlen("] "));
+                                       worddic->conf->jap_reading_end,
+                                       strlen(worddic->conf->jap_reading_end));
     }
 
     GList *d = NULL;
@@ -143,20 +189,28 @@ void print_entry(GtkTextBuffer *textbuffer_search_results,
         d = d->next){
 
       gchar* definition = (gchar*)d->data;
-          
+
       gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                       worddic->conf->translation_start,
+                                       strlen(worddic->conf->translation_start));
+
+      gtk_text_buffer_get_end_iter (textbuffer_search_results, &iter);
+      gtk_text_buffer_insert_with_tags(textbuffer_search_results,
+                                       &iter,
                                        definition,
-                                       strlen(definition));
-          
+                                       strlen(definition),
+                                       worddic->conf->translation,
+                                       NULL);
+      
       gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                       "/",
-                                       strlen("/"));
+                                       worddic->conf->translation_end,
+                                       strlen(worddic->conf->translation_end));
     }
         
     gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
                                      "\n",
                                      strlen("\n"));
-    //highligh
+    //highlight
     highlight_result(textbuffer_search_results,
                      highlight,
                      entries_highlight->data);

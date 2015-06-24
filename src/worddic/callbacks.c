@@ -105,7 +105,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   }
   
   entry_text = entry_string->str;
-  g_printf("%s\n", entry_text);
+  
   //get the search result text entry to display matches
   GtkTextBuffer *textbuffer_search_results = 
     (GtkTextBuffer*)gtk_builder_get_object(worddic->definitions, 
@@ -170,7 +170,8 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
         print_entry(textbuffer_search_results,
                     worddic->conf->highlight,
                     results_highlight,
-                    results_regex);
+                    results_regex,
+                    worddic);
 
         //free memory
         g_free(hiragana);
@@ -190,7 +191,8 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
         print_entry(textbuffer_search_results,
                     worddic->conf->highlight,
                     results_highlight,
-                    results_regex);
+                    results_regex,
+                    worddic);
 
         //free memory
         g_free(katakana);
@@ -207,7 +209,8 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     print_entry(textbuffer_search_results,
                 worddic->conf->highlight,
                 results_highlight,
-                results_regex);
+                results_regex,
+                worddic);
     
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);

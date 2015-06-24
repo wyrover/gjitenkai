@@ -75,7 +75,7 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
       
     if(jpsrch){
       //if the search expression contains at least a japanese character,
-      //search matches in the japanese definition and japanese reading
+      //search matches in the japanese definition or japanese reading
       match = g_regex_match (regex, dicentry->jap_definition, 0, &match_info);
       
       if(!match && dicentry->jap_reading){

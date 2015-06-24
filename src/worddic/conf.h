@@ -27,10 +27,37 @@ struct _WorddicConfig {
   GSList *dicfile_list;
 
   guint maxwordmatches;
+
+  //font
+  //default
   gchar *resultsfont;
+
+  //highlight
   GtkTextTag *highlight;
   GdkRGBA *results_highlight_color;
 
+  ////japanese definition
+  GtkTextTag *jap_def;
+  gchar *jap_def_font;
+  GdkRGBA *jap_def_color;
+  gchar *jap_def_start;
+  gchar *jap_def_end;
+
+  ////japanese reading
+  GtkTextTag *jap_reading;
+  gchar *jap_reading_font;
+  GdkRGBA *jap_reading_color;
+  gchar *jap_reading_start;
+  gchar *jap_reading_end;
+
+  ////translation
+  GtkTextTag *translation;
+  gchar *translation_font;
+  GdkRGBA *translation_color;  
+  gchar *translation_start;
+  gchar *translation_end;
+
+  //search options
   gboolean search_kata_on_hira;
   gboolean search_hira_on_kata;
   gboolean verb_deinflection;
