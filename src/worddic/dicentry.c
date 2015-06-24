@@ -25,12 +25,13 @@ GjitenDicentry* parse_line(const gchar* line){
         dicentry->ent_seq = g_strdup_printf("%s", gloss);
       }
       else{
-        dicentry->gloss = g_slist_append(dicentry->gloss,
+        dicentry->gloss = g_slist_prepend(dicentry->gloss,
                                          g_strdup_printf("%s", gloss));
       }
     }
     gloss = strtok(NULL, "/");
   }while(gloss);
+  g_slist_reverse(dicentry->gloss);
   
   ////////
   //read definitions in the first chunk
@@ -46,11 +47,12 @@ GjitenDicentry* parse_line(const gchar* line){
   gchar *jap_definition = strtok(jap_definitions, ";");
   do{
     if(jap_definition && strcmp(jap_definition, "\n")){
-      dicentry->jap_definition = g_slist_append(dicentry->jap_definition,
+      dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition,
                                                 g_strdup_printf("%s", jap_definition));
     }
     jap_definition = strtok(NULL, ";");
   }while(jap_definition);
+  g_slist_reverse(dicentry->jap_definition);
   
   //optional japanese reading        
   if(jap_readings){
@@ -62,11 +64,12 @@ GjitenDicentry* parse_line(const gchar* line){
     gchar *jap_reading = strtok(jap_readings, ";");
     do{
       if(jap_reading && strcmp(jap_reading, "\n")){
-        dicentry->jap_reading = g_slist_append(dicentry->jap_reading,
+        dicentry->jap_reading = g_slist_prepend(dicentry->jap_reading,
                                                g_strdup_printf("%s", jap_reading));        
       }
       jap_reading = strtok(NULL, ";");
     }while(jap_reading);
+    g_slist_reverse(dicentry->jap_reading);
     
   }
     
