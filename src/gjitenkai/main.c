@@ -92,7 +92,7 @@ int main( int argc, char **argv )
   gtk_container_remove (GTK_CONTAINER(worddic_menubar), GTK_WIDGET(menu_item_search));
 
   //add the search item to the gjitenkai menubar
-  gtk_menu_shell_append(main_menu_bar, menu_item_search);
+  gtk_menu_shell_insert(main_menu_bar, menu_item_search, 3);
 
 
   //callback when the worrdic search result is clicked (search kanji)
