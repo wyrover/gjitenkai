@@ -5,8 +5,7 @@
 
 /*entry in an EDICT dictonary file
 
-Optional Jap definition SPACE OPTIONAL [Jap reading] SPACE 
-type 1 def1/ type 2 def2/.../\n
+http://www.edrdg.org/jmdict/edict_doc.html
 
 type can be: exp, v1, v3, v5, n, adj-i, adj-na
 */
