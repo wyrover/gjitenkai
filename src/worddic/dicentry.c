@@ -31,7 +31,7 @@ GjitenDicentry* parse_line(const gchar* line){
     }
     gloss = strtok(NULL, "/");
   }while(gloss);
-  g_slist_reverse(dicentry->gloss);
+  dicentry->gloss = g_slist_reverse(dicentry->gloss);
   
   ////////
   //read definitions in the first chunk
@@ -52,7 +52,7 @@ GjitenDicentry* parse_line(const gchar* line){
     }
     jap_definition = strtok(NULL, ";");
   }while(jap_definition);
-  g_slist_reverse(dicentry->jap_definition);
+  dicentry->jap_definition = g_slist_reverse(dicentry->jap_definition);
   
   //optional japanese reading        
   if(jap_readings){
@@ -69,7 +69,7 @@ GjitenDicentry* parse_line(const gchar* line){
       }
       jap_reading = strtok(NULL, ";");
     }while(jap_reading);
-    g_slist_reverse(dicentry->jap_reading);
+    dicentry->jap_reading = g_slist_reverse(dicentry->jap_reading);
     
   }
     
@@ -79,16 +79,8 @@ GjitenDicentry* parse_line(const gchar* line){
 }
 
 void dicentry_free(GjitenDicentry* dicentry){
-  g_free(dicentry->jap_definition);
-  g_free(dicentry->jap_reading);
-
-  GList *d=NULL;
-  for(d = dicentry->gloss;
-      d != NULL;
-      d = d->next){
-    g_free(d->data);
-    
-  }
-
+  g_slist_free_full(dicentry->gloss, g_free);
+  g_slist_free_full(dicentry->jap_definition, g_free);
+  g_slist_free_full(dicentry->jap_reading, g_free);  
   g_free(dicentry);
 }
