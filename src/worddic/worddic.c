@@ -149,41 +149,60 @@ void print_entry(GtkTextBuffer *textbuffer_search_results,
   for (l = entries; l != NULL; l = l->next){
     GjitenDicentry *entry = l->data;
 
+    GList *d = NULL;
     GtkTextIter iter;
-        
-    //Japanese definition
-    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                     worddic->conf->jap_def_start,
-                                     strlen(worddic->conf->jap_def_start));
-    gtk_text_buffer_get_end_iter (textbuffer_search_results, &iter);
-    gtk_text_buffer_insert_with_tags(textbuffer_search_results,
-                                     &iter,
-                                     entry->jap_definition,
-                                     strlen(entry->jap_definition),
-                                     worddic->conf->jap_def,
-                                     NULL);
-    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                     worddic->conf->jap_def_end,
-                                     strlen(worddic->conf->jap_def_end));
 
-    
-    if(entry->jap_reading){
+    //Japanese definition
+    for(d = entry->jap_definition;
+        d != NULL;
+        d = d->next){
+
+      gchar* definition = (gchar*)d->data;
+
       gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                       worddic->conf->jap_reading_start,
-                                       strlen(worddic->conf->jap_reading_start));
+                                       worddic->conf->jap_def_start,
+                                       strlen(worddic->conf->jap_def_start));
+
       gtk_text_buffer_get_end_iter (textbuffer_search_results, &iter);
       gtk_text_buffer_insert_with_tags(textbuffer_search_results,
                                        &iter,
-                                       entry->jap_reading,
-                                       strlen(entry->jap_reading),
-                                       worddic->conf->jap_reading,
+                                       definition,
+                                       strlen(definition),
+                                       worddic->conf->jap_def,
                                        NULL);
+      
       gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                       worddic->conf->jap_reading_end,
-                                       strlen(worddic->conf->jap_reading_end));
+                                       worddic->conf->jap_def_end,
+                                       strlen(worddic->conf->jap_def_end));
     }
 
-    GList *d = NULL;
+    //reading
+    if(entry->jap_reading){
+      for(d = entry->jap_reading;
+          d != NULL;
+          d = d->next){
+
+        gchar* definition = (gchar*)d->data;
+
+        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                         worddic->conf->jap_reading_start,
+                                         strlen(worddic->conf->jap_reading_start));
+
+        gtk_text_buffer_get_end_iter (textbuffer_search_results, &iter);
+        gtk_text_buffer_insert_with_tags(textbuffer_search_results,
+                                         &iter,
+                                         definition,
+                                         strlen(definition),
+                                         worddic->conf->jap_reading,
+                                         NULL);
+      
+        gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
+                                         worddic->conf->jap_reading_end,
+                                         strlen(worddic->conf->jap_reading_end));
+      }
+    }
+
+    //gloss
     for(d = entry->gloss;
         d != NULL;
         d = d->next){

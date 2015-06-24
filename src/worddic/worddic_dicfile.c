@@ -78,22 +78,34 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
     if(jpsrch){
       //if the search expression contains at least a japanese character,
       //search matches in the japanese definition or japanese reading
-      match = g_regex_match (regex, dicentry->jap_definition, 0, &match_info);
+      GList *jap_definition = dicentry->jap_definition;
+      while(jap_definition != NULL){
+        match = g_regex_match (regex, jap_definition->data, 0, &match_info);
+
+        if(match)break;
+        else jap_definition = jap_definition->next; 
+      }
+      
       
       if(!match && dicentry->jap_reading){
-        match = g_regex_match(regex, dicentry->jap_reading, 0, &match_info);
+        GList *jap_reading = dicentry->jap_reading;
+        while(jap_reading != NULL){
+          match = g_regex_match (regex, jap_reading->data, 0, &match_info);
+
+          if(match)break;
+          else jap_reading = jap_reading->next; 
+        }
+        
       }
     }
     else{
-      //if there is no japanese characters, search matches in the translation
-      //definitions
-      GList *definition = dicentry->gloss;  //browse definitions
-      
-      while(definition != NULL){
-        match = g_regex_match (regex, definition->data, 0, &match_info);
+      //if there is no japanese characters, search matches in the gloss
+      GList *gloss = dicentry->gloss;
+      while(gloss != NULL){
+        match = g_regex_match (regex, gloss->data, 0, &match_info);
 
         if(match)break;
-        else definition = definition->next; 
+        else gloss = gloss->next; 
         }
     }
     

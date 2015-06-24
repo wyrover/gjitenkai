@@ -12,9 +12,9 @@ type can be: exp, v1, v3, v5, n, adj-i, adj-na
 TODO general information field (now inside gloss)
 */
 struct _GjitenDicentry {
-  gchar *jap_definition; //kanji
-  gchar *jap_reading;    //kana
-  GList *gloss;          //gloss
+  GSList *jap_definition; //kanji
+  GSList *jap_reading;    //kana
+  GSList *gloss;          //gloss
   gchar *ent_seq;        //EntLnnnnnnnnX
 };
 
