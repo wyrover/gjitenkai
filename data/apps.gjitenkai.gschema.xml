@@ -29,6 +29,43 @@
     <key name="resultsfont" type="s">
       <default>'Sans 12'</default>
     </key>
+    <key name="japanese-definition-font" type="s">
+      <default>'Sans Regular 14'</default>
+    </key>
+    <key name="japanese-definition-color" type="s">
+      <default>'rgb(255,0,0)'</default>
+    </key>
+    <key name="japanese-definition-start" type="s">
+      <default>'•'</default>
+    </key>
+    <key name="japanese-definition-end" type="s">
+      <default>''</default>
+    </key>    
+    <key name="japanese-reading-font" type="s">
+      <default>'Sans Italic 12'</default>
+    </key>
+    <key name="japanese-reading-color" type="s">
+      <default>'rgb(10,150,10)'</default>
+    </key>
+    <key name="japanese-reading-start" type="s">
+      <default>'('</default>
+    </key>
+    <key name="japanese-reading-end" type="s">
+      <default>')'</default>
+    </key>    
+    <key name="translation-font" type="s">
+      <default>'Sans Regular 12'</default>
+    </key>
+    <key name="translation-color" type="s">
+      <default>'rgb(155,155,155)'</default>
+    </key>
+    <key name="translation-start" type="s">
+      <default>'
+	'</default>
+    </key>
+    <key name="translation-end" type="s">
+      <default>'/'</default>
+    </key>
     <key name="dictionaries" type="a(ss)">
       <default>[]</default>
       <summary>List of dictionary files (paths and names)</summary>
