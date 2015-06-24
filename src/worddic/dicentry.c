@@ -16,8 +16,14 @@ GjitenDicentry* parse_line(const gchar* line){
   gchar *definition = strtok(NULL, "/");
   do{
     if(definition && strcmp(definition, "\n")){
-      dicentry->definitions = g_list_append(dicentry->definitions,
-                                            g_strdup_printf("%s", definition));
+      //check if this is the ent sequance or a gloss
+      if(g_str_has_prefix(definition, "EntL")){
+        dicentry->ent_seq = g_strdup_printf("%s", definition);
+      }
+      else{
+        dicentry->definitions = g_list_append(dicentry->definitions,
+                                              g_strdup_printf("%s", definition));
+      }
       }
     definition = strtok(NULL, "/");
   }while(definition);
