@@ -13,20 +13,20 @@ GjitenDicentry* parse_line(const gchar* line){
   
   //read the definitions in the other chunks
   dicentry->gloss = NULL;
-  gchar *definition = strtok(NULL, "/");
+  gchar *gloss = strtok(NULL, "/");
   do{
-    if(definition && strcmp(definition, "\n")){
+    if(gloss && strcmp(gloss, "\n")){
       //check if this is the ent sequance or a gloss
-      if(g_str_has_prefix(definition, "EntL")){
-        dicentry->ent_seq = g_strdup_printf("%s", definition);
+      if(g_str_has_prefix(gloss, "EntL")){
+        dicentry->ent_seq = g_strdup_printf("%s", gloss);
       }
       else{
         dicentry->gloss = g_list_append(dicentry->gloss,
-                                              g_strdup_printf("%s", definition));
+                                              g_strdup_printf("%s", gloss));
       }
     }
-    definition = strtok(NULL, "/");
-  }while(definition);
+    gloss = strtok(NULL, "/");
+  }while(gloss);
 
   ////get data from the first chunk
   //japanese definition
