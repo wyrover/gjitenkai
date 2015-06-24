@@ -64,7 +64,7 @@
 	'</default>
     </key>
     <key name="translation-end" type="s">
-      <default>'/'</default>
+      <default>''</default>
     </key>
     <key name="dictionaries" type="a(ss)">
       <default>[]</default>
