@@ -87,7 +87,7 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
     else{
       //if there is no japanese characters, search matches in the translation
       //definitions
-      GList *definition = dicentry->definitions;  //browse definitions
+      GList *definition = dicentry->gloss;  //browse definitions
       
       while(definition != NULL){
         match = g_regex_match (regex, definition->data, 0, &match_info);

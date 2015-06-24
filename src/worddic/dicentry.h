@@ -14,7 +14,7 @@ TODO general information field (now inside gloss)
 struct _GjitenDicentry {
   gchar *jap_definition; //kanji
   gchar *jap_reading;    //kana
-  GList *definitions;    //gloss
+  GList *gloss;          //gloss
   gchar *ent_seq;        //EntLnnnnnnnnX
 };
 

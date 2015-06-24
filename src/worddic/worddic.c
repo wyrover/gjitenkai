@@ -184,7 +184,7 @@ void print_entry(GtkTextBuffer *textbuffer_search_results,
     }
 
     GList *d = NULL;
-    for(d = entry->definitions;
+    for(d = entry->gloss;
         d != NULL;
         d = d->next){
 

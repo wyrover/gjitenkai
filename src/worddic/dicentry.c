@@ -12,7 +12,7 @@ GjitenDicentry* parse_line(const gchar* line){
   gchar *chunk = strtok(line_cpy, "/");
   
   //read the definitions in the other chunks
-  dicentry->definitions = NULL;
+  dicentry->gloss = NULL;
   gchar *definition = strtok(NULL, "/");
   do{
     if(definition && strcmp(definition, "\n")){
@@ -21,10 +21,10 @@ GjitenDicentry* parse_line(const gchar* line){
         dicentry->ent_seq = g_strdup_printf("%s", definition);
       }
       else{
-        dicentry->definitions = g_list_append(dicentry->definitions,
+        dicentry->gloss = g_list_append(dicentry->gloss,
                                               g_strdup_printf("%s", definition));
       }
-      }
+    }
     definition = strtok(NULL, "/");
   }while(definition);
 
@@ -56,7 +56,7 @@ void dicentry_free(GjitenDicentry* dicentry){
   g_free(dicentry->jap_reading);
 
   GList *d=NULL;
-  for(d = dicentry->definitions;
+  for(d = dicentry->gloss;
       d != NULL;
       d = d->next){
     g_free(d->data);
