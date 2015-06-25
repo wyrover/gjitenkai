@@ -37,7 +37,7 @@ void worddic_init (worddic *worddic)
   
   GtkTextTag *highlight = gtk_text_buffer_create_tag (textbuffer_search_results,
                                                       "results_highlight",
-                                                      "foreground-rgba",
+                                                      "background-rgba",
                                                       worddic->conf->results_highlight_color,
                                                       NULL);
   worddic->conf->highlight = highlight;
