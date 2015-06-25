@@ -88,13 +88,67 @@ int main( int argc, char **argv )
   //remove the search item from the worddic menubar
   GtkMenuBar* worddic_menubar = gtk_builder_get_object(gjitenkai.worddic->definitions, 
                                                        "menubar");
-  g_object_ref(menu_item_search);  
+  g_object_ref(menu_item_search);
   gtk_container_remove (GTK_CONTAINER(worddic_menubar), GTK_WIDGET(menu_item_search));
 
   //add the search item to the gjitenkai menubar
   gtk_menu_shell_insert(main_menu_bar, menu_item_search, 3);
 
+  //recreate the accelerators
+  GtkAccelGroup *accel_group = gtk_accel_group_new();
+  gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
+  
+  GtkRadioMenuItem* radio_item = NULL;
 
+  //jap exact
+  radio_item = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                       "menuitem_search_japanese_exact");
+  gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
+  'x', GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+
+  //jap any
+  radio_item = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                       "menuitem_search_japanese_any");
+  gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
+  'y', GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+
+  //jap start
+  radio_item = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                       "menuitem_search_japanese_start");
+  gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
+  's', GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+
+  //jap end
+  radio_item = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                       "menuitem_search_japanese_end");
+  gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
+  'e', GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+
+  //latin exact
+  radio_item = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                       "menuitem_search_latin_exact");
+  gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
+  'x', GDK_CONTROL_MASK | GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
+
+  //latin whole expression
+  radio_item = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                       "menuitem_search_latin_whole_expressions");
+  gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
+  'e', GDK_CONTROL_MASK | GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
+
+  //latin whole words
+  radio_item = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                       "menuitem_search_latin_whole_words");
+  gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
+  'w', GDK_CONTROL_MASK | GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
+
+  //latin any
+  radio_item = gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                       "menuitem_search_latin_any");
+  gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
+  'y', GDK_CONTROL_MASK | GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
+
+  
   //callback when the worrdic search result is clicked (search kanji)
   GtkTextView *result_text_view = gtk_builder_get_object(gjitenkai.worddic->definitions,
                                                          "search_results");
