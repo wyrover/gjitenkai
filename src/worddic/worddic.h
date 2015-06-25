@@ -7,6 +7,7 @@
 #include "../common/conf.h"
 #include "../common/dicfile.h"
 #include "inflection.h"
+#include "unit_style.h"
 
 #define SETTINGS_WORDDIC "apps.gjitenkai.worddic"
 #define UI_DEFINITIONS_FILE_WORDDIC GJITENKAI_DATADIR"/worddic.glade"
@@ -27,6 +28,8 @@ typedef struct worddic_t
 
 void worddic_init (worddic * );
 void init_search_menu(worddic *);
+void print_unit(GtkTextBuffer *textbuffer,
+                gchar *text, unit_style *style);
 void print_entry(GtkTextBuffer *textbuffer_search_results,
                  GtkTextTag *highlight,
                  GList *entries_highlight,

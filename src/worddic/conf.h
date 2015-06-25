@@ -14,6 +14,7 @@
 
 #include "worddic.h"
 #include "worddic_dicfile.h"
+#include "unit_style.h"
 #include "error.h"
 
 #include "../common/conf.h"
@@ -37,26 +38,10 @@ struct _WorddicConfig {
   GdkRGBA *results_highlight_color;
 
   ////japanese definition
-  GtkTextTag *jap_def;
-  gchar *jap_def_font;
-  GdkRGBA *jap_def_color;
-  gchar *jap_def_start;
-  gchar *jap_def_end;
-
-  ////japanese reading
-  GtkTextTag *jap_reading;
-  gchar *jap_reading_font;
-  GdkRGBA *jap_reading_color;
-  gchar *jap_reading_start;
-  gchar *jap_reading_end;
-
-  ////translation
-  GtkTextTag *translation;
-  gchar *translation_font;
-  GdkRGBA *translation_color;  
-  gchar *translation_start;
-  gchar *translation_end;
-
+  unit_style jap_def;
+  unit_style jap_reading;
+  unit_style gloss;
+  
   //search options
   gboolean search_kata_on_hira;
   gboolean search_hira_on_kata;

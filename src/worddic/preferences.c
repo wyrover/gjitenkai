@@ -176,7 +176,7 @@ void init_prefs_window(worddic *worddic){
   //japanese definition
   GtkFontButton *font_button_jap_def = (GtkFontButton*)
     gtk_builder_get_object(worddic->definitions, "fontbutton_jap_def");
-  gtk_font_button_set_font_name (font_button_jap_def, worddic->conf->jap_def_font);
+  gtk_font_button_set_font_name (font_button_jap_def, worddic->conf->jap_def.font);
 
   //set the color of the color chooser button
   GtkColorChooser *color_chooser_jap_def = (GtkColorChooser*)
@@ -184,23 +184,23 @@ void init_prefs_window(worddic *worddic){
                            "colorbutton_jap_def");
   
   gtk_color_chooser_set_rgba(color_chooser_jap_def,
-                             worddic->conf->jap_def_color);
+                             worddic->conf->jap_def.color);
 
   //start and end entries
   GtkEntry *entry_jap_def_start = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
                            "entry_jap_def_start");
-  gtk_entry_set_text(entry_jap_def_start, worddic->conf->jap_def_start);
+  gtk_entry_set_text(entry_jap_def_start, worddic->conf->jap_def.start);
 
   GtkEntry *entry_jap_def_end = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
                            "entry_jap_def_end");
-  gtk_entry_set_text(entry_jap_def_end, worddic->conf->jap_def_end);
+  gtk_entry_set_text(entry_jap_def_end, worddic->conf->jap_def.end);
 
   //japanese reading
   GtkFontButton *font_button_jap_reading = (GtkFontButton*)
     gtk_builder_get_object(worddic->definitions, "fontbutton_jap_reading");
-  gtk_font_button_set_font_name (font_button_jap_reading, worddic->conf->jap_reading_font);
+  gtk_font_button_set_font_name (font_button_jap_reading, worddic->conf->jap_reading.font);
 
   //set the color of the color chooser button
   GtkColorChooser *color_chooser_jap_reading = (GtkColorChooser*)
@@ -208,23 +208,23 @@ void init_prefs_window(worddic *worddic){
                            "colorbutton_jap_reading");
   
   gtk_color_chooser_set_rgba(color_chooser_jap_reading,
-                             worddic->conf->jap_reading_color);
+                             worddic->conf->jap_reading.color);
 
   //start and end entries
   GtkEntry *entry_jap_reading_start = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
                            "entry_jap_reading_start");
-  gtk_entry_set_text(entry_jap_reading_start, worddic->conf->jap_reading_start);
+  gtk_entry_set_text(entry_jap_reading_start, worddic->conf->jap_reading.start);
 
   GtkEntry *entry_jap_reading_end = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
                            "entry_jap_reading_end");
-  gtk_entry_set_text(entry_jap_reading_end, worddic->conf->jap_reading_end);
+  gtk_entry_set_text(entry_jap_reading_end, worddic->conf->jap_reading.end);
 
   //translations
-  GtkFontButton *font_button_translation = (GtkFontButton*)
+  GtkFontButton *font_button_gloss = (GtkFontButton*)
     gtk_builder_get_object(worddic->definitions, "fontbutton_translation");
-  gtk_font_button_set_font_name (font_button_translation, worddic->conf->translation_font);
+  gtk_font_button_set_font_name (font_button_gloss, worddic->conf->gloss.font);
 
   //set the color of the color chooser button
   GtkColorChooser *color_chooser_translation = (GtkColorChooser*)
@@ -232,18 +232,18 @@ void init_prefs_window(worddic *worddic){
                            "colorbutton_translation");
   
   gtk_color_chooser_set_rgba(color_chooser_translation,
-                             worddic->conf->translation_color);
+                             worddic->conf->gloss.color);
 
   //start and end entries
   GtkEntry *entry_translation_start = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
                            "entry_translation_start");
-  gtk_entry_set_text(entry_translation_start, worddic->conf->translation_start);
+  gtk_entry_set_text(entry_translation_start, worddic->conf->gloss.start);
 
   GtkEntry *entry_translation_end = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
                            "entry_translation_end");
-  gtk_entry_set_text(entry_translation_end, worddic->conf->translation_end);
+  gtk_entry_set_text(entry_translation_end, worddic->conf->gloss.end);
 
   
   ////Dictionary tab
@@ -332,10 +332,10 @@ G_MODULE_EXPORT void on_fontbutton_jap_def_font_set(GtkFontButton *font_button,
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
   PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
 
-  worddic->conf->jap_def_font = font_name;
+  worddic->conf->jap_def.font = font_name;
 
-  g_object_set(worddic->conf->jap_def, "font",
-               worddic->conf->jap_def_font, NULL);
+  g_object_set(worddic->conf->jap_def.tag, "font",
+               worddic->conf->jap_def.font, NULL);
 
   worddic_conf_save(worddic);
 }
@@ -344,23 +344,23 @@ G_MODULE_EXPORT void on_colorbutton_jap_def_color_set(GtkColorChooser *color_cho
                                                 worddic *worddic){
 
   gtk_color_chooser_get_rgba(color_chooser, 
-                             worddic->conf->jap_def_color);
+                             worddic->conf->jap_def.color);
 
-  g_object_set(worddic->conf->jap_def, "foreground-rgba",
-             worddic->conf->jap_def_color, NULL);
+  g_object_set(worddic->conf->jap_def.tag, "foreground-rgba",
+             worddic->conf->jap_def.color, NULL);
 
   worddic_conf_save(worddic);
 }
 
 G_MODULE_EXPORT void on_entry_jap_def_start_changed(GtkEntry *entry,
                                                     worddic *worddic){
-  worddic->conf->jap_def_start = gtk_entry_get_text(entry);
+  worddic->conf->jap_def.start = gtk_entry_get_text(entry);
   worddic_conf_save(worddic);
 }
 
 G_MODULE_EXPORT void on_entry_jap_def_end_changed(GtkEntry *entry,
                                                     worddic *worddic){
-    worddic->conf->jap_def_end = gtk_entry_get_text(entry);
+    worddic->conf->jap_def.end = gtk_entry_get_text(entry);
     worddic_conf_save(worddic);
 }
 
@@ -369,10 +369,10 @@ G_MODULE_EXPORT void on_fontbutton_jap_reading_font_set(GtkFontButton *font_butt
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
   PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
 
-  worddic->conf->jap_reading_font = font_name;
+  worddic->conf->jap_reading.font = font_name;
 
-  g_object_set(worddic->conf->jap_reading, "font",
-             worddic->conf->jap_reading_font, NULL);
+  g_object_set(worddic->conf->jap_reading.tag, "font",
+             worddic->conf->jap_reading.font, NULL);
   
   worddic_conf_save(worddic);
 }
@@ -381,24 +381,24 @@ G_MODULE_EXPORT void on_colorbutton_jap_reading_color_set(GtkColorChooser *color
                                                 worddic *worddic){
 
   gtk_color_chooser_get_rgba(color_chooser, 
-                             worddic->conf->jap_reading_color);
+                             worddic->conf->jap_reading.color);
 
-  g_object_set(worddic->conf->jap_reading, "foreground-rgba",
-             worddic->conf->jap_reading_color, NULL);
+  g_object_set(worddic->conf->jap_reading.tag, "foreground-rgba",
+             worddic->conf->jap_reading.color, NULL);
 
   worddic_conf_save(worddic);
 }
 
 G_MODULE_EXPORT void on_entry_jap_reading_start_changed(GtkEntry *entry,
                                                     worddic *worddic){
-  worddic->conf->jap_reading_start = gtk_entry_get_text(entry);
+  worddic->conf->jap_reading.start = gtk_entry_get_text(entry);
   worddic_conf_save(worddic);
 
 }
 
 G_MODULE_EXPORT void on_entry_jap_reading_end_changed(GtkEntry *entry,
                                                     worddic *worddic){
-    worddic->conf->jap_reading_end = gtk_entry_get_text(entry);
+    worddic->conf->jap_reading.end = gtk_entry_get_text(entry);
     worddic_conf_save(worddic);
 }
 
@@ -407,10 +407,10 @@ G_MODULE_EXPORT void on_fontbutton_translation_font_set(GtkFontButton *font_butt
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
   PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
 
-  worddic->conf->translation_font = font_name;
+  worddic->conf->gloss.font = font_name;
 
-  g_object_set(worddic->conf->translation, "font",
-               worddic->conf->translation_font, NULL);
+  g_object_set(worddic->conf->gloss.tag, "font",
+               worddic->conf->gloss.font, NULL);
 
   worddic_conf_save(worddic);
 }
@@ -419,23 +419,23 @@ G_MODULE_EXPORT void on_colorbutton_translation_color_set(GtkColorChooser *color
                                                 worddic *worddic){
 
   gtk_color_chooser_get_rgba(color_chooser, 
-                             worddic->conf->translation_color);
+                             worddic->conf->gloss.color);
 
-  g_object_set(worddic->conf->translation, "foreground-rgba",
-             worddic->conf->translation_color, NULL);
+  g_object_set(worddic->conf->gloss.tag, "foreground-rgba",
+             worddic->conf->gloss.color, NULL);
 
   worddic_conf_save(worddic);
 }
 
 G_MODULE_EXPORT void on_entry_translation_start_changed(GtkEntry *entry,
                                                     worddic *worddic){
-  worddic->conf->translation_start = gtk_entry_get_text(entry);
+  worddic->conf->gloss.start = gtk_entry_get_text(entry);
   worddic_conf_save(worddic);
 }
 
 G_MODULE_EXPORT void on_entry_translation_end_changed(GtkEntry *entry,
                                                     worddic *worddic){
-  worddic->conf->translation_end = gtk_entry_get_text(entry);
+  worddic->conf->gloss.end = gtk_entry_get_text(entry);
   worddic_conf_save(worddic);
 }
 

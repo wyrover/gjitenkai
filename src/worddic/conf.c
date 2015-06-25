@@ -16,29 +16,29 @@ WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic){
 
   //load the dictionary entries units styles
   ////japanese definition
-  conf->jap_def_start = g_settings_get_string(settings, "japanese-definition-start");
-  conf->jap_def_end = g_settings_get_string(settings, "japanese-definition-end");
-  conf->jap_def_font = g_settings_get_string(settings, "japanese-definition-font");
+  conf->jap_def.start = g_settings_get_string(settings, "japanese-definition-start");
+  conf->jap_def.end = g_settings_get_string(settings, "japanese-definition-end");
+  conf->jap_def.font = g_settings_get_string(settings, "japanese-definition-font");
   gchar *jap_def_color_str = g_settings_get_string(settings, "japanese-definition-color");
-  conf->jap_def_color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(conf->jap_def_color, jap_def_color_str);
+  conf->jap_def.color = g_new0(GdkRGBA, 1);
+  gdk_rgba_parse(conf->jap_def.color, jap_def_color_str);
 
   ////japanese reading
-  conf->jap_reading_start = g_settings_get_string(settings, "japanese-reading-start");
-  conf->jap_reading_end = g_settings_get_string(settings, "japanese-reading-end");
-  conf->jap_reading_font = g_settings_get_string(settings, "japanese-reading-font");
+  conf->jap_reading.start = g_settings_get_string(settings, "japanese-reading-start");
+  conf->jap_reading.end = g_settings_get_string(settings, "japanese-reading-end");
+  conf->jap_reading.font = g_settings_get_string(settings, "japanese-reading-font");
   gchar *jap_reading_color_str = g_settings_get_string(settings, "japanese-reading-color");
-  conf->jap_reading_color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(conf->jap_reading_color,
+  conf->jap_reading.color = g_new0(GdkRGBA, 1);
+  gdk_rgba_parse(conf->jap_reading.color,
                  jap_reading_color_str);
 
-  ////translation
-  conf->translation_start = g_settings_get_string(settings, "translation-start");
-  conf->translation_end = g_settings_get_string(settings, "translation-end");
-  conf->translation_font = g_settings_get_string(settings, "translation-font");
-  gchar *translation_color_str = g_settings_get_string(settings, "translation-color");
-  conf->translation_color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(conf->translation_color, translation_color_str);
+  ////gloss
+  conf->gloss.start = g_settings_get_string(settings, "gloss-start");
+  conf->gloss.end = g_settings_get_string(settings, "gloss-end");
+  conf->gloss.font = g_settings_get_string(settings, "gloss-font");
+  gchar *gloss_color_str = g_settings_get_string(settings, "gloss-color");
+  conf->gloss.color = g_new0(GdkRGBA, 1);
+  gdk_rgba_parse(conf->gloss.color, gloss_color_str);
 
   //parse the color string to an RGBA object
   conf->results_highlight_color = g_new0(GdkRGBA, 1);
@@ -122,22 +122,22 @@ void worddic_conf_save(struct worddic_t *p_worddic){
   g_settings_set_boolean(settings, "searchlimit-enabled", conf->searchlimit_enabled);
   g_settings_set_uint(settings, "maxwordmatches", conf->maxwordmatches);
 
-  g_settings_set_string(settings, "japanese-definition-start", conf->jap_def_start);
-  g_settings_set_string(settings, "japanese-definition-end", conf->jap_def_end);
-  g_settings_set_string(settings, "japanese-definition-font", conf->jap_def_font);
-  char *str_jap_def_color = gdk_rgba_to_string(conf->jap_def_color);
+  g_settings_set_string(settings, "japanese-definition-start", conf->jap_def.start);
+  g_settings_set_string(settings, "japanese-definition-end", conf->jap_def.end);
+  g_settings_set_string(settings, "japanese-definition-font", conf->jap_def.font);
+  char *str_jap_def_color = gdk_rgba_to_string(conf->jap_def.color);
   g_settings_set_string(settings, "japanese-definition-color", str_jap_def_color);
   
-  g_settings_set_string(settings, "japanese-reading-start", conf->jap_reading_start);
-  g_settings_set_string(settings, "japanese-reading-end", conf->jap_reading_end);
-  g_settings_set_string(settings, "japanese-reading-font", conf->jap_reading_font);
-  char *str_jap_reading_color = gdk_rgba_to_string(conf->jap_reading_color);
+  g_settings_set_string(settings, "japanese-reading-start", conf->jap_reading.start);
+  g_settings_set_string(settings, "japanese-reading-end", conf->jap_reading.end);
+  g_settings_set_string(settings, "japanese-reading-font", conf->jap_reading.font);
+  char *str_jap_reading_color = gdk_rgba_to_string(conf->jap_reading.color);
   g_settings_set_string(settings, "japanese-reading-color", str_jap_reading_color);
 
-  g_settings_set_string(settings, "translation-start", conf->translation_start);
-  g_settings_set_string(settings, "translation-end", conf->translation_end);
-  g_settings_set_string(settings, "translation-font", conf->translation_font);
-  char *str_translation_color = gdk_rgba_to_string(conf->translation_color);
-  g_settings_set_string(settings, "translation-color", str_translation_color);
+  g_settings_set_string(settings, "gloss-start", conf->gloss.start);
+  g_settings_set_string(settings, "gloss-end", conf->gloss.end);
+  g_settings_set_string(settings, "gloss-font", conf->gloss.font);
+  char *str_gloss_color = gdk_rgba_to_string(conf->gloss.color);
+  g_settings_set_string(settings, "gloss-color", str_gloss_color);
 
 }

@@ -53,17 +53,17 @@
     <key name="japanese-reading-end" type="s">
       <default>')'</default>
     </key>    
-    <key name="translation-font" type="s">
+    <key name="gloss-font" type="s">
       <default>'Sans Regular 12'</default>
     </key>
-    <key name="translation-color" type="s">
+    <key name="gloss-color" type="s">
       <default>'rgb(155,155,155)'</default>
     </key>
-    <key name="translation-start" type="s">
+    <key name="gloss-start" type="s">
       <default>'
 	'</default>
     </key>
-    <key name="translation-end" type="s">
+    <key name="gloss-end" type="s">
       <default>''</default>
     </key>
     <key name="dictionaries" type="a(ss)">
