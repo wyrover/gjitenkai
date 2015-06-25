@@ -66,7 +66,7 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Default font and hilight color</property>
+                <property name="label" translatable="yes">Default font and highlight color</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
