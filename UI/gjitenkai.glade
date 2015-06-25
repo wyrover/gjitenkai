@@ -200,6 +200,7 @@
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
                         <signal name="toggled" handler="on_menuitem_view_worddic_toggled" swapped="no"/>
+                        <accelerator key="w" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -210,6 +211,7 @@
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
                         <signal name="toggled" handler="on_menuitem_view_kanjidic_toggled" swapped="no"/>
+                        <accelerator key="k" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -228,6 +230,7 @@
                         <property name="draw_as_radio">True</property>
                         <property name="group">radiomenuitem_viewmode</property>
                         <signal name="toggled" handler="on_menuitem_paned_toggled" swapped="no"/>
+                        <accelerator key="d" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -239,6 +242,7 @@
                         <property name="draw_as_radio">True</property>
                         <property name="group">radiomenuitem_viewmode</property>
                         <signal name="toggled" handler="on_menuitem_notebook_toggled" swapped="no"/>
+                        <accelerator key="n" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
