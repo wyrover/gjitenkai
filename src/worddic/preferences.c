@@ -321,7 +321,7 @@ G_MODULE_EXPORT void on_colorbutton_results_highlight_color_set(GtkColorChooser 
   gtk_color_chooser_get_rgba(color_chooser, 
                              worddic->conf->results_highlight_color);
 
-  g_object_set(worddic->conf->highlight, "foreground-rgba",
+  g_object_set(worddic->conf->highlight, "background-rgba",
              worddic->conf->results_highlight_color, NULL);
 
   worddic_conf_save(worddic);
