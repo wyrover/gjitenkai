@@ -7,15 +7,18 @@
 
 http://www.edrdg.org/jmdict/edict_doc.html
 
-type can be: exp, v1, v3, v5, n, adj-i, adj-na
-
 TODO general information field (now inside gloss)
 */
 struct _GjitenDicentry {
   GSList *jap_definition; //kanji
   GSList *jap_reading;    //kana
   GSList *gloss;          //gloss
-  gchar *ent_seq;        //EntLnnnnnnnnX
+  gchar *ent_seq;         //EntLnnnnnnnnX
+
+  //general informations
+  gint TYPE;    //n, v1, v5, vi, vt, adj-i, adj-na, adj-to
+  gint MOD;     //arch, sl
+  gint FIELD;   //comp, astro, etc
 };
 
 typedef struct _GjitenDicentry GjitenDicentry;

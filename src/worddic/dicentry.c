@@ -19,8 +19,8 @@ GjitenDicentry* parse_line(const gchar* line){
   //read gloss in the second  chunk
   gchar *gloss = strtok(NULL, "/");
   do{
-    if(gloss && strcmp(gloss, "\n")){
-      //check if this is the ent sequance or a gloss
+    if(gloss && strcmp(gloss, "\n") && strcmp(gloss, " ")){
+      //check if this is an edict2 EntL sequance or a gloss
       if(g_str_has_prefix(gloss, "EntL")){
         dicentry->ent_seq = g_strdup_printf("%s", gloss);
       }
@@ -29,6 +29,8 @@ GjitenDicentry* parse_line(const gchar* line){
                                          g_strdup_printf("%s", gloss));
       }
     }
+
+    
     gloss = strtok(NULL, "/");
   }while(gloss);
   dicentry->gloss = g_slist_reverse(dicentry->gloss);
