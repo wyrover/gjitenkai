@@ -17,6 +17,7 @@ diffent forms (which is called inflection).
 #include <fcntl.h>
 #include <string.h>
 
+#include "worddic_dicfile.h"
 #include "dicentry.h"
 
 #include "../common/constants.h"
@@ -35,8 +36,8 @@ GSList *vinfl_list;
 int word_matches;
 guint32 srchpos;
 
-void Verbinit();
+void init_inflection();
 
-GList* search_verb_inflections(GjitenDicfile *dicfile, const gchar *srchstrg, GList **match);
+GList* search_verb_inflections(WorddicDicfile *dicfile, const gchar *srchstrg, GList **match);
 
 #endif

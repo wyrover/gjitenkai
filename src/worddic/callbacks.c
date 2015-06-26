@@ -11,7 +11,7 @@ G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_
   gint x, y;
   gint trailing;
   gunichar kanji;
-
+  /*
   if (event->button != 1) return FALSE;
   
   gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), 
@@ -21,9 +21,8 @@ G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_
   gtk_text_view_get_iter_at_position(GTK_TEXT_VIEW(text_view), &mouse_iter, &trailing, x, y);
   kanji = gtk_text_iter_get_char(&mouse_iter);
   if ((kanji != 0xFFFC) && (kanji != 0) && (isKanjiChar(kanji) == TRUE)) {
-    //g_printf("kanji: %c\n", kanji);
   }
-
+  */
   return FALSE;
 }
 
@@ -103,7 +102,8 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
         entry_string = g_string_append(entry_string, "\\b");
     }
   }
-  
+
+  gchar *entry_text_raw = strdup(entry_text);
   entry_text = entry_string->str;
   
   //get the search result text entry to display matches
@@ -135,7 +135,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
       //search for deinflections
       if(deinflection){
         GList *results_inflection = search_verb_inflections(dicfile,
-                                                            entry_text,
+                                                            entry_text_raw,
                                                             &results_highlight);
 
         print_entry(textbuffer_search_results,
@@ -144,7 +144,8 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
                     results_inflection,
                     worddic);
 
-        g_list_free_full(results_inflection, dicentry_free);
+        //free memory
+        g_list_free(results_inflection);
       }
 
       //search hiragana on katakana
@@ -164,6 +165,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
 
         //free memory
         g_free(hiragana);
+        g_list_free(results_regex);
         
       }
     
@@ -185,6 +187,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
 
         //free memory
         g_free(katakana);
+        g_list_free(results_regex);
         
       }
       
@@ -200,10 +203,17 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
                 results_highlight,
                 results_regex,
                 worddic);
+
+    g_list_free(results_regex);
     
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);
   }
+
+  //free memory
+  g_free(entry_text_raw);
+  g_string_free(entry_string, TRUE);
+  g_list_free_full(results_highlight, g_free);
 }
 
 //////////////////////

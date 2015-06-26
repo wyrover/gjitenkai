@@ -85,7 +85,7 @@ void worddic_init (worddic *worddic)
   gtk_widget_override_font(GTK_WIDGET(textview_search_results), font_desc);
   
   //init the verb de-inflection mechanism
-  Verbinit();
+  init_inflection();
 
   //Init the preference window's widgets
   init_prefs_window(worddic);
