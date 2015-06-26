@@ -126,50 +126,34 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   
   //in each dictionaries
   while (dicfile_node != NULL) {
-
+    GList *results = NULL;
     dicfile = dicfile_node->data; 
     
     if(is_jp){
-      ////Special searches
       //search for deinflections
       if(deinflection){
-        GList *results = search_verb_inflections(dicfile, entry_text_raw);
-        print_entry(textbuffer_search_results, results, worddic);
-
-        //free memory
-        g_list_free_full(results, dicresult_free_match);
+        results = g_list_concat(results, search_verb_inflections(dicfile, entry_text_raw));
       }
 
       //search hiragana on katakana
       if (worddic->conf->search_hira_on_kata &&
           hasKatakanaString(entry_text)) {
         gchar *hiragana = kata2hira(entry_text);
-
-        GList *results = dicfile_search(dicfile, hiragana);
-        print_entry(textbuffer_search_results, results, worddic);
-
-        //free memory
-        g_free(hiragana);
-        g_list_free_full(results, dicresult_free_match);
+        results = g_list_concat(results, dicfile_search(dicfile, hiragana));
+        g_free(hiragana);  //free memory
       }
     
       //search katakana on hiragana
       if (worddic->conf->search_kata_on_hira &&
-          hasHiraganaString(entry_text)) {
-        
+          hasHiraganaString(entry_text)) { 
         gchar *katakana = hira2kata(entry_text);
-        GList *results = dicfile_search(dicfile, katakana);
-        print_entry(textbuffer_search_results, results, worddic);
-
-        //free memory
-        g_free(katakana);
-        g_list_free_full(results, dicresult_free_match);
+        results = g_list_concat(results, dicfile_search(dicfile, katakana));
+        g_free(katakana); //free memory
       }
-      
-    } //end if jp, special searches
+    }
 
     //standard search
-    GList *results = dicfile_search(dicfile, entry_text);
+    results = g_list_concat(results, dicfile_search(dicfile, entry_text));
 
     //print
     print_entry(textbuffer_search_results, results, worddic);
