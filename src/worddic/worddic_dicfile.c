@@ -1,48 +1,24 @@
 #include "worddic_dicfile.h"
 
 
-GList *worddic_dicfile_parse(GjitenDicfile *dicfile){
-  
-  //file browsing variable
-  gchar *linestart, *lineend;
-  gboolean end_of_mem = FALSE;
-  gchar *line = NULL;
-  lineend = dicfile->mem;
-  
-  gint string_len = -1;
+GList *worddic_dicfile_parse(WorddicDicfile *dicfile){
+  FILE * fp;
+  char * line = NULL;
+  size_t len = 0;
+  ssize_t read;
 
-  GList *entries = NULL;
-  
-  //until the end of mem chunk is reached
-  while(!end_of_mem){
-    linestart = lineend;
-    // find end of line
-    while (*lineend != '\n') {
+  fp = fopen(dicfile->path, "r");
+  if (fp == NULL)
+    exit(EXIT_FAILURE);
 
-      //multibyte character or single byte character 
-      if (g_unichar_iswide((gunichar)lineend))lineend = (gchar*)g_utf8_next_char(lineend);
-      else lineend++;
-
-      if (lineend >= dicfile->mem + dicfile->size) {
-	end_of_mem = TRUE;
-        break;
-      }
-      
-    }
-
-    lineend++;  //skip the carriage return
-    gulong linesize = lineend - linestart;
-    line = g_realloc(line, linesize + 1);
-    memmove(line, linestart, linesize);
-    line[linesize] = '\0';
-
-    if(line){
-      GjitenDicentry* dicentry = parse_line(line);
-      entries = g_slist_prepend(entries, dicentry);
-    }
+  while ((read = getline(&line, &len, fp)) != -1) {
+    GjitenDicentry* dicentry = parse_line(line);
+    dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
   }
 
-  entries = g_slist_reverse(entries);
+  fclose(fp);
+       
+  dicfile->entries = g_slist_reverse(dicfile->entries);
 }
 
 GList *dicfile_search_regex(WorddicDicfile *dicfile,

@@ -23,7 +23,7 @@ struct _WorddicDicfile {
 
 typedef struct _WorddicDicfile WorddicDicfile;
 
-GList *worddic_dicfile_parse(GjitenDicfile *dicfile);
+GList *worddic_dicfile_parse(WorddicDicfile *dicfile);
 
 GList *dicfile_search_regex(WorddicDicfile *dicfile,
 			    const gchar *srchstrg_regex,

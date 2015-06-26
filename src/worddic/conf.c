@@ -68,8 +68,6 @@ WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic){
         dicfile->name = g_strdup(tmpptr);
 
         //load the dictionary content into memory
-        dicfile_load((GjitenDicfile*)dicfile, NULL);
-        dicfile->entries = NULL;
         dicfile->entries =  worddic_dicfile_parse(dicfile);
 
         //add the dictionary to the list
