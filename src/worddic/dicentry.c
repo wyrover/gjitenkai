@@ -22,11 +22,10 @@ GjitenDicentry* parse_line(const gchar* line){
     if(gloss && strcmp(gloss, "\n") && strcmp(gloss, " ")){
       //check if this is an edict2 EntL sequance or a gloss
       if(g_str_has_prefix(gloss, "EntL")){
-        dicentry->ent_seq = g_strdup_printf("%s", gloss);
+        dicentry->ent_seq = g_strdup_printf("%s", g_strdup_printf("%s", gloss));
       }
       else{
-        dicentry->gloss = g_slist_prepend(dicentry->gloss,
-                                         g_strdup_printf("%s", gloss));
+        dicentry->gloss = g_slist_prepend(dicentry->gloss, g_strdup_printf("%s", gloss));
       }
     }
 

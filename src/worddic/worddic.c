@@ -164,10 +164,20 @@ void print_entry(GtkTextBuffer *textbuffer, GList *entries, worddic *worddic){
 
     GjitenDicentry *entry = p_dicresult->entry;
     gchar *match = p_dicresult->match;
-      
+
+    //browse list
     GList *d = NULL;
+
+    //text to print
     gchar* text = NULL;
+
+    GtkTextIter iter_from;
+    gtk_text_buffer_get_end_iter(textbuffer, &iter_from);
     
+    //create a mark, indicating the start where the new entry is writed
+    GtkTextMark *start_mark = 
+      gtk_text_buffer_create_mark (textbuffer, NULL, &iter_from, TRUE);
+ 
     //Japanese definition
     for(d = entry->jap_definition; d != NULL; d = d->next){
       text = (gchar*)d->data;
@@ -185,33 +195,40 @@ void print_entry(GtkTextBuffer *textbuffer, GList *entries, worddic *worddic){
     //gloss
     for(d = entry->gloss;d != NULL;d = d->next){
       text = (gchar*)d->data;
+      
+      //write the unit
       print_unit(textbuffer, text, &worddic->conf->gloss);
     }
         
     gtk_text_buffer_insert_at_cursor(textbuffer, "\n", strlen("\n"));
+
+    //set the iter from where to search text to highlight from the start mark
+    gtk_text_buffer_get_iter_at_mark(textbuffer, &iter_from, start_mark);
     
-    //highlight TODO search text to highliht on the line only and not the full results ! 
+    //search and highlight the matched expression from the iter_from
     highlight_result(textbuffer,
                      worddic->conf->highlight,
-                     match); 
+                     match,
+                     &iter_from);
   }
 }
 
 void highlight_result(GtkTextBuffer *textbuffer,
 		      GtkTextTag *highlight,
-		      const gchar *text_to_highlight){
+		      const gchar *text_to_highlight,
+                      GtkTextIter *iter_from){
   gboolean has_iter;
-  GtkTextIter iter, match_start, match_end;
-  gtk_text_buffer_get_start_iter (textbuffer, &iter);
+  GtkTextIter match_start, match_end;
   
   do{
     //search where the result string is located in the result buffer
-    has_iter = gtk_text_iter_forward_search (&iter,
+    has_iter = gtk_text_iter_forward_search (iter_from,
                                              text_to_highlight,
                                              GTK_TEXT_SEARCH_VISIBLE_ONLY,
                                              &match_start,
                                              &match_end,
                                              NULL);
+    
     if(has_iter){
       //highlight at this location
       gtk_text_buffer_apply_tag (textbuffer,
@@ -219,9 +236,9 @@ void highlight_result(GtkTextBuffer *textbuffer,
                                  &match_start, 
                                  &match_end);
 
-      //next iteration starts at the end of this iteration
-      iter = match_end;
-    }
+      //next iteration starts from the end of this iteration
+      *iter_from = match_end;
+      }
 
-  }while(has_iter);
+    }while(has_iter);
 }

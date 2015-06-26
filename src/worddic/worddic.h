@@ -33,5 +33,6 @@ void print_unit(GtkTextBuffer *textbuffer,
 void print_entry(GtkTextBuffer *textbuffer, GList *entries, worddic *worddic);
 void highlight_result(GtkTextBuffer *textbuffer,
 		      GtkTextTag *highlight,
-		      const gchar *text_to_highlight);
+		      const gchar *text_to_highlight,
+                      GtkTextIter *iter_from);
 #endif

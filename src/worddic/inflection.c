@@ -108,6 +108,7 @@ GList* search_verb_inflections(WorddicDicfile *dicfile,
       //search deinflected string
       //TODO: search only if dicentry is a verb or i-adjectif
       results = dicfile_search(dicfile, deinflected);
+      g_free(deinflected);
       if(results){
         return results;
       }
