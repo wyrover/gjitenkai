@@ -1,10 +1,3 @@
-/**
-
-use a text file (vconj.utf8) which maps the dictionary form of a verb with 
-diffent forms (which is called inflection). 
-
-*/
-
 #ifndef INFLECTION_H
 #define INFLECTION_H
 
@@ -24,7 +17,11 @@ diffent forms (which is called inflection).
 #include "../common/dicfile.h"
 #include "../common/dicutil.h"
 
-/* verb deinflection */
+/**
+use a text file (vconj.utf8) which maps the dictionary form of a verb with 
+diffent forms (which is called inflection). 
+*/
+
 struct vinfl_struct {
   gchar *conj;
   gchar *infl;
@@ -38,6 +35,7 @@ guint32 srchpos;
 
 void init_inflection();
 
-GList* search_verb_inflections(WorddicDicfile *dicfile, const gchar *srchstrg, GList **match);
+GList* search_verb_inflections(WorddicDicfile *dicfile,
+                               const gchar *srchstrg);
 
 #endif

@@ -1,6 +1,5 @@
 #include "worddic_dicfile.h"
 
-
 GList *worddic_dicfile_parse(WorddicDicfile *dicfile){
   FILE * fp;
   char * line = NULL;
@@ -21,9 +20,7 @@ GList *worddic_dicfile_parse(WorddicDicfile *dicfile){
   dicfile->entries = g_slist_reverse(dicfile->entries);
 }
 
-GList *dicfile_search_regex(WorddicDicfile *dicfile,
-			    const gchar *srchstrg_regex,
-			    GList **matched_part){
+GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
 
   //list of matched dictonnary entries
   GList *results = NULL;
@@ -62,7 +59,6 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
         else jap_definition = jap_definition->next; 
       }
       
-      
       if(!match && dicentry->jap_reading){
         GList *jap_reading = dicentry->jap_reading;
         while(jap_reading != NULL){
@@ -71,7 +67,6 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
           if(match)break;
           else jap_reading = jap_reading->next; 
         }
-        
       }
     }
     else{
@@ -90,16 +85,18 @@ GList *dicfile_search_regex(WorddicDicfile *dicfile,
       //fetch the matched string
       gchar *word = g_match_info_fetch (match_info, 0);
 
-      //add the matched string to the match part list 
-      *matched_part = g_list_append(*matched_part, word);
-
-      //add the result entry in the result list
-      results = g_list_append(results, dicentry);
+      //create a new dicresult struct with the entry and the match
+      dicresult *p_dicresult = g_new0(dicresult, 1);
+      p_dicresult->match = word;
+      p_dicresult->entry = dicentry;
+      
+      //add the dicentry in the result list
+      results = g_list_append(results, p_dicresult);
     }
   }
 
   g_match_info_free(match);
-  if(regex != NULL)g_regex_unref (regex);
+  if(regex != NULL)g_regex_unref(regex);
   
   return results;
 }

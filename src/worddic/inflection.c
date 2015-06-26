@@ -80,8 +80,7 @@ void init_inflection() {
 }
 
 GList* search_verb_inflections(WorddicDicfile *dicfile,
-                               const gchar *srchstrg,
-                               GList **match) {
+                               const gchar *srchstrg) {
   GList *results = NULL;
   GList* list_dicentry = NULL;
   
@@ -108,11 +107,8 @@ GList* search_verb_inflections(WorddicDicfile *dicfile,
       
       //search deinflected string
       //TODO: search only if dicentry is a verb or i-adjectif
-      results = dicfile_search_regex(dicfile, deinflected, match);
+      results = dicfile_search(dicfile, deinflected);
       if(results){
-        //append the deinflected part that matched the search
-        *match = g_list_append(*match, strdup(deinflected));
-        g_free(deinflected);
         return results;
       }
     }

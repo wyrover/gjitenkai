@@ -120,7 +120,6 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   dicfile = dicfile_node->data;
   GList *results=NULL;               //matched dictionary entries
   GList *l = NULL;                   //browse results
-  GList *results_highlight = NULL;   //what to highlight in the result
 
   //clear the display result buffer
   gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
@@ -134,18 +133,11 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
       ////Special searches
       //search for deinflections
       if(deinflection){
-        GList *results_inflection = search_verb_inflections(dicfile,
-                                                            entry_text_raw,
-                                                            &results_highlight);
-
-        print_entry(textbuffer_search_results,
-                    worddic->conf->highlight,
-                    results_highlight,
-                    results_inflection,
-                    worddic);
+        GList *results = search_verb_inflections(dicfile, entry_text_raw);
+        print_entry(textbuffer_search_results, results, worddic);
 
         //free memory
-        g_list_free(results_inflection);
+        g_list_free_full(results, dicresult_free_match);
       }
 
       //search hiragana on katakana
@@ -153,20 +145,12 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
           hasKatakanaString(entry_text)) {
         gchar *hiragana = kata2hira(entry_text);
 
-        GList *results_regex = dicfile_search_regex(dicfile, 
-                                                    hiragana,
-                                                    &results_highlight);
-
-        print_entry(textbuffer_search_results,
-                    worddic->conf->highlight,
-                    results_highlight,
-                    results_regex,
-                    worddic);
+        GList *results = dicfile_search(dicfile, hiragana);
+        print_entry(textbuffer_search_results, results, worddic);
 
         //free memory
         g_free(hiragana);
-        g_list_free(results_regex);
-        
+        g_list_free_full(results, dicresult_free_match);
       }
     
       //search katakana on hiragana
@@ -174,37 +158,24 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
           hasHiraganaString(entry_text)) {
         
         gchar *katakana = hira2kata(entry_text);
-
-        GList *results_regex = dicfile_search_regex(dicfile, 
-                                                    katakana,
-                                                    &results_highlight);
-
-        print_entry(textbuffer_search_results,
-                    worddic->conf->highlight,
-                    results_highlight,
-                    results_regex,
-                    worddic);
+        GList *results = dicfile_search(dicfile, katakana);
+        print_entry(textbuffer_search_results, results, worddic);
 
         //free memory
         g_free(katakana);
-        g_list_free(results_regex);
-        
+        g_list_free_full(results, dicresult_free_match);
       }
       
     } //end if jp, special searches
-          
+
     //standard search
-    GList *results_regex = dicfile_search_regex(dicfile, 
-                                                entry_text,
-                                                &results_highlight);
+    GList *results = dicfile_search(dicfile, entry_text);
 
-    print_entry(textbuffer_search_results,
-                worddic->conf->highlight,
-                results_highlight,
-                results_regex,
-                worddic);
+    //print
+    print_entry(textbuffer_search_results, results, worddic);
 
-    g_list_free(results_regex);
+    //free the dicresult's match
+    g_list_free_full(results, dicresult_free_match);
     
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);
@@ -213,7 +184,6 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   //free memory
   g_free(entry_text_raw);
   g_string_free(entry_string, TRUE);
-  g_list_free_full(results_highlight, g_free);
 }
 
 //////////////////////

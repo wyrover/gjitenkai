@@ -137,7 +137,8 @@ void init_search_menu(worddic *worddic)
 }
 
 void print_unit(GtkTextBuffer *textbuffer,
-                gchar *text, unit_style *style){
+                gchar *text,
+                unit_style *style){
   GtkTextIter iter;
   gtk_text_buffer_insert_at_cursor(textbuffer, 
                                    style->start,
@@ -156,56 +157,52 @@ void print_unit(GtkTextBuffer *textbuffer,
                                    strlen(style->end));
 }
 
-void print_entry(GtkTextBuffer *textbuffer_search_results,
-                 GtkTextTag *highlight,
-                 GList *entries_highlight,
-                 GList *entries,
-                 worddic *worddic){
+void print_entry(GtkTextBuffer *textbuffer, GList *entries, worddic *worddic){
   GList *l = NULL;
   for (l = entries; l != NULL; l = l->next){
-    GjitenDicentry *entry = l->data;
+    dicresult *p_dicresult = l->data;
 
+    GjitenDicentry *entry = p_dicresult->entry;
+    gchar *match = p_dicresult->match;
+      
     GList *d = NULL;
     gchar* text = NULL;
     
     //Japanese definition
     for(d = entry->jap_definition; d != NULL; d = d->next){
       text = (gchar*)d->data;
-      print_unit(textbuffer_search_results, text, &worddic->conf->jap_def);
+      print_unit(textbuffer, text, &worddic->conf->jap_def);
     }
-
+    
     //reading
     if(entry->jap_reading){
       for(d = entry->jap_reading;d != NULL;d = d->next){
         text = (gchar*)d->data;
-        print_unit(textbuffer_search_results, text, &worddic->conf->jap_reading);
+        print_unit(textbuffer, text, &worddic->conf->jap_reading);
       }
     }
 
     //gloss
     for(d = entry->gloss;d != NULL;d = d->next){
       text = (gchar*)d->data;
-      print_unit(textbuffer_search_results, text, &worddic->conf->gloss);
+      print_unit(textbuffer, text, &worddic->conf->gloss);
     }
         
-    gtk_text_buffer_insert_at_cursor(textbuffer_search_results, 
-                                     "\n",
-                                     strlen("\n"));
-    //highlight
-    highlight_result(textbuffer_search_results,
-                     highlight,
-                     entries_highlight->data);
+    gtk_text_buffer_insert_at_cursor(textbuffer, "\n", strlen("\n"));
     
-    entries_highlight = entries_highlight->next;
+    //highlight TODO search text to highliht on the line only and not the full results ! 
+    highlight_result(textbuffer,
+                     worddic->conf->highlight,
+                     match); 
   }
 }
 
-void highlight_result(GtkTextBuffer *textbuffer_search_results,
+void highlight_result(GtkTextBuffer *textbuffer,
 		      GtkTextTag *highlight,
 		      const gchar *text_to_highlight){
   gboolean has_iter;
   GtkTextIter iter, match_start, match_end;
-  gtk_text_buffer_get_start_iter (textbuffer_search_results, &iter);
+  gtk_text_buffer_get_start_iter (textbuffer, &iter);
   
   do{
     //search where the result string is located in the result buffer
@@ -217,7 +214,7 @@ void highlight_result(GtkTextBuffer *textbuffer_search_results,
                                              NULL);
     if(has_iter){
       //highlight at this location
-      gtk_text_buffer_apply_tag (textbuffer_search_results,
+      gtk_text_buffer_apply_tag (textbuffer,
                                  highlight,
                                  &match_start, 
                                  &match_end);

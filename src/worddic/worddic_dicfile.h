@@ -6,6 +6,8 @@
 #include "dicentry.h"
 #include "../common/dicfile.h"
 
+#include "dicresult.h"
+
 #define DEFMAXWORDMATCHES 100
 
 struct _WorddicDicfile {
@@ -25,7 +27,5 @@ typedef struct _WorddicDicfile WorddicDicfile;
 
 GList *worddic_dicfile_parse(WorddicDicfile *dicfile);
 
-GList *dicfile_search_regex(WorddicDicfile *dicfile,
-			    const gchar *srchstrg_regex,
-			    GList **matched_part);
+GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex);
 #endif
