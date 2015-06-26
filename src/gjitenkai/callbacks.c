@@ -139,12 +139,9 @@ G_MODULE_EXPORT gboolean on_gjitenkai_search_results_button_release_event(GtkWid
     gchar *str_kanji = g_new0(gchar, sizeof(gunichar));
     g_unichar_to_utf8(kanji, str_kanji);
 
-    g_printf("gjitenkai: kanji -> %c\n", kanji);
-
-    //free previously used dic and load current dic in memory
-    //    dicfile_load(gjitenkai->kanjidic->conf->kanjidic);    
-
     display_kanji(gjitenkai->kanjidic, str_kanji);
+
+    g_free(str_kanji);
   }
 
   return FALSE;
