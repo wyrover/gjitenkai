@@ -93,7 +93,6 @@ void worddic_init (worddic *worddic)
   //init cursors
   cursor_selection = gdk_cursor_new(GDK_ARROW);
   cursor_default = gdk_cursor_new(GDK_XTERM);
-  
 }
 
 void init_search_menu(worddic *worddic)
