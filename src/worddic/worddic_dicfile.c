@@ -1,6 +1,6 @@
 #include "worddic_dicfile.h"
 
-GList *worddic_dicfile_parse(WorddicDicfile *dicfile){
+void worddic_dicfile_parse(WorddicDicfile *dicfile){
   FILE * fp;
   char * line = NULL;
   size_t len = 0;
@@ -9,6 +9,8 @@ GList *worddic_dicfile_parse(WorddicDicfile *dicfile){
   fp = fopen(dicfile->path, "r");
   if (fp == NULL)
     exit(EXIT_FAILURE);
+  
+  read = getline(&line, &len, fp);
 
   while ((read = getline(&line, &len, fp)) != -1) {
     GjitenDicentry* dicentry = parse_line(line);
@@ -48,7 +50,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
 
     //check if there is only kanji, in this case do not search in the reading unit
     //TODO: ignore regex special characters
-    gboolean only_kanji = is_kanji_only(srchstrg_regex);
+    //gboolean only_kanji = is_kanji_only(srchstrg_regex);
     
     GList* list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;
@@ -68,7 +70,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
       }
 
       //if no match in the definition, search in the reading
-      if(!match && dicentry->jap_reading && !only_kanji){
+      if(!match && dicentry->jap_reading){// && !only_kanji){
         GList *jap_reading = dicentry->jap_reading;
         while(jap_reading != NULL){
           match = g_regex_match (regex, jap_reading->data, 0, &match_info);
