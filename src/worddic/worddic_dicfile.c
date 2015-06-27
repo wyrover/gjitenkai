@@ -48,10 +48,12 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
     //if the search expression contains at least a japanese character,
     //search matches in the japanese definition or japanese reading
 
-    //check if there is only kanji, in this case do not search in the reading unit
-    //TODO: ignore regex special characters
-    //gboolean only_kanji = is_kanji_only(srchstrg_regex);
-    
+    //check if there if the japanese characters are not hiragana or katakana, meaning
+    //that there are only kanji except for regex characters. this variable can be used
+    //to ignore the reading unit to improve the speed a bit
+    gboolean only_kanji = (!hasKatakanaString(srchstrg_regex) &&
+                           !hasHiraganaString(srchstrg_regex));
+
     GList* list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
@@ -70,7 +72,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
       }
 
       //if no match in the definition, search in the reading
-      if(!match && dicentry->jap_reading){// && !only_kanji){
+      if(!match && dicentry->jap_reading && !only_kanji){
         GList *jap_reading = dicentry->jap_reading;
         while(jap_reading != NULL){
           match = g_regex_match (regex, jap_reading->data, 0, &match_info);
