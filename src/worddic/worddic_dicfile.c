@@ -22,6 +22,21 @@ void worddic_dicfile_parse(WorddicDicfile *dicfile){
   dicfile->entries = g_slist_reverse(dicfile->entries);
 }
 
+inline GList *add_match(GMatchInfo *match_info,
+                        GjitenDicentry* dicentry,
+                        GList *results){
+  //fetch the matched string
+  gchar *word = g_match_info_fetch (match_info, 0);
+
+  //create a new dicresult struct with the entry and the match
+  dicresult *p_dicresult = g_new0(dicresult, 1);
+  p_dicresult->match = word;
+  p_dicresult->entry = dicentry;
+      
+  //add the dicentry in the result list
+  results = g_list_append(results, p_dicresult);
+}
+
 GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
 
   //list of matched dictonnary entries
@@ -83,21 +98,11 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
       }
 
       //if there is a match, copy the entry into the result list
-      if(match){
-        //fetch the matched string
-        gchar *word = g_match_info_fetch (match_info, 0);
-
-        //create a new dicresult struct with the entry and the match
-        dicresult *p_dicresult = g_new0(dicresult, 1);
-        p_dicresult->match = word;
-        p_dicresult->entry = dicentry;
-      
-        //add the dicentry in the result list
-        results = g_list_append(results, p_dicresult);
-      }
+      if(match){results = add_match(match_info, dicentry, results);}
     }
   }
   else{
+    //if there is no japanese characters, search matches in the gloss
     GList* list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
@@ -105,7 +110,6 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
 
       GjitenDicentry* dicentry = list_dicentry->data;
 
-      //if there is no japanese characters, search matches in the gloss
       GList *gloss = dicentry->gloss;
       while(gloss != NULL){
         match = g_regex_match (regex, gloss->data, 0, &match_info);
@@ -115,18 +119,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
       }
 
       //if there is a match, copy the entry into the result list
-      if(match){
-        //fetch the matched string
-        gchar *word = g_match_info_fetch (match_info, 0);
-
-        //create a new dicresult struct with the entry and the match
-        dicresult *p_dicresult = g_new0(dicresult, 1);
-        p_dicresult->match = word;
-        p_dicresult->entry = dicentry;
-      
-        //add the dicentry in the result list
-        results = g_list_append(results, p_dicresult);
-      }
+      if(match){results = add_match(match_info, dicentry, results);}
     }
   }
 

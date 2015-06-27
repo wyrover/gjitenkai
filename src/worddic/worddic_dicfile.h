@@ -27,5 +27,10 @@ typedef struct _WorddicDicfile WorddicDicfile;
 
 void worddic_dicfile_parse(WorddicDicfile *dicfile);
 
-GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex);
+inline GList *add_match(GMatchInfo *match_info,
+                        GjitenDicentry* dicentry,
+                        GList *results);
+
+GList *dicfile_search(WorddicDicfile *dicfile,
+                      const gchar *srchstrg_regex);
 #endif
