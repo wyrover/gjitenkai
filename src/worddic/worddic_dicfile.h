@@ -8,7 +8,9 @@
 
 #include "dicresult.h"
 
-#define DEFMAXWORDMATCHES 100
+#define DEFMAXWORDMATCHES 256
+
+gint cur_matches;
 
 struct _WorddicDicfile {
   gchar *path;

@@ -35,6 +35,10 @@ inline GList *add_match(GMatchInfo *match_info,
       
   //add the dicentry in the result list
   results = g_list_append(results, p_dicresult);
+
+  cur_matches++;
+
+  return results;
 }
 
 GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
