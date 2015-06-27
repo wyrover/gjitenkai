@@ -67,7 +67,6 @@ G_MODULE_EXPORT gboolean on_search_results_motion_notify_event(GtkWidget *text_v
    and put the results in the search result textview buffer
 */
 G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
-
   gint match_criteria_jp  = worddic->match_criteria_jp;
   gint match_criteria_lat  = worddic->match_criteria_lat;
   
