@@ -16,19 +16,35 @@ int main( int argc, char **argv )
   //const gchar *line = "強盗返し [がんとうがえし] /(oK) (n) rotating stage machinery, which rolls backwards 90 degrees to reveal the next scene/";
   
   GjitenDicentry* entry = parse_line(line);
-  
-  g_printf("Jap definition: %s\n", entry->jap_definition);
-  if(entry->jap_reading)g_printf("Jap reading: %s\n", entry->jap_reading);
-  g_printf("Definitions: \n");
 
+  g_printf("KANJI\n");
   GList *d = NULL;
-  for(d = entry->definitions;
+  for(d = entry->jap_definition;
       d != NULL;
       d = d->next){
     g_printf("%s\n", d->data);
     
     }
 
+  g_printf("KANA\n");
+
+  for(d = entry->jap_reading;
+      d != NULL;
+      d = d->next){
+    g_printf("%s\n", d->data);
+    
+    }
+
+  g_printf("GLOSS\n");
+  
+
+  for(d = entry->gloss;
+      d != NULL;
+      d = d->next){
+    g_printf("%s\n", d->data);
+    
+    }
+  
 
   g_printf("original line was %s\n", line);
 
