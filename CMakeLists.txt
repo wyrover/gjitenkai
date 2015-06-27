@@ -42,7 +42,8 @@ add_executable(
   src/worddic/inflection.c 
   src/worddic/callbacks.c
   src/worddic/dicentry.c
-  src/worddic/worddic_dicfile.c 
+  src/worddic/worddic_dicfile.c
+  src/worddic/dicresult.c 
   src/kanjidic/conf.c 
   src/kanjidic/kanjidic.c 
   src/kanjidic/kanjiutils.c 
@@ -68,6 +69,7 @@ add_executable(
   src/worddic/callbacks.c
   src/worddic/conf.c
   src/worddic/dicentry.c
+  src/worddic/dicresult.c 
   src/worddic/worddic_dicfile.c 
   src/common/conf.c
   src/common/dicfile.c
