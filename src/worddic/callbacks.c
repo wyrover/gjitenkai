@@ -74,7 +74,8 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   
   //get the expression to search from the search entry
   gchar *entry_text = gtk_entry_get_text(entry);
-
+  if(!strcmp(entry_text, ""))return;
+  
   //detect is the search is in japanese
   gboolean is_jp = detect_japanese(entry_text);
 
