@@ -455,7 +455,7 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkCheckButton" id="checkbutton_filter_strokes">
-                <property name="label" translatable="yes">Filter by strokes</property>
+                <property name="label" translatable="yes">Strokes</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
@@ -470,7 +470,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="checkbutton_filter_radicals">
-                <property name="label" translatable="yes">Filter by radical</property>
+                <property name="label" translatable="yes">Radicals</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
@@ -548,7 +548,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="checkbutton_filter_key">
-                <property name="label" translatable="yes">Filter by key</property>
+                <property name="label" translatable="yes">Keys</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
