@@ -11,8 +11,9 @@
 typedef struct dicresult_t{
   GjitenDicentry *entry;
   gchar *match;
+  gchar *comment;
 }dicresult;
 
-dicresult_free_match(dicresult* p_dicresult);
+dicresult_free(dicresult* p_dicresult);
 
 #endif

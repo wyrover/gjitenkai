@@ -90,7 +90,8 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
         else jap_definition = jap_definition->next; 
       }
 
-      //if no match in the definition, search in the reading
+      //if no match in the definition, search in the reading (if any) and if
+      //the search string is not only kanji
       if(!match && dicentry->jap_reading && !only_kanji){
         GList *jap_reading = dicentry->jap_reading;
         while(jap_reading != NULL){
@@ -128,7 +129,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
   }
 
   g_match_info_free(match);
-  if(regex != NULL)g_regex_unref(regex);
+  g_regex_unref(regex);
   
   return results;
 }

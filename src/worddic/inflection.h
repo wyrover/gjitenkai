@@ -35,7 +35,7 @@ guint32 srchpos;
 
 void init_inflection();
 
-GList* search_verb_inflections(WorddicDicfile *dicfile,
-                               const gchar *srchstrg);
+GList* search_inflections(WorddicDicfile *dicfile,
+                          const gchar *srchstrg);
 
 #endif

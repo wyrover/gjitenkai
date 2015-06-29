@@ -3,27 +3,35 @@
 
 #include <gtk/gtk.h>
 
+#include "gloss.h"
+
 /*entry in an EDICT dictonary file
 
 http://www.edrdg.org/jmdict/edict_doc.html
 
 TODO general information field (now inside gloss)
 */
+
+#define ADJI 1
+#define V1   2
+#define V5   3
+
 struct _GjitenDicentry {
-  GSList *jap_definition; //kanji
-  GSList *jap_reading;    //kana
-  GSList *gloss;          //gloss
-  gchar *ent_seq;         //EntLnnnnnnnnX
+  GSList *jap_definition; //kanji (gchar*)
+  GSList *jap_reading;    //kana  (gchar*)
+  GSList *gloss;          //gloss (struct gloss)
+  gchar *ent_seq;         //EntLnnnnnnnnX (gchar*)
 
   //general informations
-  gint TYPE;    //n, v1, v5, vi, vt, adj-i, adj-na, adj-to
-  gint MOD;     //arch, sl
-  gint FIELD;   //comp, astro, etc
+  //in plain text (to display)
+  GSList *general_informations;
+  //in a bits field (to search)
+  gint GI:3;
 };
 
 typedef struct _GjitenDicentry GjitenDicentry;
 
-GjitenDicentry* parse_line(const gchar* line);
+inline GjitenDicentry* parse_line(const gchar* line);
 void dicentry_free(GjitenDicentry* dicentry);
 
 #endif

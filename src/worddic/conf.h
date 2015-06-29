@@ -1,9 +1,9 @@
 #ifndef WORDDIC_CONF_H
 #define WORDDIC_CONF_H
 
+#include <gtk/gtk.h>
 #include <gio/gio.h>
 #include <pango/pango-font.h>
-#include <gtk/gtk.h>
 
 #include <stdio.h>
 #include <string.h>

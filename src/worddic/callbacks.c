@@ -134,7 +134,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     if(is_jp){
       //search for deinflections
       if(deinflection){
-        results = g_list_concat(results, search_verb_inflections(dicfile, entry_text_raw));
+        results = g_list_concat(results, search_inflections(dicfile, entry_text_raw));
       }
 
       //search hiragana on katakana
@@ -160,8 +160,8 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     //print
     print_entry(textbuffer_search_results, results, worddic);
 
-    //free the dicresult's match
-    g_list_free_full(results, dicresult_free_match);
+    //free the results
+    g_list_free_full(results, dicresult_free);
     
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);
