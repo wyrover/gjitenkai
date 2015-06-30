@@ -23,6 +23,7 @@ void worddic_dicfile_parse(WorddicDicfile *dicfile){
 }
 
 inline GList *add_match(GMatchInfo *match_info,
+                        gchar *comment,
                         GjitenDicentry* dicentry,
                         GList *results){
   //fetch the matched string
@@ -32,7 +33,8 @@ inline GList *add_match(GMatchInfo *match_info,
   dicresult *p_dicresult = g_new0(dicresult, 1);
   p_dicresult->match = word;
   p_dicresult->entry = dicentry;
-      
+  p_dicresult->comment = comment;
+  
   //add the dicentry in the result list
   results = g_list_append(results, p_dicresult);
 
@@ -103,7 +105,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
       }
 
       //if there is a match, copy the entry into the result list
-      if(match){results = add_match(match_info, dicentry, results);}
+      if(match){results = add_match(match_info, NULL, dicentry, results);}
     }
   }
   else{
@@ -124,7 +126,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
       }
 
       //if there is a match, copy the entry into the result list
-      if(match){results = add_match(match_info, dicentry, results);}
+      if(match){results = add_match(match_info, NULL, dicentry, results);}
     }
   }
 

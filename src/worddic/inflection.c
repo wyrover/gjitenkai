@@ -159,12 +159,14 @@ GList* search_inflections(WorddicDicfile *dicfile,
           
           //if there is a match, copy the entry into the result list
           if(match){
-            results = add_match(match_info, dicentry, results);
-            ((dicresult*)(results->data))->comment = g_strdup_printf("%s %s -> %s",
-                                                                     tmp_vinfl_struct->type,
-                                                                     tmp_vinfl_struct->conj,
-                                                                     tmp_vinfl_struct->infl
-                                                                     );
+
+            gchar *comment = g_strdup_printf("%s %s -> %s",
+                                             tmp_vinfl_struct->type,
+                                             tmp_vinfl_struct->conj,
+                                             tmp_vinfl_struct->infl
+                                             );
+            
+            results = add_match(match_info, comment, dicentry, results);
           }
           
           //free memory

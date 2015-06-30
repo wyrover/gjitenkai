@@ -71,7 +71,7 @@ inline GjitenDicentry* parse_line(const gchar* line){
             else{
               //if in first parentheses: General Informations of the whole entry
               //add this GI in the entry
-              dicentry->general_informations = g_slist_append(dicentry->general_informations,
+              dicentry->general_informations = g_slist_prepend(dicentry->general_informations,
                                                               g_strdup_printf("%s", GI));
 
               //Entry General Information: list separated by comma in the first
@@ -121,6 +121,7 @@ inline GjitenDicentry* parse_line(const gchar* line){
   }while(sub_gloss);
 
   //reverse the prepended data
+  dicentry->general_informations = g_slist_reverse(dicentry->general_informations);
   dicentry->gloss = g_slist_reverse(dicentry->gloss);
   
   ////////
