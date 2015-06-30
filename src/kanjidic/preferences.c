@@ -42,10 +42,11 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
   gtk_font_button_set_font_name (font_button, kanjidic->conf->kanji_font);
   
   //init the kanji color chooser
-  GtkColorChooser *color_chooser = (GtkColorChooser*)gtk_builder_get_object(kanjidic->definitions, 
+  /*  GtkColorChooser *color_chooser = (GtkColorChooser*)gtk_builder_get_object(kanjidic->definitions, 
                                                                             "colorbutton_kanji");
   
   gtk_color_chooser_set_rgba(color_chooser, kanjidic->conf->kanji_color);
+  */
   
   //init the separator entry
   GtkEntry *entry_separator = (GtkEntry*)gtk_builder_get_object(kanjidic->definitions, 
@@ -113,7 +114,7 @@ G_MODULE_EXPORT void on_fontbutton_kanji_font_set(GtkFontButton *font_button,
   kanjidic_conf_save(kanjidic->conf, kanjidic->settings);
 }
 
-G_MODULE_EXPORT void on_colorbutton_kanji_color_set(GtkColorChooser *color_chooser, 
+/*G_MODULE_EXPORT void on_colorbutton_kanji_color_set(GtkColorChooser *color_chooser, 
                                   kanjidic *kanjidic){
   //get the color
   gtk_color_chooser_get_rgba(color_chooser, 
@@ -125,7 +126,7 @@ G_MODULE_EXPORT void on_colorbutton_kanji_color_set(GtkColorChooser *color_choos
 
   //save this value
   kanjidic_conf_save(kanjidic->conf, kanjidic->settings);
-}
+  }*/
 
 G_MODULE_EXPORT void on_fontbutton_kanji_result_font_set(GtkFontButton *font_button, 
                                   kanjidic *kanjidic){
