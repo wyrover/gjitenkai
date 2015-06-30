@@ -8,22 +8,22 @@ void kanji_item_list_init(){
 				   kanji_item_load("Stroke count", "strokes"));
   kanji_item_list = g_slist_append(kanji_item_list,
 				   kanji_item_load("Translation", "translation"));
-  kanji_item_list = g_slist_append(kanji_item_list,
-				   kanji_item_load("Frequancy", "freq"));
+  /*kanji_item_list = g_slist_append(kanji_item_list,
+    kanji_item_load("Frequancy", "freq"));*/
   kanji_item_list = g_slist_append(kanji_item_list,
 				   kanji_item_load("Jouyou", "jouyou"));
-  kanji_item_list = g_slist_append(kanji_item_list,
+/*  kanji_item_list = g_slist_append(kanji_item_list,
 				   kanji_item_load("Korean", "korean"));
   kanji_item_list = g_slist_append(kanji_item_list,
-				   kanji_item_load("Pinyin", "pinyin"));
+  kanji_item_load("Pinyin", "pinyin"));*/
   kanji_item_list = g_slist_append(kanji_item_list,
 				   kanji_item_load("On yomi", "onyomi"));
   kanji_item_list = g_slist_append(kanji_item_list,
 				   kanji_item_load("Kun yomi", "kunyomi"));
-  kanji_item_list = g_slist_append(kanji_item_list,
+/*  kanji_item_list = g_slist_append(kanji_item_list,
 				   kanji_item_load("Nanori", "nanori"));
   kanji_item_list = g_slist_append(kanji_item_list,
-				   kanji_item_load("Bushu", "bushu"));
+  kanji_item_load("Bushu", "bushu"));*/
 
 
   
