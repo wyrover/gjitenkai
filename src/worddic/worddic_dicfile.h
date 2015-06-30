@@ -21,7 +21,7 @@ typedef struct _WorddicDicfile WorddicDicfile;
 
 void worddic_dicfile_parse(WorddicDicfile *dicfile);
 
-inline GList *add_match(GMatchInfo *match_info,
+GList *add_match(GMatchInfo *match_info,
                         gchar *comment,
                         GjitenDicentry* dicentry,
                         GList *results);

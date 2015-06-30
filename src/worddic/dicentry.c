@@ -1,6 +1,6 @@
 #include "dicentry.h"
 
-inline GjitenDicentry* parse_line(const gchar* line){
+GjitenDicentry* parse_line(const gchar* line){
       
   //copy the line as strtok will alter the line
   gchar *line_cpy = strdup(line);

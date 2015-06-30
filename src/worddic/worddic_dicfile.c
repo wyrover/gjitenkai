@@ -22,10 +22,10 @@ void worddic_dicfile_parse(WorddicDicfile *dicfile){
   dicfile->entries = g_slist_reverse(dicfile->entries);
 }
 
-inline GList *add_match(GMatchInfo *match_info,
-                        gchar *comment,
-                        GjitenDicentry* dicentry,
-                        GList *results){
+GList *add_match(GMatchInfo *match_info,
+		 gchar *comment,
+		 GjitenDicentry* dicentry,
+		 GList *results){
   //fetch the matched string
   gchar *word = g_match_info_fetch (match_info, 0);
 
