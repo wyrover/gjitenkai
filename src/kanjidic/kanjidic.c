@@ -243,17 +243,33 @@ void search_and_display_kanji(kanjidic *kanjidic){
 void display_kanji(kanjidic *kanjidic, const gchar* kanji)
 {
   //add a button in the history box
-  //TODO from g_slist of buttons
-  GtkButton *button_history = (GtkButton*)gtk_button_new_with_label(kanji);
-  g_signal_connect(button_history, 
-                   "clicked", 
-                   G_CALLBACK(on_button_kanji_clicked),
-                   kanjidic);
-  
-  GtkBox *box_history = (GtkBox*)gtk_builder_get_object(kanjidic->definitions, 
-                                                        "box_history");
-  gtk_box_pack_start(box_history, GTK_WIDGET(button_history), FALSE, FALSE, 0);
-  gtk_widget_show_all(GTK_WIDGET(box_history));
+  //if the last added kanji is not the same as the kanji to add
+  gboolean same_kanji = FALSE;
+  if(kanjidic->history){
+    const gchar *last_kanji = kanjidic->history->data;
+    if(!strcmp(kanji, last_kanji)){
+      same_kanji = TRUE;
+    }
+  }
+
+  if(!same_kanji){
+    //add the kanji in the history list
+    kanjidic->history = g_slist_prepend(kanjidic->history, kanji);
+
+    //add the kanji in the history widget
+    GtkButton *button_history = (GtkButton*)gtk_button_new_with_label(kanji);
+    g_signal_connect(button_history, 
+                     "clicked", 
+                     G_CALLBACK(on_button_kanji_clicked),
+                     kanjidic);
+    
+    GtkGrid *grid_history = (GtkGrid*)gtk_builder_get_object(kanjidic->definitions, 
+                                                             "grid_history");
+    //gtk_container_add(box_history, button_history);
+    gtk_grid_attach_next_to(grid_history, button_history, NULL, GTK_POS_TOP, 1, 1);
+    
+    gtk_widget_show_all(GTK_WIDGET(grid_history));
+  }
   
   //get the area where to display the kanji
   GtkGrid *grid_kanji_display = (GtkGrid*)
