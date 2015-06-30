@@ -37,17 +37,6 @@ void kanjidic_init (kanjidic *kanjidic)
 					  kanjidic->rad_info_list);
 
   //init the kanji display style
-  /*GtkTextBuffer *textbuffer_kanji_display = (GtkTextBuffer*)
-    gtk_builder_get_object(kanjidic->definitions, "textbuffer_kanji_display");
-  
-    kanjidic->texttag_kanji = gtk_text_buffer_create_tag (textbuffer_kanji_display,
-    "kanji_tag",
-    "foreground-rgba",
-    kanjidic->conf->kanji_color,
-    "font", 
-    kanjidic->conf->kanji_font,
-    NULL);
-  */
   //filters default value
   kanjidic->filter_by_stroke = FALSE;
   kanjidic->filter_by_radical = TRUE;
