@@ -349,18 +349,20 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
         if(g_slist_next(item) != NULL){
           ki_string = g_string_append(ki_string, kanjidic->conf->separator);
         }
-      }      
-    }
+      }
 
-    GtkLabel *label_kanji_info = gtk_label_new(ki_string->str);
-    gtk_label_set_selectable (label_kanji_info, TRUE);
-    gtk_widget_set_halign(label_kanji_info, GTK_ALIGN_START);
-    gtk_label_set_line_wrap(label_kanji_info, TRUE);
-    gtk_grid_attach (grid_kanji_display,
-                     (GtkWidget*)label_kanji_info,
-                     1, i, 1, 1);
-    i++;
-    g_string_free(ki_string, TRUE);
+      GtkLabel *label_kanji_info = gtk_label_new(ki_string->str);
+      gtk_label_set_selectable (label_kanji_info, TRUE);
+      gtk_widget_set_halign(label_kanji_info, GTK_ALIGN_START);
+      gtk_label_set_line_wrap(label_kanji_info, TRUE);
+      gtk_grid_attach (grid_kanji_display,
+                       (GtkWidget*)label_kanji_info,
+                       1, i, 1, 1);
+      i++;
+      g_string_free(ki_string, TRUE);
+
+      
+    }//end if kanji info active
   }
   gtk_widget_show_all(GTK_WIDGET(grid_kanji_display));
 }
