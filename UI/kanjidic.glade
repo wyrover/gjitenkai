@@ -680,9 +680,10 @@
           </packing>
         </child>
         <child>
-          <object class="GtkScrolledWindow" id="scrolledwindow4">
+          <object class="GtkScrolledWindow" id="scrolledwindow_kanji_display">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">never</property>
             <property name="shadow_type">in</property>
             <child>
               <object class="GtkViewport" id="viewport2">
@@ -760,7 +761,7 @@
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">True</property>
+                        <property name="fill">False</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
