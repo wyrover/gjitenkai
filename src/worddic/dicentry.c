@@ -7,12 +7,9 @@ inline GjitenDicentry* parse_line(const gchar* line){
 
   //new entry to return
   GjitenDicentry* dicentry = g_new0 (GjitenDicentry, 1);
-  dicentry->jap_reading = NULL;
-  dicentry->jap_definition = NULL;
-  dicentry->gloss = NULL;
 
   //cut until the first '/', separating definiton,reading in the first chunk and
-  //gloss in the second chunk
+  //glosses in the second chunk
   gchar *chunk = strtok(line_cpy, "/");
   
   ////////
