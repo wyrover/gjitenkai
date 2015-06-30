@@ -115,9 +115,6 @@ INSTALL(FILES data/radkfile.utf8 data/vconj.utf8 DESTINATION ${DATADIR})
 # Install UI definitions files
 INSTALL(FILES UI/worddic.glade UI/kanjidic.glade UI/gjitenkai.glade DESTINATION ${DATADIR})
 
-# Install dictionaries
-INSTALL(FILES data/edict.utf8 data/kanjidic.utf8 DESTINATION ${DICDIR})
-
 # Install locales
 #Français
 INSTALL(FILES po/fr/worddic.mo DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
