@@ -4,9 +4,10 @@
 #include <gtk/gtk.h>
 
 #include "dicentry.h"
-#include "../common/dicfile.h"
-
 #include "dicresult.h"
+#include "gloss.h"
+
+#include "../common/dicfile.h"
 
 #define DEFMAXWORDMATCHES 256
 

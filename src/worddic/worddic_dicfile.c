@@ -117,12 +117,17 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
 
       GjitenDicentry* dicentry = list_dicentry->data;
 
-      GList *gloss = dicentry->gloss;
-      while(gloss != NULL){
-        match = g_regex_match (regex, gloss->data, 0, &match_info);
-
-        if(match)break;
-        else gloss = gloss->next; 
+      GSList *gloss_list = dicentry->gloss;
+      while(gloss_list != NULL){
+        gloss *gloss = gloss_list->data;
+        GSList *sub_gloss_list = gloss->sub_gloss;
+        while(sub_gloss_list != NULL){
+          match = g_regex_match (regex, sub_gloss_list->data, 0, &match_info);
+          if(match)break;
+          else sub_gloss_list = sub_gloss_list->next;
+        }
+        
+        gloss_list = gloss_list->next; 
       }
 
       //if there is a match, copy the entry into the result list
