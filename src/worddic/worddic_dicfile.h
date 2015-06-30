@@ -16,14 +16,7 @@ gint cur_matches;
 struct _WorddicDicfile {
   gchar *path;
   const gchar *name;
-  gchar *mem;
-  int file;
-  gint status;
-  struct stat stat;
-  gint size;
-
   GSList *entries;
-  
 };
 
 typedef struct _WorddicDicfile WorddicDicfile;
