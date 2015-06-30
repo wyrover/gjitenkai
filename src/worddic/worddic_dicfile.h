@@ -11,8 +11,6 @@
 
 #define PAGE_SIZE 256
 
-gint cur_matches;
-
 struct _WorddicDicfile {
   gchar *path;
   const gchar *name;
