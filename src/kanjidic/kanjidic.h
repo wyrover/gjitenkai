@@ -35,6 +35,7 @@ typedef struct kanjidic_t
   //kanji tag style in the kanji display
   GtkTextTag *texttag_kanji; 
 
+  //history of displayed kanji
   GSList *history;
 } kanjidic;
 

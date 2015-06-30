@@ -158,7 +158,11 @@ void print_unit(GtkTextBuffer *textbuffer,
 
 void print_entry(GtkTextBuffer *textbuffer, GList *entries, worddic *worddic){
   GList *l = NULL;
+  gint i=0;
   for (l = entries; l != NULL; l = l->next){
+    if(i>PAGE_SIZE)break;
+    else i++;
+    
     dicresult *p_dicresult = l->data;
 
     GjitenDicentry *entry = p_dicresult->entry;

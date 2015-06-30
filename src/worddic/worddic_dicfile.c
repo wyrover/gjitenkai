@@ -36,7 +36,7 @@ inline GList *add_match(GMatchInfo *match_info,
   p_dicresult->comment = comment;
   
   //add the dicentry in the result list
-  results = g_list_append(results, p_dicresult);
+  results = g_list_prepend(results, p_dicresult);
 
   cur_matches++;
 

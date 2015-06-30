@@ -9,7 +9,7 @@
 
 #include "../common/dicfile.h"
 
-#define DEFMAXWORDMATCHES 256
+#define PAGE_SIZE 256
 
 gint cur_matches;
 

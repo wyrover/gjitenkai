@@ -11,18 +11,6 @@ G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_
   gint x, y;
   gint trailing;
   gunichar kanji;
-  /*
-  if (event->button != 1) return FALSE;
-  
-  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), 
-					GTK_TEXT_WINDOW_WIDGET,
-					event->x, event->y, &x, &y);
-
-  gtk_text_view_get_iter_at_position(GTK_TEXT_VIEW(text_view), &mouse_iter, &trailing, x, y);
-  kanji = gtk_text_iter_get_char(&mouse_iter);
-  if ((kanji != 0xFFFC) && (kanji != 0) && (isKanjiChar(kanji) == TRUE)) {
-  }
-  */
   return FALSE;
 }
 
