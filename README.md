@@ -25,7 +25,7 @@ can be more easly added in the future.
 
 # Build
 
-Gjiten Kai uses CMake to generate the Makefile
+The Gjiten Kai project uses CMake to generate the Makefile
 
 <pre>
 --generate Makefile and config.h
@@ -36,17 +36,22 @@ $make
 #make install
 </pre>
 
-## Build Under Windows with MinGW/MSYS
+## Build Under Windows with MSYS/MinGW
 
-Install MSYS/MinGW and CMake for Windows
+Install MSYS/MinGW
+
+Install CMake for Windows
+
 Install GTK for Windows http://www.gtk.org/download/win32.php
 
+<pre>
 --generate Makefile and config.h
 $cmake -G "MSYS Makefiles" . 
 --generate binaries worrdic, kanidic and gjitenkai
 $make
 --install dictionnaries, settings and binaries
 $make install
+</pre>
 
 ... will produce the commands equivalent to:
 <pre>
