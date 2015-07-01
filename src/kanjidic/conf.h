@@ -13,8 +13,8 @@
 #include "../../config.h"
 
 #include "kanjidic.h"
-#include "error.h"
 
+#include "../common/error.h"
 #include "../common/constants.h"
 #include "../common/dicfile.h"
 #include "../common/dicutil.h"

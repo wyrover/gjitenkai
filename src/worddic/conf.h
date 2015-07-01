@@ -15,8 +15,8 @@
 #include "worddic.h"
 #include "worddic_dicfile.h"
 #include "unit_style.h"
-#include "error.h"
 
+#include "../common/error.h"
 #include "../common/conf.h"
 #include "../common/constants.h"
 #include "../common/dicfile.h"
