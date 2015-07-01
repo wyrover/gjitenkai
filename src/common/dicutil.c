@@ -292,3 +292,38 @@ gboolean detect_japanese(const gchar *srchstrg){
   } while ((currchar = g_utf8_find_next_char(currchar, srchstrg + strlen(srchstrg))) != NULL);
   return FALSE;
 }
+
+#ifdef NO_STRTOK_R
+char* strtok_r(
+    char *str, 
+    const char *delim, 
+    char **nextp)
+{
+    char *ret;
+
+    if (str == NULL)
+    {
+        str = *nextp;
+    }
+
+    str += strspn(str, delim);
+
+    if (*str == '\0')
+    {
+        return NULL;
+    }
+
+    ret = str;
+
+    str += strcspn(str, delim);
+
+    if (*str)
+    {
+        *str++ = '\0';
+    }
+
+    *nextp = str;
+
+    return ret;
+}
+#endif
