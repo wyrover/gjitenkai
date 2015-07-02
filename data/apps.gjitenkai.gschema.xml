@@ -269,8 +269,8 @@
       <default>' | '</default>
     </key>    
     <key name="kanjidicfile" type="s">
-      <default>'/usr/share/dict/kanjidic.utf8'</default>
-      <summary>Kanjidic dictionary file</summary>
+      <default>''</default>
+      <summary>Kanjidic dictionary file in UTF8 format</summary>
       <description>Kanjidic dictionary file</description>
     </key>
   </schema>

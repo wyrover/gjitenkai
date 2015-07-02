@@ -7,8 +7,10 @@ void worddic_dicfile_parse(WorddicDicfile *dicfile){
   ssize_t read;
 
   fp = fopen(dicfile->path, "r");
-  if (fp == NULL)
-    exit(EXIT_FAILURE);
+  if (fp == NULL){
+	g_printf("could not open dictionary file %s\n", dicfile->path);
+	return;  
+  }
   
   read = getline(&line, &len, fp);
 
@@ -20,6 +22,25 @@ void worddic_dicfile_parse(WorddicDicfile *dicfile){
   fclose(fp);
        
   dicfile->entries = g_slist_reverse(dicfile->entries);
+}
+
+GList *add_match(GMatchInfo *match_info,
+		 gchar *comment,
+		 GjitenDicentry* dicentry,
+		 GList *results){
+  //fetch the matched string
+  gchar *word = g_match_info_fetch (match_info, 0);
+
+  //create a new dicresult struct with the entry and the match
+  dicresult *p_dicresult = g_new0(dicresult, 1);
+  p_dicresult->match = word;
+  p_dicresult->entry = dicentry;
+  p_dicresult->comment = comment;
+  
+  //add the dicentry in the result list
+  results = g_list_prepend(results, p_dicresult);
+
+  return results;
 }
 
 GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){

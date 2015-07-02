@@ -36,11 +36,9 @@ gboolean hasHiraganaString(const gchar *strg);
 gboolean hasKatakanaString(const gchar *strg);
 gboolean detect_japanese(const gchar *srchstrg);
 
-#ifdef NO_STRTOK_R
-char* strtok_r(
-    char *str, 
-    const char *delim, 
-    char **nextp);
+#ifdef MINGW
+char* strtok_r(char *str, const char *delim, char **nextp);
+size_t getline(char **lineptr, size_t *n, FILE *stream);
 #endif
 
 

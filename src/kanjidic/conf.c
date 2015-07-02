@@ -8,6 +8,7 @@ KanjidicConfig *kanjidic_conf_load(kanjidic *p_kanjidic) {
   if (conf->kanjidic == NULL) conf->kanjidic = g_new0(GjitenDicfile, 1);
   conf->kanjidic->name = g_strdup("kanjidic");
   conf->kanjidic->path = g_settings_get_string(kanjidic_settings, "kanjidicfile");
+
   if ((conf->kanjidic->path == NULL) || (strlen(conf->kanjidic->path)) == 0) {
     conf->kanjidic->path = g_strdup(GJITENKAI_DICDIR"/kanjidic.utf8");
   }

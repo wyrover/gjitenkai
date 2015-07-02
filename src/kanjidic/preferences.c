@@ -146,9 +146,6 @@ G_MODULE_EXPORT void on_filechooserbutton_kdic_file_set(GtkFileChooserButton *fi
   kanjidic->conf->kanjidic->path = g_file_get_path(file);
   kanjidic->conf->kanjidic->name = g_file_get_basename(file);
 
-  //unload dictionary in conf
-  //dicutil_unload_dic(kanjidic->conf->kanjidic);
-
   //init the kanjidic with the selected path
   dicfile_init(kanjidic->conf->kanjidic);
   
