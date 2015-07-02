@@ -7,6 +7,17 @@ cmake_minimum_required(VERSION 2.6)
 #install directories variables
 include(GNUInstallDirs)
 
+############################################################
+option(USE_NSIS "Use NSIS generator to produce installer" OFF)
+
+if(USE_NSIS)
+  include (NSIS.cmake)
+else(USE_NSIS)
+	# gsettings
+	include(GSettings.cmake)
+	add_schemas(gjitenkai data)
+endif(USE_NSIS)
+
 # Use the package PkgConfig to detect GTK+ headers/library files
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
@@ -15,16 +26,24 @@ pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 # and to the linker where to look for libraries
 include_directories(${GTK3_INCLUDE_DIRS})
 link_directories(${GTK3_LIBRARY_DIRS})
+############################################################
 
-#add_definitions(-DMINGW)
+# Custom target for packaging.
+if(MINGW)
+  add_definitions(-DMINGW)
+endif(MINGW)
 
 # Add other flags to the compiler
 add_definitions(${GTK3_CFLAGS_OTHER})
 
 #dir where to install / find files
-set(DATADIR ${CMAKE_INSTALL_FULL_DATADIR}/data)
-set(DICDIR ${CMAKE_INSTALL_FULL_DATADIR}/dict)
-set(LOCALDIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
+set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
+set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
+set(LOCALDIR_FULL ${CMAKE_INSTALL_FULL_LOCALEDIR})
+
+set(DATADIR ${CMAKE_INSTALL_DATADIR}/data)
+set(DICDIR ${CMAKE_INSTALL_DATADIR}/dict)
+set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
 
 #compiled binary output directory
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
@@ -64,10 +83,6 @@ add_executable(
 # Compiler flag needed to reach callback functions
 set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
 
-# gsettings
-include(GSettings.cmake)
-add_schemas(gjitenkai data)
-
 # Link the target to the GTK+ libraries
 target_link_libraries(gjitenkai ${GTK3_LIBRARIES})
 
@@ -90,7 +105,7 @@ set(GJITENKAI_OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/gjitenkai)
 
 #if the current system is Windows, the generated binary will end with .exe
 IF(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-	set(GJITENKAI_OUTPUT ${GJITENKAI_OUTPUT}.exe)	
+	set(GJITENKAI_OUTPUT ${GJITENKAI_OUTPUT}.exe)
 ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 
 INSTALL(PROGRAMS ${GJITENKAI_OUTPUT} DESTINATION ${CMAKE_INSTALL_BINDIR})
