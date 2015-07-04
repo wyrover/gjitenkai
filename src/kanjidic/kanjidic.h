@@ -13,7 +13,7 @@
 
 #define UI_DEFINITIONS_FILE_KANJIDIC GJITENKAI_DATADIR"/kanjidic.glade"
 
-#define SETTINGS_KANJIDIC "apps.gjitenkai.kanjidic"
+#define SETTINGS_KANJIDIC "gjitenkai.kanjidic"
 
 typedef struct kanjidic_t
 {

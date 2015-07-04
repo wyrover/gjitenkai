@@ -9,7 +9,7 @@
 #include "inflection.h"
 #include "unit_style.h"
 
-#define SETTINGS_WORDDIC "apps.gjitenkai.worddic"
+#define SETTINGS_WORDDIC "gjitenkai.worddic"
 #define UI_DEFINITIONS_FILE_WORDDIC GJITENKAI_DATADIR"/worddic.glade"
 
 GdkCursor *cursor_selection;

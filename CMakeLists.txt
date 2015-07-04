@@ -7,16 +7,19 @@ cmake_minimum_required(VERSION 2.6)
 #install directories variables
 include(GNUInstallDirs)
 
-############################################################
-option(USE_NSIS "Use NSIS generator to produce installer" OFF)
+#dir where to install / find files
+set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
+set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
+set(LOCALDIR_FULL ${CMAKE_INSTALL_FULL_LOCALEDIR})
 
-if(USE_NSIS)
-  include (NSIS.cmake)
-else(USE_NSIS)
-	# gsettings
-	include(GSettings.cmake)
-	add_schemas(gjitenkai data)
-endif(USE_NSIS)
+set(DATADIR ${CMAKE_INSTALL_DATADIR}/data)
+set(DICDIR ${CMAKE_INSTALL_DATADIR}/dict)
+set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
+set(SCHEMADIR ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
+
+############################################################
+option(NSIS "Use NSIS generator to produce installer" OFF)
+
 
 # Use the package PkgConfig to detect GTK+ headers/library files
 find_package(PkgConfig REQUIRED)
@@ -28,6 +31,42 @@ include_directories(${GTK3_INCLUDE_DIRS})
 link_directories(${GTK3_LIBRARY_DIRS})
 ############################################################
 
+#compiled binary output directory
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+
+#if we want to create a NSIS script
+if(NSIS)
+	include (NSIS.cmake)
+
+	#install the gtk lib runtime in the binary directory
+	set (GTK_BIN C:/gtk/bin)   #TODO set the GTK_BIN variable dynamically 
+	
+	#these are all the required dll listed in the GTK documentation
+	#see http://www.gtk.org/download/win32_contentlist.php
+    INSTALL(FILES ${GTK_BIN}/libatk-1.0-0.dll
+				  ${GTK_BIN}/libcairo-2.dll
+				  ${GTK_BIN}/libcairo-gobject-2.dll
+				  ${GTK_BIN}/libffi-6.dll
+				  ${GTK_BIN}/libfreetype-6.dll
+				  ${GTK_BIN}/libgdk_pixbuf-2.0-0.dll
+				  ${GTK_BIN}/libgio-2.0-0.dll 
+				  ${GTK_BIN}/libglib-2.0-0.dll
+				  ${GTK_BIN}/libgmodule-2.0-0.dll 
+				  ${GTK_BIN}/libgobject-2.0-0.dll 
+				  ${GTK_BIN}/libgtk-3-0.dll
+				  ${GTK_BIN}/libiconv-2.dll 
+				  ${GTK_BIN}/libintl-8.dll 
+				  ${GTK_BIN}/libpango-1.0-0.dll 
+				  ${GTK_BIN}/libpangocairo-1.0-0.dll
+				  ${GTK_BIN}/libpangowin32-1.0-0.dll
+				  ${GTK_BIN}/libpixman-1-0.dll
+				  ${GTK_BIN}/libpng15-15.dll
+				  ${GTK_BIN}/libxml2-2.dll
+				  ${GTK_BIN}/pthreadGC2.dll
+				  ${GTK_BIN}/zlib1.dll 
+            DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif(NSIS)
+	
 # Custom target for packaging.
 if(MINGW)
   add_definitions(-DMINGW)
@@ -35,18 +74,6 @@ endif(MINGW)
 
 # Add other flags to the compiler
 add_definitions(${GTK3_CFLAGS_OTHER})
-
-#dir where to install / find files
-set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
-set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
-set(LOCALDIR_FULL ${CMAKE_INSTALL_FULL_LOCALEDIR})
-
-set(DATADIR ${CMAKE_INSTALL_DATADIR}/data)
-set(DICDIR ${CMAKE_INSTALL_DATADIR}/dict)
-set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
-
-#compiled binary output directory
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
@@ -80,11 +107,22 @@ add_executable(
   src/common/error.c   
 )
 
+# Link the target to the GTK+ libraries
+target_link_libraries(gjitenkai ${GTK3_LIBRARIES})
+
 # Compiler flag needed to reach callback functions
 set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
 
-# Link the target to the GTK+ libraries
-target_link_libraries(gjitenkai ${GTK3_LIBRARIES})
+#GSettings
+include(GSettings.cmake)
+compile_schemas(data/gschemas/)
+
+
+#### INSTALL Section #### 
+
+#install the GSettings Schemas
+INSTALL(FILES data/gschemas/gschemas.compiled
+		DESTINATION ${SCHEMADIR})
 
 # Install kanjidic
 INSTALL(FILES data/kanjidic.utf8 DESTINATION ${DICDIR})
