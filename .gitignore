@@ -5,3 +5,11 @@ cmake_install.cmake
 install_manifest.txt
 bin/*
 config.h
+CPackConfig.cmake
+CPackSourceConfig.cmake
+_CPack_Packages/
+gjitenkai-0.1.1-win32.exe
+gsettings/
+libgjitenkai.dll.a
+resources/NSIS/NSIS.definitions.nsh
+test/parse_line
