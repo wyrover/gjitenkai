@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <schemalist>
-  <schema id="apps.gjitenkai" path="/apps/gjitenkai/">
-    <child name="worddic" schema="apps.gjitenkai.worddic"/>
-    <child name="kanjidic" schema="apps.gjitenkai.kanjidic"/>
+  <schema id="gjitenkai" path="/gjitenkai/">
+    <child name="worddic" schema="gjitenkai.worddic"/>
+    <child name="kanjidic" schema="gjitenkai.kanjidic"/>
   </schema>
-  <schema id="apps.gjitenkai.worddic" path="/apps/gjitenkai/worddic/">
+  <schema id="gjitenkai.worddic" path="/gjitenkai/worddic/">
     <key name="results-highlight-color" type="s">
       <default>'rgb(255,0,0)'</default>
     </key>
@@ -75,7 +75,7 @@
       <default>[]</default>
     </key>
   </schema>
-  <schema id="apps.gjitenkai.kanjidic" path="/apps/gjitenkai/kanjidic/">
+  <schema id="gjitenkai.kanjidic" path="/gjitenkai/kanjidic/">
     <key name="translation" type="b">
       <default>true</default>
     </key>

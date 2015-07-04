@@ -113,17 +113,17 @@ target_link_libraries(gjitenkai ${GTK3_LIBRARIES})
 # Compiler flag needed to reach callback functions
 set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
 
-#GSettings
+
+
 include(GSettings.cmake)
-compile_schemas(data/gschemas/)
+set(LOCAL_SCHEMADIR data/gschemas)
 
+#under windows point to a directory with specifique options and org files
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+  set(LOCAL_SCHEMADIR ${LOCAL_SCHEMADIR}/windows)
+endif()
 
-#### INSTALL Section #### 
-
-#install the GSettings Schemas
-INSTALL(FILES data/gschemas/gschemas.compiled
-		DESTINATION ${SCHEMADIR})
-
+## INSTALL
 # Install kanjidic
 INSTALL(FILES data/kanjidic.utf8 DESTINATION ${DICDIR})
 
