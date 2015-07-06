@@ -23,7 +23,8 @@ Then set the worrdic file in Edit/preferences/ Worddic - Dictionary - New - Brow
 
 ## Other
 
-To use the exe you'll also need Japanese font and a Japanse input system.
+You also need Japanese font and a Japanse input system. See your OS documentation
+for more details. 
 
 # Differances with the legacy Gjiten
 
