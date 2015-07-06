@@ -90,6 +90,21 @@ void worddic_init (worddic *worddic)
   //init cursors
   cursor_selection = gdk_cursor_new(GDK_ARROW);
   cursor_default = gdk_cursor_new(GDK_XTERM);
+
+  if(!worddic->conf->dicfile_list){
+    GtkWidget *dialog;
+    dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO,  GTK_BUTTONS_OK,
+                                    "Welcome to the Gnome Japanese dictionary 'Gjiten Kai'\n \ 
+It appears that you do not have any UTF8 encoded EDICT dictionary file. \n \
+You can download one at http://odrevet.github.io/gjitenkai/downloads/edict.utf8\n \ 
+then add it in Gjiten Kai using the Edit/Preferences menu then Worddic - Dictionaries - Add" );
+
+    g_signal_connect_swapped(G_OBJECT(dialog), "response",
+                             G_CALLBACK(gtk_widget_destroy),
+                             G_OBJECT(dialog));
+		
+    gtk_widget_show_all(dialog);
+  }
 }
 
 void init_search_menu(worddic *worddic)
