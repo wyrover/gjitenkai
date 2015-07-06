@@ -1,27 +1,35 @@
 Gjiten kai - グジテン改
 
-A modern, partial rewrite of Gjiten, a japanese dictionary for Gnome.
+A new implementation of Gjiten, a Gnome japanese dictionary.
 
 # Goal
 The goal of this rewrite of Gjiten is to have a Gjiten on which new features 
 can be more easly added in the future. 
 
+#Prerequistes
+
+## Edict 
+To use the worddic (word dictionary) you will need an edict file encoded in UTF-8
+The official edict dictionary is encoded in EUC-JP.
+
+We provide a converted version at http://odrevet.github.io/gjitenkai/downloads/edict.utf8
+
+Or you can convert the edict file yourself with the following command:
+<pre>
+ iconv -f EUC-JP -t UTF-8 dictfile -o dictfile.utf8
+</pre>
+
+Then set the worrdic file in Edit/preferences/ Worddic - Dictionary - New - Browse ...  
+
+## Other
+
+To use the exe you'll also need Japanese font and a Japanse input system.
+
 # Differances with the legacy Gjiten
 
-## Core
-
-* entirely rewrited user interface
-* Use GTK3 with GladeBuilder
-* code factorization, comments, cleanup...
-* complete separation between core functions and user interface functions
-
-## Misc
-
-* Renamed 'English' by 'Latin' in the interface and the source code
-  (English uses Latin characters, and gjiten can be use to search in 
-  several language versions of edict dictionaries)
-
-* Uses CMake to generate the Makefile (see Build section)
+* New implementation 
+* Regex search, colored output, EDICT2 support
+* a lot more ! 
 
 # Build
 
@@ -45,23 +53,18 @@ Install CMake for Windows
 Install GTK for Windows http://www.gtk.org/download/win32.php
 
 <pre>
---generate Makefile and config.h
-$cmake -G "MSYS Makefiles" . 
---generate binaries worrdic, kanidic and gjitenkai
-$make
---install dictionnaries, settings and binaries
-$make install
+$cmake -G "MSYS Makefiles" . && make && make install
 </pre>
 
-... will produce the commands equivalent to:
-<pre>
-$ gcc `pkg-config gtk+-3.0 --cflags` ./src/kanjidic/* ./src/common/* -o bin/kanjidic `pkg-config gtk+-3.0 --libs`
-$ gcc `pkg-config gtk+-3.0 --cflags` ./src/worddic/* ./src/common/* -o bin/worddic `pkg-config gtk+-3.0 --libs`
-$ gcc `pkg-config gtk+-3.0 --cflags` ./src/kanjidic/* ./src/worddic/* ./src/common/* -o bin/gjitenkai `pkg-config gtk+-3.0 --libs`
-</pre>
+#Install
 
-To use the exe you'll also need Japanese font and a Japanse input system. 
+The Windows version is still a work in progress.
+
+Linux user must install it from source.
+
+Arch Linux users can install it from AUR (https://aur4.archlinux.org/packages/gjitenkai-git)
 
 # Credits
-* Original Gjiten developer (1999 - 2005) Botond Botyanszki
 * Gjiten kai developer (2015 - ...) Olivier Drevet
+* Special Thanks to the Original Gjiten developer (1999 - 2005) Botond Botyanszki 
+* EDICT Dictionary Released under Creative Commons Attribution-ShareAlike Licence (V3.0)
