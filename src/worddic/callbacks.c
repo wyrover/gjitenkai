@@ -116,6 +116,18 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   while (dicfile_node != NULL) {
     GList *results = NULL;
     dicfile = dicfile_node->data; 
+
+    //do not search in this dictionary if it's not active
+    if(!dicfile->is_active)continue;
+
+    //if this dictionary was not loaded, parse the file in his path into it's
+    //internal entries
+    if(!dicfile->is_loaded){
+      g_printf("Load worddic dictionary file %s into memory\n", dicfile->path);
+      worddic_dicfile_parse(dicfile);
+      dicfile->is_loaded = TRUE;
+      g_printf("done.\n");
+    }
     
     if(is_jp){
       //search for deinflections

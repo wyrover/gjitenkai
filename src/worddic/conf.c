@@ -2,8 +2,6 @@
 
 WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic){
   GSettings *settings = p_worddic->settings;
-  gchar *tmpstrg, *tmpptr;
-  GSList *diclist;
   WorddicConfig *conf;
 
   conf = g_new0(WorddicConfig, 1);
@@ -43,39 +41,34 @@ WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic){
   //parse the color string to an RGBA object
   conf->results_highlight_color = g_new0(GdkRGBA, 1);
   gdk_rgba_parse(conf->results_highlight_color, str_results_highlight_color);
-
-  //check if dictionaries where loaded
-  //if so, clear the memory
-  if (conf->dicfile_list != NULL) {
-    dicutil_unload_dic(conf->mmaped_dicfile);
-    dicfile_list_free(conf->dicfile_list);
-    conf->dicfile_list = NULL;
-  }
   
-  //load the dictionaries list
-  {
-    GVariantIter iter;
-    GVariant *dictionaries;
-    dictionaries = g_settings_get_value(settings, "dictionaries");
-    g_variant_iter_init(&iter, dictionaries);
-    diclist = NULL;
-    while (g_variant_iter_next (&iter, "(&s&s)", &tmpstrg, &tmpptr)) {
-      if (tmpstrg != NULL) {
+  //load the dictionaries
+  GVariantIter iter;
+  GVariant *dictionaries;
+  dictionaries = g_settings_get_value(settings, "dictionaries");
+  g_variant_iter_init(&iter, dictionaries);
 
-        //create the worddic dictionary
-        WorddicDicfile *dicfile = g_new0(WorddicDicfile, 1);
-        dicfile->path = g_strdup(tmpstrg);
-        dicfile->name = g_strdup(tmpptr);
+  gchar *dicpath, *dicname;
+  gboolean dicactive;
+  GSList *diclist = NULL;
 
-        //load the dictionary content into memory
-        worddic_dicfile_parse(dicfile);
+  while (g_variant_iter_next (&iter, "(&s&sb)", &dicpath, &dicname, &dicactive)) {
+    if (dicpath != NULL) {
+      //create the worddic dictionary
+      g_printf("Found dictionary in settings %s %s %d\n", dicpath, dicname, dicactive);
+      WorddicDicfile *dicfile = g_new0(WorddicDicfile, 1);
+      dicfile->path = g_strdup(dicpath);
+      dicfile->name = g_strdup(dicname);
+      dicfile->is_active = dicactive;
+      dicfile->is_loaded = FALSE;     //do not parse the dictionary yet
 
-        //add the dictionary to the list
-        conf->dicfile_list = g_slist_append(conf->dicfile_list, dicfile);
-      }
+      //add the dictionary to the list
+      conf->dicfile_list = g_slist_append(conf->dicfile_list, dicfile);
     }
-    g_variant_unref(dictionaries);
   }
+  g_variant_unref(dictionaries);
+
+    
   if (conf->dicfile_list != NULL) conf->selected_dic = conf->dicfile_list->data;
   
   //load the search options 
@@ -89,7 +82,7 @@ WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic){
 void worddic_conf_save(struct worddic_t *p_worddic){
   int i;
   GSList *diclist;
-  GjitenDicfile *dicfile;
+  WorddicDicfile *dicfile;
   GSettings *settings = p_worddic->settings;
   WorddicConfig *conf = p_worddic->conf;
   
@@ -106,12 +99,16 @@ void worddic_conf_save(struct worddic_t *p_worddic){
 
   //Save dicfiles [path and name seperated with linebreak]
   GVariantBuilder builder;
-  g_variant_builder_init(&builder, G_VARIANT_TYPE("a(ss)"));
+  g_variant_builder_init(&builder, G_VARIANT_TYPE("a(ssb)"));
   diclist = conf->dicfile_list;
   while (diclist != NULL) {
     if (diclist->data == NULL) break;
     dicfile = diclist->data;
-    g_variant_builder_add(&builder, "(ss)", dicfile->path, dicfile->name);
+    g_variant_builder_add(&builder,
+                          "(ssb)",
+                          dicfile->path,
+                          dicfile->name,
+                          &dicfile->is_active);
     diclist = g_slist_next(diclist);
   }
   g_settings_set_value(settings, "dictionaries", g_variant_builder_end(&builder));
@@ -137,5 +134,4 @@ void worddic_conf_save(struct worddic_t *p_worddic){
   g_settings_set_string(settings, "gloss-font", conf->gloss.font);
   char *str_gloss_color = gdk_rgba_to_string(conf->gloss.color);
   g_settings_set_string(settings, "gloss-color", str_gloss_color);
-
 }

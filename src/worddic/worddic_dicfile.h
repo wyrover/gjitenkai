@@ -9,12 +9,15 @@
 
 #include "../common/dicfile.h"
 
-#define PAGE_SIZE 256
+#define PAGE_SIZE 596
 
 struct _WorddicDicfile {
   gchar *path;
   const gchar *name;
   GSList *entries;
+
+  gboolean is_active;
+  gboolean is_loaded;
 };
 
 typedef struct _WorddicDicfile WorddicDicfile;
