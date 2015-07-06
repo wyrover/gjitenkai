@@ -3,8 +3,8 @@ Gjiten kai - グジテン改
 A new implementation of Gjiten, a Gnome japanese dictionary.
 
 # Goal
-The goal of this rewrite of Gjiten is to have a Gjiten on which new features 
-can be more easly added in the future. 
+The goal of this rewrite of Gjiten is to have a Gjiten with new features and a
+new interface, while keeping the original overall design. 
 
 #Prerequistes
 
