@@ -89,7 +89,7 @@ gboolean dicfile_init(GjitenDicfile *dicfile) {
     dicfile->file = open(dicfile->path, O_RDONLY);
 
     if (dicfile->file == -1) {
-      gjiten_print_error(_("Error opening dictfile:  %s\nCheck your preferences!"),
+      gjiten_print_error(_("Error opening dictfile:  %s\nCheck your preferences. "),
 			 dicfile->path);
       dicfile->status = DICFILE_BAD;
       return FALSE;
