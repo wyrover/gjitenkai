@@ -66,10 +66,15 @@
     <key name="gloss-end" type="s">
       <default>''</default>
     </key>
-    <key name="dictionaries" type="a(ss)">
+    <key name="dictionaries" type="a(ssb)">
       <default>[]</default>
       <summary>List of dictionary files (paths and names)</summary>
-      <description>List of dictionary files. Format is:  [/path/to/dicfile1\ndictionary-name1,/path/to/dicfile2\ndictionary-name2] Don't put a space after the comma!</description>
+      <description>
+        List of dictionary files. Format is:
+        [/path/to/dicfile\ndictionary-name\nactive,/path/to/dicfile\ndictionary-name\nactive]
+        Don't put a space after the comma. 
+        Name and path are strings, active is true or false (boolean)
+      </description>
     </key>
     <key name="history" type="as">
       <default>[]</default>
