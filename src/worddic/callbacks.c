@@ -105,7 +105,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   GSList *dicfile_node;
   WorddicDicfile *dicfile;
   dicfile_node = worddic->conf->dicfile_list;
-  dicfile = dicfile_node->data;
+
   GList *results=NULL;               //matched dictionary entries
   GList *l = NULL;                   //browse results
 
