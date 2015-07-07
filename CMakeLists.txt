@@ -7,15 +7,23 @@ cmake_minimum_required(VERSION 2.6)
 #install directories variables
 include(GNUInstallDirs)
 
-#dir where to install / find files
-set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
-set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
-set(LOCALDIR_FULL ${CMAKE_INSTALL_FULL_LOCALEDIR})
+#directories where to find files. These path are passed onto config.h.in to be 
+#later used within the software as definitions
+if(${WIN32})
+	set(DATADIR_FULL ../share/data)
+	set(DICDIR_FULL ../share/dict)
+else()
+	set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
+	set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
+endif()
 
 set(DATADIR ${CMAKE_INSTALL_DATADIR}/data)
 set(DICDIR ${CMAKE_INSTALL_DATADIR}/dict)
 set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
 set(SCHEMADIR ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
+
+#generate config.h from config.h.in
+configure_file(config.h.in config.h)
 
 ############################################################
 option(NSIS "Use NSIS generator to produce installer" OFF)
@@ -75,9 +83,6 @@ endif(MINGW)
 # Add other flags to the compiler
 add_definitions(${GTK3_CFLAGS_OTHER})
 
-#generate config.h from config.h.in
-configure_file(config.h.in config.h)
-
 # files needed to compile gjitenkai
 add_executable(
   gjitenkai
@@ -117,7 +122,7 @@ include(GSettings.cmake)
 set(LOCAL_SCHEMADIR data/gschemas)
 
 #under windows point to a directory with specifique options and org files
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+if(${WIN32})
   set(LOCAL_SCHEMADIR ${LOCAL_SCHEMADIR}/windows)
 endif()
 
@@ -125,28 +130,28 @@ compile_schemas(${LOCAL_SCHEMADIR})
 
 ## INSTALL
 #Install settings
-INSTALL(FILES ${LOCAL_SCHEMADIR}/gschemas.compiled DESTINATION ${SCHEMADIR})
+install(FILES ${LOCAL_SCHEMADIR}/gschemas.compiled DESTINATION ${SCHEMADIR})
 
 # Install kanjidic
-INSTALL(FILES data/kanjidic.utf8 DESTINATION ${DICDIR})
+install(FILES data/kanjidic.utf8 DESTINATION ${DICDIR})
 
 # Install radicals and inflection rules in the data dir
-INSTALL(FILES data/radkfile.utf8 data/vconj.utf8 DESTINATION ${DATADIR})
+install(FILES data/radkfile.utf8 data/vconj.utf8 DESTINATION ${DATADIR})
 
 # Install UI definitions files
-INSTALL(FILES UI/worddic.glade UI/kanjidic.glade UI/gjitenkai.glade DESTINATION ${DATADIR})
+install(FILES UI/worddic.glade UI/kanjidic.glade UI/gjitenkai.glade DESTINATION ${DATADIR})
 
 # Install locales
 ##Français
-INSTALL(FILES po/fr/worddic.mo DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
+install(FILES po/fr/worddic.mo DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
 
 # Install programs 
 ## Set the output binary full path name variable
 set(GJITENKAI_OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/gjitenkai)
 
 #if the current system is Windows, the generated binary will end with .exe
-IF(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+if(${WIN32})
 	set(GJITENKAI_OUTPUT ${GJITENKAI_OUTPUT}.exe)
-ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+endif()
 
-INSTALL(PROGRAMS ${GJITENKAI_OUTPUT} DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(PROGRAMS ${GJITENKAI_OUTPUT} DESTINATION ${CMAKE_INSTALL_BINDIR})
