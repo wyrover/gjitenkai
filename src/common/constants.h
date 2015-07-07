@@ -3,8 +3,14 @@
 
 #include "../../config.h"
 
-#define VINFL_FILENAME GJITENKAI_DATADIR"/vconj.utf8"
-#define RADKFILE_NAME GJITENKAI_DATADIR"/radkfile.utf8"
+#ifdef MINGW
+	#define VINFL_FILENAME path_relative("..\\share\\data\\vconj.utf8")
+	#define RADKFILE_NAME path_relative("..\\share\\data\\radkfile.utf8")
+#else
+	#define VINFL_FILENAME strdup(GJITENKAI_DATADIR"/vconj.utf8")
+	#define RADKFILE_NAME strdup(GJITENKAI_DATADIR"/radkfile.utf8")
+#endif
+
 
 #define SETTINGS_KANJIDIC "gjitenkai.kanjidic"
 #define GCONF_ROOT "/gjitenkai"

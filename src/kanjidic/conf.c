@@ -10,7 +10,14 @@ KanjidicConfig *kanjidic_conf_load(kanjidic *p_kanjidic) {
   conf->kanjidic->path = g_settings_get_string(kanjidic_settings, "kanjidicfile");
 
   if ((conf->kanjidic->path == NULL) || (strlen(conf->kanjidic->path)) == 0) {
-    conf->kanjidic->path = g_strdup(GJITENKAI_DICDIR"/kanjidic.utf8");
+
+  //if Mingw (windows) the path can only be relative (depends on install directory at runtime)
+#ifdef MINGW
+	conf->kanjidic->path = path_relative("..\\share\\dict\\kanjidic.utf8");
+#else
+	conf->kanjidic->path = g_strdup(GJITENKAI_DICDIR"/kanjidic.utf8");
+#endif
+
   }
 
   //kanji tag font and color

@@ -29,7 +29,10 @@ gchar *read_file(const gchar *filename){
   size_t result;
 
   pFile = fopen (filename, "rb" );
-  if (pFile==NULL) {fputs ("File error",stderr); exit (1);}
+  if (pFile==NULL) {
+	g_printf("WARNING ! Cannot open file %s\n", filename);
+	return NULL;
+  }
 
   // obtain file size:
   fseek (pFile , 0 , SEEK_END);
@@ -52,7 +55,7 @@ gchar *read_file(const gchar *filename){
 }
 
 gchar *get_eof_line(gchar *ptr, gchar *end_ptr) {
-  static gchar *tmpptr; //FIXME: this is called from kanjidic and worddic!!!
+  static gchar *tmpptr;
   tmpptr = ptr;
   while (*tmpptr != '\n') {
     if (end_ptr == tmpptr) return NULL;
@@ -377,6 +380,16 @@ size_t getline(char **lineptr, size_t *n, FILE *stream) {
     *n = size;
 
     return p - bufptr - 1;
+}
+
+gchar *path_relative(gchar *path){
+	gchar buffer[MAX_PATH];
+	GetModuleFileName(NULL, buffer, MAX_PATH) ;
+	
+	gchar *dirname = g_path_get_dirname(buffer);
+	gchar *result = g_strconcat(dirname, "\\", path, NULL);
+	
+	return result;
 }
 
 #endif

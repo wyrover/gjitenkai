@@ -6,7 +6,12 @@
 #include "../worddic/worddic.h"
 #include "../kanjidic/kanjidic.h"
 
-#define UI_DEFINITIONS_FILE_GJITENKAI GJITENKAI_DATADIR"/gjitenkai.glade"
+#ifdef MINGW
+	#define UI_DEFINITIONS_FILE_GJITENKAI path_relative("..\\share\\data\\gjitenkai.glade")
+#else
+	#define UI_DEFINITIONS_FILE_GJITENKAI GJITENKAI_DATADIR"/gjitenkai.glade"
+#endif
+
 typedef struct gjitenkai_t
 {
   GtkBuilder *definitions;

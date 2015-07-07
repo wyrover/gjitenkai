@@ -10,7 +10,12 @@
 #include "unit_style.h"
 
 #define SETTINGS_WORDDIC "gjitenkai.worddic"
-#define UI_DEFINITIONS_FILE_WORDDIC GJITENKAI_DATADIR"/worddic.glade"
+
+#ifdef MINGW
+	#define UI_DEFINITIONS_FILE_WORDDIC path_relative("..\\share\\data\\worddic.glade")
+#else
+	#define UI_DEFINITIONS_FILE_WORDDIC GJITENKAI_DATADIR"/worddic.glade"
+#endif
 
 GdkCursor *cursor_selection;
 GdkCursor *cursor_default;

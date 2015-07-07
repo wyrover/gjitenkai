@@ -17,7 +17,7 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
 
   radkfile = read_file(RADKFILE_NAME);
 
-  if (radkfile == NULL) gjiten_abort_with_msg("failed to read radkfile\n");
+  if (radkfile == NULL) gjiten_abort_with_msg("failed to read radkfile %s\n", RADKFILE_NAME);
   
   if (error == TRUE) {
     gjiten_print_error("Error opening %s.\n "                           \

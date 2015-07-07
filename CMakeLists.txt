@@ -9,18 +9,14 @@ include(GNUInstallDirs)
 
 #directories where to find files. These path are passed onto config.h.in to be 
 #later used within the software as definitions
-if(${WIN32})
-	set(DATADIR_FULL ../share/data)
-	set(DICDIR_FULL ../share/dict)
-else()
-	set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
-	set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
-endif()
+set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
+set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
 
 set(DATADIR ${CMAKE_INSTALL_DATADIR}/data)
 set(DICDIR ${CMAKE_INSTALL_DATADIR}/dict)
 set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
 set(SCHEMADIR ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
+
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
@@ -44,6 +40,9 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 #if we want to create a NSIS script
 if(NSIS)
+	set(CPACK_PACKAGE_EXECUTABLES GJitenKai gjitenkai.exe)
+	set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/README.md)
+	set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
 	include (NSIS.cmake)
 
 	#install the gtk lib runtime in the binary directory

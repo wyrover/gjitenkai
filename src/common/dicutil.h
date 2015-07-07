@@ -39,6 +39,8 @@ gboolean detect_japanese(const gchar *srchstrg);
 #ifdef MINGW
 char* strtok_r(char *str, const char *delim, char **nextp);
 size_t getline(char **lineptr, size_t *n, FILE *stream);
+#include <Windows.h>
+gchar *path_relative(gchar *path);
 #endif
 
 

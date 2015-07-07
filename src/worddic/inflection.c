@@ -12,7 +12,12 @@ void init_inflection() {
   struct vinfl_struct *tmp_vinfl_struct;
   GSList *tmp_list_ptr = NULL;
 
-  vinfl_start = read_file(VINFL_FILENAME);
+  gchar *vconj = VINFL_FILENAME;
+  vinfl_start = read_file(vconj);
+  
+  #ifdef MINGW
+  g_free(vconj);
+  #endif
 
   vinfl_end = vinfl_start + strlen(vinfl_start);
   vinfl_ptr = vinfl_start;
