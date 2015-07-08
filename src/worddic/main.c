@@ -24,7 +24,7 @@ int main( int argc, char **argv )
   //set icon
   GdkPixbuf *pixbuf;
   GError *error = NULL;
-  pixbuf = gdk_pixbuf_new_from_file("pixmaps/jiten.png", &error);
+  pixbuf = gdk_pixbuf_new_from_file("pixmaps/kai.png", &error);
    
   gtk_window_set_icon(GTK_WINDOW(window), pixbuf);
   
