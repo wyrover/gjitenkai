@@ -144,6 +144,9 @@ install(FILES UI/worddic.glade UI/kanjidic.glade UI/gjitenkai.glade DESTINATION 
 ##Français
 install(FILES po/fr/worddic.mo DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
 
+# Install pixmaps
+insall(FILES pixmaps/gjitenkai.png kai.png kai.ico DESTINATION ${CMAKE_INSTALL_DATADIR})
+
 # Install programs 
 ## Set the output binary full path name variable
 set(GJITENKAI_OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/gjitenkai)
