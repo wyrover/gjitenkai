@@ -140,16 +140,16 @@ G_MODULE_EXPORT void on_filechooserbutton_kdic_file_set(GtkFileChooserButton *fi
 					kanjidic *kanjidic){
   GFile *file = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(filechooserbutton));
 
-  //reload kanjidic
+  //free the previously used kanjidic
+  dicutil_unload_dic(kanjidic->conf->kanjidic);
+
+  //reload the conf
   g_free(kanjidic->conf->kanjidic);
   kanjidic->conf->kanjidic = g_new0(GjitenDicfile, 1);
   kanjidic->conf->kanjidic->path = g_file_get_path(file);
   kanjidic->conf->kanjidic->name = g_file_get_basename(file);
-
-  //free the previously used kanjidic
-  dicutil_unload_dic(kanjidic->conf->kanjidic);
   
-  //init the kanjidic with the selected path
+  //init the kanjidic with the newly selected path
   dicfile_init(kanjidic->conf->kanjidic);
   
   kanjidic_conf_save(kanjidic->conf, kanjidic->settings);

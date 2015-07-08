@@ -126,12 +126,6 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
                         -1);
   }
   else{
-    //add a new dictionary in the conf
-    GjitenDicfile *dicfile = g_new0(GjitenDicfile, 1);
-    dicfile->name = gtk_entry_get_text(entry_edit_dic_name);
-    dicfile->path = gtk_file_chooser_get_filename((GtkFileChooser*)fcb_edit_dic_path);
-    worddic->conf->dicfile_list = g_slist_append(worddic->conf->dicfile_list, dicfile);
-
     //add in the tree
     GtkTreeView *treeview_dic = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
                                                                      "treeview_dic");
@@ -149,6 +143,13 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
                         -1);
     }
 
+  //add the dictionary in the conf
+  GjitenDicfile *dicfile = g_new0(GjitenDicfile, 1);
+  dicfile->name = gtk_entry_get_text(entry_edit_dic_name);
+  dicfile->path = gtk_file_chooser_get_filename((GtkFileChooser*)fcb_edit_dic_path);
+  worddic->conf->dicfile_list = g_slist_append(worddic->conf->dicfile_list, dicfile);
+
+    
   GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                         "prefs");
   worddic_conf_save(worddic);
