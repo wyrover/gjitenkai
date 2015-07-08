@@ -28,6 +28,10 @@ typedef struct worddic_t
 
   gint match_criteria_lat;
   gint match_criteria_jp;
+
+  GList *results;
+  gint entries_per_page;   //number of entries to display per page
+  gint current_page;       //current page to be displayed
 } worddic;
 
 
@@ -35,9 +39,16 @@ void worddic_init (worddic * );
 void init_search_menu(worddic *);
 void print_unit(GtkTextBuffer *textbuffer,
                 gchar *text, unit_style *style);
-void print_entry(GtkTextBuffer *textbuffer, GList *entries, worddic *worddic);
+void print_entries(GtkTextBuffer *textbuffer, worddic *worddic);
 void highlight_result(GtkTextBuffer *textbuffer,
 		      GtkTextTag *highlight,
 		      const gchar *text_to_highlight,
                       GtkTextIter *iter_from);
+
+#if GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 16
+extern void on_worddic_search_results_edge_reached(GtkScrolledWindow* sw,
+						   GtkPositionType pos,
+						   worddic* worddic);
+#endif
+
 #endif

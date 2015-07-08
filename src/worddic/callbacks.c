@@ -104,17 +104,19 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   //search in the dictionaries
   GSList *dicfile_node;
   WorddicDicfile *dicfile;
-  dicfile_node = worddic->conf->dicfile_list;
+  dicfile_node = worddic->conf->dicfile_list;    //matched dictionary entries
+  GList *l = NULL;                              //browse results
+  
+  GList *results=NULL;
 
-  GList *results=NULL;               //matched dictionary entries
-  GList *l = NULL;                   //browse results
+  //free the last results
+  g_list_free_full(results, dicresult_free);
 
   //clear the display result buffer
   gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
   
   //in each dictionaries
   while (dicfile_node != NULL) {
-    GList *results = NULL;
     dicfile = dicfile_node->data; 
 
     //do not search in this dictionary if it's not active
@@ -154,17 +156,17 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
 
     //standard search
     results = g_list_concat(results, dicfile_search(dicfile, entry_text));
-
-    //print
-    print_entry(textbuffer_search_results, results, worddic);
-
-    //free the results
-    g_list_free_full(results, dicresult_free);
     
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);
   }
 
+  worddic->results = results;
+
+  //print the first page
+  print_entries(textbuffer_search_results, worddic);
+
+    
   //free memory
   g_free(entry_text_raw);
   g_string_free(entry_string, TRUE);
@@ -231,3 +233,21 @@ G_MODULE_EXPORT void on_menuitem_help_about_activate (GtkMenuItem *menuitem,
   gtk_dialog_run(GTK_DIALOG(window_about));
   gtk_widget_hide (GTK_WIDGET(window_about)); 
 }
+
+
+//if available for this version of GTK, display the next page of result when
+//the scroll window is scrolled at the bottom
+#if GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 16
+void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* sw,
+							    GtkPositionType pos,
+							    worddic* worddic){
+
+  //get the search result text entry to display matches
+  GtkTextBuffer *textbuffer_search_results = 
+    (GtkTextBuffer*)gtk_builder_get_object(worddic->definitions, 
+                                           "textbuffer_search_results");
+  if(pos == GTK_POS_BOTTOM){
+    print_entries(textbuffer_search_results, worddic);
+  }
+}
+#endif

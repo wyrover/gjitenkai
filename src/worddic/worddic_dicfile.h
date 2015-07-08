@@ -9,8 +9,6 @@
 
 #include "../common/dicfile.h"
 
-#define PAGE_SIZE 596
-
 struct _WorddicDicfile {
   gchar *path;
   const gchar *name;

@@ -24,6 +24,10 @@ void worddic_init (worddic *worddic)
   //by default search everything
   worddic->match_criteria_jp = ANY_MATCH;
   worddic->match_criteria_lat = ANY_MATCH;
+
+  //set the number of entries to display par page result
+  //TODO GSettings
+  worddic->entries_per_page = 512;
   
   init_search_menu(worddic);
 
@@ -105,6 +109,16 @@ then add it in Gjiten Kai using the Edit/Preferences menu then Worddic - Diction
 		
     gtk_widget_show_all(dialog);
   }
+
+  //add a callback when scrolling to the edge of the result only if GTK >= 3.16
+#if GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 16
+  GtkScrolledWindow *scrolledwindow_search_result = (GtkScrolledWindow*)
+    gtk_builder_get_object(worddic->definitions, "scrolledwindow_search_result");
+  g_signal_connect(scrolledwindow_search_result,
+		   "edge-reached",
+		   G_CALLBACK(on_worddic_search_results_edge_reached),
+		   worddic);
+#endif 
 }
 
 void init_search_menu(worddic *worddic)
@@ -168,14 +182,13 @@ void print_unit(GtkTextBuffer *textbuffer,
                                    strlen(style->end));
 }
 
-void print_entry(GtkTextBuffer *textbuffer, GList *entries, worddic *worddic){
-  GList *l = NULL;
-  gint i=0;
-  for (l = entries; l != NULL; l = l->next){
-    if(i>PAGE_SIZE)break;
-    else i++;
+void print_entries(GtkTextBuffer *textbuffer, worddic *worddic){
+  gint entry_number=0;
+  
+  while(worddic->results &&
+	entry_number <= worddic->entries_per_page){
     
-    dicresult *p_dicresult = l->data;
+    dicresult *p_dicresult = worddic->results->data;
 
     GjitenDicentry *entry = p_dicresult->entry;
     gchar *match = p_dicresult->match;
@@ -255,8 +268,7 @@ void print_entry(GtkTextBuffer *textbuffer, GList *entries, worddic *worddic){
     }
 
     //end gloss
-    
-    
+     
     gtk_text_buffer_insert_at_cursor(textbuffer, "\n", strlen("\n"));
 
     //set the iter from where to search text to highlight from the start mark
@@ -267,6 +279,9 @@ void print_entry(GtkTextBuffer *textbuffer, GList *entries, worddic *worddic){
                      worddic->conf->highlight,
                      match,
                      &iter_from);
+
+    worddic->results = worddic->results->next;
+    entry_number++;
   }
 }
 
