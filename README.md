@@ -1,6 +1,8 @@
 Gjiten kai - グジテン改
 
 A new implementation of Gjiten, a Gnome japanese dictionary.
+Project Page http://odrevet.github.io/gjitenkai/
+
 
 # Goal
 The goal of this rewrite of Gjiten is to have a Gjiten with new features and a
@@ -59,7 +61,7 @@ $cmake -G "MSYS Makefiles" . && make && make install
 
 #Install
 
-The Windows version is still a work in progress.
+The Windows version is available at http://odrevet.github.io/gjitenkai/downloads/gjitenkai-0.1.0-win32.exe.
 
 Linux user must install it from source.
 
