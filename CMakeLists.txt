@@ -11,11 +11,13 @@ include(GNUInstallDirs)
 #later used within the software as definitions
 set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
 set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
+set(PIXMAPDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/pixmaps)
 
 set(DATADIR ${CMAKE_INSTALL_DATADIR}/data)
 set(DICDIR ${CMAKE_INSTALL_DATADIR}/dict)
 set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
 set(SCHEMADIR ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
+set(PIXMAPDIR ${CMAKE_INSTALL_DATADIR}/pixmaps)
 
 
 #generate config.h from config.h.in
@@ -145,7 +147,7 @@ install(FILES UI/worddic.glade UI/kanjidic.glade UI/gjitenkai.glade DESTINATION 
 install(FILES po/fr/worddic.mo DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
 
 # Install pixmaps
-install(FILES pixmaps/gjitenkai.png pixmaps/kai.png pixmaps/kai.ico DESTINATION ${CMAKE_INSTALL_DATADIR}/pixmaps)
+install(FILES pixmaps/gjitenkai.png pixmaps/kai.png pixmaps/kai.ico DESTINATION ${PIXMAPDIR})
 
 # Install programs 
 ## Set the output binary full path name variable

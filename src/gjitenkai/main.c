@@ -20,7 +20,8 @@ int main( int argc, char **argv )
   gtk_window_set_default_size(GTK_WINDOW(window), 800, 400);
   GdkPixbuf *pixbuf;
   GError *error = NULL;
-  pixbuf = gdk_pixbuf_new_from_file("pixmaps/kai.png", &error);
+  
+  pixbuf = gdk_pixbuf_new_from_file(GJITENKAI_PIXMAPDIR"/kai.png", &error);
    
   gtk_window_set_icon(GTK_WINDOW(window), pixbuf);
  
