@@ -14,4 +14,6 @@ gint GI:3;
 
 }gloss;
 
+void gloss_free(gloss *gloss);
+
 #endif

@@ -103,22 +103,27 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
   GtkTreeIter iter ;
   gint index = getsingleselect(treeview_dic, &iter);
 
-  //add the dictionary in the conf
-  GjitenDicfile *dicfile = g_new0(GjitenDicfile, 1);
-  dicfile->name = gtk_entry_get_text(entry_edit_dic_name);
-  dicfile->path = gtk_file_chooser_get_filename((GtkFileChooser*)fcb_edit_dic_path);
-  worddic->conf->dicfile_list = g_slist_append(worddic->conf->dicfile_list, dicfile);
-
+  WorddicDicfile *dicfile = NULL;
+  
   //update or add a dictionary
   if(is_update){
-    //get the dictionary to update
+    //get the dictionary to update (index according the the nth element clicked)
     GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
-    GjitenDicfile *dicfile = selected_element->data;
+    dicfile = selected_element->data;
 
+    //if the dictionary is loaded, free the memory
+    if(dicfile->is_loaded){
+      worddic_dicfile_free_entries(dicfile);
+      g_free(dicfile->name);
+      g_free(dicfile->path);
+      dicfile->is_loaded = FALSE;
+      dicfile->is_active = TRUE;
+    }
+       
     //set the new name and path
-    dicfile->name = strdup(gtk_entry_get_text(entry_edit_dic_name));
-    dicfile->path = gtk_file_chooser_get_filename((GtkFileChooser*) fcb_edit_dic_path);
-
+    dicfile->name = g_strdup(gtk_entry_get_text(entry_edit_dic_name));
+    dicfile->path = g_strdup(gtk_file_chooser_get_filename((GtkFileChooser*) fcb_edit_dic_path));
+    
     //replace the current row with a new one
     gtk_list_store_remove(store, &iter);
 
@@ -132,6 +137,14 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
                         -1);
   }
   else{
+    //create a new dictionary and add it in the conf
+    WorddicDicfile *dicfile = g_new0(GjitenDicfile, 1);
+    dicfile->name = g_strdup(gtk_entry_get_text(entry_edit_dic_name));
+    dicfile->path = g_strdup(gtk_file_chooser_get_filename((GtkFileChooser*)fcb_edit_dic_path));
+    dicfile->is_loaded = FALSE;
+    dicfile->is_active = TRUE;
+    worddic->conf->dicfile_list = g_slist_append(worddic->conf->dicfile_list, dicfile);
+
     //add in the tree
     GtkTreeView *treeview_dic = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
                                                                      "treeview_dic");

@@ -97,7 +97,8 @@ add_executable(
   src/worddic/callbacks.c
   src/worddic/dicentry.c
   src/worddic/worddic_dicfile.c
-  src/worddic/dicresult.c 
+  src/worddic/dicresult.c
+  src/worddic/gloss.c
   src/kanjidic/conf.c 
   src/kanjidic/kanjidic.c 
   src/kanjidic/kanjiutils.c 
