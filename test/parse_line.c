@@ -1,9 +1,11 @@
-//gcc parse_line.c ../src/worddic/dicentry.c $(pkg-config --cflags --libs gtk+-3.0) -I../src/worddic/ -o parse_line
+//gcc parse_line.c ../src/worddic/dicentry.c ../src/worddic/gloss.c $(pkg-config --cflags --libs gtk+-3.0) -I../src/worddic/ -o parse_line
 #include <gtk/gtk.h>
 
 #include "../src/worddic/dicentry.h"
 #include "../src/worddic/gloss.h"
 
+
+//#define LINE "１コマ;一コマ;１こま;一こま;一齣;一駒(iK) [ひとコマ(一コマ);ひとこま(一こま,一齣,一駒)] /(n) (1) one scene/one frame/one shot/one exposure/(2) one cell/one panel (comic)/EntL1162000X/"
 
 #define LINE "チェイサー /(n) (test) (1) Chaser/pursuer/(2) (drk) (lol) Chaser/light drink (often just water) taken after a strong alcoholic drink/"
 
