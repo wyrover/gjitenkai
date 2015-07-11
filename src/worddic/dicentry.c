@@ -176,5 +176,5 @@ void dicentry_free(GjitenDicentry* dicentry){
   dicentry->jap_definition = NULL;
   g_slist_free_full(dicentry->jap_reading, g_free);
   dicentry->jap_reading = NULL;
-  g_free(dicentry);
+  //g_free(dicentry);
 }
