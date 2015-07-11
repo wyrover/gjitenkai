@@ -2,6 +2,7 @@
 
 #include "worddic.h"
 #include "worddic_dicfile.h"
+#include "preferences.h"
 #include "../common/dicfile.h"
 
 G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_view,
@@ -113,12 +114,14 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
   
   //in each dictionaries
+  gint i=0;
   while (dicfile_node != NULL) {
     dicfile = dicfile_node->data; 
 
     //do not search in this dictionary if it's not active
     if(!dicfile->is_active){
       dicfile_node = g_slist_next(dicfile_node);
+      i++;
       continue;
     }
     
@@ -130,6 +133,17 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
       worddic_dicfile_parse(dicfile);
       dicfile->is_loaded = TRUE;
       g_printf("done.\n");
+
+      GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
+                                                                  "liststore_dic");
+      GtkTreeIter  iter;
+      GtkTreePath *path = gtk_tree_path_new_from_indices (i, -1);
+      
+      //set the model
+      gtk_tree_model_get_iter (model, &iter, path);
+      gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_LOADED, TRUE, -1);
+
+      gtk_tree_path_free (path);
     }
     
     if(is_jp){
@@ -160,6 +174,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);
+    i++;
   }
 
   worddic->results = results;

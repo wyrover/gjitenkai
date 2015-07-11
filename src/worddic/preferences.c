@@ -509,17 +509,21 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
 
   //set the conf
   gint index = gtk_tree_path_get_indices(path)[0];
+  gtk_tree_path_free (path);
+    
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
   WorddicDicfile *dic = selected_element->data;
   dic->is_loaded = loaded;
   worddic_conf_save(worddic);
-
+  
   if(loaded){
-    g_printf("LOAD DICTIONARY %s\n", dic->name);
+    g_printf("Loading %s\n", dic->name);
     worddic_dicfile_parse(dic);
+    g_printf("done\n");
   }
   else{
-    g_printf("FREE DICTIONARY %s\n", dic->name);
+    g_printf("Freeing %s\n", dic->name);
     worddic_dicfile_free_entries(dic);
+    g_printf("done\n");
   }
 }
