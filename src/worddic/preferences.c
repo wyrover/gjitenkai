@@ -465,7 +465,7 @@ G_MODULE_EXPORT gboolean on_prefs_delete_event(GtkWindow *window,
   return TRUE;
 }
 
-void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle *cell,
+G_MODULE_EXPORT  void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle *cell,
                                           gchar *path_str,
                                           worddic *worddic){
   GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
