@@ -48,6 +48,8 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
       <column type="gchararray"/>
       <!-- column-name Path -->
       <column type="gchararray"/>
+      <!-- column-name Active -->
+      <column type="gboolean"/>
     </columns>
   </object>
   <object class="GtkBox" id="box_toplevel_prefs">
@@ -381,6 +383,19 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
                       <object class="GtkCellRendererText" id="cellrenderertext1"/>
                       <attributes>
                         <attribute name="text">1</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn_active">
+                    <property name="title" translatable="yes">Active</property>
+                    <child>
+                      <object class="GtkCellRendererToggle" id="cellrenderertoggle_active">
+                        <signal name="toggled" handler="on_cellrenderertoggle_active_toggled" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="active">2</attribute>
                       </attributes>
                     </child>
                   </object>

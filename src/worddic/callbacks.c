@@ -120,7 +120,11 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     dicfile = dicfile_node->data; 
 
     //do not search in this dictionary if it's not active
-    if(!dicfile->is_active)continue;
+    if(!dicfile->is_active){
+      dicfile_node = g_slist_next(dicfile_node);
+      continue;
+    }
+    
 
     //if this dictionary was not loaded, parse the file in his path into it's
     //internal entries

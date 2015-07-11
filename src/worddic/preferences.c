@@ -108,10 +108,10 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
     GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
     dicfile = selected_element->data;
 
-    //if the dictionary is loaded, free the memory
     gchar *path = g_strdup(gtk_file_chooser_get_filename((GtkFileChooser*) fcb_edit_dic_path));
     gchar *name = g_strdup(gtk_entry_get_text(entry_edit_dic_name));
-    
+
+    //if the dictionary is loaded, free the memory
     if(dicfile->is_loaded){
       if(!strcmp(dicfile->path, path)){
         worddic_dicfile_free_entries(dicfile);
@@ -147,6 +147,7 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
   gtk_list_store_set (store, &iter,
                       COL_NAME, dicfile->name,
                       COL_PATH, dicfile->path,
+                      COL_ACTIVE, dicfile->is_active,
                       -1);
     
   worddic_conf_save(worddic);
@@ -252,7 +253,7 @@ void init_prefs_window(worddic *worddic){
   GtkListStore *store = GTK_LIST_STORE(gtk_tree_view_get_model(view));
 
   //populate the list of dictionaries
-  GjitenDicfile *dicfile;
+  WorddicDicfile *dicfile;
   GSList *dicfile_node = worddic->conf->dicfile_list;
   while (dicfile_node != NULL) {
     dicfile = dicfile_node->data;
@@ -264,6 +265,7 @@ void init_prefs_window(worddic *worddic){
     gtk_list_store_set (store, &iter,
                         COL_NAME, dicfile->name,
                         COL_PATH, dicfile->path,
+                        COL_ACTIVE, dicfile->is_active,
                         -1);
     
     dicfile_node = g_slist_next(dicfile_node);
@@ -461,4 +463,29 @@ G_MODULE_EXPORT gboolean on_prefs_delete_event(GtkWindow *window,
                                                worddic *worddic) {
   gtk_widget_hide(GTK_WIDGET(window));
   return TRUE;
+}
+
+void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle *cell,
+                                          gchar *path_str,
+                                          worddic *worddic){
+  GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
+                                                              "liststore_dic");
+  GtkTreeIter  iter;
+  GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+  gboolean active;
+
+  //set the model
+  gtk_tree_model_get_iter (model, &iter, path);
+  gtk_tree_model_get (model, &iter, COL_ACTIVE, &active, -1);
+  active ^= 1;
+  gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_ACTIVE, active, -1);
+
+  //set the conf
+  gint index = gtk_tree_path_get_indices(path)[0];
+  GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
+  WorddicDicfile *dic = selected_element->data;
+  dic->is_active = active;
+  g_printf("set %s to %d\n", dic->path, dic->is_active);
+  worddic_conf_save(worddic);
+
 }
