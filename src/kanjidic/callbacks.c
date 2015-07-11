@@ -83,10 +83,21 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
 
   //get the editable object from the entry to edit the content
   GtkEditable *editable = GTK_EDITABLE(entry);
+
+  //if the kanji is a radical (kanji is found in the rad_info_hash), quit
+  GList *all_radical_list = g_hash_table_get_keys(kanjidic->rad_info_hash);
+  for (all_radical_list; all_radical_list != NULL; 
+       all_radical_list = g_list_next(all_radical_list)) {
+    if(!strcmp(all_radical_list->data, text)){
+      return;
+    }
+  }
+
   
-  //if this is not a kanji (do not check yet if it's a radical or not)
+  //if this is not a kanji, do not insert
   if(!isKanjiChar(unichar)){
     //do not allow this character in the entry widget
+    printf("%c is not a kanji ! \n", unichar);
     g_signal_stop_emission_by_name (G_OBJECT (editable), "insert_text");
     return;
   }
@@ -116,15 +127,6 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
       }
 
       radstrg_ptr = g_utf8_next_char(radstrg_ptr);
-    }
-  }
-
-  //if the kanji is a radical (kanji is found in the rad_info_hash), quit
-  GList *all_radical_list = g_hash_table_get_keys(kanjidic->rad_info_hash);
-  for (all_radical_list; all_radical_list != NULL; 
-       all_radical_list = g_list_next(all_radical_list)) {
-    if(!strcmp(all_radical_list->data, text)){
-      return;
     }
   }
 
