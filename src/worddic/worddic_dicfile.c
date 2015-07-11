@@ -143,4 +143,5 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
 
 void worddic_dicfile_free_entries(WorddicDicfile *dicfile){
   g_slist_free_full(dicfile->entries, dicentry_free);
+  dicfile->entries = NULL;
 }

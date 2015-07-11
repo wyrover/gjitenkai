@@ -109,9 +109,6 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   
   GList *results=NULL;
 
-  //free the last results
-  g_list_free_full(results, dicresult_free);
-
   //clear the display result buffer
   gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
   

@@ -171,7 +171,10 @@ GjitenDicentry* parse_line(const gchar* line){
 
 void dicentry_free(GjitenDicentry* dicentry){
   g_slist_free_full(dicentry->gloss, gloss_free);
+  dicentry->gloss = NULL;
   g_slist_free_full(dicentry->jap_definition, g_free);
+  dicentry->jap_definition = NULL;
   g_slist_free_full(dicentry->jap_reading, g_free);
+  dicentry->jap_reading = NULL;
   g_free(dicentry);
 }

@@ -515,9 +515,11 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
   worddic_conf_save(worddic);
 
   if(loaded){
+    g_printf("LOAD DICTIONARY %s\n", dic->name);
     worddic_dicfile_parse(dic);
   }
   else{
+    g_printf("FREE DICTIONARY %s\n", dic->name);
     worddic_dicfile_free_entries(dic);
   }
 }
