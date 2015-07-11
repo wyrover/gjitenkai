@@ -113,7 +113,7 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
     gchar *name = g_strdup(gtk_entry_get_text(entry_edit_dic_name));
     
     if(dicfile->is_loaded){
-      if(!strcmp(dicfile->path, name)){
+      if(!strcmp(dicfile->path, path)){
         worddic_dicfile_free_entries(dicfile);
       }
       g_free(dicfile->name);
