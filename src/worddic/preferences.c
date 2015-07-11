@@ -29,7 +29,7 @@ G_MODULE_EXPORT gboolean on_button_dictionary_remove_clicked(GtkWidget *widget, 
   if(index == -1) return FALSE;
 
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
-  GjitenDicfile *dic = selected_element->data;  
+  WorddicDicfile *dic = selected_element->data;  
   worddic->conf->dicfile_list = g_slist_remove(worddic->conf->dicfile_list, selected_element->data);
   worddic_conf_save(worddic);
 
@@ -57,7 +57,7 @@ G_MODULE_EXPORT gboolean on_button_dictionary_edit_clicked(GtkWidget *widget, wo
                                                                      "filechooserbutton_edit_dic_path");
 
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
-  GjitenDicfile *dic = selected_element->data;  
+  WorddicDicfile *dic = selected_element->data;  
 
   gtk_entry_set_text(entry_edit_dic_name, dic->name);
   gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(fcb_edit_dic_path), dic->path);
@@ -132,7 +132,7 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
   }
   else{
     //create a new dictionary and add it in the conf
-    dicfile = g_new0(GjitenDicfile, 1);
+    dicfile = g_new0(WorddicDicfile, 1);
     dicfile->name = g_strdup(gtk_entry_get_text(entry_edit_dic_name));
     dicfile->path = g_strdup(gtk_file_chooser_get_filename((GtkFileChooser*)fcb_edit_dic_path));
     dicfile->is_loaded = FALSE;

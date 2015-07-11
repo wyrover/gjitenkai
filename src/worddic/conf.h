@@ -50,7 +50,7 @@ struct _WorddicConfig {
   gboolean searchlimit_enabled;
   gboolean autoadjust_enabled;
 
-  struct _GjitenDicfile *selected_dic;
+  //struct _GjitenDicfile *selected_dic;
   PangoFontDescription *normalfont_desc;
 };
 

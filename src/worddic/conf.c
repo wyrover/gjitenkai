@@ -69,7 +69,7 @@ WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic){
   g_variant_unref(dictionaries);
 
     
-  if (conf->dicfile_list != NULL) conf->selected_dic = conf->dicfile_list->data;
+  //if (conf->dicfile_list != NULL) conf->selected_dic = conf->dicfile_list->data;
   
   //load the search options 
   conf->search_kata_on_hira = g_settings_get_boolean(settings, "search-kata-on-hira");
@@ -108,7 +108,7 @@ void worddic_conf_save(struct worddic_t *p_worddic){
                           "(ssb)",
                           dicfile->path,
                           dicfile->name,
-                          &dicfile->is_active);
+                          dicfile->is_active);
     diclist = g_slist_next(diclist);
   }
   g_settings_set_value(settings, "dictionaries", g_variant_builder_end(&builder));
