@@ -32,6 +32,7 @@ GList *add_match(GMatchInfo *match_info,
   gchar *word = g_match_info_fetch (match_info, 0);
 
   //create a new dicresult struct with the entry and the match
+  //when freeing the result, do not free the entry
   dicresult *p_dicresult = g_new0(dicresult, 1);
   p_dicresult->match = word;
   p_dicresult->entry = dicentry;

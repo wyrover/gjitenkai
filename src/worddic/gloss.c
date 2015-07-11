@@ -5,7 +5,7 @@ void gloss_free(gloss *gloss){
   gloss->sub_gloss = NULL;
   g_slist_free_full(gloss->general_informations, g_free);
   gloss->general_informations = NULL;
-  //g_free(gloss);
+  g_free(gloss);
 }
 
 

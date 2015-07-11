@@ -58,6 +58,11 @@ G_MODULE_EXPORT gboolean on_search_results_motion_notify_event(GtkWidget *text_v
 G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   gint match_criteria_jp  = worddic->match_criteria_jp;
   gint match_criteria_lat  = worddic->match_criteria_lat;
+
+  //clear the last search results
+  worddic->results = g_list_first(worddic->results);
+  g_list_free_full(worddic->results, dicresult_free);
+  worddic->results = NULL;
   
   //get the expression to search from the search entry
   gchar *entry_text = gtk_entry_get_text(entry);
