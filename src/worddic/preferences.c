@@ -148,6 +148,7 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
                       COL_NAME, dicfile->name,
                       COL_PATH, dicfile->path,
                       COL_ACTIVE, dicfile->is_active,
+                      COL_LOADED, dicfile->is_loaded,
                       -1);
     
   worddic_conf_save(worddic);
@@ -266,6 +267,7 @@ void init_prefs_window(worddic *worddic){
                         COL_NAME, dicfile->name,
                         COL_PATH, dicfile->path,
                         COL_ACTIVE, dicfile->is_active,
+                        COL_LOADED, dicfile->is_loaded,
                         -1);
     
     dicfile_node = g_slist_next(dicfile_node);
@@ -488,4 +490,34 @@ G_MODULE_EXPORT  void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle
   g_printf("set %s to %d\n", dic->path, dic->is_active);
   worddic_conf_save(worddic);
 
+}
+
+G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle *cell,
+                                                          gchar *path_str,
+                                                          worddic *worddic){
+  GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
+                                                              "liststore_dic");
+  GtkTreeIter  iter;
+  GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+  gboolean loaded;
+
+  //set the model
+  gtk_tree_model_get_iter (model, &iter, path);
+  gtk_tree_model_get (model, &iter, COL_LOADED, &loaded, -1);
+  loaded ^= 1;
+  gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_LOADED, loaded, -1);
+
+  //set the conf
+  gint index = gtk_tree_path_get_indices(path)[0];
+  GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
+  WorddicDicfile *dic = selected_element->data;
+  dic->is_loaded = loaded;
+  worddic_conf_save(worddic);
+
+  if(loaded){
+    worddic_dicfile_parse(dic);
+  }
+  else{
+    worddic_dicfile_free_entries(dic);
+  }
 }

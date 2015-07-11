@@ -9,8 +9,8 @@
     <property name="version">0.1</property>
     <property name="authors">Original Gjiten developer (1999 - 2005) Botond Botyanszki
 
-Gjiten Kai developer (2015 - ...) Olivier Drevet
-</property>
+    Gjiten Kai developer (2015 - ...) Olivier Drevet
+    </property>
     <property name="logo_icon_name">accessories-dictionary</property>
     <property name="license_type">gpl-2-0</property>
     <child internal-child="vbox">
@@ -49,6 +49,8 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
       <!-- column-name Path -->
       <column type="gchararray"/>
       <!-- column-name Active -->
+      <column type="gboolean"/>
+      <!-- column-name Loaded -->
       <column type="gboolean"/>
     </columns>
   </object>
@@ -396,6 +398,19 @@ Gjiten Kai developer (2015 - ...) Olivier Drevet
                       </object>
                       <attributes>
                         <attribute name="active">2</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn_loaded">
+                    <property name="title" translatable="yes">Loaded</property>
+                    <child>
+                      <object class="GtkCellRendererToggle" id="cellrenderertoggle_loaded">
+                        <signal name="toggled" handler="on_cellrenderertoggle_loaded_toggled" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="active">3</attribute>
                       </attributes>
                     </child>
                   </object>

@@ -12,7 +12,8 @@ enum
 {
   COL_NAME = 0,
   COL_PATH,
-  COL_ACTIVE
+  COL_ACTIVE,
+  COL_LOADED
 };
 
 
