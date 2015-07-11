@@ -126,8 +126,8 @@ GjitenDicentry* parse_line(const gchar* line){
   gchar* jap_definitions = strtok(chunk, " ");
 
   ////////
-  //read the reading in the first chunk
-  gchar* jap_readings = strtok(NULL, " "); 
+  //read the japanese reading in the first chunk
+  gchar* jap_readings = strtok(NULL, " ");
   
   //cut jap definitions and jap readings into a list
   //japanese definition
@@ -151,9 +151,14 @@ GjitenDicentry* parse_line(const gchar* line){
     gchar *jap_reading = strtok(jap_readings, ";");
     do{
       if(jap_reading && strcmp(jap_reading, "\n")){
+        //remove the optional trailing parentheses
+        //TODO: put the trailing parentheses content in a variable READING GI
+        gchar **jap_reading__GI = g_strsplit(jap_reading, "(", -1);
+        
         dicentry->jap_reading = g_slist_prepend(dicentry->jap_reading,
-                                                g_strdup_printf("%s", jap_reading));        
+                                                g_strdup_printf("%s", jap_reading__GI[0]));        
       }
+      //next jap reading
       jap_reading = strtok(NULL, ";");
     }while(jap_reading);
     dicentry->jap_reading = g_slist_reverse(dicentry->jap_reading);
