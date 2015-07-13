@@ -136,7 +136,6 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
     }
   }
 
-  g_match_info_free(match);
   g_regex_unref(regex);
   
   return results;
