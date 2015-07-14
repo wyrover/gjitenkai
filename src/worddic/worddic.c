@@ -97,12 +97,10 @@ void worddic_init (worddic *worddic)
 
   if(!worddic->conf->dicfile_list){
     GtkWidget *dialog;
-    dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO,  GTK_BUTTONS_OK,
-                                    "Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'\n \ 
-It appears that you do not have any UTF8 encoded EDICT dictionary file setup. \n \
-You can download one at http://odrevet.github.io/gjitenkai\n \ 
-then add it in Gjiten Kai using the Edit/Preferences menu then Worddic - Dictionaries - Add" );
-
+    gchar *message = "<b>Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'</b>\n It appears that you do not have any <i>EDICT</i> dictionary file setup. \n\n You can download one at the <a href=\"http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil\">Official EDICT website</a>\n\nThen add it in Gjiten Kai using the <b>Edit/Preferences Menu</b> then \n<b>Worddic - Dictionaries - Add</b>";
+    
+    dialog = gtk_message_dialog_new_with_markup(NULL, 0, GTK_MESSAGE_INFO,
+                                                GTK_BUTTONS_OK, message);
     g_signal_connect_swapped(G_OBJECT(dialog), "response",
                              G_CALLBACK(gtk_widget_destroy),
                              G_OBJECT(dialog));
