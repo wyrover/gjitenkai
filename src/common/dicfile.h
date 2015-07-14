@@ -44,17 +44,13 @@ enum {
   DICFILE_NOT_INITIALIZED,
   DICFILE_BAD,
   DICFILE_OK
-  };
+};
 
 int dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile);
 void dicutil_unload_dic(GjitenDicfile *dicfile);
 
-gboolean dicfile_is_utf8(GjitenDicfile *dicfile);
 gboolean dicfile_init(GjitenDicfile *dicfile);
 void dicfile_close(GjitenDicfile *dicfile);
-void dicfile_list_free(GSList *dicfile_list);
-gboolean dicfile_check_all(GSList *dicfile_list);
-
 gint search_string(gint srchtype, GjitenDicfile *dicfile, gunichar *srchstrg,
                      guint32 *res_index, gint *hit_pos, gint *res_len, gchar *res_str);
 

@@ -41,48 +41,6 @@ void dicutil_unload_dic(GjitenDicfile *dicfile) {
   }
 }
 
-gboolean dicfile_check_all(GSList *dicfile_list) {
-  GSList *node;
-  GjitenDicfile *dicfile;
-  gboolean retval = TRUE;
-
-  GJITEN_DEBUG("dicfile_check_all()\n");
-
-  node = dicfile_list;
-  while (node != NULL) {
-    if (node->data != NULL) {
-      dicfile = node->data;
-      if (dicfile_init(dicfile) == FALSE) retval = FALSE;
-      if (dicfile_is_utf8(dicfile) == FALSE) {
-        dicfile_close(dicfile);
-        retval = FALSE;
-      }
-      dicfile_close(dicfile);
-    }
-    node = g_slist_next(node);
-  }
-  GJITEN_DEBUG(" retval: %d\n", retval);
-  return retval;
-}
-
-gboolean dicfile_is_utf8(GjitenDicfile *dicfile) {
-  gchar *testbuffer;
-  gint pos, bytesread;
-
-  if (dicfile->file > 0) {
-    testbuffer = (gchar *) g_malloc(3000);
-    bytesread = read(dicfile->file, testbuffer, 3000); // read a chunk into buffer
-    pos = bytesread - 1;
-    while (testbuffer[pos] != '\n') pos--;
-    if (g_utf8_validate(testbuffer, pos, NULL) == FALSE) {
-      gjiten_print_error(_("Dictionary file is non-UTF: %s\nPlease convert it to UTF-8. See the docs for more."), dicfile->path);
-      return FALSE;
-    }
-    g_free(testbuffer);
-  }
-  return TRUE;
-}
-
 gboolean dicfile_init(GjitenDicfile *dicfile) {
 
   if (dicfile->status != DICFILE_OK) {
@@ -115,23 +73,6 @@ void dicfile_close(GjitenDicfile *dicfile) {
     close(dicfile->file);
   }
   dicfile->status = DICFILE_NOT_INITIALIZED;
-}
-
-void dicfile_list_free(GSList *dicfile_list) {
-  GSList *node;
-  GjitenDicfile *dicfile;
-
-  node = dicfile_list;
-  while (node != NULL) {
-    if (node->data != NULL) {
-      dicfile = node->data;
-      dicfile_close(dicfile);
-      g_free(dicfile);
-    }
-    node = g_slist_next(node);
-  }
-
-  g_slist_free(dicfile_list);
 }
 
 gint search_string(gint srchtype, GjitenDicfile *dicfile, gunichar *srchstrg,
