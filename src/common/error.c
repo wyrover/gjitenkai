@@ -71,28 +71,6 @@ void gjiten_print_error_and_wait(const char *fmt, ... ) {
 	}
 }
 
-void gjiten_add_errormsg(gchar *msg) {
-	gchar *tmpmsg;
-
-	if (gjiten_errors != NULL) {
-		tmpmsg = g_strdup_printf("%s\n%s", gjiten_errors, msg);
-
-		g_free(gjiten_errors);
-		gjiten_errors = tmpmsg;
-	}
-	else {
-		gjiten_errors = g_strdup(msg);
-	}
-}
-
-void gjiten_flush_errors() {
-	if (gjiten_errors != NULL) {
-		gjiten_print_error_and_wait("%s", gjiten_errors);
-		g_free(gjiten_errors);
-		gjiten_errors = NULL;
-	}
-}
-
 gboolean gjiten_print_question(const char *fmt, ... ) {
 	GtkWidget *dialog;
 	gint retval = GTK_RESPONSE_REJECT;
