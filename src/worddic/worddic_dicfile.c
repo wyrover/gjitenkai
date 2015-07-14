@@ -11,14 +11,30 @@ void worddic_dicfile_parse(WorddicDicfile *dicfile){
 	g_printf("could not open dictionary file %s\n", dicfile->path);
 	return;  
   }
-  
+
+  //first line is a comment, read it and do not parse it but detect the encoding
   read = getline(&line, &len, fp);
 
-  while ((read = getline(&line, &len, fp)) != -1) {
-    GjitenDicentry* dicentry = parse_line(line);
-    dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
-  }
+  //if this is not utf8
+  gboolean utf8 = g_utf8_validate(line, read, NULL);
 
+  if(!utf8){
+    g_printf("Not utf8. On the fly conversion. \n");
+  }
+  
+  while ((read = getline(&line, &len, fp)) != -1) {
+    gchar *utf_line = NULL;
+    //if not utf8 convert the line (assum it's EUC-JP)
+    if(!utf8)utf_line = g_convert (line, -1, "UTF-8", "EUC-JP", NULL, NULL, NULL);
+    else utf_line = g_strdup(line);
+    
+    GjitenDicentry* dicentry = parse_line(utf_line);
+    dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
+
+    g_free(utf_line);
+  }
+  
+  g_free(line);
   fclose(fp);
        
   dicfile->entries = g_slist_reverse(dicfile->entries);
@@ -66,7 +82,6 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
   gboolean jpsrch = detect_japanese(srchstrg_regex);
 
   if(jpsrch){
-
     //if the search expression contains at least a japanese character,
     //search matches in the japanese definition or japanese reading
 
@@ -93,8 +108,8 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
         else jap_definition = jap_definition->next; 
       }
 
-      //if no match in the definition, search in the reading (if any) and if
-      //the search string is not only kanji
+      //if no match in the definition and if the search string is not only kanji
+      //search in the reading (if any)
       if(!match && dicentry->jap_reading && !only_kanji){
         GList *jap_reading = dicentry->jap_reading;
         while(jap_reading != NULL){
@@ -110,7 +125,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
     }
   }
   else{
-    //if there is no japanese characters, search matches in the gloss
+    //if there are no japanese characters, search matches in the gloss
     GList* list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
