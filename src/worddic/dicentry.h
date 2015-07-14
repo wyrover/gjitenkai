@@ -31,7 +31,7 @@ struct _GjitenDicentry {
 
 typedef struct _GjitenDicentry GjitenDicentry;
 
-GjitenDicentry* parse_line(const gchar* line);
+GjitenDicentry* parse_line(gchar* line);
 void dicentry_free(GjitenDicentry* dicentry);
 
 #endif

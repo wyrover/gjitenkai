@@ -1,16 +1,12 @@
 #include "dicentry.h"
 
-GjitenDicentry* parse_line(const gchar* line){
-      
-  //copy the line as strtok will alter the line
-  gchar *line_cpy = strdup(line);
-
+GjitenDicentry* parse_line(gchar* line){
   //new entry to return
   GjitenDicentry* dicentry = g_new0 (GjitenDicentry, 1);
 
   //cut until the first '/', separating definiton,reading in the first chunk and
   //glosses in the second chunk
-  gchar *chunk = strtok(line_cpy, "/");
+  gchar *chunk = strtok(line, "/");
   
   ////////
   //read glosses (sub gloss) in the second chunk (one sub gloss per /)
@@ -163,8 +159,6 @@ GjitenDicentry* parse_line(const gchar* line){
     }while(jap_reading);
     dicentry->jap_reading = g_slist_reverse(dicentry->jap_reading);
   }
-    
-  g_free(line_cpy);
   
   return dicentry;
 }
