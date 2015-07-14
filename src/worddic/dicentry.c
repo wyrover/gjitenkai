@@ -138,6 +138,8 @@ GjitenDicentry* parse_line(gchar* line){
         
       dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition,
                                                 g_strdup_printf("%s", jap_definition__GI[0]));
+
+      g_strfreev(jap_definition__GI);
     }
     jap_definition = strtok(NULL, ";");
   }while(jap_definition);
@@ -158,7 +160,8 @@ GjitenDicentry* parse_line(gchar* line){
         gchar **jap_reading__GI = g_strsplit(jap_reading, "(", -1);
         
         dicentry->jap_reading = g_slist_prepend(dicentry->jap_reading,
-                                                g_strdup_printf("%s", jap_reading__GI[0]));        
+                                                g_strdup_printf("%s", jap_reading__GI[0]));
+        g_strfreev(jap_reading__GI);
       }
       //next jap reading
       jap_reading = strtok(NULL, ";");
