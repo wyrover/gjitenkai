@@ -130,8 +130,14 @@ GjitenDicentry* parse_line(gchar* line){
   gchar *jap_definition = strtok(jap_definitions, ";");
   do{
     if(jap_definition && strcmp(jap_definition, "\n")){
+
+        //remove the optional trailing parentheses
+        //TODO: put the trailing parentheses content in a variable DEFINITION GI
+        gchar **jap_definition__GI = g_strsplit(jap_definition, "(", -1);
+
+        
       dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition,
-                                                g_strdup_printf("%s", jap_definition));
+                                                g_strdup_printf("%s", jap_definition__GI[0]));
     }
     jap_definition = strtok(NULL, ";");
   }while(jap_definition);
