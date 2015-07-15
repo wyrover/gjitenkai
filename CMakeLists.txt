@@ -7,18 +7,19 @@ cmake_minimum_required(VERSION 2.6)
 #install directories variables
 include(GNUInstallDirs)
 
-#directories where to find files. These path are passed onto config.h.in to be 
-#later used within the software as definitions
-set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
-set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
-set(PIXMAPDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/pixmaps)
-
+##directories where to install files.
+#These path are used in with the install instruction which only supports
+#relative path
 set(DATADIR ${CMAKE_INSTALL_DATADIR}/data)
 set(DICDIR ${CMAKE_INSTALL_DATADIR}/dict)
 set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
 set(SCHEMADIR ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
-set(PIXMAPDIR ${CMAKE_INSTALL_DATADIR}/pixmaps)
+set(PIXMAPDIR ${CMAKE_INSTALL_DATADIR}/data)
 
+#These path are passed onto config.h.in to be used a preprocessor definitions
+set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
+set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
+set(PIXMAPDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR})
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
