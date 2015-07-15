@@ -6,7 +6,7 @@
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
     <property name="program_name">Gjiten Kai グジテン改 - Kanjidic</property>
-    <property name="logo_icon_name">accessories-dictionary</property>
+    <property name="logo">gjitenkai.png</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="aboutdialog-vbox1">
         <property name="can_focus">False</property>
@@ -85,6 +85,9 @@
                       <object class="GtkBox" id="box_kdic_items">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <placeholder/>
@@ -437,6 +440,8 @@
       <object class="GtkBox" id="box4">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="hexpand">False</property>
+        <property name="vexpand">False</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkGrid" id="grid2">
@@ -623,9 +628,6 @@
             <property name="position">0</property>
           </packing>
         </child>
-        <child>
-          <placeholder/>
-        </child>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -634,12 +636,14 @@
       </packing>
     </child>
     <child>
-      <object class="GtkPaned" id="paned2">
+      <object class="GtkPaned" id="paned_kanji_candidates">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <property name="orientation">vertical</property>
+        <property name="position">80</property>
+        <property name="position_set">True</property>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow_kanji_result">
             <property name="visible">True</property>
@@ -790,7 +794,7 @@
         </child>
       </object>
       <packing>
-        <property name="expand">False</property>
+        <property name="expand">True</property>
         <property name="fill">True</property>
         <property name="position">2</property>
       </packing>
