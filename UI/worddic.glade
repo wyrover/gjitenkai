@@ -11,7 +11,7 @@
 
     Gjiten Kai developer (2015 - ...) Olivier Drevet
     </property>
-    <property name="logo_icon_name">accessories-dictionary</property>
+    <property name="logo">gjitenkai.png</property>
     <property name="license_type">gpl-2-0</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="aboutdialog-vbox1">
@@ -369,6 +369,7 @@
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn_name">
+                    <property name="sizing">autosize</property>
                     <property name="title" translatable="yes">Name</property>
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderertext_name"/>
@@ -391,6 +392,7 @@
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn_active">
+                    <property name="sizing">autosize</property>
                     <property name="title" translatable="yes">Active</property>
                     <child>
                       <object class="GtkCellRendererToggle" id="cellrenderertoggle_active">
@@ -404,6 +406,7 @@
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn_loaded">
+                    <property name="sizing">autosize</property>
                     <property name="title" translatable="yes">Loaded</property>
                     <child>
                       <object class="GtkCellRendererToggle" id="cellrenderertoggle_loaded">

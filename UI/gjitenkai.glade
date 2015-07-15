@@ -13,7 +13,7 @@ See http://www.edrdg.org/edrdg/licence.html </property>
     <property name="website">http://odrevet.github.io/gjitenkai/</property>
     <property name="authors">Drevet Olivier
 Original Gjiten developer Botond Botyanszki </property>
-    <property name="logo_icon_name">accessories-dictionary</property>
+    <property name="logo">gjitenkai.png</property>
     <property name="license_type">gpl-3-0</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="aboutdialog-vbox1">
