@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-19 19:40+0100\n"
+"POT-Creation-Date: 2015-07-15 14:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,122 +17,150 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: UI/worddic.glade:173
-msgid "Add"
+#: UI/worddic.glade:185
+msgid "("
 msgstr ""
 
-#: UI/worddic.glade:444 UI/worddic.glade:504
+#: UI/worddic.glade:227
+msgid ")"
+msgstr ""
+
+#: UI/worddic.glade:250
+msgid "/"
+msgstr ""
+
+#: UI/worddic.glade:385
+msgid "Active"
+msgstr "Actif"
+
+#: UI/worddic.glade:438
+msgid "Add"
+msgstr "Ajouter"
+
+#: UI/worddic.glade:686 UI/worddic.glade:758
 msgid "Any Matches"
 msgstr ""
 
-#: UI/worddic.glade:143
+#: UI/worddic.glade:351
 msgid "Appearance"
 msgstr ""
 
-#: UI/worddic.glade:231
+#: UI/worddic.glade:73
+msgid "Default font and highlight color"
+msgstr ""
+
+#: UI/worddic.glade:496
 msgid "Dictionaries"
 msgstr ""
 
-#: UI/worddic.glade:201
+#: UI/worddic.glade:466
 msgid "Edit"
 msgstr ""
 
-#: UI/worddic.glade:433
+#: UI/worddic.glade:709
 msgid "End With Expression"
 msgstr ""
 
-#: UI/worddic.glade:723
+#: UI/worddic.glade:968
 msgid "Enter expression"
 msgstr ""
 
-#: UI/worddic.glade:409
+#: UI/worddic.glade:674
 msgid "Exact Match"
 msgstr ""
 
-#: UI/worddic.glade:480
-msgid "Exact match"
-msgstr ""
-
-#: UI/worddic.glade:327
+#: UI/worddic.glade:592
 msgid "Gjiten Kai グジテン改 - Worddic"
 msgstr ""
 
-#: UI/worddic.glade:108
-msgid "Highlight color"
-msgstr ""
-
-#: UI/worddic.glade:399
+#: UI/worddic.glade:664
 msgid "Japanese"
 msgstr ""
 
-#: UI/worddic.glade:470
+#: UI/worddic.glade:95
+msgid "Japanese Reading"
+msgstr ""
+
+#: UI/worddic.glade:84
+msgid "Japanese definition"
+msgstr ""
+
+#: UI/worddic.glade:724
 msgid "Latin"
 msgstr ""
 
-#: UI/worddic.glade:678
+#: UI/worddic.glade:399
+msgid "Loaded"
+msgstr ""
+
+#: UI/worddic.glade:373 UI/worddic.glade:923
 msgid "Name"
 msgstr ""
 
-#: UI/worddic.glade:585 UI/worddic.glade:629
+#: UI/worddic.glade:829 UI/worddic.glade:874
 msgid "OK"
 msgstr ""
 
-#: UI/worddic.glade:657
+#: UI/worddic.glade:414 UI/worddic.glade:902
 msgid "Path"
 msgstr ""
 
-#: UI/worddic.glade:376
+#: UI/worddic.glade:641
 msgid "Preferences"
 msgstr ""
 
-#: UI/worddic.glade:455 UI/worddic.glade:515
-msgid "Regular Expression"
-msgstr ""
-
-#: UI/worddic.glade:187
+#: UI/worddic.glade:452
 msgid "Remove"
 msgstr ""
 
-#: UI/worddic.glade:300
-msgid "Search"
+#: UI/worddic.glade:565
+msgid "Search Options"
 msgstr ""
 
-#: UI/worddic.glade:261
+#: UI/worddic.glade:526
 msgid "Search for Hiragana on Katakana input"
 msgstr ""
 
-#: UI/worddic.glade:245
+#: UI/worddic.glade:510
 msgid "Search for Katakana on Hiragana input"
 msgstr ""
 
-#: UI/worddic.glade:68
-msgid "Search results font"
-msgstr ""
-
-#: UI/worddic.glade:421
+#: UI/worddic.glade:697
 msgid "Start With Expression"
 msgstr ""
 
-#: UI/worddic.glade:277
+#: UI/worddic.glade:106
+msgid "Translation"
+msgstr ""
+
+#: UI/worddic.glade:542
 msgid "Verbs and adjectives deinflection"
 msgstr ""
 
-#: UI/worddic.glade:493
+#: UI/worddic.glade:734
+msgid "Whole Expression"
+msgstr ""
+
+#: UI/worddic.glade:747
 msgid "Whole Words"
 msgstr ""
 
-#: UI/worddic.glade:366
+#: UI/worddic.glade:631
 msgid "_Edit"
 msgstr ""
 
-#: UI/worddic.glade:342
+#: UI/worddic.glade:607
 msgid "_File"
 msgstr ""
 
-#: UI/worddic.glade:534
+#: UI/worddic.glade:777
 msgid "_Help"
 msgstr ""
 
-#: UI/worddic.glade:389
+#: UI/worddic.glade:654
 msgid "_Search"
+msgstr ""
+
+#: UI/worddic.glade:121
+msgid "•"
 msgstr ""

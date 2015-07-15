@@ -3,11 +3,14 @@
 
 #include <gtk/gtk.h>
 
+#include <locale.h>
+#include <libintl.h>
+
 #include "conf.h"
-#include "../common/conf.h"
-#include "../common/dicfile.h"
 #include "inflection.h"
 #include "unit_style.h"
+#include "../common/conf.h"
+#include "../common/dicfile.h"
 
 #define SETTINGS_WORDDIC "gjitenkai.worddic"
 

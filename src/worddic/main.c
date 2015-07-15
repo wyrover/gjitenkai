@@ -1,4 +1,3 @@
-
 #include <locale.h>
 #include <libintl.h>
 
@@ -7,7 +6,7 @@
 int main( int argc, char **argv )
 {
   // the system locale data base.
-  bindtextdomain("worddic", LOCALDIR);
+  bindtextdomain("worddic", GJITENKAI_LOCALDIR);
 
   // Set the current default message catalog to DOMAINNAME.
   textdomain("worddic");

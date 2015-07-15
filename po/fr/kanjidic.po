@@ -1,0 +1,102 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-15 14:34+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: UI/kanjidic.glade:513
+msgid "+/-"
+msgstr ""
+
+#: UI/kanjidic.glade:322
+msgid "About"
+msgstr "A propos"
+
+#: UI/kanjidic.glade:197
+msgid "Appearance"
+msgstr "Apparance"
+
+#: UI/kanjidic.glade:598
+msgid "Clear"
+msgstr "Effacer"
+
+#: UI/kanjidic.glade:221
+msgid "Dictionary"
+msgstr "Dictionaire"
+
+#: UI/kanjidic.glade:158
+msgid "Items"
+msgstr ""
+
+#: UI/kanjidic.glade:135
+msgid "Kanji font"
+msgstr "Police du Kanji"
+
+#: UI/kanjidic.glade:169
+msgid "Kanji result button font"
+msgstr "Police des kanji candidat"
+
+#: UI/kanjidic.glade:541
+msgid "Keys"
+msgstr ""
+
+#: UI/kanjidic.glade:360
+msgid "OK"
+msgstr ""
+
+#: UI/kanjidic.glade:291
+msgid "Preferences"
+msgstr "Preferences"
+
+#: UI/kanjidic.glade:268
+msgid "Quit"
+msgstr "Quitter"
+
+#: UI/kanjidic.glade:463
+msgid "Radicals"
+msgstr "Radicaux"
+
+#: UI/kanjidic.glade:567
+msgid "Search"
+msgstr "Chercher"
+
+#: UI/kanjidic.glade:147
+msgid "Separator"
+msgstr "Separateur"
+
+#: UI/kanjidic.glade:584
+msgid "Show"
+msgstr "Afficher"
+
+#: UI/kanjidic.glade:448
+msgid "Strokes"
+msgstr "Traits"
+
+#: UI/kanjidic.glade:281
+msgid "_Edit"
+msgstr "_Edition"
+
+#: UI/kanjidic.glade:258
+msgid "_File"
+msgstr "_Fichier"
+
+#: UI/kanjidic.glade:312
+msgid "_Help"
+msgstr "_Aide"
+
+#: UI/kanjidic.glade:304
+msgid "_View"
+msgstr "_Vue"

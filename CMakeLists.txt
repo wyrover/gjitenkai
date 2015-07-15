@@ -19,6 +19,7 @@ set(PIXMAPDIR ${CMAKE_INSTALL_DATADIR}/data)
 #These path are passed onto config.h.in to be used a preprocessor definitions
 set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
 set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
+set(LOCALDIR_FULL ${CMAKE_INSTALL_FULL_LOCALEDIR})
 set(PIXMAPDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR})
 
 #generate config.h from config.h.in
@@ -146,7 +147,11 @@ install(FILES UI/worddic.glade UI/kanjidic.glade UI/gjitenkai.glade DESTINATION 
 
 # Install locales
 ##Français
-install(FILES po/fr/worddic.mo DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
+install(FILES
+  po/fr/gjitenkai.mo
+  po/fr/worddic.mo
+  po/fr/kanjidic.mo
+  DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
 
 # Install pixmaps
 install(FILES pixmaps/gjitenkai.png pixmaps/kai.png pixmaps/kai.ico DESTINATION ${PIXMAPDIR})

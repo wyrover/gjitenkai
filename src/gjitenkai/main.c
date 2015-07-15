@@ -1,3 +1,6 @@
+#include <locale.h>
+#include <libintl.h>
+
 #include "gjitenkai.h"
 
 extern on_gjitenkai_search_results_button_release_event(GtkWidget *text_view,
@@ -6,6 +9,13 @@ extern on_gjitenkai_search_results_button_release_event(GtkWidget *text_view,
 
 int main( int argc, char **argv )
 {
+  bindtextdomain("gjitenkai", GJITENKAI_LOCALDIR);
+  textdomain("gjitenkai");
+  bindtextdomain("worddic", GJITENKAI_LOCALDIR);
+  textdomain("worddic");
+  bindtextdomain("kanjidic", GJITENKAI_LOCALDIR);
+  textdomain("kanjidic");
+  
   gjitenkai gjitenkai;
   gjitenkai.worddic = g_new0(worddic, 1);
   gjitenkai.kanjidic = g_new0(kanjidic, 1);
