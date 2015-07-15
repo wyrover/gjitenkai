@@ -38,7 +38,23 @@ WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic){
   conf->gloss.color = g_new0(GdkRGBA, 1);
   gdk_rgba_parse(conf->gloss.color, gloss_color_str);
 
-  //parse the color string to an RGBA object
+  ////subgloss
+  conf->subgloss.start = g_settings_get_string(settings, "subgloss-start");
+  conf->subgloss.end = g_settings_get_string(settings, "subgloss-end");
+  conf->subgloss.font = g_settings_get_string(settings, "subgloss-font");
+  gchar *subgloss_color_str = g_settings_get_string(settings, "subgloss-color");
+  conf->subgloss.color = g_new0(GdkRGBA, 1);
+  gdk_rgba_parse(conf->subgloss.color, subgloss_color_str);
+
+  ////notes
+  conf->notes.start = g_settings_get_string(settings, "notes-start");
+  conf->notes.end = g_settings_get_string(settings, "notes-end");
+  conf->notes.font = g_settings_get_string(settings, "notes-font");
+  gchar *notes_color_str = g_settings_get_string(settings, "notes-color");
+  conf->notes.color = g_new0(GdkRGBA, 1);
+  gdk_rgba_parse(conf->notes.color, notes_color_str);
+  
+  //highlight color
   conf->results_highlight_color = g_new0(GdkRGBA, 1);
   gdk_rgba_parse(conf->results_highlight_color, str_results_highlight_color);
   
@@ -134,4 +150,16 @@ void worddic_conf_save(struct worddic_t *p_worddic){
   g_settings_set_string(settings, "gloss-font", conf->gloss.font);
   char *str_gloss_color = gdk_rgba_to_string(conf->gloss.color);
   g_settings_set_string(settings, "gloss-color", str_gloss_color);
+
+  g_settings_set_string(settings, "subgloss-start", conf->subgloss.start);
+  g_settings_set_string(settings, "subgloss-end", conf->subgloss.end);
+  g_settings_set_string(settings, "subgloss-font", conf->subgloss.font);
+  char *str_subgloss_color = gdk_rgba_to_string(conf->subgloss.color);
+  g_settings_set_string(settings, "subgloss-color", str_subgloss_color);
+  
+  g_settings_set_string(settings, "notes-start", conf->notes.start);
+  g_settings_set_string(settings, "notes-end", conf->notes.end);
+  g_settings_set_string(settings, "notes-font", conf->notes.font);
+  char *str_notes_color = gdk_rgba_to_string(conf->notes.color);
+  g_settings_set_string(settings, "notes-color", str_notes_color);
 }

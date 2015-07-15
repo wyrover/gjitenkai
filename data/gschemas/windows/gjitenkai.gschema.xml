@@ -61,10 +61,34 @@
     </key>
     <key name="gloss-start" type="s">
       <default>'
-	'</default>
+          '</default>
     </key>
     <key name="gloss-end" type="s">
       <default>''</default>
+    </key>
+    <key name="subgloss-font" type="s">
+      <default>'Sans Regular 12'</default>
+    </key>
+    <key name="subgloss-color" type="s">
+      <default>'rgb(155,155,155)'</default>
+    </key>
+    <key name="subgloss-start" type="s">
+      <default>''</default>
+    </key>
+    <key name="subgloss-end" type="s">
+      <default>';'</default>
+    </key>
+    <key name="notes-font" type="s">
+      <default>'Sans Regular 12'</default>
+    </key>
+    <key name="notes-color" type="s">
+      <default>'rgb(155,155,155)'</default>
+    </key>
+    <key name="notes-start" type="s">
+      <default>'['</default>
+    </key>
+    <key name="notes-end" type="s">
+      <default>']'</default>
     </key>
     <key name="dictionaries" type="a(ssb)">
       <default>[]</default>

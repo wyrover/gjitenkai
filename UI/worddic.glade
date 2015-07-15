@@ -81,7 +81,7 @@
               <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Japanese definition</property>
+                <property name="label" translatable="yes">Japanese Definition</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -103,7 +103,7 @@
               <object class="GtkLabel" id="label7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Translation</property>
+                <property name="label" translatable="yes">Gloss</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -118,7 +118,6 @@
                   <object class="GtkEntry" id="entry_jap_def_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="text" translatable="yes">•</property>
                     <signal name="changed" handler="on_entry_jap_def_start_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -182,7 +181,6 @@
                   <object class="GtkEntry" id="entry_jap_reading_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="text" translatable="yes">(</property>
                     <signal name="changed" handler="on_entry_jap_reading_start_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -224,7 +222,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="max_width_chars">1</property>
-                    <property name="text" translatable="yes">)</property>
                     <signal name="changed" handler="on_entry_jap_reading_end_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -244,11 +241,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkEntry" id="entry_translation_start">
+                  <object class="GtkEntry" id="entry_gloss_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="text" translatable="yes">/</property>
-                    <signal name="changed" handler="on_entry_translation_start_changed" swapped="no"/>
+                    <signal name="changed" handler="on_entry_gloss_start_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -257,44 +253,69 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkFontButton" id="fontbutton_translation">
+                  <object class="GtkEntry" id="entry_subgloss_start">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <signal name="changed" handler="on_entry_subgloss_start_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFontButton" id="fontbutton_subgloss">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="font">Sans 12</property>
                     <property name="preview_text"/>
-                    <signal name="font-set" handler="on_fontbutton_translation_font_set" swapped="no"/>
+                    <signal name="font-set" handler="on_fontbutton_subgloss_font_set" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkColorButton" id="colorbutton_translation">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="color-set" handler="on_colorbutton_translation_color_set" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="entry_translation_end">
+                  <object class="GtkColorButton" id="colorbutton_subgloss">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="color-set" handler="on_colorbutton_subgloss_color_set" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_subgloss_end">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="max_width_chars">1</property>
-                    <signal name="changed" handler="on_entry_translation_end_changed" swapped="no"/>
+                    <signal name="changed" handler="on_entry_subgloss_end_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_gloss_end">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="max_width_chars">1</property>
+                    <signal name="changed" handler="on_entry_gloss_end_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
               </object>
@@ -341,6 +362,105 @@
                 <property name="left_attach">1</property>
                 <property name="top_attach">0</property>
               </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label9">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Notes</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="box3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="box4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkEntry" id="entry_notes_start">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <signal name="changed" handler="on_entry_notes_start_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFontButton" id="fontbutton_notes">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="font">Sans 12</property>
+                    <property name="preview_text"/>
+                    <signal name="font-set" handler="on_fontbutton_notes_font_set" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkColorButton" id="colorbutton_notes">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="color-set" handler="on_colorbutton_notes_color_set" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_notes_end">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="max_width_chars">1</property>
+                    <signal name="changed" handler="on_entry_notes_end_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
           </object>
         </child>

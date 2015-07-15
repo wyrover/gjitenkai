@@ -63,15 +63,36 @@ void worddic_init (worddic *worddic)
                                                             NULL);
   worddic->conf->jap_reading.tag = jap_reading_tag;
 
-  //translations
+  //gloss
   GtkTextTag *gloss_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
-                                                      "translation",
+                                                      "gloss",
                                                       "foreground-rgba",
                                                       worddic->conf->gloss.color,
                                                       "font", 
                                                       worddic->conf->gloss.font,
                                                       NULL);
   worddic->conf->gloss.tag = gloss_tag;
+
+  //subgloss
+  GtkTextTag *subgloss_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
+                                                      "subgloss",
+                                                      "foreground-rgba",
+                                                      worddic->conf->subgloss.color,
+                                                      "font", 
+                                                      worddic->conf->subgloss.font,
+                                                      NULL);
+  worddic->conf->subgloss.tag = subgloss_tag;
+
+  //notes
+  GtkTextTag *notes_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
+                                                      "notes",
+                                                      "foreground-rgba",
+                                                      worddic->conf->notes.color,
+                                                      "font", 
+                                                      worddic->conf->notes.font,
+                                                      NULL);
+  worddic->conf->notes.tag = notes_tag;
+  
   
   //default font for the search results
   const gchar *font_name= worddic->conf->resultsfont;
@@ -224,30 +245,27 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *worddic){
         unit != NULL;
         unit = unit->next){
       text = (gchar*)unit->data;
-      print_unit(textbuffer, text, &worddic->conf->jap_reading);
+      print_unit(textbuffer, text, &worddic->conf->notes);
     }
 
     //comment
-    if(comment)print_unit(textbuffer, comment, &worddic->conf->jap_reading);
+    if(comment)print_unit(textbuffer, comment, &worddic->conf->notes);
     
     //gloss
     for(unit = entry->gloss;unit != NULL;unit = unit->next){
+
+      gtk_text_buffer_insert_at_cursor(textbuffer, worddic->conf->gloss.start,
+                                       strlen(worddic->conf->gloss.start));
+
       gloss *p_gloss = unit->data;
-
-      gchar *gloss_start = "\n\t";
-      gchar *gloss_end = "";
-      
-      gtk_text_buffer_insert_at_cursor(textbuffer, 
-                                       gloss_start,
-                                       strlen(gloss_start));
-
+            
       ////General Informations
       GSList *GI = NULL;
       for(GI = p_gloss->general_informations;
           GI != NULL;
           GI = GI->next){
         text = (gchar*)GI->data;
-        print_unit(textbuffer, text, &worddic->conf->jap_reading);
+        print_unit(textbuffer, text, &worddic->conf->notes);
       }
       
       GSList *sub_gloss = NULL;
@@ -256,17 +274,13 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *worddic){
           sub_gloss != NULL;
           sub_gloss = sub_gloss->next){
         text = (gchar*)sub_gloss->data;
-        print_unit(textbuffer, text, &worddic->conf->gloss);
+        print_unit(textbuffer, text, &worddic->conf->subgloss);
       }
 
-      gtk_text_buffer_insert_at_cursor(textbuffer, 
-                                       gloss_end,
-                                       strlen(gloss_end));
-
+      gtk_text_buffer_insert_at_cursor(textbuffer, worddic->conf->gloss.end,
+                                       strlen(worddic->conf->gloss.end));
     }
 
-    //end gloss
-     
     gtk_text_buffer_insert_at_cursor(textbuffer, "\n", strlen("\n"));
 
     //set the iter from where to search text to highlight from the start mark

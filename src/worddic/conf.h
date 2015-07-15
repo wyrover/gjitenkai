@@ -41,6 +41,8 @@ struct _WorddicConfig {
   unit_style jap_def;
   unit_style jap_reading;
   unit_style gloss;
+  unit_style subgloss;
+  unit_style notes;
   
   //search options
   gboolean search_kata_on_hira;
