@@ -380,17 +380,6 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkTreeViewColumn" id="treeviewcolumn_path">
-                    <property name="title" translatable="yes">Path</property>
-                    <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
-                      <attributes>
-                        <attribute name="text">1</attribute>
-                      </attributes>
-                    </child>
-                  </object>
-                </child>
-                <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn_active">
                     <property name="sizing">autosize</property>
                     <property name="title" translatable="yes">Active</property>
@@ -414,6 +403,19 @@
                       </object>
                       <attributes>
                         <attribute name="active">3</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn_path">
+                    <property name="resizable">True</property>
+                    <property name="sizing">autosize</property>
+                    <property name="title" translatable="yes">Path</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                      <attributes>
+                        <attribute name="text">1</attribute>
                       </attributes>
                     </child>
                   </object>
