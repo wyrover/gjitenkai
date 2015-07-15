@@ -60,7 +60,7 @@ GjitenDicentry* parse_line(gchar* line){
 
               //if a GI is detected next, add it in the same gloss
               start_new_gloss = FALSE;
-            }            
+            }
             else{
               //if in first parentheses: General Informations of the whole entry
               //add this GI in the entry
