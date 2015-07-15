@@ -118,6 +118,8 @@
                   <object class="GtkEntry" id="entry_jap_def_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="width_chars">5</property>
+                    <property name="max_width_chars">5</property>
                     <signal name="changed" handler="on_entry_jap_def_start_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -131,6 +133,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="hexpand">True</property>
                     <property name="font">Sans 12</property>
                     <property name="preview_text"/>
                     <signal name="font-set" handler="on_fontbutton_jap_def_font_set" swapped="no"/>
@@ -158,7 +161,8 @@
                   <object class="GtkEntry" id="entry_jap_def_end">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="max_width_chars">1</property>
+                    <property name="width_chars">5</property>
+                    <property name="max_width_chars">5</property>
                     <signal name="changed" handler="on_entry_jap_def_end_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -181,6 +185,8 @@
                   <object class="GtkEntry" id="entry_jap_reading_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="width_chars">5</property>
+                    <property name="max_width_chars">5</property>
                     <signal name="changed" handler="on_entry_jap_reading_start_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -194,6 +200,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="hexpand">True</property>
                     <property name="font">Sans 12</property>
                     <property name="preview_text"/>
                     <signal name="font-set" handler="on_fontbutton_jap_reading_font_set" swapped="no"/>
@@ -221,7 +228,8 @@
                   <object class="GtkEntry" id="entry_jap_reading_end">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="max_width_chars">1</property>
+                    <property name="width_chars">5</property>
+                    <property name="max_width_chars">5</property>
                     <signal name="changed" handler="on_entry_jap_reading_end_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -244,6 +252,7 @@
                   <object class="GtkEntry" id="entry_gloss_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="width_chars">5</property>
                     <signal name="changed" handler="on_entry_gloss_start_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -256,6 +265,7 @@
                   <object class="GtkEntry" id="entry_subgloss_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="width_chars">5</property>
                     <signal name="changed" handler="on_entry_subgloss_start_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -296,7 +306,8 @@
                   <object class="GtkEntry" id="entry_subgloss_end">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="max_width_chars">1</property>
+                    <property name="width_chars">5</property>
+                    <property name="max_width_chars">5</property>
                     <signal name="changed" handler="on_entry_subgloss_end_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -309,7 +320,8 @@
                   <object class="GtkEntry" id="entry_gloss_end">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="max_width_chars">1</property>
+                    <property name="width_chars">5</property>
+                    <property name="max_width_chars">5</property>
                     <signal name="changed" handler="on_entry_gloss_end_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -404,6 +416,8 @@
                   <object class="GtkEntry" id="entry_notes_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="width_chars">5</property>
+                    <property name="max_width_chars">5</property>
                     <signal name="changed" handler="on_entry_notes_start_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -444,7 +458,8 @@
                   <object class="GtkEntry" id="entry_notes_end">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="max_width_chars">1</property>
+                    <property name="width_chars">5</property>
+                    <property name="max_width_chars">5</property>
                     <signal name="changed" handler="on_entry_notes_end_changed" swapped="no"/>
                   </object>
                   <packing>
