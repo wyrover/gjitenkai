@@ -22,12 +22,11 @@
 struct _KanjidicConfig {
   struct _GjitenDicfile *kanjidic;
 
-  gchar *kanji_font;          //kanji to display' style
+  const gchar *kanji_font;          //kanji to display' style
   GdkRGBA *kanji_color;
   
-  gchar *separator;           //separator between entry (katakana & hiragana)
-
-  gchar *kanji_result_font;   //font for the candidats
+  const gchar *separator;           //separator between entry (katakana & hiragana)
+  const gchar *kanji_result_font;   //font for the candidats
 
 };
 

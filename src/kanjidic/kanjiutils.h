@@ -13,8 +13,6 @@
 #include "../common/dicutil.h"
 #include "../common/dicfile.h"
 
-#define KBUFSIZE 500
-
 /**
    Info on a radical
    *The radical
@@ -22,7 +20,7 @@
    *List of kanji with this radical
  */
 typedef struct _RadInfo {
-	gunichar radical;
+	gunichar *radical;
 	gint strokes;
 	GList *kanji_info_list;
 } RadInfo;
@@ -33,7 +31,7 @@ typedef struct _RadInfo {
    *List of radicals of this kanji
  */
 typedef struct _KanjiInfo {
-	gunichar kanji;
+	gunichar *kanji;
 	GList *rad_info_list;
 } KanjiInfo;
 

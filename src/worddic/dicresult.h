@@ -14,6 +14,6 @@ typedef struct dicresult_t{
   gchar *comment;
 }dicresult;
 
-dicresult_free(dicresult* p_dicresult);
+void dicresult_free(dicresult* p_dicresult);
 
 #endif

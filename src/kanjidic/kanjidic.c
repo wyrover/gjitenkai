@@ -208,8 +208,8 @@ void search_and_display_kanji(kanjidic *kanjidic){
     PangoFontDescription *fd = NULL;
     fd = pango_font_description_from_string (kanjidic->conf->kanji_result_font);
     
-    GtkButton *button_kanji = (GtkButton*)gtk_button_new_with_label(kanji_list->data);
-    gtk_widget_modify_font (button_kanji, fd);
+    GtkWidget *button_kanji = gtk_button_new_with_label(kanji_list->data);
+    gtk_widget_override_font (button_kanji, fd);
     
     g_signal_connect(button_kanji, 
                      "clicked", 
@@ -246,7 +246,7 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
     kanjidic->history = g_slist_prepend(kanjidic->history, kanji);
 
     //add the kanji in the history widget
-    GtkButton *button_history = (GtkButton*)gtk_button_new_with_label(kanji);
+    GtkWidget *button_history = gtk_button_new_with_label(kanji);
     g_signal_connect(button_history, 
                      "clicked", 
                      G_CALLBACK(on_button_kanji_clicked),
@@ -254,7 +254,6 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
     
     GtkGrid *grid_history = (GtkGrid*)gtk_builder_get_object(kanjidic->definitions, 
                                                              "grid_history");
-    //gtk_container_add(box_history, button_history);
     gtk_grid_attach_next_to(grid_history, button_history, NULL, GTK_POS_TOP, 1, 1);
     
     gtk_widget_show_all(GTK_WIDGET(grid_history));
@@ -278,8 +277,8 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
   kanjifile_entry *kanji_data= do_kdicline(kanji_info_line);
 
   //Display the kanji and the kanji related informations
-  GtkLabel *label_kanji = gtk_label_new(kanji);
-  gtk_label_set_selectable (label_kanji, TRUE);
+  GtkWidget *label_kanji = gtk_label_new(kanji);
+  gtk_label_set_selectable (GTK_LABEL(label_kanji), TRUE);
   
   gtk_grid_attach (grid_kanji_display,
                    (GtkWidget*)label_kanji,
@@ -288,7 +287,7 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
   //Apply font to the kanji label
   PangoFontDescription *fd = NULL;
   fd = pango_font_description_from_string (kanjidic->conf->kanji_font);
-  gtk_widget_modify_font (label_kanji, fd);
+  gtk_widget_override_font (GTK_WIDGET(label_kanji), fd);
 
   gint i=1;
   GSList *kanji_item_head;  //browse thought the kanji items 
@@ -302,7 +301,7 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
     kanji_item *ki = kanji_item_head->data;
     if(ki->active){
       //display the name of the kanji info
-      GtkLabel *label_kanji_info_name = gtk_label_new(ki->name);
+      GtkWidget *label_kanji_info_name = gtk_label_new(ki->name);
       gtk_widget_set_halign(label_kanji_info_name, GTK_ALIGN_START);
 
       gtk_grid_attach (grid_kanji_display,
@@ -356,10 +355,10 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
         }
       }
 
-      GtkLabel *label_kanji_info = gtk_label_new(ki_string->str);
-      gtk_label_set_selectable (label_kanji_info, TRUE);
-      gtk_widget_set_halign(label_kanji_info, GTK_ALIGN_START);
-      gtk_label_set_line_wrap(label_kanji_info, TRUE);
+      GtkWidget *label_kanji_info = gtk_label_new(ki_string->str);
+      gtk_label_set_selectable (GTK_LABEL(label_kanji_info), TRUE);
+      gtk_widget_set_halign(GTK_WIDGET(label_kanji_info), GTK_ALIGN_START);
+      gtk_label_set_line_wrap(GTK_LABEL(label_kanji_info), TRUE);
       gtk_grid_attach (grid_kanji_display,
                        (GtkWidget*)label_kanji_info,
                        1, i, 1, 1);
