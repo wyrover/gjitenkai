@@ -32,7 +32,6 @@ void worddic_dicfile_close(WorddicDicfile *dicfile){
 void worddic_dicfile_parse_all(WorddicDicfile *dicfile){
   while(worddic_dicfile_parse_next_line(dicfile));
   dicfile->entries = g_slist_reverse(dicfile->entries);
-  worddic_dicfile_close(dicfile);
 }
 
 gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){

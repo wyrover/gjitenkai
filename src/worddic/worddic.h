@@ -32,6 +32,8 @@ typedef struct worddic_t
   gint match_criteria_lat;
   gint match_criteria_jp;
 
+  GThread   *thread_load_dic;
+  
   GList *results;
   gint entries_per_page;   //number of entries to display per page
   gint current_page;       //current page to be displayed

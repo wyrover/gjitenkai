@@ -20,7 +20,16 @@ int main( int argc, char **argv )
   gjitenkai.worddic = g_new0(worddic, 1);
   gjitenkai.kanjidic = g_new0(kanjidic, 1);
 
+  //init thread
+  if( ! g_thread_supported() )
+    g_thread_init( NULL );
+  gdk_threads_init();
+  gdk_threads_enter();
+
+  //init gtk
   gtk_init (&argc, &argv);
+
+  //init application
   gjitenkai_init (&gjitenkai);
   worddic_init(gjitenkai.worddic);
   kanjidic_init(gjitenkai.kanjidic);

@@ -15,6 +15,9 @@ void worddic_init (worddic *worddic)
   }
   gtk_builder_connect_signals (worddic->definitions, worddic);
 
+  //set the loading dictionary thread to NULL
+  worddic->thread_load_dic = NULL;
+  
   //init the configuration handler
   worddic->settings = conf_init_handler(SETTINGS_WORDDIC);
 

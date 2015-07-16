@@ -1,6 +1,7 @@
 #include "preferences.h"
 
 gboolean is_update;  //update or add dic
+gboolean done;
 
 int getsingleselect ( GtkTreeView * tv, GtkTreeIter *iter)
 {
@@ -584,77 +585,98 @@ G_MODULE_EXPORT  void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle
   dic->is_active = active;
   g_printf("set %s to %d\n", dic->path, dic->is_active);
   worddic_conf_save(worddic);
-
 }
 
-/*
-void end_loading_idle_cb(WorddicDicfile *dicfile){
-  dicfile->entries = g_slist_reverse(dicfile->entries);
+G_LOCK_DEFINE (fp);
+void proxy_worddic_dicfile_parse_all(WorddicDicfile *dicfile){
+  g_printf("Load worddic dictionary file %s into memory (THREADED ! )\n",
+           dicfile->path);
+
+  done = FALSE;
+  
+  FILE* fp = dicfile->fp;
+  G_LOCK (fp);
+  
+  worddic_dicfile_open(dicfile);
+  
+  //parse all entries
+  worddic_dicfile_parse_all(dicfile);
+
+  g_printf("done (THREADED !)\n");
   worddic_dicfile_close(dicfile);
+  G_UNLOCK (fp);
+  done = TRUE;
 }
-*/
 
-gboolean notify_start_loading_cb(WorddicDicfile *dicfile){
-  static gboolean first_time = TRUE;
-
-  if(first_time){
-    g_printf("Loading %s\n", dicfile->name);
-    first_time = FALSE;
-  }
-
-  if(dicfile->is_loaded){
-    first_time = TRUE;
+static gboolean
+cb_load_dic_timeout( dic_state_ui *ui )
+{
+  if(done){
+    GtkCellRendererToggle *cell = ui->cell;
+    GtkTreeView *tree = ui->treeview;
+    
+    g_object_set(cell, "activatable", TRUE, "inconsistent", FALSE, NULL);
+    gtk_widget_queue_draw(tree);
+    
+    g_free(ui);
     return FALSE;
   }
-
-  return TRUE;
-}
-
-void notify_end_loading_cb(WorddicDicfile *dicfile){
-  g_printf("DONE ! \n");
+  else return TRUE;
 }
 
 
 G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle *cell,
                                                           gchar *path_str,
                                                           worddic *worddic){
+  GtkTreeView *treeview = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
+                                                               "treeview_dic");
   GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
                                                               "liststore_dic");
   GtkTreeIter  iter;
   GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
   gboolean loaded;
 
-  //set the model
+  //get the loaded variable from the tree model
   gtk_tree_model_get_iter (model, &iter, path);
   gtk_tree_model_get (model, &iter, COL_LOADED, &loaded, -1);
 
   //get the dicfile index from UI
   gint index = gtk_tree_path_get_indices(path)[0];
   gtk_tree_path_free (path);
-    
+
+  //get the dicfile from index
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
   WorddicDicfile *dicfile = selected_element->data;
 
   //load in memory the entries 
   if(!loaded){
-    //open the dictionary file pointer to path 
-    worddic_dicfile_open(dicfile);
+    //set the cell state activatable to false to avoid double clicks
+    //and inconsistent to true to display current state
+    g_object_set(cell, "activatable", FALSE, "inconsistent", TRUE, NULL);
+  
+    //load all dictionarie entries in a thread
+    GError *error = NULL;
 
-    //use idle state to display progress in UI
-    gint load_id = g_idle_add_full (G_PRIORITY_HIGH_IDLE,
-                                    notify_start_loading_cb,
-                                    dicfile,
-                                    notify_end_loading_cb
-                                    );
-    //load all entries
-    worddic_dicfile_parse_all(dicfile);
+    GtkTreeView *treeview = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
+                                                                 "treeview_dic");
+    //Create new thread
+    worddic->thread_load_dic = g_thread_new ("Load dicfile",
+                                             proxy_worddic_dicfile_parse_all,
+                                             dicfile);
+
+    //update the UI every N MiliSeconds
+    dic_state_ui *ui = g_new0(dic_state_ui, 1);
+    ui->cell = cell;
+    ui->treeview = treeview;
+    gdk_threads_add_timeout( 500, cb_load_dic_timeout, ui);
   }
   else{
     worddic_dicfile_free_entries(dicfile);
   }
 
-  //reverse the loaded state and save in the dicfile and in the conf
+  //reverse the loaded state
   loaded ^= 1;
+  //save the new loaded state in the dicfile, list_store and conf
   gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_LOADED, loaded, -1);
   dicfile->is_loaded = loaded;
   worddic_conf_save(worddic);

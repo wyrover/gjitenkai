@@ -56,6 +56,13 @@ G_MODULE_EXPORT gboolean on_search_results_motion_notify_event(GtkWidget *text_v
    and put the results in the search result textview buffer
 */
 G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
+
+  if(worddic->thread_load_dic){
+    g_printf("wainting for loading thread to end\n");
+    g_thread_join(worddic->thread_load_dic);
+    g_printf("loading thread ended\n");
+  }
+  
   gint match_criteria_jp  = worddic->match_criteria_jp;
   gint match_criteria_lat  = worddic->match_criteria_lat;
 
@@ -134,12 +141,12 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     //if this dictionary was not loaded, parse the file in his path into it's
     //internal entries
     if(!dicfile->is_loaded){
-      g_printf("Load worddic dictionary file %s into memory\n", dicfile->path);
+      g_printf("Load worddic dictionary file %s into memory (NO THREAD)\n", dicfile->path);
       worddic_dicfile_open(dicfile);
       worddic_dicfile_parse_all(dicfile);
 
       dicfile->is_loaded = TRUE;
-      g_printf("done.\n");
+      g_printf("done. (NO THREAD)\n");
 
       GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
                                                                   "liststore_dic");
