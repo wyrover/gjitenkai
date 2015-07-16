@@ -6,11 +6,12 @@ GjitenDicentry* parse_line(gchar* line){
 
   //cut until the first '/', separating definiton,reading in the first chunk and
   //glosses in the second chunk
-  gchar *chunk = strtok(line, "/");
+  gchar * saveptr_chunk;
+  gchar *chunk = strtok_r(line, "/", &saveptr_chunk);
   
   ////////
   //read glosses (sub gloss) in the second chunk (one sub gloss per /)
-  gchar *sub_gloss = strtok(NULL, "/");
+  gchar *sub_gloss = strtok_r(NULL, "/", &saveptr_chunk);
 
   //is it the first parenthese (among all of the glosses)
   gboolean first_parentheses = TRUE;
@@ -69,8 +70,8 @@ GjitenDicentry* parse_line(gchar* line){
 
               //Entry General Information: list separated by comma in the first
               //pair of parentheses
-              gchar *saveptr;
-              gchar *entry_GI = strtok_r(GI, ",", &saveptr);              
+              gchar *saveptr_entry_GI;
+              gchar *entry_GI = strtok_r(GI, ",", &saveptr_entry_GI);              
               do{
                 if(!strcmp(entry_GI, "v1")){
                   dicentry->GI = V1;
@@ -81,7 +82,7 @@ GjitenDicentry* parse_line(gchar* line){
                 else if(!strcmp(entry_GI, "adj-i")){
                   dicentry->GI = ADJI;
                 }
-                entry_GI = strtok_r(NULL, ",", &saveptr);
+                entry_GI = strtok_r(NULL, ",", &saveptr_entry_GI);
                 }while(entry_GI);
               first_parentheses = FALSE;
             }
@@ -106,7 +107,7 @@ GjitenDicentry* parse_line(gchar* line){
         start_new_gloss = TRUE;
       }//end if entl or gloss
     }//end if gloss sub not empty
-    sub_gloss = strtok(NULL, "/");
+    sub_gloss = strtok_r(NULL, "/", &saveptr_chunk);
 
     //reverse the prepended data
     p_gloss->general_informations = g_slist_reverse(p_gloss->general_informations);
@@ -119,15 +120,16 @@ GjitenDicentry* parse_line(gchar* line){
   
   ////////
   //read definitions in the first chunk
-  gchar* jap_definitions = strtok(chunk, " ");
+  char *saveptr_jap_definition;
+  gchar* jap_definitions = strtok_r(chunk, " ", &saveptr_chunk);
 
   ////////
   //read the japanese reading in the first chunk
-  gchar* jap_readings = strtok(NULL, " ");
+  gchar* jap_readings = strtok_r(NULL, " ", &saveptr_chunk);
   
   //cut jap definitions and jap readings into a list
   //japanese definition
-  gchar *jap_definition = strtok(jap_definitions, ";");
+  gchar *jap_definition = strtok_r(jap_definitions, ";", &saveptr_jap_definition);
   do{
     if(jap_definition && strcmp(jap_definition, "\n")){
 
@@ -136,12 +138,11 @@ GjitenDicentry* parse_line(gchar* line){
         gchar **jap_definition__GI = g_strsplit(jap_definition, "(", -1);
 
         
-      dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition,
-                                                g_strdup_printf("%s", jap_definition__GI[0]));
-
+        dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition,
+                                                   g_strdup_printf("%s", jap_definition__GI[0]));
       g_strfreev(jap_definition__GI);
     }
-    jap_definition = strtok(NULL, ";");
+    jap_definition = strtok_r(NULL, ";", &saveptr_jap_definition);
   }while(jap_definition);
   dicentry->jap_definition = g_slist_reverse(dicentry->jap_definition);
   
@@ -152,7 +153,8 @@ GjitenDicentry* parse_line(gchar* line){
     memmove(jap_readings, jap_readings+1, len-2);
     jap_readings[len-2] = 0;  
 
-    gchar *jap_reading = strtok(jap_readings, ";");
+    char *saveptr_jap_reading;
+    gchar *jap_reading = strtok_r(jap_readings, ";", &saveptr_jap_reading);
     do{
       if(jap_reading && strcmp(jap_reading, "\n")){
         //remove the optional trailing parentheses
@@ -164,7 +166,7 @@ GjitenDicentry* parse_line(gchar* line){
         g_strfreev(jap_reading__GI);
       }
       //next jap reading
-      jap_reading = strtok(NULL, ";");
+      jap_reading = strtok_r(NULL, ";", &saveptr_jap_reading);
     }while(jap_reading);
     dicentry->jap_reading = g_slist_reverse(dicentry->jap_reading);
   }
