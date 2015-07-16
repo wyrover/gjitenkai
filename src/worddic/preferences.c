@@ -25,12 +25,18 @@ G_MODULE_EXPORT gboolean on_button_dictionary_remove_clicked(GtkWidget *widget, 
                                                                    "treeview_dic");  
   GtkTreeIter iter ;
   gint index = getsingleselect(treeview_dic, &iter);
+  
 
-  //remove from the conf
   if(index == -1) return FALSE;
 
+  //get dictionary
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
-  WorddicDicfile *dic = selected_element->data;  
+  WorddicDicfile *dic = selected_element->data;
+
+  //remove from memory
+  worddic_dicfile_free(dic);
+
+  //remove from the conf
   worddic->conf->dicfile_list = g_slist_remove(worddic->conf->dicfile_list, selected_element->data);
   worddic_conf_save(worddic);
 
