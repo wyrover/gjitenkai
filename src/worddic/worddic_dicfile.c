@@ -1,43 +1,68 @@
 #include "worddic_dicfile.h"
 
-void worddic_dicfile_parse(WorddicDicfile *dicfile){
-  FILE * fp;
+void worddic_dicfile_open(WorddicDicfile *dicfile){
+
+  dicfile->fp = fopen(dicfile->path, "r");
+  if (dicfile->fp == NULL){
+    g_printf("could not open dictionary file %s\n", dicfile->path);
+  }
+
+  //first line is informations (date, author, copyright, ...)
+  //It will also be used to check encoding
+  gchar *informations = NULL;
+  size_t len = 0;
+  ssize_t read = getline(&informations, &len, dicfile->fp);
+    
+  //check if utf8 or not
+  dicfile->utf8 = g_utf8_validate(informations, read, NULL);
+
+  if(!dicfile->utf8){
+    dicfile->informations = g_convert (informations, -1, "UTF-8", "EUC-JP",
+                                       NULL, NULL, NULL);
+  }
+  else {
+    dicfile->informations = g_strdup(informations);
+  }
+}
+
+void worddic_dicfile_close(WorddicDicfile *dicfile){
+  fclose(dicfile->fp);
+}
+
+void worddic_dicfile_parse_all(WorddicDicfile *dicfile){
+  while(worddic_dicfile_parse_next_line(dicfile));
+  dicfile->entries = g_slist_reverse(dicfile->entries);
+  worddic_dicfile_close(dicfile);
+}
+
+gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
   char * line = NULL;
   size_t len = 0;
   ssize_t read;
 
-  fp = fopen(dicfile->path, "r");
-  if (fp == NULL){
-	g_printf("could not open dictionary file %s\n", dicfile->path);
-	return;  
+  //get a line in the file
+  read = getline(&line, &len, dicfile->fp);
+
+  //if no more characters to read, return false
+  if(read == -1)return FALSE;
+  
+  gchar *utf_line = NULL;
+  //if not utf8 convert the line (assum it's EUC-JP)
+  if(!dicfile->utf8){
+    utf_line = g_convert (line, -1, "UTF-8", "EUC-JP", NULL, NULL, NULL);
+    g_free(line);  //free the line as it is copyed in utf_line
   }
-
-  //first line is a comment, read it and do not parse it but detect the encoding
-  read = getline(&line, &len, fp);
-
-  //if this is not utf8
-  gboolean utf8 = g_utf8_validate(line, read, NULL);
-
-  if(!utf8){
-    g_printf("Not utf8. On the fly conversion. \n");
+  else {
+    utf_line = line;
   }
   
-  while ((read = getline(&line, &len, fp)) != -1) {
-    gchar *utf_line = NULL;
-    //if not utf8 convert the line (assum it's EUC-JP)
-    if(!utf8)utf_line = g_convert (line, -1, "UTF-8", "EUC-JP", NULL, NULL, NULL);
-    else utf_line = g_strdup(line);
-    
-    GjitenDicentry* dicentry = parse_line(utf_line);
-    dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
+  GjitenDicentry* dicentry = parse_line(utf_line);
+  dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
 
-    g_free(utf_line);
-  }
-  
-  g_free(line);
-  fclose(fp);
-       
-  dicfile->entries = g_slist_reverse(dicfile->entries);
+  //free utfline as it was duplicated in parse_line
+  g_free(utf_line);
+
+  return TRUE;
 }
 
 GList *add_match(GMatchInfo *match_info,

@@ -135,7 +135,9 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     //internal entries
     if(!dicfile->is_loaded){
       g_printf("Load worddic dictionary file %s into memory\n", dicfile->path);
-      worddic_dicfile_parse(dicfile);
+      worddic_dicfile_open(dicfile);
+      worddic_dicfile_parse_all(dicfile);
+
       dicfile->is_loaded = TRUE;
       g_printf("done.\n");
 

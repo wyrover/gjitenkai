@@ -16,11 +16,18 @@ struct _WorddicDicfile {
 
   gboolean is_active;
   gboolean is_loaded;
+
+  FILE * fp;
+  gboolean utf8;
+  gchar *informations;
 };
 
 typedef struct _WorddicDicfile WorddicDicfile;
 
-void worddic_dicfile_parse(WorddicDicfile *dicfile);
+void worddic_dicfile_open(WorddicDicfile *dicfile);
+
+void worddic_dicfile_parse_all(WorddicDicfile *dicfile);
+gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile);
 
 GList *add_match(GMatchInfo *match_info,
 		 gchar *comment,
