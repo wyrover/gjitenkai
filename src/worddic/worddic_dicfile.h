@@ -37,5 +37,6 @@ GList *add_match(GMatchInfo *match_info,
 GList *dicfile_search(WorddicDicfile *dicfile,
                       const gchar *srchstrg_regex);
 
+void worddic_dicfile_free(WorddicDicfile *dicfile);
 void worddic_dicfile_free_entries(WorddicDicfile *dicfile);
 #endif
