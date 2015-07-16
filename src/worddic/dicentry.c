@@ -56,7 +56,7 @@ GjitenDicentry* parse_line(gchar* line){
               
               //Sub_Gloss' General Informations: one per pair of parentheses
               //add this GI in the gloss
-              p_gloss->general_informations = g_slist_prepend(p_gloss->general_informations,
+              p_gloss->general_informations = g_slist_append(p_gloss->general_informations,
                                                              g_strdup_printf("%s", GI));
 
               //if a GI is detected next, add it in the same gloss
@@ -110,7 +110,7 @@ GjitenDicentry* parse_line(gchar* line){
     sub_gloss = strtok_r(NULL, "/", &saveptr_chunk);
 
     //reverse the prepended data
-    p_gloss->general_informations = g_slist_reverse(p_gloss->general_informations);
+    //p_gloss->general_informations = g_slist_reverse(p_gloss->general_informations);
     p_gloss->sub_gloss = g_slist_reverse(p_gloss->sub_gloss);
   }while(sub_gloss);
 
@@ -181,5 +181,4 @@ void dicentry_free(GjitenDicentry* dicentry){
   dicentry->jap_definition = NULL;
   g_slist_free_full(dicentry->jap_reading, g_free);
   dicentry->jap_reading = NULL;
-  //g_free(dicentry);
 }
