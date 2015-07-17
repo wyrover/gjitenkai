@@ -109,7 +109,7 @@ int main( int argc, char **argv )
   gtk_menu_shell_insert(GTK_MENU_SHELL(main_menu_bar),
                         GTK_WIDGET(menu_item_search),
                         3);
-
+  
   //recreate the accelerators
   GtkAccelGroup *accel_group = gtk_accel_group_new();
   gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
@@ -122,7 +122,7 @@ int main( int argc, char **argv )
   
   gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
   'x', GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
+  
   //jap any
   radio_item = (GtkRadioMenuItem*)gtk_builder_get_object(gjitenkai.worddic->definitions, 
                                                          "menuitem_search_japanese_any");
@@ -136,21 +136,14 @@ int main( int argc, char **argv )
   
   gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
   's', GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
+  
   //jap end
   radio_item = (GtkRadioMenuItem*)gtk_builder_get_object(gjitenkai.worddic->definitions, 
                                                          "menuitem_search_japanese_end");
   
   gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
   'e', GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
-  //latin exact
-  radio_item = (GtkRadioMenuItem*)gtk_builder_get_object(gjitenkai.worddic->definitions, 
-                                                         "menuitem_search_latin_exact");
   
-  gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
-  'x', GDK_CONTROL_MASK | GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
-
   //latin whole expression
   radio_item = (GtkRadioMenuItem*)gtk_builder_get_object(gjitenkai.worddic->definitions, 
                                                          "menuitem_search_latin_whole_expressions");
