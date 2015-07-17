@@ -31,7 +31,7 @@ typedef struct _WorddicConfig {
 
   //font
   //default
-  gchar *resultsfont;
+  const gchar *resultsfont;
 
   //highlight
   GtkTextTag *highlight;

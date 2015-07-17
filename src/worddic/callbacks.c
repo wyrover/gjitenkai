@@ -67,7 +67,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
 
   //clear the last search results
   worddic->results = g_list_first(worddic->results);
-  g_list_free_full(worddic->results, dicresult_free);
+  g_list_free_full(worddic->results, (GDestroyNotify)dicresult_free);
   worddic->results = NULL;
   
   //get the expression to search from the search entry

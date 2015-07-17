@@ -29,7 +29,6 @@ void worddic_init (worddic *worddic)
   worddic->match_criteria_lat = ANY_MATCH;
 
   //set the number of entries to display par page result
-  //TODO GSettings
   worddic->entries_per_page = 512;
   
   init_search_menu(worddic);
@@ -120,11 +119,18 @@ void worddic_init (worddic *worddic)
   cursor_default = gdk_cursor_new(GDK_XTERM);
 
   if(!worddic->conf->dicfile_list){
+    GtkWindow *window = (GtkWindow*)gtk_builder_get_object(worddic->definitions, 
+                                                           "worddic");
+
     GtkWidget *dialog;
-    gchar *message = "<b>Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'</b>\n It appears that you do not have any <i>EDICT</i> dictionary file setup. \n\n You can download one at the <a href=\"http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil\">Official EDICT website</a>\n\nThen add it in Gjiten Kai using the <b>Edit/Preferences Menu</b> then \n<b>Worddic - Dictionaries - Add</b>";
+    const gchar *message = "<b>Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'</b>\n It appears that you do not have any <i>EDICT</i> dictionary file setup. \n\n You can download one at the <a href=\"http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil\">Official EDICT website</a>\n\nThen add it in Gjiten Kai using the <b>Edit/Preferences Menu</b> then \n<b>Worddic - Dictionaries - Add</b>";
     
-    dialog = gtk_message_dialog_new_with_markup(NULL, 0, GTK_MESSAGE_INFO,
-                                                GTK_BUTTONS_OK, message);
+    dialog = gtk_message_dialog_new_with_markup(window,
+                                                0,
+                                                GTK_MESSAGE_INFO,
+                                                GTK_BUTTONS_OK,
+                                                message);
+    
     g_signal_connect_swapped(G_OBJECT(dialog), "response",
                              G_CALLBACK(gtk_widget_destroy),
                              G_OBJECT(dialog));
@@ -186,8 +192,8 @@ void init_search_menu(worddic *worddic)
     break;
   }
  
-  gtk_check_menu_item_set_active(radio_jp, TRUE);
-  gtk_check_menu_item_set_active(radio_lat, TRUE); 
+  gtk_check_menu_item_set_active((GtkCheckMenuItem *)radio_jp, TRUE);
+  gtk_check_menu_item_set_active((GtkCheckMenuItem *)radio_lat, TRUE); 
 }
 
 void print_unit(GtkTextBuffer *textbuffer,

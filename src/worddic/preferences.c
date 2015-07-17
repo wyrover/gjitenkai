@@ -671,7 +671,7 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
     dic_state_ui *ui = g_new0(dic_state_ui, 1);
     ui->cell = cell;
     ui->treeview = treeview;
-    gdk_threads_add_timeout( 500, cb_load_dic_timeout, ui);
+    gdk_threads_add_timeout( 500, (GSourceFunc)cb_load_dic_timeout, ui);
   }
   else{
     worddic_dicfile_free_entries(dicfile);
