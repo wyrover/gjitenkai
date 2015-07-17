@@ -96,8 +96,6 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
   
   //if this is not a kanji, do not insert
   if(!isKanjiChar(unichar)){
-    //do not allow this character in the entry widget
-    printf("%c is not a kanji ! \n", unichar);
     g_signal_stop_emission_by_name (G_OBJECT (editable), "insert_text");
     return;
   }
