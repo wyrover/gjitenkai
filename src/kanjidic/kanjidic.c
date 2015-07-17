@@ -172,6 +172,64 @@ GSList *search_kanji(kanjidic *kanjidic){
   return kanji_list;
 }
 
+void display_candidates(kanjidic *kanjidic, GSList *kanji_list){
+  //mouse cursor
+  GdkCursor * cursor;
+
+  //anchor in the result textview where to append the 'kanji buttons'
+  GtkTextChildAnchor *kanji_results_anchor;
+  GtkTextIter kanji_results_iter;
+  
+  //DISPLAY
+  //with the list of kanji found from the radicals and/or strokes, append a
+  //button for each kanji, with the kanji as label
+
+  //get the widget where to append the 'kanji button'
+  GtkTextView *textview_kanji_result = (GtkTextView*)
+    gtk_builder_get_object(kanjidic->definitions, "textview_kanji_result");
+  GtkTextBuffer *textbuffer_kanji_result = (GtkTextBuffer*)
+    gtk_builder_get_object(kanjidic->definitions, "textbuffer_kanji_result");
+  
+  //clear the results and set the iterator at the begining
+  gtk_text_buffer_set_text(textbuffer_kanji_result, "", 0);
+  gtk_text_buffer_get_start_iter(textbuffer_kanji_result, &kanji_results_iter);
+  
+  //set the mouse pointer
+  cursor = gdk_cursor_new(GDK_LEFT_PTR);
+  GdkWindow *gdk_window = gtk_text_view_get_window (textview_kanji_result,
+                                                    GTK_TEXT_WINDOW_TEXT);
+  gdk_window_set_cursor(gdk_window, cursor);
+    
+  //for each kanji in the list
+  for (kanji_list;
+       kanji_list != NULL;
+       kanji_list = g_list_next(kanji_list)) {
+
+    //create a 'candidate kanji' button
+    PangoFontDescription *fd = NULL;
+    fd = pango_font_description_from_string (kanjidic->conf->kanji_result_font);
+    
+    GtkWidget *button_kanji = gtk_button_new_with_label(kanji_list->data);
+    gtk_widget_override_font (button_kanji, fd);
+    
+    g_signal_connect(button_kanji, 
+                     "clicked", 
+                     G_CALLBACK(on_button_kanji_clicked), 
+                     kanjidic);
+
+    //add the button in the textview at the anchor position
+    kanji_results_anchor = gtk_text_buffer_create_child_anchor(textbuffer_kanji_result, 
+                                                               &kanji_results_iter);
+
+    gtk_text_view_add_child_at_anchor(textview_kanji_result, 
+                                      GTK_WIDGET(button_kanji), 
+                                      kanji_results_anchor);
+  }
+  
+  //show what has been added
+  gtk_widget_show_all(GTK_WIDGET(textview_kanji_result));
+}
+
 void display_kanji(kanjidic *kanjidic, gchar* kanji)
 {
   //add a button in the history box
