@@ -579,8 +579,8 @@ G_MODULE_EXPORT  void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle
   gboolean active;
 
   //set the model
-  gtk_tree_model_get_iter (model, &iter, path);
-  gtk_tree_model_get (model, &iter, COL_ACTIVE, &active, -1);
+  gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
+  gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, COL_ACTIVE, &active, -1);
   active ^= 1;
   gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_ACTIVE, active, -1);
 
@@ -589,15 +589,11 @@ G_MODULE_EXPORT  void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
   WorddicDicfile *dic = selected_element->data;
   dic->is_active = active;
-  g_printf("set %s to %d\n", dic->path, dic->is_active);
   worddic_conf_save(worddic);
 }
 
 G_LOCK_DEFINE (fp);
-void proxy_worddic_dicfile_parse_all(WorddicDicfile *dicfile){
-  g_printf("Load worddic dictionary file %s into memory (THREADED ! )\n",
-           dicfile->path);
-
+gpointer proxy_worddic_dicfile_parse_all(WorddicDicfile *dicfile){
   done = FALSE;
   
   FILE* fp = dicfile->fp;
@@ -608,10 +604,11 @@ void proxy_worddic_dicfile_parse_all(WorddicDicfile *dicfile){
   //parse all entries
   worddic_dicfile_parse_all(dicfile);
 
-  g_printf("done (THREADED !)\n");
   worddic_dicfile_close(dicfile);
   G_UNLOCK (fp);
   done = TRUE;
+
+  return NULL;
 }
 
 static gboolean
@@ -622,7 +619,7 @@ cb_load_dic_timeout( dic_state_ui *ui )
     GtkTreeView *tree = ui->treeview;
     
     g_object_set(cell, "activatable", TRUE, "inconsistent", FALSE, NULL);
-    gtk_widget_queue_draw(tree);
+    gtk_widget_queue_draw(GTK_WIDGET(tree));
     
     g_free(ui);
     return FALSE;
@@ -643,8 +640,8 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
   gboolean loaded;
 
   //get the loaded variable from the tree model
-  gtk_tree_model_get_iter (model, &iter, path);
-  gtk_tree_model_get (model, &iter, COL_LOADED, &loaded, -1);
+  gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
+  gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, COL_LOADED, &loaded, -1);
 
   //get the dicfile index from UI
   gint index = gtk_tree_path_get_indices(path)[0];

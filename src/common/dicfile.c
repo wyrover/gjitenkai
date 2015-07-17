@@ -10,14 +10,12 @@ int dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile){
   //if the mapped dictionary is not the requested dictionnary then clear the
   //previously mapped dictionary
   if ((dicfile != mmaped_dicfile) && (mmaped_dicfile != NULL)) {
-    g_printf("free mem of previously used dicfile\n");
     dicutil_unload_dic(mmaped_dicfile);
   }
   
   
   //if no mapped dictionary, load into memory from the dic's file descriptor
   if (mmaped_dicfile == NULL) {
-    g_printf("load dicfile %s %s into memory\n", dicfile->name, dicfile->path);
     mmaped_dicfile = dicfile;
     dicfile->mem = read_file(dicfile->path);
 

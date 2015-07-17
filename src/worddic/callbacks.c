@@ -57,10 +57,9 @@ G_MODULE_EXPORT gboolean on_search_results_motion_notify_event(GtkWidget *text_v
 */
 G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
 
+  //wait if a dictionary is being loaded in a thread
   if(worddic->thread_load_dic){
-    g_printf("wainting for loading thread to end\n");
     g_thread_join(worddic->thread_load_dic);
-    g_printf("loading thread ended\n");
   }
   
   gint match_criteria_jp  = worddic->match_criteria_jp;
@@ -72,7 +71,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   worddic->results = NULL;
   
   //get the expression to search from the search entry
-  gchar *entry_text = gtk_entry_get_text(entry);
+  const gchar *entry_text = gtk_entry_get_text(entry);
   if(!strcmp(entry_text, ""))return;
   
   //detect is the search is in japanese
@@ -141,12 +140,11 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     //if this dictionary was not loaded, parse the file in his path into it's
     //internal entries
     if(!dicfile->is_loaded){
-      g_printf("Load worddic dictionary file %s into memory (NO THREAD)\n", dicfile->path);
       worddic_dicfile_open(dicfile);
       worddic_dicfile_parse_all(dicfile);
+      worddic_dicfile_close(dicfile);
 
       dicfile->is_loaded = TRUE;
-      g_printf("done. (NO THREAD)\n");
 
       GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
                                                                   "liststore_dic");
@@ -154,7 +152,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
       GtkTreePath *path = gtk_tree_path_new_from_indices (i, -1);
       
       //set the model
-      gtk_tree_model_get_iter (model, &iter, path);
+      gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
       gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_LOADED, TRUE, -1);
 
       gtk_tree_path_free (path);

@@ -229,7 +229,7 @@ void search_and_display_kanji(kanjidic *kanjidic){
   gtk_widget_show_all(GTK_WIDGET(textview_kanji_result));
 }
 
-void display_kanji(kanjidic *kanjidic, const gchar* kanji)
+void display_kanji(kanjidic *kanjidic, gchar* kanji)
 {
   //add a button in the history box
   //if the last added kanji is not the same as the kanji to add

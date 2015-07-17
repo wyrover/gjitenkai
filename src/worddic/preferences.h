@@ -31,7 +31,7 @@ typedef struct dic_state_ui_t{
   GtkTreeView *treeview;
 }dic_state_ui;
 
-void proxy_worddic_dicfile_parse_all(WorddicDicfile *dicfile);
+gpointer proxy_worddic_dicfile_parse_all(WorddicDicfile *dicfile);
 static gboolean cb_load_dic_timeout( dic_state_ui *ui );
  
 void init_prefs_window (worddic * );

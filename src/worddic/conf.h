@@ -22,7 +22,7 @@
 #include "../common/dicfile.h"
 #include "../common/dicutil.h"
 
-struct _WorddicConfig {
+typedef struct _WorddicConfig {
   gchar *version;
 
   GSList *dicfile_list;
@@ -54,9 +54,7 @@ struct _WorddicConfig {
 
   //struct _GjitenDicfile *selected_dic;
   PangoFontDescription *normalfont_desc;
-};
-
-typedef struct _WorddicConfig WorddicConfig;
+}WorddicConfig;
 
 WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic);
 void worddic_conf_save(struct worddic_t *p_worddic);

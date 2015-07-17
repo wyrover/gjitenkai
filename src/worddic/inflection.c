@@ -114,7 +114,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
       gboolean only_kanji = (!hasKatakanaString(srchstrg) &&
                              !hasHiraganaString(srchstrg));
 
-      GList* list_dicentry = NULL;
+      GSList* list_dicentry = NULL;
       for(list_dicentry = dicfile->entries;
           list_dicentry != NULL;
           list_dicentry = list_dicentry->next){
@@ -142,7 +142,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
                                        &error);
           
           //search in the definition
-          GList *jap_definition = dicentry->jap_definition;
+          GSList *jap_definition = dicentry->jap_definition;
           while(jap_definition != NULL){
             match = g_regex_match (regex, jap_definition->data, 0, &match_info);
 
@@ -153,7 +153,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
           //if no match in the definition, search in the reading (if any) and if
           //the search string is not only kanji
           if(!match && dicentry->jap_reading && !only_kanji){
-            GList *jap_reading = dicentry->jap_reading;
+            GSList *jap_reading = dicentry->jap_reading;
             while(jap_reading != NULL){
               match = g_regex_match (regex, jap_reading->data, 0, &match_info);
 

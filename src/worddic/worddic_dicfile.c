@@ -3,9 +3,6 @@
 void worddic_dicfile_open(WorddicDicfile *dicfile){
 
   dicfile->fp = fopen(dicfile->path, "r");
-  if (dicfile->fp == NULL){
-    g_printf("could not open dictionary file %s\n", dicfile->path);
-  }
 
   //first line is informations (date, author, copyright, ...)
   //It will also be used to check encoding
@@ -115,14 +112,14 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
     gboolean only_kanji = (!hasKatakanaString(srchstrg_regex) &&
                            !hasHiraganaString(srchstrg_regex));
 
-    GList* list_dicentry = NULL;
+    GSList* list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
         list_dicentry = list_dicentry->next){
 
       GjitenDicentry* dicentry = list_dicentry->data;
 
-      GList *jap_definition = dicentry->jap_definition;
+      GSList *jap_definition = dicentry->jap_definition;
 
       //search in the definition
       while(jap_definition != NULL){
@@ -135,7 +132,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
       //if no match in the definition and if the search string is not only kanji
       //search in the reading (if any)
       if(!match && dicentry->jap_reading && !only_kanji){
-        GList *jap_reading = dicentry->jap_reading;
+        GSList *jap_reading = dicentry->jap_reading;
         while(jap_reading != NULL){
           match = g_regex_match (regex, jap_reading->data, 0, &match_info);
 
@@ -150,7 +147,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
   }
   else{
     //if there are no japanese characters, search matches in the gloss
-    GList* list_dicentry = NULL;
+    GSList* list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
         list_dicentry = list_dicentry->next){
@@ -186,6 +183,6 @@ void worddic_dicfile_free(WorddicDicfile *dicfile){
 }
 
 void worddic_dicfile_free_entries(WorddicDicfile *dicfile){
-  g_slist_free_full(dicfile->entries, dicentry_free);
+  g_slist_free_full(dicfile->entries, (GDestroyNotify)dicentry_free);
   dicfile->entries = NULL;
 }

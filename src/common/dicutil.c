@@ -30,7 +30,6 @@ gchar *read_file(const gchar *filename){
 
   pFile = fopen (filename, "rb" );
   if (pFile==NULL) {
-	g_printf("WARNING ! Cannot open file %s\n", filename);
 	return NULL;
   }
 

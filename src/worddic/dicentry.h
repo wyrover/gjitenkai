@@ -2,14 +2,13 @@
 #define DICENTRY_H
 
 #include <gtk/gtk.h>
+#include <string.h>
 
 #include "gloss.h"
 
-/*entry in an EDICT dictonary file
-
+/*
+entry in an EDICT dictonary file
 http://www.edrdg.org/jmdict/edict_doc.html
-
-TODO general information field (now inside gloss)
 */
 
 #define ADJI 1

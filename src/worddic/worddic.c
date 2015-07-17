@@ -154,28 +154,35 @@ void init_search_menu(worddic *worddic)
  
   switch(match_criteria_lat){
   case EXACT_MATCH:
-    radio_lat = gtk_builder_get_object(worddic->definitions, "menuitem_search_whole_expression");
+    radio_lat = (GtkRadioMenuItem*)gtk_builder_get_object(worddic->definitions,
+                                                          "menuitem_search_whole_expression");
     break;
   case WORD_MATCH:
-    radio_lat = gtk_builder_get_object(worddic->definitions, "menuitem_search_latin_word");
+    radio_lat = (GtkRadioMenuItem*)gtk_builder_get_object(worddic->definitions,
+                                                          "menuitem_search_latin_word");
     break;
   case ANY_MATCH:
-    radio_lat = gtk_builder_get_object(worddic->definitions, "menuitem_search_latin_any");
+    radio_lat = (GtkRadioMenuItem*)gtk_builder_get_object(worddic->definitions,
+                                       "menuitem_search_latin_any");
     break;
   }
 
   switch(match_criteria_jp){
   case EXACT_MATCH:
-    radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_exact");
+    radio_jp = (GtkRadioMenuItem*)gtk_builder_get_object(worddic->definitions,
+                                                         "menuitem_search_japanese_exact");
     break;
   case START_WITH_MATCH:
-    radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_start");
+    radio_jp = (GtkRadioMenuItem*)gtk_builder_get_object(worddic->definitions,
+                                                         "menuitem_search_japanese_start");
     break;
   case END_WITH_MATCH:
-    radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_end");
+    radio_jp = (GtkRadioMenuItem*)gtk_builder_get_object(worddic->definitions,
+                                                         "menuitem_search_japanese_end");
     break;
   case ANY_MATCH:
-    radio_jp = gtk_builder_get_object(worddic->definitions, "menuitem_search_japanese_any");
+    radio_jp = (GtkRadioMenuItem*)gtk_builder_get_object(worddic->definitions,
+                                                         "menuitem_search_japanese_any");
     break;
   }
  
@@ -217,7 +224,7 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *worddic){
     gchar *comment = p_dicresult->comment;
 
     //browse list
-    GList *unit = NULL;
+    GSList *unit = NULL;
 
     //text to print
     gchar* text = NULL;

@@ -70,8 +70,6 @@ WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic){
 
   while (g_variant_iter_next (&iter, "(&s&sb)", &dicpath, &dicname, &dicactive)) {
     if (dicpath != NULL) {
-      //create the worddic dictionary
-      g_printf("Found dictionary in settings %s %s %d\n", dicpath, dicname, dicactive);
       WorddicDicfile *dicfile = g_new0(WorddicDicfile, 1);
       dicfile->path = g_strdup(dicpath);
       dicfile->name = g_strdup(dicname);

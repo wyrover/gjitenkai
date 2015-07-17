@@ -69,6 +69,6 @@ void set_ui_key_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic);
  */
 void search_and_display_kanji(kanjidic *kanjidic);
 
-void display_kanji(kanjidic *kanjidic, const gchar* kanji);
+void display_kanji(kanjidic *kanjidic, gchar* kanji);
 
 #endif

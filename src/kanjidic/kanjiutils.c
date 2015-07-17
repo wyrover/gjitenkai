@@ -127,7 +127,6 @@ GList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash) {
   KanjiInfo *kanji_info = g_hash_table_lookup(kanji_info_hash, utf8kanji);
 
   if(kanji_info == NULL){
-    g_printf("no radical found\n");
     return NULL;
   }
   
@@ -220,11 +219,7 @@ GList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash) {
     //lookup the radical (key) and get the radical info (value)
     rad_info = g_hash_table_lookup(rad_info_hash, radical);
 
-    if (rad_info == NULL) {
-      g_printf("unknown radical %s\n", radical);
-    }
-    else{
-    
+    if (rad_info) {
       //contains all the kanji of the current radical
       GList *radical_kanji_list = NULL;
 

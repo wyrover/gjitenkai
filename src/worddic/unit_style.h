@@ -3,10 +3,10 @@
 
 typedef struct unit_style_t{
   GtkTextTag *tag;
-  gchar *font;
   GdkRGBA *color;
-  gchar *start;
-  gchar *end;
+  const gchar *font;
+  const gchar *start;
+  const gchar *end;
 }unit_style;
 
 #endif
