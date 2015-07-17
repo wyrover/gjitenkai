@@ -129,7 +129,7 @@ void worddic_init (worddic *p_worddic)
                                                 0,
                                                 GTK_MESSAGE_INFO,
                                                 GTK_BUTTONS_OK,
-                                                message);
+                                                "%s", message);
     
     g_signal_connect_swapped(G_OBJECT(dialog), "response",
                              G_CALLBACK(gtk_widget_destroy),
