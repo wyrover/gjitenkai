@@ -64,10 +64,9 @@ void set_ui_radical_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic)
 void set_ui_key_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic);
 
 /**
-   Search kanji with the search filter values and display a list of buttons in 
-   the search result area
+   Search kanji according to the search filter values
  */
-void search_and_display_kanji(kanjidic *kanjidic);
+GSList* search_kanji(kanjidic *kanjidic);
 
 void display_kanji(kanjidic *kanjidic, gchar* kanji);
 
