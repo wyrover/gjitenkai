@@ -28,7 +28,7 @@ Then set the worrdic file in Edit/preferences/ Worddic - Dictionary - New - Brow
 You also need Japanese font and a Japanse input system. See your OS documentation
 for more details. 
 
-# Differances with the legacy Gjiten
+# Differences with the legacy Gjiten
 
 * New implementation 
 * Regex search, colored output, EDICT2 support
