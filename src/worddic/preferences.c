@@ -500,7 +500,6 @@ G_MODULE_EXPORT void on_fontbutton_notes_font_set(GtkFontButton *font_button,
 
 G_MODULE_EXPORT void on_colorbutton_notes_color_set(GtkColorChooser *color_chooser, 
                                                     worddic *worddic){
-
   gtk_color_chooser_get_rgba(color_chooser, 
                              worddic->conf->notes.color);
 
@@ -679,6 +678,7 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
   }
   else{
     worddic_dicfile_free_entries(dicfile);
+    dicfile->is_loaded = FALSE;
   }
 
   //reverse the loaded state
@@ -708,7 +708,7 @@ G_MODULE_EXPORT gboolean on_treeview_dicfile_changed(GtkTreeSelection *treeselec
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
   WorddicDicfile *dic = selected_element->data;
 
-  if(dic->is_loaded){
+  if(dic->informations){
     gtk_label_set_text(label_dic_info, dic->informations);
   }
   else{
