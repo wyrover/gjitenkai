@@ -44,7 +44,7 @@ void worddic_init (worddic * );
 void init_search_menu(worddic *);
 void print_unit(GtkTextBuffer *textbuffer,
                 gchar *text, unit_style *style);
-void print_entries(GtkTextBuffer *textbuffer, worddic *worddic);
+void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic);
 void highlight_result(GtkTextBuffer *textbuffer,
 		      GtkTextTag *highlight,
 		      const gchar *text_to_highlight,
@@ -53,7 +53,7 @@ void highlight_result(GtkTextBuffer *textbuffer,
 #if GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 16
 extern void on_worddic_search_results_edge_reached(GtkScrolledWindow* sw,
 						   GtkPositionType pos,
-						   worddic* worddic);
+						   worddic* p_worddic);
 #endif
 
 #endif

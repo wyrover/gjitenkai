@@ -56,7 +56,7 @@ typedef struct _WorddicConfig {
   PangoFontDescription *normalfont_desc;
 }WorddicConfig;
 
-WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic);
-void worddic_conf_save(struct worddic_t *p_worddic);
+WorddicConfig *worddic_conf_load(GSettings *settings);
+void worddic_conf_save(GSettings *settings, WorddicConfig *conf);
 
 #endif

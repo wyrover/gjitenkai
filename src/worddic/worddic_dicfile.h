@@ -9,8 +9,8 @@
 
 #include "../common/dicfile.h"
 
-struct _WorddicDicfile {
-  gchar *path;
+typedef struct _WorddicDicfile {
+  const gchar *path;
   const gchar *name;
   GSList *entries;
 
@@ -20,9 +20,7 @@ struct _WorddicDicfile {
   FILE * fp;
   gboolean utf8;
   gchar *informations;
-};
-
-typedef struct _WorddicDicfile WorddicDicfile;
+}WorddicDicfile;
 
 void worddic_dicfile_open(WorddicDicfile *dicfile);
 

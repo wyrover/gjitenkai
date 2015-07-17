@@ -1,7 +1,6 @@
 #include "conf.h"
 
-WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic){
-  GSettings *settings = p_worddic->settings;
+WorddicConfig *worddic_conf_load(GSettings *settings){
   WorddicConfig *conf;
 
   conf = g_new0(WorddicConfig, 1);
@@ -93,12 +92,10 @@ WorddicConfig *worddic_conf_load(struct worddic_t *p_worddic){
   return conf;
 }
 
-void worddic_conf_save(struct worddic_t *p_worddic){
+void worddic_conf_save(GSettings *settings, WorddicConfig *conf){
   int i;
   GSList *diclist;
   WorddicDicfile *dicfile;
-  GSettings *settings = p_worddic->settings;
-  WorddicConfig *conf = p_worddic->conf;
   
   g_settings_set_string(settings, "resultsfont",
                         conf->resultsfont == NULL ? "" : conf->resultsfont);
