@@ -642,7 +642,6 @@
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <property name="orientation">vertical</property>
-        <property name="position">80</property>
         <property name="position_set">True</property>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow_kanji_result">
