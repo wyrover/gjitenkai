@@ -12,7 +12,7 @@
     Gjiten Kai developer (2015 - ...) Olivier Drevet
     </property>
     <property name="logo">gjitenkai.png</property>
-    <property name="license_type">gpl-2-0</property>
+    <property name="license_type">gpl-3-0</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="aboutdialog-vbox1">
         <property name="can_focus">False</property>
