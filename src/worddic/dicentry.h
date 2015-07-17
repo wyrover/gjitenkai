@@ -26,6 +26,8 @@ struct _GjitenDicentry {
   GSList *general_informations;
   //in a bits field (to search)
   gint GI:3;
+
+  gboolean priority;
 };
 
 typedef struct _GjitenDicentry GjitenDicentry;

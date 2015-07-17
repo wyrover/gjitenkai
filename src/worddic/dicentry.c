@@ -3,7 +3,8 @@
 GjitenDicentry* parse_line(gchar* line){
   //new entry to return
   GjitenDicentry* dicentry = g_new0 (GjitenDicentry, 1);
-
+  dicentry->priority = FALSE;
+  
   //cut until the first '/', separating definiton,reading in the first chunk and
   //glosses in the second chunk
   gchar * saveptr_chunk;
@@ -58,6 +59,9 @@ GjitenDicentry* parse_line(gchar* line){
               //add this GI in the gloss
               p_gloss->general_informations = g_slist_append(p_gloss->general_informations,
                                                              g_strdup_printf("%s", GI));
+              if(!g_strcmp0(GI, "P")){
+                dicentry->priority = TRUE;
+              }
 
               //if a GI is detected next, add it in the same gloss
               start_new_gloss = FALSE;
