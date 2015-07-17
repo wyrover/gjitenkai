@@ -683,3 +683,33 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
   worddic_conf_save(worddic->settings, worddic->conf);
 
 }
+
+
+G_MODULE_EXPORT gboolean on_treeview_dicfile_changed(GtkTreeSelection *treeselection,
+                                                     worddic *worddic){
+  GtkTreeModel     *model;
+  GtkTreeIter       iter;
+  
+  gchar *PATH;
+
+  if (!gtk_tree_selection_get_selected(treeselection, &model, &iter))return FALSE;
+  
+  gtk_tree_model_get (model, &iter, COL_PATH, &PATH, -1);
+  GtkLabel *label_dic_info = (GtkLabel*)gtk_builder_get_object(worddic->definitions, 
+                                                               "label_dic_info");
+
+  GtkTreeView *treeview_dic = gtk_tree_selection_get_tree_view(treeselection);
+  gint index = getsingleselect(treeview_dic, &iter);
+
+  GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
+  WorddicDicfile *dic = selected_element->data;
+
+  if(dic->is_loaded){
+    gtk_label_set_text(label_dic_info, dic->informations);
+  }
+  else{
+    gtk_label_set_text(label_dic_info, PATH);
+  }
+  
+  return TRUE;
+}
