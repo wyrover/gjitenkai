@@ -19,13 +19,6 @@ enum
   COL_LOADED
 };
 
-
-/**
-   preference window related functions: 
-   initialisation and callbacks
- */
-
-
 /**
    treeview to pass to the thread callback function to update the UI
  */
@@ -35,6 +28,11 @@ typedef struct dic_state_ui_t{
   WorddicDicfile *dicfile;
   GtkLabel *label_dic_info;
 }dic_state_ui;
+
+/**
+   preference window related functions: 
+   initialisation and callbacks
+ */
 
 /**
    Thread call back function for parsing all entries from a dictionary file

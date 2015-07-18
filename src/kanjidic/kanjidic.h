@@ -45,6 +45,8 @@ typedef struct kanjidic_t
 
 
 extern void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic);
+extern void radical_list_init(kanjidic *kanjidic);
+extern void init_prefs_kanjidic(kanjidic *kanjidic);
 
 void kanjidic_init (kanjidic * );
 

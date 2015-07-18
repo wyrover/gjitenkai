@@ -40,6 +40,8 @@ typedef struct worddic_t
 } worddic;
 
 
+extern void init_prefs_window(worddic *worddic);
+
 void worddic_init (worddic * );
 void init_search_menu(worddic *);
 void print_unit(GtkTextBuffer *textbuffer,
