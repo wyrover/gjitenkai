@@ -26,17 +26,14 @@ int dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile){
 
 
 void dicutil_unload_dic(GjitenDicfile *dicfile) {
-  if (dicfile != NULL) {
-    //free mem of previously used dicfile	
-    #ifdef USE_MMAP
-    munmap(dicfile->mem, dicfile->size);
-    #else
-    free(dicfile->mem);
-    #endif
+  //free mem of previously used dicfile	
+#ifdef USE_MMAP
+  munmap(dicfile->mem, dicfile->size);
+#else
+  free(dicfile->mem);
+#endif
 
-    dicfile->mem = NULL;
-    dicfile = NULL;
-  }
+  dicfile->mem = NULL;
 }
 
 gboolean dicfile_init(GjitenDicfile *dicfile) {
