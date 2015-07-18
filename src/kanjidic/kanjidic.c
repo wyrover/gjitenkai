@@ -281,15 +281,20 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
   //Display the kanji and the kanji related informations
   GtkWidget *label_kanji = gtk_label_new(kanji);
   gtk_label_set_selectable (GTK_LABEL(label_kanji), TRUE);
-  
+
+  //set markup
+  const char *format = "<span font_desc=\"%s\">\%s</span>";
+  gchar *markup = g_markup_printf_escaped (format,
+                                           kanjidic->conf->kanji_font,
+                                           kanji);
+  gtk_label_set_markup (GTK_LABEL (label_kanji), markup);
+  g_free (markup);
+
+    //attach
   gtk_grid_attach (grid_kanji_display,
                    (GtkWidget*)label_kanji,
                    0, 0, 2, 1);
-  
-  //Apply font to the kanji label
-  PangoFontDescription *fd = NULL;
-  fd = pango_font_description_from_string (kanjidic->conf->kanji_font);
-  gtk_widget_override_font (GTK_WIDGET(label_kanji), fd);
+
 
   gint i=1;
   GSList *kanji_item_head;  //browse thought the kanji items 
