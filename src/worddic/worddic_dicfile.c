@@ -89,7 +89,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
   //regex variables
   GError *error = NULL;
   gint start_position = 0;
-  gboolean match;
+  gboolean match=FALSE;
   GMatchInfo *match_info;
 
   GRegex* regex = g_regex_new (srchstrg_regex,

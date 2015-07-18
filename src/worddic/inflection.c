@@ -125,7 +125,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
           //regex variables
           GError *error = NULL;
           gint start_position = 0;
-          gboolean match;
+          gboolean match=FALSE;
           GMatchInfo *match_info;
 
           GRegex* regex = g_regex_new (deinflected,

@@ -155,8 +155,8 @@ void init_search_menu(worddic *p_worddic)
   gint match_criteria_jp = p_worddic->match_criteria_jp;
   gint match_criteria_lat = p_worddic->match_criteria_lat;
  
-  GtkRadioMenuItem* radio_jp;
-  GtkRadioMenuItem* radio_lat;
+  GtkRadioMenuItem* radio_jp = NULL;
+  GtkRadioMenuItem* radio_lat = NULL;
  
   switch(match_criteria_lat){
   case EXACT_MATCH:
@@ -191,9 +191,12 @@ void init_search_menu(worddic *p_worddic)
                                                          "menuitem_search_japanese_any");
     break;
   }
- 
-  gtk_check_menu_item_set_active((GtkCheckMenuItem *)radio_jp, TRUE);
-  gtk_check_menu_item_set_active((GtkCheckMenuItem *)radio_lat, TRUE); 
+
+  if(radio_jp)
+    gtk_check_menu_item_set_active((GtkCheckMenuItem *)radio_jp, TRUE);
+
+  if(radio_lat)
+    gtk_check_menu_item_set_active((GtkCheckMenuItem *)radio_lat, TRUE); 
 }
 
 void print_unit(GtkTextBuffer *textbuffer,
