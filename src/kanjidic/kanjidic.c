@@ -172,7 +172,7 @@ GList *search_kanji(kanjidic *kanjidic){
   return kanji_list;
 }
 
-void display_candidates(kanjidic *kanjidic, GSList *kanji_list){
+void display_candidates(kanjidic *kanjidic, GList *kanji_list){
   //mouse cursor
   GdkCursor * cursor;
 
@@ -201,7 +201,7 @@ void display_candidates(kanjidic *kanjidic, GSList *kanji_list){
   gdk_window_set_cursor(gdk_window, cursor);
     
   //for each kanji in the list
-  for (kanji_list;
+  for (;
        kanji_list != NULL;
        kanji_list = g_list_next(kanji_list)) {
 

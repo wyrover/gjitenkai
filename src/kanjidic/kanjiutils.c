@@ -3,7 +3,6 @@
 GList* load_radkfile(GHashTable **pp_rad_info_hash, 
                      GHashTable **pp_kanji_info_hash,
                      GList      *rad_info_list) {
-  int error = FALSE;
   gint rad_cnt = 0;
   gchar *radkfile_ptr;
   gchar *radkfile_end;
@@ -17,16 +16,10 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
 
   radkfile = read_file(RADKFILE_NAME);
 
-  if (radkfile == NULL) gjiten_abort_with_msg("failed to read radkfile %s\n", RADKFILE_NAME);
+  if (radkfile == NULL) gjiten_abort_with_msg("failed to read radkfile %s\n",
+                                              RADKFILE_NAME);
   
-  if (error == TRUE) {
-    gjiten_print_error("Error opening %s.\n "                           \
-                       "Check your preferences or read the documentation!",
-                       RADKFILE_NAME);
-    return;
-  }
-
-  radkfile_end = radkfile + strlen(radkfile); //FIXME: lseek
+  radkfile_end = radkfile + strlen(radkfile);
   radkfile_ptr = radkfile;
     
   //parse the content of the file

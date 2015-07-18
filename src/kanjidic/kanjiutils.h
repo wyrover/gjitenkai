@@ -31,7 +31,7 @@ typedef struct _RadInfo {
    *List of radicals of this kanji
  */
 typedef struct _KanjiInfo {
-	gunichar *kanji;
+	gchar *kanji;
 	GList *rad_info_list;
 } KanjiInfo;
 

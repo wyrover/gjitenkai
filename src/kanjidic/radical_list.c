@@ -7,7 +7,7 @@ void radical_list_init(kanjidic *kanjidic){
   GtkGrid *grid_radical_list = (GtkGrid*)gtk_builder_get_object(kanjidic->definitions, 
                                                                 "grid_radical");
 
-  GList *radical_list = NULL;
+  GList *radical_list = kanjidic->rad_info_list;
   radical_list = g_list_reverse(radical_list);
 
   gint i = 0;
@@ -15,7 +15,7 @@ void radical_list_init(kanjidic *kanjidic){
 
   gint last_strockes_count=0;
   
-  for (radical_list = kanjidic->rad_info_list;
+  for (;
        radical_list != NULL;
        radical_list = g_list_next(radical_list)) {
      

@@ -44,6 +44,7 @@ G_MODULE_EXPORT gboolean on_button_dictionary_remove_clicked(GtkWidget *widget,
   GtkListStore *store = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
                                                               "liststore_dic");
   gtk_list_store_remove(store, &iter);
+  return TRUE;
 }
 
 G_MODULE_EXPORT gboolean on_button_dictionary_edit_clicked(GtkWidget *widget, worddic *worddic) {
@@ -70,13 +71,12 @@ G_MODULE_EXPORT gboolean on_button_dictionary_edit_clicked(GtkWidget *widget, wo
   gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(fcb_edit_dic_path), dic->path);
   
   gtk_widget_show (GTK_WIDGET(dialog_dic_edit));
+  return TRUE;
 }
 
 G_MODULE_EXPORT gboolean on_button_dictionary_add_clicked(GtkWidget *widget, worddic *worddic) {
   is_update = FALSE;
   
-  GtkTreeView *treeview_dic = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
-                                                                   "treeview_dic");
   //set edit dialog widgets to blank
   GtkDialog* dialog_dic_edit = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                                   "dialog_dic_edit");
@@ -92,6 +92,7 @@ G_MODULE_EXPORT gboolean on_button_dictionary_add_clicked(GtkWidget *widget, wor
   gtk_file_chooser_select_filename(GTK_FILE_CHOOSER(fcb_edit_dic_path), "");
   
   gtk_widget_show (GTK_WIDGET(dialog_dic_edit));
+  return TRUE;
 }
 
 G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddic *worddic) {
@@ -161,6 +162,7 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
   GtkDialog *dialog_dic_edit = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                                   "dialog_dic_edit");  
   gtk_widget_hide (GTK_WIDGET(dialog_dic_edit));
+  return TRUE;
 }
 
 void init_prefs_window(worddic *worddic){
@@ -334,7 +336,6 @@ void init_prefs_window(worddic *worddic){
 G_MODULE_EXPORT void on_fontbutton_results_font_set(GtkFontButton *font_button, 
                                                     worddic *worddic){
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
-  PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
 
   worddic->conf->resultsfont = font_name;
 
@@ -343,7 +344,6 @@ G_MODULE_EXPORT void on_fontbutton_results_font_set(GtkFontButton *font_button,
 
 G_MODULE_EXPORT void on_colorbutton_results_highlight_color_set(GtkColorChooser *color_chooser, 
                                                                 worddic *worddic){
-
   gtk_color_chooser_get_rgba(color_chooser, 
                              worddic->conf->results_highlight_color);
 
@@ -357,8 +357,6 @@ G_MODULE_EXPORT void on_colorbutton_results_highlight_color_set(GtkColorChooser 
 G_MODULE_EXPORT void on_fontbutton_jap_def_font_set(GtkFontButton *font_button, 
                                                     worddic *worddic){
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
-  PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
-
   worddic->conf->jap_def.font = font_name;
 
   g_object_set(worddic->conf->jap_def.tag, "font",
@@ -395,7 +393,6 @@ G_MODULE_EXPORT void on_entry_jap_def_end_changed(GtkEntry *entry,
 G_MODULE_EXPORT void on_fontbutton_jap_reading_font_set(GtkFontButton *font_button, 
                                                         worddic *worddic){
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
-  PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
 
   worddic->conf->jap_reading.font = font_name;
 
@@ -449,7 +446,6 @@ G_MODULE_EXPORT void on_entry_gloss_end_changed(GtkEntry *entry,
 G_MODULE_EXPORT void on_fontbutton_subgloss_font_set(GtkFontButton *font_button, 
                                                      worddic *worddic){
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
-  PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
 
   worddic->conf->subgloss.font = font_name;
 
@@ -488,8 +484,6 @@ G_MODULE_EXPORT void on_entry_subgloss_end_changed(GtkEntry *entry,
 G_MODULE_EXPORT void on_fontbutton_notes_font_set(GtkFontButton *font_button, 
                                                   worddic *worddic){
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
-  PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
-
   worddic->conf->notes.font = font_name;
 
   g_object_set(worddic->conf->notes.tag, "font",
@@ -549,6 +543,7 @@ G_MODULE_EXPORT gboolean on_button_OK_clicked(GtkWidget *widget, worddic *worddi
   GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                         "prefs");
   gtk_widget_hide (GTK_WIDGET(prefs));
+  return TRUE;
 }
 
 //hide and prevent deletion
@@ -589,20 +584,14 @@ G_MODULE_EXPORT  void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle
   worddic_conf_save(worddic->settings, worddic->conf);
 }
 
-G_LOCK_DEFINE (fp);
 gpointer proxy_worddic_dicfile_parse_all(WorddicDicfile *dicfile){
   dicfile->is_loaded = FALSE;
-  
-  FILE* fp = dicfile->fp;
-  G_LOCK (fp);
-  
   worddic_dicfile_open(dicfile);
   
   //parse all entries
   worddic_dicfile_parse_all(dicfile);
-
+  
   worddic_dicfile_close(dicfile);
-  G_UNLOCK (fp);
   dicfile->is_loaded = TRUE;
 
   return NULL;
@@ -630,8 +619,6 @@ cb_load_dic_timeout( dic_state_ui *ui )
 G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle *cell,
                                                           gchar *path_str,
                                                           worddic *worddic){
-  GtkTreeView *treeview = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
-                                                               "treeview_dic");
   GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
                                                               "liststore_dic");
   GtkTreeIter  iter;
@@ -656,9 +643,6 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
     //and inconsistent to true to display current state
     g_object_set(cell, "activatable", FALSE, "inconsistent", TRUE, NULL);
   
-    //load all dictionarie entries in a thread
-    GError *error = NULL;
-
     GtkTreeView *treeview = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
                                                                  "treeview_dic");
     //Create new thread

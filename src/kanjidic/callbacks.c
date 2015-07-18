@@ -164,7 +164,7 @@ G_MODULE_EXPORT void on_button_clear_radical_clicked(GtkButton* button, kanjidic
 }
 
 G_MODULE_EXPORT void on_entry_filter_radical_activate(GtkWidget *entry, kanjidic *kanjidic){
-  GSList * kanji_list = search_kanji(kanjidic);
+  GList * kanji_list = search_kanji(kanjidic);
   display_candidates(kanjidic, kanji_list);
 }
 
@@ -177,7 +177,7 @@ G_MODULE_EXPORT void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjid
 }
 
 G_MODULE_EXPORT void on_button_search_clicked(GtkWidget *widget, kanjidic *kanjidic) {
-  GSList * kanji_list = search_kanji(kanjidic);
+  GList * kanji_list = search_kanji(kanjidic);
   display_candidates(kanjidic, kanji_list);
 }
 

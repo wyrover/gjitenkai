@@ -66,8 +66,7 @@ void init_prefs_kanjidic(kanjidic *kanjidic){
   kanji_item_list_init();
   GSList* kanji_item_head = kanji_item_list;
   while (kanji_item_head != NULL) {
-
-    //add the kanji item with a checkbox TODO position
+    //add the kanji item with a checkbox
     GtkBox *box_item = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     kanji_item *kanji_item = kanji_item_head->data;
     GtkCheckButton *display_item = (GtkCheckButton*)gtk_check_button_new_with_label(kanji_item->name);
