@@ -77,10 +77,6 @@ void kanjidic_init (kanjidic *kanjidic)
   init_prefs_kanjidic(kanjidic);
 
   //set the mouse cursor
-
-  //get the widget where to append the 'kanji button'
-  GtkTextView *textview_kanji_result = (GtkTextView*)
-    gtk_builder_get_object(kanjidic->definitions, "textview_kanji_result");
   GdkDisplay * display = gdk_display_get_default();
   cursor = gdk_cursor_new_for_display(display, GDK_LEFT_PTR);
 }
