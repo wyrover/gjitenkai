@@ -70,7 +70,9 @@
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Default font and highlight color</property>
+                <property name="xalign">1</property>
+                <property name="xpad">5</property>
+                <property name="label" translatable="yes">Highlight Color</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -81,6 +83,8 @@
               <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="xalign">1</property>
+                <property name="xpad">5</property>
                 <property name="label" translatable="yes">Japanese Definition</property>
               </object>
               <packing>
@@ -92,6 +96,8 @@
               <object class="GtkLabel" id="label6">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="xalign">1</property>
+                <property name="xpad">5</property>
                 <property name="label" translatable="yes">Japanese Reading</property>
               </object>
               <packing>
@@ -103,7 +109,9 @@
               <object class="GtkLabel" id="label7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Gloss</property>
+                <property name="xalign">1</property>
+                <property name="xpad">5</property>
+                <property name="label" translatable="yes">Gloss / Sub Gloss</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -337,79 +345,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkFontButton" id="fontbutton_results">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="font">Sans 12</property>
-                    <property name="preview_text"/>
-                    <signal name="font-set" handler="on_fontbutton_results_font_set" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkColorButton" id="colorbutton_results_highlight">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="halign">start</property>
-                    <signal name="color-set" handler="on_colorbutton_results_highlight_color_set" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label9">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Notes</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">5</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkBox" id="box3">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="box4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
@@ -471,11 +407,33 @@
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">5</property>
+                <property name="top_attach">4</property>
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="label9">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">1</property>
+                <property name="xpad">5</property>
+                <property name="label" translatable="yes">Notes</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="colorbutton_results_highlight">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="color-set" handler="on_colorbutton_results_highlight_color_set" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
+              </packing>
             </child>
           </object>
         </child>
