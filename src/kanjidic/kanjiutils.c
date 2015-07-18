@@ -194,14 +194,14 @@ GList* get_kanji_by_stroke(int stroke, int plusmin, GList *list, GjitenDicfile *
 }
 
 GList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash) { 
-  gint radnum;                   //number of character in radstrg
+  gint radnum;                         //number of character in radstrg
   RadInfo *rad_info;             
   GList *kanji_info_list = NULL;
-  GList *result = NULL;          //list of matched kanji to return
+  GList *result = NULL;                //list of matched kanji to return
   const gchar *radstrg_ptr;            //pointer to browse radstrg
 
   radnum = g_utf8_strlen(radstrg, -1); 
-  if (radnum == 0) return;  //no character in radstrg
+  if (radnum == 0) return NULL;        //no character in radstrg
 
   //to navigate in the string
   int i;
@@ -209,7 +209,6 @@ GList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash) {
 
   //for every characters in the string
   for(i=0;i<radnum; i++){
-
     //get the radical in utf8 format
     gunichar uniradical = g_utf8_get_char(radstrg_ptr);
     gchar radical[3];

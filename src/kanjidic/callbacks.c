@@ -86,7 +86,8 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
 
   //if the kanji is a radical (kanji is found in the rad_info_hash), quit
   GList *all_radical_list = g_hash_table_get_keys(kanjidic->rad_info_hash);
-  for (all_radical_list; all_radical_list != NULL; 
+  for (;
+       all_radical_list != NULL; 
        all_radical_list = g_list_next(all_radical_list)) {
     if(!strcmp(all_radical_list->data, text)){
       return;
@@ -107,14 +108,11 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
 
   radnum = g_utf8_strlen(radicals, -1); 
   if (radnum != 0){
-
-    //to navigate in the entry
-    int i;
     radstrg_ptr = radicals;
 
     //for every characters in the entry
     gunichar uniradical;
-    while(uniradical = g_utf8_get_char(radstrg_ptr)){
+    while( (uniradical = g_utf8_get_char(radstrg_ptr)) ){
 
       gchar radical[3];
       int at = g_unichar_to_utf8(uniradical, radical);
@@ -139,7 +137,7 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
      !strcmp(utf8char, kanji_radical_list->data))return;
 
   //insert radicals into the entry
-  for (kanji_radical_list;
+  for (;
        kanji_radical_list != NULL;
        kanji_radical_list = g_list_next(kanji_radical_list)) {
 

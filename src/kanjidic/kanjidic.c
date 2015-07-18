@@ -343,8 +343,8 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
         item = kanji_data->translations;
       }
 
-      //item point to one of the kanji_entry's list to display or NULL if no match
-      for (item;
+      //item point to one of the kanji_entry's list to display or NULL
+      for (;
            item != NULL;
            item = g_slist_next(item)){
 

@@ -2,10 +2,7 @@
 
 void init_inflection() {
   vinfl_list=NULL;
-  static int verbinit_done = FALSE;
   gchar *tmp_ptr;
-  int vinfl_size = 0;
-  struct stat vinfl_stat;
   gchar *vinfl_start, *vinfl_ptr, *vinfl_end;
   int vinfl_part = 1;
   int conj_type = 40;
@@ -87,7 +84,6 @@ void init_inflection() {
 GList* search_inflections(WorddicDicfile *dicfile,
                           const gchar *srchstrg) {
   GList *results = NULL;
-  GList* list_dicentry = NULL;
   
   //allocat a deinflected string by the size of the string to search plus a
   //possibly longer inflection 
@@ -120,10 +116,6 @@ GList* search_inflections(WorddicDicfile *dicfile,
           list_dicentry = list_dicentry->next){
 
         GjitenDicentry* dicentry = list_dicentry->data;
-
-        GList* list_GI = NULL;
-        gboolean is_verb = FALSE;
-        gboolean is_adj = FALSE;
         
         //check inflection only if verb or adjectif
         if(dicentry->GI == V5 ||
@@ -138,7 +130,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
 
           GRegex* regex = g_regex_new (deinflected,
                                        G_REGEX_OPTIMIZE,
-                                       0,
+                                       start_position,
                                        &error);
           
           //search in the definition

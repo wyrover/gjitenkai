@@ -42,11 +42,6 @@ typedef struct dic_state_ui_t{
 gpointer proxy_worddic_dicfile_parse_all(WorddicDicfile *dicfile);
 
 /**
-   Check the dictionary load state from time to time and update the UI
-*/
-static gboolean cb_load_dic_timeout( dic_state_ui *ui );
-
-/**
    Initialize controles according to the settings
  */
 void init_prefs_window(worddic *worddic);

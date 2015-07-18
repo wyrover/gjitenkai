@@ -8,10 +8,6 @@
 G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_view,
                                                                 GdkEventButton *event,
                                                                 worddic *worddic) {
-  GtkTextIter mouse_iter;
-  gint x, y;
-  gint trailing;
-  gunichar kanji;
   return FALSE;
 }
 
@@ -117,8 +113,6 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   GSList *dicfile_node;
   WorddicDicfile *dicfile;
   dicfile_node = worddic->conf->dicfile_list;    //matched dictionary entries
-  GList *l = NULL;                              //browse results
-  
   GList *results=NULL;
 
   //clear the display result buffer

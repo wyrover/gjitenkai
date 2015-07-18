@@ -94,7 +94,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
 
   GRegex* regex = g_regex_new (srchstrg_regex,
                                G_REGEX_OPTIMIZE,
-                               0,
+                               start_position,
                                &error);
 
   if(!regex)return NULL;

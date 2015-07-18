@@ -1,13 +1,12 @@
 #include "kanjifile.h"
 
 char* get_line_from_dic(const gchar *kanji, GjitenDicfile *kanjidic) {
-  gint srch_resp, roff, rlen;
+  gint roff, rlen;
   gchar *repstr = g_new0(gchar, 1024);
   guint32 respos;
   
-  gint srchpos = 0;
-  srch_resp = search_string(SRCH_START, kanjidic, kanji, 
-                            &respos, &roff, &rlen, repstr);
+  search_string(SRCH_START, kanjidic, kanji, 
+                &respos, &roff, &rlen, repstr);
 
   return repstr;
 }
