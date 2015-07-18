@@ -36,7 +36,7 @@ for more details.
 * Regex search
 * Colored output
 * EDICT2 support
-* Optimzed for speed and features
+* Optimized for speed
 * Use GTK3 with Glade
 * Autoexpend kanji to it's radical list
 * Threaded dictionary loading
