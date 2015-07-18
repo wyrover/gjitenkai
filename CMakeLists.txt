@@ -85,6 +85,7 @@ endif(MINGW)
 
 # Add other flags to the compiler
 add_definitions(${GTK3_CFLAGS_OTHER})
+add_definitions(-Wall)
 
 # files needed to compile gjitenkai
 add_executable(
