@@ -1,6 +1,6 @@
-                   Gjiten kai - グジテン改
+#Gjiten kai - グジテン改
 
-A new implementation of Gjiten, a Gnome japanese dictionary.
+<i>A new implementation of Gjiten, a Gnome japanese dictionary</i>
 
 #Links 
 * Page (download links)
