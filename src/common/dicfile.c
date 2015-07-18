@@ -1,11 +1,11 @@
 #include "dicfile.h"
 
-int dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile){
+gboolean dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile){
   //if the dictionary is not initialized, init: open a file descriptor
   if (dicfile->status == DICFILE_NOT_INITIALIZED) {
-    if (dicfile_init(dicfile) == FALSE) return SRCH_FAIL; 
+    if (dicfile_init(dicfile) == FALSE) return FALSE; 
   }
-  if (dicfile->status != DICFILE_OK) return SRCH_FAIL;
+  if (dicfile->status != DICFILE_OK) return FALSE;
 
   //if the mapped dictionary is not the requested dictionnary then clear the
   //previously mapped dictionary
@@ -22,6 +22,8 @@ int dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile){
     if (dicfile->mem == NULL) gjiten_abort_with_msg("mmap() failed\n");
     mmaped_dicfile = dicfile;
     }
+
+  return TRUE;
 }
 
 
@@ -70,7 +72,7 @@ void dicfile_close(GjitenDicfile *dicfile) {
   dicfile->status = DICFILE_NOT_INITIALIZED;
 }
 
-gint search_string(gint srchtype, GjitenDicfile *dicfile, gunichar *srchstrg,
+gint search_string(gint srchtype, GjitenDicfile *dicfile, const gchar *srchstrg,
                    guint32 *res_index, gint *hit_pos, gint *res_len, gchar *res_str){
   gint search_result;
   gchar *linestart, *lineend; 

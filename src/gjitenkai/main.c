@@ -3,9 +3,9 @@
 
 #include "gjitenkai.h"
 
-extern on_gjitenkai_search_results_button_release_event(GtkWidget *text_view,
-                                                        GdkEventButton *event,
-                                                        gjitenkai *gjitenkai);
+extern gboolean on_gjitenkai_search_results_button_release_event(GtkWidget *text_view,
+                                                                 GdkEventButton *event,
+                                                                 gjitenkai *gjitenkai);
 
 int main( int argc, char **argv )
 {

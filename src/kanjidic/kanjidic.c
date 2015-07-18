@@ -114,8 +114,8 @@ void set_ui_key_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic){
   gtk_widget_set_sensitive(GTK_WIDGET(entry_filter_key), sensitivity);
 }
 
-GSList *search_kanji(kanjidic *kanjidic){
-  GSList *kanji_list=NULL;
+GList *search_kanji(kanjidic *kanjidic){
+  GList *kanji_list=NULL;
   
   //filter by strokes
   if(kanjidic->filter_by_stroke){
@@ -230,7 +230,7 @@ void display_candidates(kanjidic *kanjidic, GSList *kanji_list){
   gtk_widget_show_all(GTK_WIDGET(textview_kanji_result));
 }
 
-void display_kanji(kanjidic *kanjidic, gchar* kanji)
+void display_kanji(kanjidic *kanjidic, const gchar* kanji)
 {
   //add a button in the history box
   //if the last added kanji is not the same as the kanji to add

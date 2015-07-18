@@ -131,7 +131,7 @@ int get_jp_match_type(gchar *line, const gchar *srchstrg, int offset) {
   return ANY_MATCH;
 }
 
-int get_word(char *dest, char *src, int size, int pos) {
+int get_word(char *dest, const char *src, int size, int pos) {
   int k,j;
   
   k = pos;

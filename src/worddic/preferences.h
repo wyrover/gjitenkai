@@ -49,6 +49,6 @@ static gboolean cb_load_dic_timeout( dic_state_ui *ui );
 /**
    Initialize controles according to the settings
  */
-void init_prefs_window (worddic * );
+void init_prefs_window(worddic *worddic);
 
 #endif

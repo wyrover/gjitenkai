@@ -22,8 +22,6 @@ the JIS code of the kanji in hexadecimal;
 [E] the index in Henshall (A Guide To Remembering Japanese Characters);
 [Y] the PinYin (Chinese) pronunciation(s) of the kanji;
 the Japanese pronunciations or "readings" of the kanji. These are in the katakana script for "ON" (i.e of Chinese origin) readings, and hiragana for "KUN" (Japanese origin) readings. 
-
-然 4133 U7136 B86 G4 S12 F401 J2 N2770 V3435 H2782 DK1779 L241 K375 O1788 DO437 MN19149 MP7.0462 E528 IN651 DS450 DF716 DH557 DT592 DC144 DJ401 DG1279 DM246 I4d8.10 Q2333.3 DR2540 Yran2 Wyeon ゼン ネン しか しか.り しか.し さ {sort of thing} {so} {if so} {in that case} {well}
  */
 
 #ifndef KANJI_FILE
@@ -49,12 +47,12 @@ typedef struct kanjifile_entry_t{
 /**
    Search in the kanjidic the line corresponding of the given kanji
  */
-gchar* get_line_from_dic(gunichar *kanji, GjitenDicfile *kanjidic);
+gchar* get_line_from_dic(const gchar *kanji, GjitenDicfile *kanjidic);
 
 /**
    Parse a line of the kdic
    kstr must contains a line of the kdic
  */
-kanjifile_entry* do_kdicline(gchar *kstr);
+kanjifile_entry* do_kdicline(const gchar *kstr);
 
 #endif

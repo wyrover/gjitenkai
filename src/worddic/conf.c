@@ -65,7 +65,6 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
 
   gchar *dicpath, *dicname;
   gboolean dicactive;
-  GSList *diclist = NULL;
 
   while (g_variant_iter_next (&iter, "(&s&sb)", &dicpath, &dicname, &dicactive)) {
     if (dicpath != NULL) {
@@ -93,7 +92,6 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
 }
 
 void worddic_conf_save(GSettings *settings, WorddicConfig *conf){
-  int i;
   GSList *diclist;
   WorddicDicfile *dicfile;
   

@@ -66,9 +66,9 @@ void set_ui_key_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic);
 /**
    Search kanji according to the search filter values
  */
-GSList* search_kanji(kanjidic *kanjidic);
+GList* search_kanji(kanjidic *kanjidic);
 void display_candidates(kanjidic *kanjidic, GSList *kanji_list);
 
-void display_kanji(kanjidic *kanjidic, gchar* kanji);
+void display_kanji(kanjidic *kanjidic, const gchar* kanji);
 
 #endif

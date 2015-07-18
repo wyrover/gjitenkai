@@ -28,8 +28,6 @@
 
 #include "error.h"
 
-static gchar *gjiten_errors;
-
 int gjiten_print_error(const char *fmt, ... ) {
 	GtkWidget *dialog;
 	gint ret = -1;

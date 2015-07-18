@@ -1,7 +1,6 @@
 #include "kanjifile.h"
 
-char* get_line_from_dic(gunichar *kanji, GjitenDicfile *kanjidic) {
-  gint i;
+char* get_line_from_dic(const gchar *kanji, GjitenDicfile *kanjidic) {
   gint srch_resp, roff, rlen;
   gchar *repstr = g_new0(gchar, 1024);
   guint32 respos;
@@ -13,7 +12,7 @@ char* get_line_from_dic(gunichar *kanji, GjitenDicfile *kanjidic) {
   return repstr;
 }
 
-kanjifile_entry *do_kdicline(gchar *kstr) {
+kanjifile_entry *do_kdicline(const gchar *kstr) {
   char word[KBUFSIZE];
   gint pos=sizeof(gunichar);
   
@@ -27,7 +26,7 @@ kanjifile_entry *do_kdicline(gchar *kstr) {
   g_unichar_to_utf8(utf8kanji, p_str_kanji);
   entry->kanji = (gunichar*)p_str_kanji;
   
-  while(pos = get_word(word, kstr, sizeof(word), pos)){
+  while((pos = get_word(word, kstr, sizeof(word), pos))){
     //the first character of a word indicates it's purpose
     char first_char = word[0];
     
