@@ -1,5 +1,7 @@
 #include "kanjidic.h"
 
+GdkCursor * cursor;
+
 void kanjidic_init (kanjidic *kanjidic)
 {
   GError *err = NULL;
@@ -73,6 +75,14 @@ void kanjidic_init (kanjidic *kanjidic)
 
   //init the preference window's widgets
   init_prefs_kanjidic(kanjidic);
+
+  //set the mouse cursor
+
+  //get the widget where to append the 'kanji button'
+  GtkTextView *textview_kanji_result = (GtkTextView*)
+    gtk_builder_get_object(kanjidic->definitions, "textview_kanji_result");
+  GdkDisplay * display = gdk_display_get_default();
+  cursor = gdk_cursor_new_for_display(display, GDK_LEFT_PTR);
 }
 
 void set_ui_radical_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic){
@@ -173,9 +183,6 @@ GList *search_kanji(kanjidic *kanjidic){
 }
 
 void display_candidates(kanjidic *kanjidic, GList *kanji_list){
-  //mouse cursor
-  GdkCursor * cursor;
-
   //anchor in the result textview where to append the 'kanji buttons'
   GtkTextChildAnchor *kanji_results_anchor;
   GtkTextIter kanji_results_iter;
@@ -193,13 +200,11 @@ void display_candidates(kanjidic *kanjidic, GList *kanji_list){
   //clear the results and set the iterator at the begining
   gtk_text_buffer_set_text(textbuffer_kanji_result, "", 0);
   gtk_text_buffer_get_start_iter(textbuffer_kanji_result, &kanji_results_iter);
-  
-  //set the mouse pointer
-  cursor = gdk_cursor_new(GDK_LEFT_PTR);
+
   GdkWindow *gdk_window = gtk_text_view_get_window (textview_kanji_result,
                                                     GTK_TEXT_WINDOW_TEXT);
   gdk_window_set_cursor(gdk_window, cursor);
-    
+  
   //for each kanji in the list
   for (;
        kanji_list != NULL;

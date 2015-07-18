@@ -115,8 +115,10 @@ void worddic_init (worddic *p_worddic)
   init_prefs_window(p_worddic);
 
   //init cursors
-  cursor_selection = gdk_cursor_new(GDK_ARROW);
-  cursor_default = gdk_cursor_new(GDK_XTERM);
+  GdkDisplay * display = gdk_display_get_default();
+  
+  cursor_selection = gdk_cursor_new_for_display(display, GDK_ARROW);
+  cursor_default = gdk_cursor_new_for_display(display, GDK_XTERM);
 
   if(!p_worddic->conf->dicfile_list){
     GtkWindow *window = (GtkWindow*)gtk_builder_get_object(p_worddic->definitions, 
