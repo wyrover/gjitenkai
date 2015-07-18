@@ -141,11 +141,11 @@ void worddic_init (worddic *p_worddic)
   //add a callback when scrolling to the edge of the result only if GTK >= 3.16
 #if GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 16
   GtkScrolledWindow *scrolledwindow_search_result = (GtkScrolledWindow*)
-    gtk_builder_get_object(worddic->definitions, "scrolledwindow_search_result");
+    gtk_builder_get_object(p_worddic->definitions, "scrolledwindow_search_result");
   g_signal_connect(scrolledwindow_search_result,
 		   "edge-reached",
 		   G_CALLBACK(on_worddic_search_results_edge_reached),
-		   worddic);
+		   p_worddic);
 #endif 
 }
 
