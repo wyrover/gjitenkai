@@ -47,6 +47,7 @@ Original Gjiten developer Botond Botyanszki </property>
   <object class="GtkDialog" id="prefs">
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
+    <property name="transient_for">gjiten</property>
     <signal name="delete-event" handler="on_gjitenkai_prefs_delete_event" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
