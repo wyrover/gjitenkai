@@ -34,7 +34,7 @@ for more details.
 
 * Almost entierly rewritten from scratch
 * Regex search
-* Colored output
+* Configurable output color, font and character separator
 * EDICT2 support
 * Optimized for speed
 * Use GTK3 with Glade
