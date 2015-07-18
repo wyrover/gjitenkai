@@ -20,8 +20,8 @@ new interface, while keeping the original overall design.
 
 ## Edict 
 To use the worddic (word dictionary) you will need an EDICT dictionary file.
-Get one from the
-<a href=\"http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil\">Official EDICT website</a>
+Get one from the Official EDICT website at 
+http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil
 
 Then set the worrdic file in Edit/preferences/ Worddic - Dictionary - New - Browse ...  
 
