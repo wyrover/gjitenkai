@@ -94,20 +94,7 @@ void worddic_init (worddic *p_worddic)
                                                       p_worddic->conf->notes.font,
                                                       NULL);
   p_worddic->conf->notes.tag = notes_tag;
-  
-  
-  //default font for the search results
-  const gchar *font_name= p_worddic->conf->resultsfont;
-  PangoFontDescription *font_desc = pango_font_description_from_string(font_name);
-
-  //get the textview
-  GtkTextView *textview_search_results = 
-    (GtkTextView*)gtk_builder_get_object(p_worddic->definitions,
-                                         "search_results");
-
-  //apply the newly selected font to the results textview
-  gtk_widget_override_font(GTK_WIDGET(textview_search_results), font_desc);
-  
+    
   //init the verb de-inflection mechanism
   init_inflection();
 
