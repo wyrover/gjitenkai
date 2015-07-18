@@ -1,8 +1,16 @@
-Gjiten kai - グジテン改
+                   Gjiten kai - グジテン改
 
 A new implementation of Gjiten, a Gnome japanese dictionary.
-Project Page http://odrevet.github.io/gjitenkai/
 
+#Links 
+* Page (download links)
+
+http://odrevet.github.io/gjitenkai/
+
+
+* Wiki (Documentation)
+
+https://github.com/odrevet/gjitenkai/wiki/
 
 # Goal
 The goal of this rewrite of Gjiten is to have a Gjiten with new features and a
