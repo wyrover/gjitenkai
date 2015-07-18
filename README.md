@@ -19,8 +19,9 @@ new interface, while keeping the original overall design.
 #Prerequistes
 
 ## Edict 
-To use the worddic (word dictionary) you will need an edict file encoded in UTF-8
-The official edict dictionary is encoded in EUC-JP.
+To use the worddic (word dictionary) you will need an EDICT dictionary file.
+Get one from the
+<a href=\"http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil\">Official EDICT website</a>
 
 Then set the worrdic file in Edit/preferences/ Worddic - Dictionary - New - Browse ...  
 
@@ -29,10 +30,16 @@ Then set the worrdic file in Edit/preferences/ Worddic - Dictionary - New - Brow
 You also need Japanese font and a Japanse input system. See your OS documentation
 for more details. 
 
-# Differences with the legacy Gjiten
+# Differences with the Original Gjiten 2.6
 
-* New implementation 
-* Regex search, colored output, EDICT2 support
+* Almost entierly rewritten from scratch
+* Regex search
+* Colored output
+* EDICT2 support
+* Optimzed for speed and features
+* Use GTK3 with Glade
+* Autoexpend kanji to it's radical list
+* Threaded dictionary loading
 * a lot more ! 
 
 # Credits
