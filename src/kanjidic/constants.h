@@ -3,9 +3,8 @@
 
 #include "../../config.h"
 
-//TODO rename to GSETTINGS
 #define GSETTINGS_ROOT "/gjitenkai"
-#define GSETTINGS_PATH_GJITEN GCONF_ROOT"/gjiten"
-#define GSETTINGS_PATH_KANJIDIC  GCONF_ROOT"/kanjidic"
+#define GSETTINGS_PATH_GJITEN GSETTINGS_ROOT"/gjiten"
+#define GSETTINGS_PATH_KANJIDIC  GSETTINGS_ROOT"/kanjidic"
 
 #endif
