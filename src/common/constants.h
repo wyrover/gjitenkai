@@ -13,9 +13,9 @@
 
 
 #define SETTINGS_KANJIDIC "gjitenkai.kanjidic"
-#define GCONF_ROOT "/gjitenkai"
-#define GCONF_PATH_GJITEN GCONF_ROOT"/gjiten"
-#define GCONF_PATH_WORDDIC GCONF_ROOT"/worddic"
-#define GCONF_PATH_KANJIDIC  GCONF_ROOT"/kanjidic"
+#define GSETTINGS_ROOT "/gjitenkai"
+#define GSETTINGS_PATH_GJITEN GCONF_ROOT"/gjiten"
+#define GSETTINGS_PATH_WORDDIC GCONF_ROOT"/worddic"
+#define GSETTINGS_PATH_KANJIDIC  GCONF_ROOT"/kanjidic"
 
 #endif
