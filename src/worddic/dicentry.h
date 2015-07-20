@@ -6,7 +6,7 @@
 #ifndef MINGW
 #include <string.h>
 #else
-#include <../common/dicutils.h>
+#include "../common/dicutils.h"
 #endif
 
 #include "gloss.h"
