@@ -141,8 +141,8 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
     dicfile->is_active = TRUE;
     worddic->conf->dicfile_list = g_slist_append(worddic->conf->dicfile_list, dicfile);
 
-  //insert a new row in the model
-  gtk_list_store_insert (store, &iter, -1);
+    //insert a new row in the model
+    gtk_list_store_insert (store, &iter, -1);
   
   }
   
