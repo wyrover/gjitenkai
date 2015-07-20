@@ -13,7 +13,6 @@ char* get_line_from_dic(const gchar *kanji, GjitenDicfile *kanjidic) {
 
 kanjifile_entry *do_kdicline(const gchar *kstr) {  
   kanjifile_entry *entry = g_new0(kanjifile_entry, 1);
-  gchar *translation;
   
   //for each words in the array, check what information it is 
   //the first word is the kanji
