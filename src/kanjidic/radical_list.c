@@ -104,18 +104,31 @@ void radical_list_update_sensitivity(kanjidic *kanjidic){
         sensitivity = FALSE;
       }
       else{
+        GList *kanji_list_browser = NULL;
+        
         sensitivity = TRUE;
 
-        GList *match_list_browser = NULL;
-        for(match_list_browser=kanji_match_list;
-            match_list_browser != NULL;
-            match_list_browser = match_list_browser->next){
+        //if this kanji button is alderly in the search list, set to unsentitive
+        gchar *kptr=radicals;
+        gunichar radical_in_searchentry;
+        gunichar radical_clicked = g_utf8_get_char(cur_radical);
+        while ( radical_in_searchentry = g_utf8_get_char(kptr)) {
+          if(radical_clicked == radical_in_searchentry){
+            sensitivity = FALSE;
+            break;
+          }
+          kptr = g_utf8_next_char(kptr);
+        }
+
+        //list of matching kanji of to display in a tooltip
+        for(kanji_list_browser=kanji_match_list;
+            kanji_list_browser != NULL;
+            kanji_list_browser = kanji_list_browser->next){
           kanji_match = g_string_append(kanji_match,
-                                        (gchar*)match_list_browser->data);
+                                        (gchar*)kanji_list_browser->data);
         }
       }
 
-      
       //set the tootlip with the matching radical list
       gtk_widget_set_tooltip_text (GTK_WIDGET(button),
                                    kanji_match->str);
