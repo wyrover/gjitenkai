@@ -40,8 +40,8 @@ struct _GjitenDicfile {
 
 typedef struct _GjitenDicfile GjitenDicfile;
 
-enum {
-  DICFILE_NOT_INITIALIZED,
+enum dicfile_status{
+  DICFILE_NOT_INITIALIZED = 0,
   DICFILE_BAD,
   DICFILE_OK
 };

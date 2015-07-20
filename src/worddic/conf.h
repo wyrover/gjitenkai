@@ -22,11 +22,24 @@
 #include "../common/dicfile.h"
 #include "../common/dicutil.h"
 
+/**
+   When saving the configuration
+   limit what to save or save all with WSE_ALL
+ */
+typedef enum worddic_save_enum{
+  WSE_HIGHLIGHT_COLOR     = 1 << 0,
+  WSE_SEARCH_OPTION       = 1 << 1,
+  WSE_DICFILE             = 1 << 2,
+  WSE_JAPANESE_DEFINITION = 1 << 3,
+  WSE_JAPANESE_READING    = 1 << 4,
+  WSE_GLOSS               = 1 << 5,
+  WSE_NOTES               = 1 << 6,
+  WSE_ALL                 = 1111111
+}worddic_save;
+
 typedef struct _WorddicConfig {
   gchar *version;
-
   GSList *dicfile_list;
-
   guint maxwordmatches;
 
   //font
@@ -57,6 +70,8 @@ typedef struct _WorddicConfig {
 }WorddicConfig;
 
 WorddicConfig *worddic_conf_load(GSettings *settings);
-void worddic_conf_save(GSettings *settings, WorddicConfig *conf);
+void worddic_conf_save(GSettings *settings,
+                       WorddicConfig *conf,
+                       worddic_save fields);
 
 #endif

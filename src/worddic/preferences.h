@@ -6,6 +6,7 @@
 #include <glib-object.h>
 
 #include "worddic.h"
+#include "conf.h"
 #include "../common/dicfile.h"
 
 /**

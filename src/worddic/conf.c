@@ -91,68 +91,86 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   return conf;
 }
 
-void worddic_conf_save(GSettings *settings, WorddicConfig *conf){
-  GSList *diclist;
-  WorddicDicfile *dicfile;
-  
-  g_settings_set_string(settings, "resultsfont",
-                        conf->resultsfont == NULL ? "" : conf->resultsfont);
-
-  //save the result highlight color as a string
-  char *str_results_highlight_color = gdk_rgba_to_string(conf->results_highlight_color);
-  g_settings_set_string(settings, "results-highlight-color", str_results_highlight_color);
-	
-  g_settings_set_boolean(settings, "search-kata-on-hira", conf->search_kata_on_hira);
-  g_settings_set_boolean(settings, "search-hira-on-kata", conf->search_hira_on_kata);
-  g_settings_set_boolean(settings, "deinflection-enabled", conf->verb_deinflection);
-
-  //Save dicfiles [path and name seperated with linebreak]
-  GVariantBuilder builder;
-  g_variant_builder_init(&builder, G_VARIANT_TYPE("a(ssb)"));
-  diclist = conf->dicfile_list;
-  while (diclist != NULL) {
-    if (diclist->data == NULL) break;
-    dicfile = diclist->data;
-    g_variant_builder_add(&builder,
-                          "(ssb)",
-                          dicfile->path,
-                          dicfile->name,
-                          dicfile->is_active);
-    diclist = g_slist_next(diclist);
+void worddic_conf_save(GSettings *settings,
+                       WorddicConfig *conf,
+                       worddic_save fields){
+  if(fields & WSE_HIGHLIGHT_COLOR){
+    //save the result highlight color as a string
+    char *str_results_highlight_color = gdk_rgba_to_string(conf->results_highlight_color);
+    g_settings_set_string(settings, "results-highlight-color",
+                          str_results_highlight_color);
   }
-  g_settings_set_value(settings, "dictionaries", g_variant_builder_end(&builder));
 
-  g_settings_set_boolean(settings, "autoadjust-enabled", conf->autoadjust_enabled);
-  g_settings_set_boolean(settings, "searchlimit-enabled", conf->searchlimit_enabled);
-  g_settings_set_uint(settings, "maxwordmatches", conf->maxwordmatches);
+  if(fields & WSE_SEARCH_OPTION){
+    g_settings_set_boolean(settings, "search-kata-on-hira",
+                           conf->search_kata_on_hira);
+    g_settings_set_boolean(settings, "search-hira-on-kata",
+                           conf->search_hira_on_kata);
+    g_settings_set_boolean(settings, "deinflection-enabled",
+                           conf->verb_deinflection);
+  }
 
-  g_settings_set_string(settings, "japanese-definition-start", conf->jap_def.start);
-  g_settings_set_string(settings, "japanese-definition-end", conf->jap_def.end);
-  g_settings_set_string(settings, "japanese-definition-font", conf->jap_def.font);
-  char *str_jap_def_color = gdk_rgba_to_string(conf->jap_def.color);
-  g_settings_set_string(settings, "japanese-definition-color", str_jap_def_color);
+  if(fields & WSE_DICFILE){
+    GSList *diclist;
+    WorddicDicfile *dicfile;
+
+    //Save dicfiles [path and name seperated with linebreak]
+    GVariantBuilder builder;
+    g_variant_builder_init(&builder, G_VARIANT_TYPE("a(ssb)"));
+    diclist = conf->dicfile_list;
+    while (diclist != NULL) {
+      if (diclist->data == NULL) break;
+      dicfile = diclist->data;
+      g_variant_builder_add(&builder,
+                            "(ssb)",
+                            dicfile->path,
+                            dicfile->name,
+                            dicfile->is_active);
+      diclist = g_slist_next(diclist);
+    }
+    g_settings_set_value(settings, "dictionaries", g_variant_builder_end(&builder));
+
+  }
+
+  if(fields & WSE_JAPANESE_DEFINITION){
+    g_settings_set_string(settings, "japanese-definition-start", conf->jap_def.start);
+    g_settings_set_string(settings, "japanese-definition-end", conf->jap_def.end);
+    g_settings_set_string(settings, "japanese-definition-font", conf->jap_def.font);
+    char *str_jap_def_color = gdk_rgba_to_string(conf->jap_def.color);
+    g_settings_set_string(settings, "japanese-definition-color", str_jap_def_color);
+
+  }
   
-  g_settings_set_string(settings, "japanese-reading-start", conf->jap_reading.start);
-  g_settings_set_string(settings, "japanese-reading-end", conf->jap_reading.end);
-  g_settings_set_string(settings, "japanese-reading-font", conf->jap_reading.font);
-  char *str_jap_reading_color = gdk_rgba_to_string(conf->jap_reading.color);
-  g_settings_set_string(settings, "japanese-reading-color", str_jap_reading_color);
+  if(fields & WSE_JAPANESE_READING){
+    g_settings_set_string(settings, "japanese-reading-start", conf->jap_reading.start);
+    g_settings_set_string(settings, "japanese-reading-end", conf->jap_reading.end);
+    g_settings_set_string(settings, "japanese-reading-font", conf->jap_reading.font);
+    char *str_jap_reading_color = gdk_rgba_to_string(conf->jap_reading.color);
+    g_settings_set_string(settings, "japanese-reading-color", str_jap_reading_color);
 
-  g_settings_set_string(settings, "gloss-start", conf->gloss.start);
-  g_settings_set_string(settings, "gloss-end", conf->gloss.end);
-  g_settings_set_string(settings, "gloss-font", conf->gloss.font);
-  char *str_gloss_color = gdk_rgba_to_string(conf->gloss.color);
-  g_settings_set_string(settings, "gloss-color", str_gloss_color);
+  }
 
-  g_settings_set_string(settings, "subgloss-start", conf->subgloss.start);
-  g_settings_set_string(settings, "subgloss-end", conf->subgloss.end);
-  g_settings_set_string(settings, "subgloss-font", conf->subgloss.font);
-  char *str_subgloss_color = gdk_rgba_to_string(conf->subgloss.color);
-  g_settings_set_string(settings, "subgloss-color", str_subgloss_color);
+  if(fields & WSE_GLOSS){
+    g_settings_set_string(settings, "gloss-start", conf->gloss.start);
+    g_settings_set_string(settings, "gloss-end", conf->gloss.end);
+    g_settings_set_string(settings, "gloss-font", conf->gloss.font);
+    char *str_gloss_color = gdk_rgba_to_string(conf->gloss.color);
+    g_settings_set_string(settings, "gloss-color", str_gloss_color);
+
+    g_settings_set_string(settings, "subgloss-start", conf->subgloss.start);
+    g_settings_set_string(settings, "subgloss-end", conf->subgloss.end);
+    g_settings_set_string(settings, "subgloss-font", conf->subgloss.font);
+    char *str_subgloss_color = gdk_rgba_to_string(conf->subgloss.color);
+    g_settings_set_string(settings, "subgloss-color", str_subgloss_color);
+
+  }
   
-  g_settings_set_string(settings, "notes-start", conf->notes.start);
-  g_settings_set_string(settings, "notes-end", conf->notes.end);
-  g_settings_set_string(settings, "notes-font", conf->notes.font);
-  char *str_notes_color = gdk_rgba_to_string(conf->notes.color);
-  g_settings_set_string(settings, "notes-color", str_notes_color);
+  if(fields & WSE_NOTES){
+    g_settings_set_string(settings, "notes-start", conf->notes.start);
+    g_settings_set_string(settings, "notes-end", conf->notes.end);
+    g_settings_set_string(settings, "notes-font", conf->notes.font);
+    char *str_notes_color = gdk_rgba_to_string(conf->notes.color);
+    g_settings_set_string(settings, "notes-color", str_notes_color);
+
+  }
 }

@@ -38,8 +38,8 @@ G_MODULE_EXPORT gboolean on_button_dictionary_remove_clicked(GtkWidget *widget,
 
   //remove from the conf
   worddic->conf->dicfile_list = g_slist_remove(worddic->conf->dicfile_list, selected_element->data);
-  worddic_conf_save(worddic->settings, worddic->conf);
-
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_DICFILE);
+  
   //remove from the list store
   GtkListStore *store = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
                                                               "liststore_dic");
@@ -155,7 +155,7 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
                       -1);
 
     
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_DICFILE);
 
   GtkDialog *dialog_dic_edit = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                                   "dialog_dic_edit");  
@@ -326,15 +326,6 @@ void init_prefs_window(worddic *worddic){
 }
 
 
-G_MODULE_EXPORT void on_fontbutton_results_font_set(GtkFontButton *font_button, 
-                                                    worddic *worddic){
-  const gchar *font_name= gtk_font_button_get_font_name (font_button);
-
-  worddic->conf->resultsfont = font_name;
-
-  worddic_conf_save(worddic->settings, worddic->conf);
-}
-
 G_MODULE_EXPORT void on_colorbutton_results_highlight_color_set(GtkColorChooser *color_chooser, 
                                                                 worddic *worddic){
   gtk_color_chooser_get_rgba(color_chooser, 
@@ -343,7 +334,9 @@ G_MODULE_EXPORT void on_colorbutton_results_highlight_color_set(GtkColorChooser 
   g_object_set(worddic->conf->highlight, "background-rgba",
                worddic->conf->results_highlight_color, NULL);
 
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings,
+                    worddic->conf,
+                    WSE_HIGHLIGHT_COLOR);
 }
 
 //Definition
@@ -355,7 +348,7 @@ G_MODULE_EXPORT void on_fontbutton_jap_def_font_set(GtkFontButton *font_button,
   g_object_set(worddic->conf->jap_def.tag, "font",
                worddic->conf->jap_def.font, NULL);
 
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_JAPANESE_DEFINITION);
 }
 
 G_MODULE_EXPORT void on_colorbutton_jap_def_color_set(GtkColorChooser *color_chooser, 
@@ -367,19 +360,19 @@ G_MODULE_EXPORT void on_colorbutton_jap_def_color_set(GtkColorChooser *color_cho
   g_object_set(worddic->conf->jap_def.tag, "foreground-rgba",
                worddic->conf->jap_def.color, NULL);
 
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_JAPANESE_DEFINITION);
 }
 
 G_MODULE_EXPORT void on_entry_jap_def_start_changed(GtkEntry *entry,
                                                     worddic *worddic){
   worddic->conf->jap_def.start = gtk_entry_get_text(entry);
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_JAPANESE_DEFINITION);
 }
 
 G_MODULE_EXPORT void on_entry_jap_def_end_changed(GtkEntry *entry,
                                                   worddic *worddic){
   worddic->conf->jap_def.end = gtk_entry_get_text(entry);
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_JAPANESE_DEFINITION);
 }
 
 //Reading
@@ -392,7 +385,7 @@ G_MODULE_EXPORT void on_fontbutton_jap_reading_font_set(GtkFontButton *font_butt
   g_object_set(worddic->conf->jap_reading.tag, "font",
                worddic->conf->jap_reading.font, NULL);
   
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_JAPANESE_READING);
 }
 
 G_MODULE_EXPORT void on_colorbutton_jap_reading_color_set(GtkColorChooser *color_chooser, 
@@ -404,20 +397,20 @@ G_MODULE_EXPORT void on_colorbutton_jap_reading_color_set(GtkColorChooser *color
   g_object_set(worddic->conf->jap_reading.tag, "foreground-rgba",
                worddic->conf->jap_reading.color, NULL);
 
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_JAPANESE_READING);
 }
 
 G_MODULE_EXPORT void on_entry_jap_reading_start_changed(GtkEntry *entry,
                                                         worddic *worddic){
   worddic->conf->jap_reading.start = gtk_entry_get_text(entry);
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_JAPANESE_READING);
 
 }
 
 G_MODULE_EXPORT void on_entry_jap_reading_end_changed(GtkEntry *entry,
                                                       worddic *worddic){
   worddic->conf->jap_reading.end = gtk_entry_get_text(entry);
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_JAPANESE_READING);
 }
 
 //Gloss
@@ -425,13 +418,13 @@ G_MODULE_EXPORT void on_entry_jap_reading_end_changed(GtkEntry *entry,
 G_MODULE_EXPORT void on_entry_gloss_start_changed(GtkEntry *entry,
                                                   worddic *worddic){
   worddic->conf->gloss.start = gtk_entry_get_text(entry);
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_GLOSS);
 }
 
 G_MODULE_EXPORT void on_entry_gloss_end_changed(GtkEntry *entry,
                                                 worddic *worddic){
   worddic->conf->gloss.end = gtk_entry_get_text(entry);
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_GLOSS);
 }
 
 
@@ -445,7 +438,7 @@ G_MODULE_EXPORT void on_fontbutton_subgloss_font_set(GtkFontButton *font_button,
   g_object_set(worddic->conf->subgloss.tag, "font",
                worddic->conf->subgloss.font, NULL);
   
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_GLOSS);
 }
 
 G_MODULE_EXPORT void on_colorbutton_subgloss_color_set(GtkColorChooser *color_chooser, 
@@ -457,20 +450,20 @@ G_MODULE_EXPORT void on_colorbutton_subgloss_color_set(GtkColorChooser *color_ch
   g_object_set(worddic->conf->subgloss.tag, "foreground-rgba",
                worddic->conf->subgloss.color, NULL);
 
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_GLOSS);
 }
 
 G_MODULE_EXPORT void on_entry_subgloss_start_changed(GtkEntry *entry,
                                                      worddic *worddic){
   worddic->conf->subgloss.start = gtk_entry_get_text(entry);
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_GLOSS);
 
 }
 
 G_MODULE_EXPORT void on_entry_subgloss_end_changed(GtkEntry *entry,
                                                    worddic *worddic){
   worddic->conf->subgloss.end = gtk_entry_get_text(entry);
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_GLOSS);
 }
 
 //notes
@@ -482,7 +475,7 @@ G_MODULE_EXPORT void on_fontbutton_notes_font_set(GtkFontButton *font_button,
   g_object_set(worddic->conf->notes.tag, "font",
                worddic->conf->notes.font, NULL);
 
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_NOTES);
 }
 
 G_MODULE_EXPORT void on_colorbutton_notes_color_set(GtkColorChooser *color_chooser, 
@@ -493,19 +486,19 @@ G_MODULE_EXPORT void on_colorbutton_notes_color_set(GtkColorChooser *color_choos
   g_object_set(worddic->conf->notes.tag, "foreground-rgba",
                worddic->conf->notes.color, NULL);
 
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_NOTES);
 }
 
 G_MODULE_EXPORT void on_entry_notes_start_changed(GtkEntry *entry,
                                                   worddic *worddic){
   worddic->conf->notes.start = gtk_entry_get_text(entry);
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_NOTES);
 }
 
 G_MODULE_EXPORT void on_entry_notes_end_changed(GtkEntry *entry,
                                                 worddic *worddic){
   worddic->conf->notes.end = gtk_entry_get_text(entry);
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_NOTES);
 }
 
 
@@ -514,6 +507,7 @@ G_MODULE_EXPORT void on_checkbutton_search_katakana_on_hiragana_toggled(GtkCheck
                                                                         worddic *worddic){
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
   worddic->conf->search_kata_on_hira = toggled;
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_SEARCH_OPTION);
 }
 
 G_MODULE_EXPORT void on_checkbutton_search_hiragana_on_katakana_toggled(GtkCheckButton* check_button,  
@@ -521,7 +515,7 @@ G_MODULE_EXPORT void on_checkbutton_search_hiragana_on_katakana_toggled(GtkCheck
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
   worddic->conf->search_hira_on_kata = toggled;
 
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_SEARCH_OPTION);
 }
 
 G_MODULE_EXPORT void on_checkbutton_verbadj_deinflection_toggled(GtkCheckButton* check_button, 
@@ -529,7 +523,7 @@ G_MODULE_EXPORT void on_checkbutton_verbadj_deinflection_toggled(GtkCheckButton*
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
   worddic->conf->verb_deinflection = toggled;
 
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_SEARCH_OPTION);
 }
 
 G_MODULE_EXPORT gboolean on_button_OK_clicked(GtkWidget *widget, worddic *worddic) {
@@ -574,7 +568,7 @@ G_MODULE_EXPORT  void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
   WorddicDicfile *dic = selected_element->data;
   dic->is_active = active;
-  worddic_conf_save(worddic->settings, worddic->conf);
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_DICFILE);
 }
 
 gpointer proxy_worddic_dicfile_parse_all(WorddicDicfile *dicfile){
