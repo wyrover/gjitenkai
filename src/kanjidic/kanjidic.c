@@ -214,7 +214,7 @@ void display_candidates(kanjidic *kanjidic, GList *kanji_list){
     gchar *markup = g_markup_printf_escaped (format,
                                              kanjidic->conf->kanji_result_font,
                                              kanji);
-    GtkLabel *label_kanji = gtk_label_new("");
+    GtkWidget *label_kanji = gtk_label_new("");
     gtk_label_set_markup (GTK_LABEL (label_kanji), markup);
     g_free (markup);
 

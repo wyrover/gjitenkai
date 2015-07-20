@@ -29,8 +29,8 @@ void radical_list_init(kanjidic *kanjidic){
       str_stroke = g_strdup_printf("<span font_weight='bold' fgcolor='#EE0101'>%d</span>",
                                    strokes_count);
       
-      GtkLabel *label_stroke_count = gtk_label_new("");
-      gtk_label_set_markup(label_stroke_count, str_stroke);
+      GtkWidget *label_stroke_count = gtk_label_new("");
+      gtk_label_set_markup(GTK_LABEL(label_stroke_count), str_stroke);
       gtk_grid_attach(GTK_GRID(grid_radical_list), GTK_WIDGET(label_stroke_count), i, j, 1, 1);
 
       g_free(str_stroke);
@@ -108,10 +108,10 @@ void radical_list_update_sensitivity(kanjidic *kanjidic){
         sensitivity = TRUE;
 
         //if this kanji button is alderly in the search list, set to unsensitive
-        gchar *kptr=radicals;
+        const gchar *kptr=radicals;
         gunichar radical_in_searchentry;
         gunichar radical_clicked = g_utf8_get_char(cur_radical);
-        while ( radical_in_searchentry = g_utf8_get_char(kptr)) {
+        while ( (radical_in_searchentry = g_utf8_get_char(kptr)) ) {
           if(radical_clicked == radical_in_searchentry){
             sensitivity = FALSE;
             break;
