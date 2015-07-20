@@ -90,20 +90,41 @@ void radical_list_update_sensitivity(kanjidic *kanjidic){
       gchar* srch = g_new0(gchar, strlen(radicals) + strlen(cur_radical) + 1);
       g_strlcpy(srch, radicals, strlen(radicals) + strlen(cur_radical));
       strcat (srch, cur_radical);
-    
+      
       //if no match, set the sensitivity to false on this button
-      gboolean sensitivity; 
-      //TODO? create a faster function that return a boolean on the first match
-      //(seems fast enought with this function but can be optimised)
-      if(get_kanji_by_radical(srch, kanjidic->rad_info_hash) == NULL){
+      gboolean sensitivity;
+
+      //tooltip text to display
+      GString *kanji_match = g_string_new(NULL);
+
+      //get the kanji list for the entered radical and the radical of the button
+      GList *kanji_match_list = get_kanji_by_radical(srch,
+                                                     kanjidic->rad_info_hash);
+      if(kanji_match_list == NULL){
         sensitivity = FALSE;
       }
       else{
         sensitivity = TRUE;
+
+        GList *match_list_browser = NULL;
+        for(match_list_browser=kanji_match_list;
+            match_list_browser != NULL;
+            match_list_browser = match_list_browser->next){
+          kanji_match = g_string_append(kanji_match,
+                                        (gchar*)match_list_browser->data);
+        }
       }
-    
+
+      
+      //set the tootlip with the matching radical list
+      gtk_widget_set_tooltip_text (GTK_WIDGET(button),
+                                   kanji_match->str);
+
+      //set the sensitivity
       gtk_widget_set_sensitive(GTK_WIDGET(button), sensitivity);
 
+      //free memory
+      g_string_free(kanji_match, TRUE);
       g_free(srch);
     }while((l = g_list_next(l)));
   }
