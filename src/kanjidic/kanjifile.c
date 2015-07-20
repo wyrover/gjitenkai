@@ -11,10 +11,7 @@ char* get_line_from_dic(const gchar *kanji, GjitenDicfile *kanjidic) {
   return repstr;
 }
 
-kanjifile_entry *do_kdicline(const gchar *kstr) {
-  char word[KBUFSIZE];
-  gint pos=sizeof(gunichar);
-  
+kanjifile_entry *do_kdicline(const gchar *kstr) {  
   kanjifile_entry *entry = g_new0(kanjifile_entry, 1);
   gchar *translation;
   
@@ -24,8 +21,13 @@ kanjifile_entry *do_kdicline(const gchar *kstr) {
   gchar *p_str_kanji = g_new0(gchar, sizeof(gunichar));
   g_unichar_to_utf8(utf8kanji, p_str_kanji);
   entry->kanji = (gunichar*)p_str_kanji;
-  
-  while((pos = get_word(word, kstr, sizeof(word), pos))){
+
+  gchar **words = g_strsplit(kstr, " ", -1);
+
+  while(words){
+    gchar *word = *words;
+    if(!g_strcmp0(word, "\n"))break;
+    
     //the first character of a word indicates it's purpose
     char first_char = word[0];
     
@@ -56,9 +58,8 @@ kanjifile_entry *do_kdicline(const gchar *kstr) {
       }
       
       break;
-    }
-    
+      }
+    words++;
   }
-  
   return entry;
 }
