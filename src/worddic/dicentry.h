@@ -2,7 +2,12 @@
 #define DICENTRY_H
 
 #include <gtk/gtk.h>
+
+#ifndef MINGW
 #include <string.h>
+#else
+#include <../common/dicutils.h>
+#endif
 
 #include "gloss.h"
 
