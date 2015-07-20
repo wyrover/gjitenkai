@@ -130,11 +130,7 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
        
     //set the new name and path
     dicfile->name = name;
-    dicfile->path = path;
-
-    
-    //replace the current row with a new one
-    gtk_list_store_remove(store, &iter);
+    dicfile->path = path;    
   }
   else{
     //create a new dictionary and add it in the conf
@@ -144,18 +140,20 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
     dicfile->is_loaded = FALSE;
     dicfile->is_active = TRUE;
     worddic->conf->dicfile_list = g_slist_append(worddic->conf->dicfile_list, dicfile);
-  }
 
   //insert a new row in the model
   gtk_list_store_insert (store, &iter, -1);
   
-  //put the name and path of the dictionary in the row
+  }
+  
+  //update the model
   gtk_list_store_set (store, &iter,
                       COL_NAME, dicfile->name,
                       COL_PATH, dicfile->path,
                       COL_ACTIVE, dicfile->is_active,
                       COL_LOADED, dicfile->is_loaded,
                       -1);
+
     
   worddic_conf_save(worddic->settings, worddic->conf);
 
