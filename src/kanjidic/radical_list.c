@@ -26,11 +26,10 @@ void radical_list_init(kanjidic *kanjidic){
     //update the last stroke count
     if(last_strockes_count != strokes_count){
       gchar* str_stroke;
-      
       str_stroke = g_strdup_printf("<span font_weight='bold' fgcolor='#EE0101'>%d</span>",
                                    strokes_count);
       
-      GtkLabel *label_stroke_count = (GtkLabel*)gtk_label_new("");
+      GtkLabel *label_stroke_count = gtk_label_new("");
       gtk_label_set_markup(label_stroke_count, str_stroke);
       gtk_grid_attach(GTK_GRID(grid_radical_list), GTK_WIDGET(label_stroke_count), i, j, 1, 1);
 

@@ -171,8 +171,8 @@ G_MODULE_EXPORT void on_entry_filter_radical_activate(GtkWidget *entry, kanjidic
 //click on a 'kanji button': display the kanji information of this kanji
 G_MODULE_EXPORT void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjidic) {    
   //the label of the button is the kanji to be searched/displayed
-  const gchar* kanji = gtk_button_get_label(button);
-
+  GtkWidget *child = gtk_bin_get_child(GTK_BIN(button));
+  const gchar* kanji = gtk_label_get_text(GTK_LABEL(child));
   display_kanji(kanjidic, kanji);
 }
 

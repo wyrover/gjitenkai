@@ -206,12 +206,20 @@ void display_candidates(kanjidic *kanjidic, GList *kanji_list){
        kanji_list != NULL;
        kanji_list = g_list_next(kanji_list)) {
 
-    //create a 'candidate kanji' button
-    PangoFontDescription *fd = NULL;
-    fd = pango_font_description_from_string (kanjidic->conf->kanji_result_font);
+    gchar *kanji = (gchar*)kanji_list->data;
     
-    GtkWidget *button_kanji = gtk_button_new_with_label(kanji_list->data);
-    gtk_widget_override_font (button_kanji, fd);
+    //create a 'candidate kanji' button
+    //set markup
+    const char *format = "<span font_desc=\"%s\">\%s</span>";
+    gchar *markup = g_markup_printf_escaped (format,
+                                             kanjidic->conf->kanji_result_font,
+                                             kanji);
+    GtkLabel *label_kanji = gtk_label_new("");
+    gtk_label_set_markup (GTK_LABEL (label_kanji), markup);
+    g_free (markup);
+
+    GtkWidget *button_kanji = gtk_button_new();
+    gtk_container_add (GTK_CONTAINER (button_kanji), label_kanji);
     
     g_signal_connect(button_kanji, 
                      "clicked", 
