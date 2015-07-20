@@ -30,6 +30,7 @@ kanjifile_entry *do_kdicline(const gchar *kstr) {
     
     //the first character of a word indicates it's purpose
     char first_char = word[0];
+    size_t len = strlen(word);
     
     switch(first_char){
     case 'S':
@@ -45,16 +46,19 @@ kanjifile_entry *do_kdicline(const gchar *kstr) {
       sscanf(word, "G%d", &entry->jouyou);
       break;
     case '{':
-      translation = strdup(word+1);  //+1 to skip the { character.
-        entry->translations = g_slist_append(entry->translations, translation);
+      //trim the {}
+      memmove(word, word+1, len-2);
+      word[len-2] = 0;
+    
+      entry->translations = g_slist_append(entry->translations, word);
       break;
     default:
       //check if katakana (onyomi) or hiragana (kunyomi)
       if (hasKatakanaString(word)){
-        entry->onyomi = g_slist_append(entry->onyomi, strdup(word));
+        entry->onyomi = g_slist_append(entry->onyomi, word);
       }
       else if (hasHiraganaString(word)){
-        entry->kunyomi = g_slist_append(entry->kunyomi, strdup(word));
+        entry->kunyomi = g_slist_append(entry->kunyomi, word);
       }
       
       break;
