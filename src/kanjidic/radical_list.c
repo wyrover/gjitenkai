@@ -108,7 +108,7 @@ void radical_list_update_sensitivity(kanjidic *kanjidic){
         
         sensitivity = TRUE;
 
-        //if this kanji button is alderly in the search list, set to unsentitive
+        //if this kanji button is alderly in the search list, set to unsensitive
         gchar *kptr=radicals;
         gunichar radical_in_searchentry;
         gunichar radical_clicked = g_utf8_get_char(cur_radical);
