@@ -16,10 +16,11 @@ void worddic_dicfile_open(WorddicDicfile *dicfile){
   if(!dicfile->utf8){
     dicfile->informations = g_convert (informations, -1, "UTF-8", "EUC-JP",
                                        NULL, NULL, NULL);
+    g_free(informations);
   }
   else {
     if(!dicfile->informations){
-      dicfile->informations = g_strdup(informations);
+      dicfile->informations = informations;
     }
   }
 }
@@ -29,38 +30,41 @@ void worddic_dicfile_close(WorddicDicfile *dicfile){
 }
 
 void worddic_dicfile_parse_all(WorddicDicfile *dicfile){
-  char * line = NULL;
   gboolean has_line=TRUE;
   while(has_line){
-   has_line = worddic_dicfile_parse_next_line(dicfile, line);
+    has_line = worddic_dicfile_parse_next_line(dicfile);
   }
-  g_free(line);
   dicfile->entries = g_slist_reverse(dicfile->entries);
 }
 
-gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile, gchar *line){
+gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
   size_t len = 0;
   ssize_t read;
 
+  gchar *line=NULL;
   //get a line in the file
   read = getline(&line, &len, dicfile->fp);
 
   //if no more characters to read, return false
-  if(read == -1)return FALSE;
+  if(read == -1){
+    g_free(line);
+    return FALSE;
+  }
   
   gchar *utf_line = NULL;
   if(!dicfile->utf8){
     //if not utf8 convert the line (assum it's EUC-JP)
     utf_line = g_convert (line, -1, "UTF-8", "EUC-JP", NULL, NULL, NULL);
+    g_free(line);
   }
   else {
-    utf_line = g_strdup(line);
+    utf_line = line;
   }
   
   GjitenDicentry* dicentry = parse_line(utf_line);
   dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
   g_free(utf_line);
-
+  
   return TRUE;
 }
 
@@ -181,9 +185,18 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
 }
 
 void worddic_dicfile_free(WorddicDicfile *dicfile){
+  g_free(dicfile->name);
+  dicfile->name = NULL;
+
+  g_free(dicfile->path);
+  dicfile->path = NULL;
+  
   g_free(dicfile->informations);
   dicfile->informations = NULL;
+  
   worddic_dicfile_free_entries(dicfile);
+  
+  g_free(dicfile);
 }
 
 void worddic_dicfile_free_entries(WorddicDicfile *dicfile){

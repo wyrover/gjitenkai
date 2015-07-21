@@ -25,7 +25,7 @@ typedef struct _WorddicDicfile {
 void worddic_dicfile_open(WorddicDicfile *dicfile);
 
 void worddic_dicfile_parse_all(WorddicDicfile *dicfile);
-gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile, gchar *line);
+gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile);
 
 void worddic_dicfile_close(WorddicDicfile *dicfile);
 
