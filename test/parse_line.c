@@ -20,6 +20,15 @@ int main( int argc, char **argv )
   g_printf("Parsing %s\n\n", line);
   
   GjitenDicentry* entry = parse_line(line);
+
+  //check is line was altered
+  if(strcmp(line, LINE)){
+    g_printf("WARNING: the line was modified !\nwas\n%s\nis%s\n\n", LINE, line);
+  }
+  
+  //free the line
+  g_free(line);
+
   GList *unit = NULL;
   
   g_printf("Definition\n");
@@ -68,10 +77,8 @@ int main( int argc, char **argv )
     }
   }
 
-  if(strcmp(line, LINE)){
-    g_printf("WARNING: the line was modified !\nwas\n%s\nis%s\n\n", LINE, line);
-  }
-
-  g_free(line);
+  //free the entry
+  dicentry_free(entry);
+  
   return 1;
 }
