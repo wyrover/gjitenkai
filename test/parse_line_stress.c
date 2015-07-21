@@ -13,16 +13,23 @@ int main( int argc, char **argv )
   gint i = 0;
   gint max = atoi(argv[1]);
   if(max > LIMIT){
-    g_printf("Limit stress to %d\n", LIMIT);
+    g_printf("Limited to %d times\n", LIMIT);
     max=LIMIT;
   }
-  for(i;i<=max;i++){
-    gchar *line = g_strdup(LINE);
-    GjitenDicentry* entry = parse_line(line);
+
+  gchar *line = g_strdup(LINE);
+      
+  for(;i<max;i++){
+
+    //allocate memory and parse the line
+    GjitenDicentry* dicentry = parse_line(line);
 
     //free memory
-    g_free(line);
-    dicentry_free(entry);
-  }  
+    dicentry_free(dicentry);
+    dicentry=NULL;
+  }
+
+  g_free(line);
+  
   return 1;
 }
