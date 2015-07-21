@@ -84,27 +84,40 @@ void init_inflection() {
 GList* search_inflections(WorddicDicfile *dicfile,
                           const gchar *srchstrg) {
   GList *results = NULL;
-  
-  //allocat a deinflected string by the size of the string to search plus a
-  //possibly longer inflection 
-  gchar *deinflected = (gchar *) g_malloc(strlen(srchstrg) + 20);
-  
+    
   //for all the inflections
-  GSList *tmp_list_ptr = NULL;
-  for(tmp_list_ptr = vinfl_list;
-      tmp_list_ptr != NULL;
-      tmp_list_ptr = g_slist_next(tmp_list_ptr)){
+  GSList *vinfl_list_browser = NULL;
+  for(vinfl_list_browser = vinfl_list;
+      vinfl_list_browser != NULL;
+      vinfl_list_browser = g_slist_next(vinfl_list_browser)){
+
+    GString *deinflected = g_string_new(NULL);
  
-    struct vinfl_struct * tmp_vinfl_struct = (struct vinfl_struct *) tmp_list_ptr->data;
+    struct vinfl_struct * tmp_vinfl_struct = NULL;
+    tmp_vinfl_struct = (struct vinfl_struct *) vinfl_list_browser->data;
 
     //if the inflected conjugaison match the end of the string to search
     if(g_str_has_suffix(srchstrg, tmp_vinfl_struct->conj)){
-      // create deinflected string
-      strncpy(deinflected,
-              srchstrg,
-              strlen(srchstrg) - strlen(tmp_vinfl_struct->conj));
-      strcpy(deinflected + strlen(srchstrg) - strlen(tmp_vinfl_struct->conj),
-             tmp_vinfl_struct->infl); 
+
+      //g_printf("'%s' has the  suffix '%s'\n", srchstrg, tmp_vinfl_struct->conj);
+      // create deinflected string with the searched expression
+      deinflected = g_string_append(deinflected, srchstrg);
+
+      //replace the inflection by the conjonction
+      gint radical_pos = strlen(srchstrg) - strlen(tmp_vinfl_struct->conj);
+      deinflected = g_string_truncate (deinflected, radical_pos);
+      deinflected = g_string_overwrite(deinflected,
+                                       radical_pos,
+                                       tmp_vinfl_struct->infl);
+ 
+      /*g_printf("replaced conj %s with infl %s ->  %s\n",
+               tmp_vinfl_struct->conj,
+               tmp_vinfl_struct->infl,
+               deinflected->str);*/
+
+      //'ends with' regex tag
+      deinflected = g_string_append_c(deinflected, '$');
+
       
       //search deinflected string
       gboolean only_kanji = (!hasKatakanaString(srchstrg) &&
@@ -117,7 +130,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
 
         GjitenDicentry* dicentry = list_dicentry->data;
         
-        //check inflection only if verb or adjectif
+        //check inflection only if this entry is a verb or an i-adjectif
         if(dicentry->GI == V5 ||
            dicentry->GI == V1 ||
            dicentry->GI == ADJI){
@@ -128,10 +141,10 @@ GList* search_inflections(WorddicDicfile *dicfile,
           gboolean match=FALSE;
           GMatchInfo *match_info;
 
-          GRegex* regex = g_regex_new (deinflected,
-                                       G_REGEX_OPTIMIZE,
-                                       start_position,
-                                       &error);
+          GRegex* regex = g_regex_new (deinflected->str,
+                                       G_REGEX_OPTIMIZE |
+                                       G_REGEX_MATCH_ANCHORED,
+                                       start_position, &error);
           
           //search in the definition
           GSList *jap_definition = dicentry->jap_definition;
@@ -172,9 +185,9 @@ GList* search_inflections(WorddicDicfile *dicfile,
         }  //end if verb or adj
       }  //end dicentries
     }
+
+    g_string_free(deinflected, TRUE);
   }
-  
-  g_free(deinflected);
   
   return results;
 }
