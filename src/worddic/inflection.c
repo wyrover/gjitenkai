@@ -134,7 +134,6 @@ GList* search_inflections(WorddicDicfile *dicfile,
         if(dicentry->GI == V5 ||
            dicentry->GI == V1 ||
            dicentry->GI == ADJI){
-
           //regex variables
           GError *error = NULL;
           gint start_position = 0;

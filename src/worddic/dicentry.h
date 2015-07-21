@@ -17,7 +17,8 @@ http://www.edrdg.org/jmdict/edict_doc.html
 */
 
 enum entry_GI{
-  ADJI = 0,
+  OTHER = 0,
+  ADJI,
   V1,
   V5
 };
