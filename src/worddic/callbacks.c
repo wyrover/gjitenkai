@@ -117,7 +117,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
 
   //clear the display result buffer
   gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
-  
+
   //in each dictionaries
   gint i=0;
   while (dicfile_node != NULL) {

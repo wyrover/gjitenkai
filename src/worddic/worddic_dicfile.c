@@ -27,12 +27,16 @@ void worddic_dicfile_close(WorddicDicfile *dicfile){
 }
 
 void worddic_dicfile_parse_all(WorddicDicfile *dicfile){
-  while(worddic_dicfile_parse_next_line(dicfile));
+  char * line = NULL;
+  gboolean has_line=TRUE;
+  while(has_line){
+   has_line = worddic_dicfile_parse_next_line(dicfile, line);
+  }
+  g_free(line);
   dicfile->entries = g_slist_reverse(dicfile->entries);
 }
 
-gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
-  char * line = NULL;
+gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile, gchar *line){
   size_t len = 0;
   ssize_t read;
 
@@ -43,19 +47,16 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
   if(read == -1)return FALSE;
   
   gchar *utf_line = NULL;
-  //if not utf8 convert the line (assum it's EUC-JP)
   if(!dicfile->utf8){
+    //if not utf8 convert the line (assum it's EUC-JP)
     utf_line = g_convert (line, -1, "UTF-8", "EUC-JP", NULL, NULL, NULL);
-    g_free(line);  //free the line as it is copyed in utf_line
   }
   else {
-    utf_line = line;
+    utf_line = g_strdup(line);
   }
   
   GjitenDicentry* dicentry = parse_line(utf_line);
   dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
-
-  //free utfline as it was duplicated in parse_line
   g_free(utf_line);
 
   return TRUE;

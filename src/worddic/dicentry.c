@@ -1,13 +1,15 @@
 #include "dicentry.h"
 
-GjitenDicentry* parse_line(gchar* line){
+GjitenDicentry* parse_line(const gchar* p_line){
+
+  gchar *line = g_strdup(p_line);
   //new entry to return
   GjitenDicentry* dicentry = g_new0 (GjitenDicentry, 1);
   dicentry->priority = FALSE;
   
   //cut until the first '/', separating definiton,reading in the first chunk and
   //glosses in the second chunk
-  gchar * saveptr_chunk;
+  gchar * saveptr_chunk=NULL;
   gchar *chunk = (gchar*)strtok_r(line, "/", &saveptr_chunk);
   
   ////////
@@ -27,7 +29,7 @@ GjitenDicentry* parse_line(gchar* line){
     if(sub_gloss && strcmp(sub_gloss, "\n") && strcmp(sub_gloss, " ")){
       //check if this is an edict2 EntL sequance or a sub_gloss
       if(g_str_has_prefix(sub_gloss, "EntL")){
-        dicentry->ent_seq = g_strdup_printf("%s", g_strdup_printf("%s", sub_gloss));
+        dicentry->ent_seq = sub_gloss;
       }
       else{
         char *start = sub_gloss;
@@ -58,7 +60,7 @@ GjitenDicentry* parse_line(gchar* line){
               //Sub_Gloss' General Informations: one per pair of parentheses
               //add this GI in the gloss
               p_gloss->general_informations = g_slist_append(p_gloss->general_informations,
-                                                             g_strdup_printf("%s", GI));
+                                                             GI);
               if(!g_strcmp0(GI, "P")){
                 dicentry->priority = TRUE;
               }
@@ -70,11 +72,11 @@ GjitenDicentry* parse_line(gchar* line){
               //if in first parentheses: General Informations of the whole entry
               //add this GI in the entry
               dicentry->general_informations = g_slist_prepend(dicentry->general_informations,
-                                                              g_strdup_printf("%s", GI));
+                                                               GI);
 
               //Entry General Information: list separated by comma in the first
               //pair of parentheses
-              gchar *saveptr_entry_GI;
+              gchar *saveptr_entry_GI=NULL;
               gchar *entry_GI = (gchar*)strtok_r(GI, ",", &saveptr_entry_GI);              
               do{
                 if(!strcmp(entry_GI, "v1")){
@@ -105,7 +107,7 @@ GjitenDicentry* parse_line(gchar* line){
         //the rest of the string is the sub gloss (sub_gloss point at the end
         //of the last pair of parentheses of this sub gloss)
         p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss,
-                                            g_strdup(sub_gloss));
+                                             sub_gloss);
 
         //create a new gloss at new GI encounter
         start_new_gloss = TRUE;
@@ -143,8 +145,8 @@ GjitenDicentry* parse_line(gchar* line){
 
         
         dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition,
-                                                   g_strdup_printf("%s", jap_definition__GI[0]));
-      g_strfreev(jap_definition__GI);
+                                                   jap_definition__GI[0]);
+      //g_strfreev(jap_definition__GI);
     }
     jap_definition = (gchar*)strtok_r(NULL, ";", &saveptr_jap_definition);
   }while(jap_definition);
@@ -166,8 +168,8 @@ GjitenDicentry* parse_line(gchar* line){
         gchar **jap_reading__GI = g_strsplit(jap_reading, "(", -1);
         
         dicentry->jap_reading = g_slist_prepend(dicentry->jap_reading,
-                                                g_strdup_printf("%s", jap_reading__GI[0]));
-        g_strfreev(jap_reading__GI);
+                                                jap_reading__GI[0]);
+        //g_strfreev(jap_reading__GI);
       }
       //next jap reading
       jap_reading = (gchar*)strtok_r(NULL, ";", &saveptr_jap_reading);

@@ -1,13 +1,14 @@
 //gcc parse_line.c ../src/worddic/dicentry.c ../src/worddic/gloss.c $(pkg-config --cflags --libs gtk+-3.0) -I../src/worddic/ -o parse_line
+//gcc parse_line.c ../src/worddic/dicentry.c ../src/worddic/gloss.c ../src/common/dicutil.c $(pkg-config --cflags --libs gtk+-3.0) -I../src/worddic/ -DMINGW -o parse_line.exe
 #include <gtk/gtk.h>
 
 #include "../src/worddic/dicentry.h"
 #include "../src/worddic/gloss.h"
 
 
-//#define LINE "１コマ;一コマ;１こま;一こま;一齣;一駒(iK) [ひとコマ(一コマ);ひとこま(一こま,一齣,一駒)] /(n) (1) one scene/one frame/one shot/one exposure/(2) one cell/one panel (comic)/EntL1162000X/"
+#define LINE "１コマ;一コマ;１こま;一こま;一齣;一駒(iK) [ひとコマ(一コマ);ひとこま(一こま,一齣,一駒)] /(n) (1) one scene/one frame/one shot/one exposure/(2) one cell/one panel (comic)/EntL1162000X/"
 
-#define LINE "チェイサー /(n) (test) (1) Chaser/pursuer/(2) (drk) (lol) Chaser/light drink (often just water) taken after a strong alcoholic drink/"
+//#define LINE "チェイサー /(n) (test) (1) Chaser/pursuer/(2) (drk) (lol) Chaser/light drink (often just water) taken after a strong alcoholic drink/"
 
 //#define LINE "[なかぐろ] /(n) (1) middle dot (typographical symbol used between parallel terms, names in katakana, etc.)/full-stop mark at mid-character height/interpoint (interword separation)/"
 
@@ -15,7 +16,7 @@
 
 int main( int argc, char **argv )
 {  
-  const gchar const *line = LINE;
+  gchar *line = g_strdup(LINE);
   g_printf("Parsing %s\n\n", line);
   
   GjitenDicentry* entry = parse_line(line);
@@ -68,8 +69,9 @@ int main( int argc, char **argv )
   }
 
   if(strcmp(line, LINE)){
-    g_printf("WARNING: the line was modified\n");
+    g_printf("WARNING: the line was modified !\nwas\n%s\nis%s\n\n", LINE, line);
   }
-  
+
+  g_free(line);
   return 1;
 }
