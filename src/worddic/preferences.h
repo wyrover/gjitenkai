@@ -28,6 +28,7 @@ typedef struct dic_state_ui_t{
   GtkTreeView *treeview;
   WorddicDicfile *dicfile;
   GtkLabel *label_dic_info;
+  worddic *worddic;
 }dic_state_ui;
 
 /**

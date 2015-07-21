@@ -595,7 +595,8 @@ cb_load_dic_timeout( dic_state_ui *ui )
     gtk_widget_queue_draw(GTK_WIDGET(tree));
 
     gtk_label_set_text(ui->label_dic_info, ui->dicfile->informations);
-    
+    g_thread_unref(ui->worddic->thread_load_dic);
+    ui->worddic->thread_load_dic = NULL;
     g_free(ui);
     return FALSE;
   }
@@ -645,6 +646,7 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
     ui->treeview = treeview;
     ui->dicfile = dicfile;
     ui->label_dic_info = label_dic_info;
+    ui->worddic = worddic;
     gdk_threads_add_timeout( 500, (GSourceFunc)cb_load_dic_timeout, ui);
   }
   else{
