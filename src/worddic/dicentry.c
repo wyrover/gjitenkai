@@ -1,11 +1,11 @@
 #include "dicentry.h"
 
 GjitenDicentry* parse_line(const gchar* p_line){
-
+  
   gchar *line = g_strdup(p_line);
   //new entry to return
   GjitenDicentry* dicentry = g_new0 (GjitenDicentry, 1);
-  dicentry->priority = FALSE;
+  //dicentry->priority = FALSE;
   
   //cut until the first '/', separating definiton,reading in the first chunk and
   //glosses in the second chunk
@@ -24,8 +24,9 @@ GjitenDicentry* parse_line(const gchar* p_line){
   
   //pointer to hold a gloss before it's added to the entry
   gloss *p_gloss = NULL;
-  
+    
   do{
+    
     if(sub_gloss && strcmp(sub_gloss, "\n") && strcmp(sub_gloss, " ")){
       //check if this is an edict2 EntL sequance or a sub_gloss
       if(g_str_has_prefix(sub_gloss, "EntL")){
@@ -113,7 +114,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
         start_new_gloss = TRUE;
       }//end if entl or gloss
     }//end if gloss sub not empty
-
+      
     //get part of line after next /
     sub_gloss = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
 
@@ -121,7 +122,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
     //p_gloss->general_informations = g_slist_reverse(p_gloss->general_informations);
     p_gloss->sub_gloss = g_slist_reverse(p_gloss->sub_gloss);
   }while(sub_gloss);
-
+  
   //reverse the prepended data
   dicentry->general_informations = g_slist_reverse(dicentry->general_informations);
   dicentry->gloss = g_slist_reverse(dicentry->gloss);
@@ -147,8 +148,9 @@ GjitenDicentry* parse_line(const gchar* p_line){
 
         
         dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition,
-                                                   jap_definition__GI[0]);
-    }
+                                                   g_strdup(jap_definition__GI[0]));
+        g_strfreev (jap_definition__GI);
+        }
     jap_definition = (gchar*)strtok_r(NULL, ";", &saveptr_jap_definition);
   }while(jap_definition);
   dicentry->jap_definition = g_slist_reverse(dicentry->jap_definition);
@@ -169,24 +171,34 @@ GjitenDicentry* parse_line(const gchar* p_line){
         gchar **jap_reading__GI = g_strsplit(jap_reading, "(", -1);
         
         dicentry->jap_reading = g_slist_prepend(dicentry->jap_reading,
-                                                jap_reading__GI[0]);
+                                                g_strdup(jap_reading__GI[0]));
+        g_strfreev (jap_reading__GI);
       }
       //next jap reading
       jap_reading = (gchar*)strtok_r(NULL, ";", &saveptr_jap_reading);
     }while(jap_reading);
     dicentry->jap_reading = g_slist_reverse(dicentry->jap_reading);
-  }
+    }
   
+  g_free(line);
   return dicentry;
 }
 
 void dicentry_free(GjitenDicentry* dicentry){
   g_slist_free_full(dicentry->gloss, gloss_free);
   dicentry->gloss = NULL;
+
   g_slist_free_full(dicentry->jap_definition, g_free);
   dicentry->jap_definition = NULL;
+  
   g_slist_free_full(dicentry->jap_reading, g_free);
   dicentry->jap_reading = NULL;
+  
+  g_slist_free_full(dicentry->general_informations, g_free);
+  dicentry->general_informations = NULL;
+  
   g_free(dicentry->ent_seq);
   dicentry->ent_seq = NULL;
+  
+  g_free(dicentry);
 }

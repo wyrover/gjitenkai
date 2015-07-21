@@ -28,7 +28,7 @@ struct _GjitenDicentry {
   GSList *jap_reading;    //kana  (gchar*)
   GSList *gloss;          //gloss (struct gloss)
   gchar *ent_seq;         //EntLnnnnnnnnX (gchar*)
-
+  
   //general informations
   //in plain text (to display)
   GSList *general_informations;
