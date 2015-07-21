@@ -18,7 +18,9 @@ void worddic_dicfile_open(WorddicDicfile *dicfile){
                                        NULL, NULL, NULL);
   }
   else {
-    dicfile->informations = g_strdup(informations);
+    if(!dicfile->informations){
+      dicfile->informations = g_strdup(informations);
+    }
   }
 }
 
@@ -180,10 +182,11 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
 
 void worddic_dicfile_free(WorddicDicfile *dicfile){
   g_free(dicfile->informations);
+  dicfile->informations = NULL;
   worddic_dicfile_free_entries(dicfile);
 }
 
 void worddic_dicfile_free_entries(WorddicDicfile *dicfile){
-  g_slist_free_full(dicfile->entries, (GDestroyNotify)dicentry_free);
+  g_slist_free_full(dicfile->entries, dicentry_free);
   dicfile->entries = NULL;
 }
