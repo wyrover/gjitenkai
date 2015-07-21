@@ -32,7 +32,7 @@ struct _GjitenDicentry {
   //in plain text (to display)
   GSList *general_informations;
   //in a bits field (to search)
-  gint GI:3;
+  enum entry_GI GI;
 
   gboolean priority;
 };

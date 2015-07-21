@@ -29,7 +29,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
     if(sub_gloss && strcmp(sub_gloss, "\n") && strcmp(sub_gloss, " ")){
       //check if this is an edict2 EntL sequance or a sub_gloss
       if(g_str_has_prefix(sub_gloss, "EntL")){
-        dicentry->ent_seq = sub_gloss;
+        dicentry->ent_seq = g_strdup(sub_gloss);
       }
       else{
         char *start = sub_gloss;
@@ -60,7 +60,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
               //Sub_Gloss' General Informations: one per pair of parentheses
               //add this GI in the gloss
               p_gloss->general_informations = g_slist_append(p_gloss->general_informations,
-                                                             GI);
+                                                             g_strdup(GI));
               if(!g_strcmp0(GI, "P")){
                 dicentry->priority = TRUE;
               }
@@ -72,7 +72,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
               //if in first parentheses: General Informations of the whole entry
               //add this GI in the entry
               dicentry->general_informations = g_slist_prepend(dicentry->general_informations,
-                                                               GI);
+                                                               g_strdup(GI));
 
               //Entry General Information: list separated by comma in the first
               //pair of parentheses
@@ -107,12 +107,14 @@ GjitenDicentry* parse_line(const gchar* p_line){
         //the rest of the string is the sub gloss (sub_gloss point at the end
         //of the last pair of parentheses of this sub gloss)
         p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss,
-                                             sub_gloss);
+                                             g_strdup(sub_gloss));
 
         //create a new gloss at new GI encounter
         start_new_gloss = TRUE;
       }//end if entl or gloss
     }//end if gloss sub not empty
+
+    //get part of line after next /
     sub_gloss = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
 
     //reverse the prepended data
@@ -146,7 +148,6 @@ GjitenDicentry* parse_line(const gchar* p_line){
         
         dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition,
                                                    jap_definition__GI[0]);
-      //g_strfreev(jap_definition__GI);
     }
     jap_definition = (gchar*)strtok_r(NULL, ";", &saveptr_jap_definition);
   }while(jap_definition);
@@ -169,7 +170,6 @@ GjitenDicentry* parse_line(const gchar* p_line){
         
         dicentry->jap_reading = g_slist_prepend(dicentry->jap_reading,
                                                 jap_reading__GI[0]);
-        //g_strfreev(jap_reading__GI);
       }
       //next jap reading
       jap_reading = (gchar*)strtok_r(NULL, ";", &saveptr_jap_reading);
@@ -181,10 +181,12 @@ GjitenDicentry* parse_line(const gchar* p_line){
 }
 
 void dicentry_free(GjitenDicentry* dicentry){
-  g_slist_free_full(dicentry->gloss, (GDestroyNotify)gloss_free);
+  g_slist_free_full(dicentry->gloss, gloss_free);
   dicentry->gloss = NULL;
   g_slist_free_full(dicentry->jap_definition, g_free);
   dicentry->jap_definition = NULL;
   g_slist_free_full(dicentry->jap_reading, g_free);
   dicentry->jap_reading = NULL;
+  g_free(dicentry->ent_seq);
+  dicentry->ent_seq = NULL;
 }

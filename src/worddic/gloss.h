@@ -14,6 +14,6 @@ gint GI:3;
 
 }gloss;
 
-void gloss_free(gloss *gloss);
+void gloss_free(gloss *p_gloss);
 
 #endif
