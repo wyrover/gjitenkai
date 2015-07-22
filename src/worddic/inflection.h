@@ -22,16 +22,47 @@ use a text file (vconj.utf8) which maps the dictionary form of a verb with
 diffent forms (which is called inflection). 
 */
 
+//map the vconj types
+enum conj_type{
+  PLAIN_NEGATIVE_NONPAST = 0,
+  POLITE_NONPAST,
+  CONDITIONAL,
+  VOLITIONAL,
+  TEFORM,
+  PLAIN_PAST,
+  PLAIN_NEGATIVE_PAST,
+  PASSIVE,
+  CAUSATIVE,
+  POTENTIAL_OR_IMPERATIVE,
+  IMPERATIVE,
+  POLITE_PAST,
+  POLITE_NEGATIVE_NONPAST,
+  POLITE_NEGATIVE_PAST,
+  POLITE_VOLITIONAL_UNUSED,
+  ADJ_TO_ADVERB,
+  ADJ_PAST,
+  POLITE,
+  POLITE_VOLITIONAL,
+  PASSIVE_OR_POTENTIAL,
+  PASSIVE_OR_POTENTIAL_GRP_2,
+  ADJ_NEGATIVE,
+  ADJ_NEGATIVE_PAST,
+  ADJ_PAST_KATTA,
+  PLAIN_VERB,
+  POLITE_TEFORM
+};
+
+
+#define IS_ADJI tmp_vinfl_struct->itype == ADJ_TO_ADVERB || tmp_vinfl_struct->itype == ADJ_PAST ||tmp_vinfl_struct->itype == ADJ_NEGATIVE || tmp_vinfl_struct->itype == ADJ_NEGATIVE_PAST || tmp_vinfl_struct->itype == ADJ_PAST_KATTA
+
 struct vinfl_struct {
   gchar *conj;
   gchar *infl;
   gchar *type;
+  enum conj_type itype;
 };
 
-gchar *vconj_types[40];
 GSList *vinfl_list;
-int word_matches;
-guint32 srchpos;
 
 void init_inflection();
 

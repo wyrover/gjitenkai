@@ -85,7 +85,33 @@ GjitenDicentry* parse_line(const gchar* p_line){
                   dicentry->GI = V1;
                 }
                 else if(g_str_has_prefix(entry_GI, "v5")){
-                  dicentry->GI = V5;
+                  if(g_str_has_prefix(entry_GI, "v5s")){
+                    dicentry->GI = V5S;
+                  }
+                  else if(g_str_has_prefix(entry_GI, "v5r")){
+                    dicentry->GI = V5R;
+                  }
+                  else if(g_str_has_prefix(entry_GI, "v5m")){
+                    dicentry->GI = V5M;
+                  }
+                  else if(g_str_has_prefix(entry_GI, "v5k")){
+                    dicentry->GI = V5K;
+                  }
+                  else if(g_str_has_prefix(entry_GI, "v5n")){
+                    dicentry->GI = V5N;
+                  }
+                  else if(g_str_has_prefix(entry_GI, "v5g")){
+                    dicentry->GI = V5G;
+                  }                  
+                  else if(g_str_has_prefix(entry_GI, "v5u")){
+                    dicentry->GI = V5U;
+                  }
+                  else if(g_str_has_prefix(entry_GI, "v5t")){
+                    dicentry->GI = V5T;
+                  }                  
+                  else if(g_str_has_prefix(entry_GI, "v5aru")){
+                    dicentry->GI = V5ARU;
+                  }
                 }
                 else if(!strcmp(entry_GI, "adj-i")){
                   dicentry->GI = ADJI;

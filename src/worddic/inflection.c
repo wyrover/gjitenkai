@@ -1,6 +1,9 @@
 #include "inflection.h"
 
 void init_inflection() {
+
+  gchar *vconj_types[40];
+  
   vinfl_list=NULL;
   gchar *tmp_ptr;
   gchar *vinfl_start, *vinfl_ptr, *vinfl_end;
@@ -73,6 +76,7 @@ void init_inflection() {
         vinfl_ptr = g_utf8_next_char(vinfl_ptr); //skip the space
       }
       tmp_vinfl_struct->type = vconj_types[atoi(vinfl_ptr)];
+      tmp_vinfl_struct->itype = atoi(vinfl_ptr);
       vinfl_ptr =  get_eof_line(vinfl_ptr, vinfl_end);
   
       tmp_list_ptr = g_slist_append(tmp_list_ptr, tmp_vinfl_struct);
@@ -109,14 +113,9 @@ GList* search_inflections(WorddicDicfile *dicfile,
       deinflected = g_string_truncate (deinflected, radical_pos);
       deinflected = g_string_append(deinflected, tmp_vinfl_struct->infl);
  
-      /*g_printf("replaced conj %s with infl %s ->  %s\n",
-               tmp_vinfl_struct->conj,
-               tmp_vinfl_struct->infl,
-               deinflected->str);*/
-
-      //'ends with' regex tag
+      //search exact
       deinflected = g_string_append_c(deinflected, '$');
-
+      deinflected = g_string_prepend_c(deinflected, '^');
       
       //search deinflected string
       gboolean only_kanji = (!hasKatakanaString(srchstrg) &&
@@ -129,56 +128,84 @@ GList* search_inflections(WorddicDicfile *dicfile,
 
         GjitenDicentry* dicentry = list_dicentry->data;
         
-        //check inflection only if this entry is a verb or an i-adjectif
-        if(dicentry->GI == V5 ||
-           dicentry->GI == V1 ||
-           dicentry->GI == ADJI){
+        //check inflection only if this entry is a verb or an i-adjectif and if
+        //the inflection is relevent
+        if(((dicentry->GI) != OTHER) || 
+           (dicentry->GI == ADJI && ((IS_ADJI) &&
+                                     !g_strcmp0(tmp_vinfl_struct->infl,"い")))||
+           (dicentry->GI == V1   && !g_strcmp0(tmp_vinfl_struct->infl, "る")) ||
+           (dicentry->GI == V5R  && !g_strcmp0(tmp_vinfl_struct->infl, "る")) ||
+           (dicentry->GI == V5M  && !g_strcmp0(tmp_vinfl_struct->infl, "む")) ||
+           (dicentry->GI == V5K  && !g_strcmp0(tmp_vinfl_struct->infl, "く")) ||
+           (dicentry->GI == V5U  && !g_strcmp0(tmp_vinfl_struct->infl, "う")) ||
+           (dicentry->GI == V5S  && !g_strcmp0(tmp_vinfl_struct->infl, "す")) ||
+           (dicentry->GI == V5G  && !g_strcmp0(tmp_vinfl_struct->infl, "ぐ")) ||
+           (dicentry->GI == V5N  && !g_strcmp0(tmp_vinfl_struct->infl, "ぬ")) ||
+           (dicentry->GI == V5T  && !g_strcmp0(tmp_vinfl_struct->infl, "つ"))
+            ){
+           
+          /*g_printf("->  ENTRY %s TYPE %d replaced conj %s with infl %s ->  %s\n",
+                   dicentry->jap_definition->data,
+                   dicentry->GI,
+                   tmp_vinfl_struct->conj,
+                   tmp_vinfl_struct->infl,
+                   deinflected->str);*/
+                
           //regex variables
           GError *error = NULL;
           gint start_position = 0;
           gboolean match=FALSE;
-          GMatchInfo *match_info;
+          GMatchInfo *match_info=NULL;
 
           GRegex* regex = g_regex_new (deinflected->str,
-                                       G_REGEX_OPTIMIZE |
-                                       G_REGEX_MATCH_ANCHORED,
+                                       G_REGEX_OPTIMIZE,
                                        start_position, &error);
           
           //search in the definition
           GSList *jap_definition = dicentry->jap_definition;
-          while(jap_definition != NULL){
+          while(jap_definition && !match){
             match = g_regex_match (regex, jap_definition->data, 0, &match_info);
-
-            if(match)break;
+            
+            if(match){
+              gchar *comment = g_strdup_printf("%s %s -> %s",
+                                               tmp_vinfl_struct->type,
+                                               tmp_vinfl_struct->conj,
+                                               tmp_vinfl_struct->infl
+                                               );
+            
+              results = add_match(match_info, comment, dicentry, results);
+            
+            }
             else jap_definition = jap_definition->next;
+
+            g_match_info_unref(match_info);
           }
           
           //if no match in the definition, search in the reading (if any) and if
           //the search string is not only kanji
           if(!match && dicentry->jap_reading && !only_kanji){
             GSList *jap_reading = dicentry->jap_reading;
-            while(jap_reading != NULL){
+            while(jap_reading && !match){
               match = g_regex_match (regex, jap_reading->data, 0, &match_info);
 
-              if(match)break;
-              else jap_reading = jap_reading->next;
-            }
-          }
-          
-          //if there is a match, copy the entry into the result list
-          if(match){
-
-            gchar *comment = g_strdup_printf("%s %s -> %s",
-                                             tmp_vinfl_struct->type,
-                                             tmp_vinfl_struct->conj,
-                                             tmp_vinfl_struct->infl
-                                             );
+              if(match){
+              gchar *comment = g_strdup_printf("%s %s -> %s",
+                                               tmp_vinfl_struct->type,
+                                               tmp_vinfl_struct->conj,
+                                               tmp_vinfl_struct->infl
+                                               );
             
-            results = add_match(match_info, comment, dicentry, results);
-          }
-          
+                results = add_match(match_info, comment, dicentry, results);
+
+              }
+              else jap_reading = jap_reading->next;
+
+              g_match_info_unref(match_info);
+            }
+            
+          } //if verbe or adj-i relevant
+                    
           //free memory
-          g_match_info_free(match_info);
           g_regex_unref(regex);
         }  //end if verb or adj
       }  //end dicentries

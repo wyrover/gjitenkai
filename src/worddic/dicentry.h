@@ -20,7 +20,15 @@ enum entry_GI{
   OTHER = 0,
   ADJI,
   V1,
-  V5
+  V5R,
+  V5M,
+  V5K,
+  V5U,
+  V5S,
+  V5G,
+  V5N,
+  V5T,
+  V5ARU
 };
 
 struct _GjitenDicentry {
