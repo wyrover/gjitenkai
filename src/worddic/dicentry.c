@@ -78,19 +78,20 @@ GjitenDicentry* parse_line(const gchar* p_line){
               //Entry General Information: list separated by comma in the first
               //pair of parentheses
               gchar *saveptr_entry_GI=NULL;
-              gchar *entry_GI = (gchar*)strtok_r(GI, ",", &saveptr_entry_GI);              
+              gchar *entry_GI = (gchar*)strtok_r(GI, ",", &saveptr_entry_GI);
+
               do{
                 if(!strcmp(entry_GI, "v1")){
                   dicentry->GI = V1;
                 }
-                else if(g_str_has_suffix(entry_GI, "v5")){
+                else if(g_str_has_prefix(entry_GI, "v5")){
                   dicentry->GI = V5;
                 }
                 else if(!strcmp(entry_GI, "adj-i")){
                   dicentry->GI = ADJI;
                 }
                 entry_GI = (gchar*)strtok_r(NULL, ",", &saveptr_entry_GI);
-                }while(entry_GI);
+              }while(entry_GI);
               first_parentheses = FALSE;
             }
 
