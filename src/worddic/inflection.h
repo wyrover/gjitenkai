@@ -52,6 +52,8 @@ enum conj_type{
   POLITE_TEFORM
 };
 
+#define VCONJ_TYPE_MAX 26
+
 struct vinfl_struct {
   gchar *conj;
   gchar *infl;

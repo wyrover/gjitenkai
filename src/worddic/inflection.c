@@ -2,7 +2,7 @@
 
 void init_inflection() {
 
-  gchar *vconj_types[40];
+  gchar *vconj_types[VCONJ_TYPE_MAX];
   
   vinfl_list=NULL;
   gchar *tmp_ptr;
@@ -35,7 +35,7 @@ void init_inflection() {
     case 1:
       if (g_ascii_isdigit(*vinfl_ptr) == TRUE) { //Conjugation numbers
         conj_type = atoi(vinfl_ptr);
-        if ((conj_type < 0) || (conj_type > 39)) break;
+        if ((conj_type < 0) || (conj_type > VCONJ_TYPE_MAX)) break;
 
         //skip the number
         while (g_ascii_isdigit(*vinfl_ptr) == TRUE)
