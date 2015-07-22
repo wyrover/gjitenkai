@@ -1,7 +1,7 @@
 #include "print_entry.h"
 
 void print_entry(GjitenDicentry* entry){
-  GList *unit = NULL;
+  GSList *unit = NULL;
   
   g_printf("Definition\n");
   for(unit = entry->jap_definition;
