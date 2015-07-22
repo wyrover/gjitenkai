@@ -96,11 +96,14 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
   //regex variables
   GError *error = NULL;
   gint start_position = 0;
-  gboolean match=FALSE;
-  GMatchInfo *match_info;
+  gboolean has_matched=FALSE;
+  GMatchInfo *match_info = NULL;
 
   GRegex* regex = g_regex_new (srchstrg_regex,
-                               G_REGEX_OPTIMIZE,
+                               G_REGEX_OPTIMIZE|
+                               G_REGEX_NO_AUTO_CAPTURE|
+                               G_REGEX_UNGREEDY|
+                               G_REGEX_CASELESS,
                                start_position,
                                &error);
 
@@ -123,62 +126,86 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
         list_dicentry = list_dicentry->next){
-
+           
       GjitenDicentry* dicentry = list_dicentry->data;
-
+      
       GSList *jap_definition = dicentry->jap_definition;
 
+      has_matched = FALSE;
+            
       //search in the definition
-      while(jap_definition != NULL){
-        match = g_regex_match (regex, jap_definition->data, 0, &match_info);
+      while(jap_definition && !has_matched){
+        has_matched = g_regex_match (regex, jap_definition->data, 0, &match_info);
 
-        if(match)break;
-        else jap_definition = jap_definition->next; 
+        //if there is a match, copy the entry into the result list
+        if(has_matched){
+          results = add_match(match_info, NULL, dicentry, results);
+        }
+        else{
+          jap_definition = jap_definition->next;
+        }
+        
+        g_match_info_unref(match_info);
       }
-
+      
+      
       //if no match in the definition and if the search string is not only kanji
       //search in the reading (if any)
-      if(!match && dicentry->jap_reading && !only_kanji){
+      if(!has_matched && dicentry->jap_reading && !only_kanji){
         GSList *jap_reading = dicentry->jap_reading;
-        while(jap_reading != NULL){
-          match = g_regex_match (regex, jap_reading->data, 0, &match_info);
+        while(jap_reading && !has_matched){
+          has_matched = g_regex_match (regex, jap_reading->data, 0, &match_info);
 
-          if(match)break;
-          else jap_reading = jap_reading->next; 
+          if(has_matched){
+            results = add_match(match_info, NULL, dicentry, results);
+          }
+          else{
+            jap_reading = jap_reading->next;
+          }
+          
+          g_match_info_unref(match_info);
+        
         }
       }
-
-      //if there is a match, copy the entry into the result list
-      if(match){results = add_match(match_info, NULL, dicentry, results);}
-    }
+      
+    } //for all dictionary entries
   }
   else{
-    //if there are no japanese characters, search matches in the gloss
+    //if there are no japanese characters, search matches in the glosses
+    //(latin characters search)
     GSList* list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
         list_dicentry = list_dicentry->next){
 
+      has_matched = FALSE;
       GjitenDicentry* dicentry = list_dicentry->data;
 
       GSList *gloss_list = dicentry->gloss;
-      while(gloss_list != NULL){
+      //search in the gloss list
+      while(gloss_list && !has_matched){
         gloss *gloss = gloss_list->data;
         GSList *sub_gloss_list = gloss->sub_gloss;
-        while(sub_gloss_list != NULL){
-          match = g_regex_match (regex, sub_gloss_list->data, 0, &match_info);
-          if(match)break;
-          else sub_gloss_list = sub_gloss_list->next;
+        //search in the sub glosses
+        while(sub_gloss_list && !has_matched){
+          has_matched = g_regex_match (regex, sub_gloss_list->data, 0, &match_info);
+          
+          if(has_matched){
+            results = add_match(match_info, NULL, dicentry, results);
+          }
+          else {
+            sub_gloss_list = sub_gloss_list->next;
+          }
+
+          g_match_info_unref(match_info);
         }
         
-        gloss_list = gloss_list->next; 
+        gloss_list = gloss_list->next;
       }
-
-      //if there is a match, copy the entry into the result list
-      if(match){results = add_match(match_info, NULL, dicentry, results);}
     }
   }
 
+  //free memory 
   g_regex_unref(regex);
   
   return results;
