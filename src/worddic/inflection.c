@@ -25,8 +25,9 @@ void init_inflection() {
       vinfl_ptr = get_eof_line(vinfl_ptr, vinfl_end); //Goto next line
       continue;
     }
-    if (*vinfl_ptr == '$') vinfl_part = 2;            //find $ as first char on the line
-    
+    if (*vinfl_ptr == '$') vinfl_part = 2;
+
+    //before or after $
     switch (vinfl_part) {
     case 1:
       if (g_ascii_isdigit(*vinfl_ptr) == TRUE) { //Conjugation numbers
@@ -106,9 +107,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
       //replace the inflection by the conjonction
       gint radical_pos = strlen(srchstrg) - strlen(tmp_vinfl_struct->conj);
       deinflected = g_string_truncate (deinflected, radical_pos);
-      deinflected = g_string_overwrite(deinflected,
-                                       radical_pos,
-                                       tmp_vinfl_struct->infl);
+      deinflected = g_string_append(deinflected, tmp_vinfl_struct->infl);
  
       /*g_printf("replaced conj %s with infl %s ->  %s\n",
                tmp_vinfl_struct->conj,
