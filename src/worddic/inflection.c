@@ -104,36 +104,36 @@ GList* search_inflections(WorddicDicfile *dicfile,
     //if the inflected conjugaison match the end of the string to search
     if(!g_str_has_suffix(srchstrg, tmp_vinfl_struct->conj)){continue;}
 
-      // create deinflected string with the searched expression
-      deinflected = g_string_append(deinflected, srchstrg);
+    // create deinflected string with the searched expression
+    deinflected = g_string_append(deinflected, srchstrg);
 
-      //replace the inflection by the conjonction
-      gint radical_pos = strlen(srchstrg) - strlen(tmp_vinfl_struct->conj);
-      deinflected = g_string_truncate (deinflected, radical_pos);
-      deinflected = g_string_append(deinflected, tmp_vinfl_struct->infl);
+    //replace the inflection by the conjonction
+    gint radical_pos = strlen(srchstrg) - strlen(tmp_vinfl_struct->conj);
+    deinflected = g_string_truncate (deinflected, radical_pos);
+    deinflected = g_string_append(deinflected, tmp_vinfl_struct->infl);
  
-      //search exact
-      deinflected = g_string_append_c(deinflected, '$');
-      deinflected = g_string_prepend_c(deinflected, '^');
+    //search exact
+    deinflected = g_string_append_c(deinflected, '$');
+    deinflected = g_string_prepend_c(deinflected, '^');
 
-      GList *results_infl = dicfile_search(dicfile,
-                                           deinflected->str);
-      GList *list_results = NULL;
-      for(list_results = results_infl;
-          list_results != NULL;
-          list_results = list_results->next){
-        gchar *comment = g_strdup_printf("%s %s -> %s",
-                                         tmp_vinfl_struct->type,
-                                         tmp_vinfl_struct->conj,
-                                         tmp_vinfl_struct->infl
-                                         );
-        dicresult *dicresult_infl = list_results->data;
-        dicresult_infl->comment = comment;
-      }
+    GList *results_infl = dicfile_search(dicfile,
+                                         deinflected->str);
+    GList *list_results = NULL;
+    for(list_results = results_infl;
+        list_results != NULL;
+        list_results = list_results->next){
+      gchar *comment = g_strdup_printf("%s %s -> %s",
+                                       tmp_vinfl_struct->type,
+                                       tmp_vinfl_struct->conj,
+                                       tmp_vinfl_struct->infl
+                                       );
+      dicresult *dicresult_infl = list_results->data;
+      dicresult_infl->comment = comment;
+    }
       
-      results = g_list_concat(results, results_infl);
+    results = g_list_concat(results, results_infl);
 
-      g_string_free(deinflected, TRUE);
+    g_string_free(deinflected, TRUE);
   }
   return results;
 }

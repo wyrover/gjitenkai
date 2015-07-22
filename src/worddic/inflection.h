@@ -52,9 +52,6 @@ enum conj_type{
   POLITE_TEFORM
 };
 
-
-#define IS_ADJI tmp_vinfl_struct->itype == ADJ_TO_ADVERB || tmp_vinfl_struct->itype == ADJ_PAST ||tmp_vinfl_struct->itype == ADJ_NEGATIVE || tmp_vinfl_struct->itype == ADJ_NEGATIVE_PAST || tmp_vinfl_struct->itype == ADJ_PAST_KATTA
-
 struct vinfl_struct {
   gchar *conj;
   gchar *infl;
