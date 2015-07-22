@@ -88,7 +88,8 @@ GList *add_match(GMatchInfo *match_info,
   return results;
 }
 
-GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
+GList *dicfile_search(WorddicDicfile *dicfile,
+                      const gchar *search_expression){
 
   //list of matched dictonnary entries
   GList *results = NULL;
@@ -99,7 +100,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
   gboolean has_matched=FALSE;
   GMatchInfo *match_info = NULL;
 
-  GRegex* regex = g_regex_new (srchstrg_regex,
+  GRegex* regex = g_regex_new (search_expression,
                                G_REGEX_OPTIMIZE|
                                G_REGEX_NO_AUTO_CAPTURE|
                                G_REGEX_UNGREEDY|
@@ -110,7 +111,7 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
   if(!regex)return NULL;
   
   //detect is the search expression is in japanese or latin char
-  gboolean jpsrch = detect_japanese(srchstrg_regex);
+  gboolean jpsrch = detect_japanese(search_expression);
 
   if(jpsrch){
     //if the search expression contains at least a japanese character,
@@ -119,8 +120,8 @@ GList *dicfile_search(WorddicDicfile *dicfile, const gchar *srchstrg_regex){
     //check if there if the japanese characters are not hiragana or katakana, meaning
     //that there are only kanji except for regex characters. this variable can be used
     //to ignore the reading unit to improve the speed a bit
-    gboolean only_kanji = (!hasKatakanaString(srchstrg_regex) &&
-                           !hasHiraganaString(srchstrg_regex));
+    gboolean only_kanji = (!hasKatakanaString(search_expression) &&
+                           !hasHiraganaString(search_expression));
 
     GSList* list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;

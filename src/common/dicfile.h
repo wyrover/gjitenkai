@@ -17,34 +17,38 @@
 #include "conf.h"
 #include "error.h"
 
-#define EXACT_MATCH 1 	    //jp latin (whole expression)
-#define START_WITH_MATCH 2  //jp
-#define END_WITH_MATCH 3    //jp
-#define ANY_MATCH 4 	    //jp latin (any)
-#define WORD_MATCH 5 	    //latin (whole word)
-
-#define SRCH_OK		0
-#define SRCH_FAIL	1
-#define SRCH_START	2
-#define SRCH_CONT	3
-
-struct _GjitenDicfile {
-  gchar *path;
-  const gchar *name;
-  gchar *mem;
-  int file;
-  gint status;
-  struct stat stat;
-  gint size;
+enum dicfile_search_criteria{
+  EXACT_MATCH = 1,   //jp latin (whole expression)
+  START_WITH_MATCH,  //jp
+  END_WITH_MATCH,    //jp
+  ANY_MATCH,         //jp latin (any)
+  WORD_MATCH 	     //latin (whole word)
 };
 
-typedef struct _GjitenDicfile GjitenDicfile;
+enum dicfie_search_result{
+  SRCH_OK = 0,
+  SRCH_FAIL,
+  SRCH_START,
+  SRCH_CONT
+};
 
 enum dicfile_status{
   DICFILE_NOT_INITIALIZED = 0,
   DICFILE_BAD,
   DICFILE_OK
 };
+
+struct _GjitenDicfile {
+  gchar *path;
+  const gchar *name;
+  gchar *mem;
+  int file;
+  enum dicfile_status status;
+  struct stat stat;
+  gint size;
+};
+
+typedef struct _GjitenDicfile GjitenDicfile;
 
 gboolean dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile);
 void dicutil_unload_dic(GjitenDicfile *dicfile);
