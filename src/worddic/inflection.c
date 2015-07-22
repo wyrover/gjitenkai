@@ -15,9 +15,9 @@ void init_inflection() {
   gchar *vconj = VINFL_FILENAME;
   vinfl_start = read_file(vconj);
   
-  #ifdef MINGW
+#ifdef MINGW
   g_free(vconj);
-  #endif
+#endif
 
   vinfl_end = vinfl_start + strlen(vinfl_start);
   vinfl_ptr = vinfl_start;
@@ -102,9 +102,8 @@ GList* search_inflections(WorddicDicfile *dicfile,
     tmp_vinfl_struct = (struct vinfl_struct *) vinfl_list_browser->data;
 
     //if the inflected conjugaison match the end of the string to search
-    if(g_str_has_suffix(srchstrg, tmp_vinfl_struct->conj)){
+    if(!g_str_has_suffix(srchstrg, tmp_vinfl_struct->conj)){continue;}
 
-      //g_printf("'%s' has the  suffix '%s'\n", srchstrg, tmp_vinfl_struct->conj);
       // create deinflected string with the searched expression
       deinflected = g_string_append(deinflected, srchstrg);
 
@@ -116,103 +115,25 @@ GList* search_inflections(WorddicDicfile *dicfile,
       //search exact
       deinflected = g_string_append_c(deinflected, '$');
       deinflected = g_string_prepend_c(deinflected, '^');
+
+      GList *results_infl = dicfile_search(dicfile,
+                                           deinflected->str);
+      GList *list_results = NULL;
+      for(list_results = results_infl;
+          list_results != NULL;
+          list_results = list_results->next){
+        gchar *comment = g_strdup_printf("%s %s -> %s",
+                                         tmp_vinfl_struct->type,
+                                         tmp_vinfl_struct->conj,
+                                         tmp_vinfl_struct->infl
+                                         );
+        dicresult *dicresult_infl = list_results->data;
+        dicresult_infl->comment = comment;
+      }
       
-      //search deinflected string
-      gboolean only_kanji = (!hasKatakanaString(srchstrg) &&
-                             !hasHiraganaString(srchstrg));
+      results = g_list_concat(results, results_infl);
 
-      GSList* list_dicentry = NULL;
-      for(list_dicentry = dicfile->entries;
-          list_dicentry != NULL;
-          list_dicentry = list_dicentry->next){
-
-        GjitenDicentry* dicentry = list_dicentry->data;
-        
-        //check inflection only if this entry is a verb or an i-adjectif and if
-        //the inflection is relevent
-        if(((dicentry->GI) != OTHER) || 
-           (dicentry->GI == ADJI && ((IS_ADJI) &&
-                                     !g_strcmp0(tmp_vinfl_struct->infl,"い")))||
-           (dicentry->GI == V1   && !g_strcmp0(tmp_vinfl_struct->infl, "る")) ||
-           (dicentry->GI == V5R  && !g_strcmp0(tmp_vinfl_struct->infl, "る")) ||
-           (dicentry->GI == V5M  && !g_strcmp0(tmp_vinfl_struct->infl, "む")) ||
-           (dicentry->GI == V5K  && !g_strcmp0(tmp_vinfl_struct->infl, "く")) ||
-           (dicentry->GI == V5U  && !g_strcmp0(tmp_vinfl_struct->infl, "う")) ||
-           (dicentry->GI == V5S  && !g_strcmp0(tmp_vinfl_struct->infl, "す")) ||
-           (dicentry->GI == V5G  && !g_strcmp0(tmp_vinfl_struct->infl, "ぐ")) ||
-           (dicentry->GI == V5N  && !g_strcmp0(tmp_vinfl_struct->infl, "ぬ")) ||
-           (dicentry->GI == V5T  && !g_strcmp0(tmp_vinfl_struct->infl, "つ"))
-            ){
-           
-          /*g_printf("->  ENTRY %s TYPE %d replaced conj %s with infl %s ->  %s\n",
-                   dicentry->jap_definition->data,
-                   dicentry->GI,
-                   tmp_vinfl_struct->conj,
-                   tmp_vinfl_struct->infl,
-                   deinflected->str);*/
-                
-          //regex variables
-          GError *error = NULL;
-          gint start_position = 0;
-          gboolean match=FALSE;
-          GMatchInfo *match_info=NULL;
-
-          GRegex* regex = g_regex_new (deinflected->str,
-                                       G_REGEX_OPTIMIZE,
-                                       start_position, &error);
-          
-          //search in the definition
-          GSList *jap_definition = dicentry->jap_definition;
-          while(jap_definition && !match){
-            match = g_regex_match (regex, jap_definition->data, 0, &match_info);
-            
-            if(match){
-              gchar *comment = g_strdup_printf("%s %s -> %s",
-                                               tmp_vinfl_struct->type,
-                                               tmp_vinfl_struct->conj,
-                                               tmp_vinfl_struct->infl
-                                               );
-            
-              results = add_match(match_info, comment, dicentry, results);
-            
-            }
-            else jap_definition = jap_definition->next;
-
-            g_match_info_unref(match_info);
-          }
-          
-          //if no match in the definition, search in the reading (if any) and if
-          //the search string is not only kanji
-          if(!match && dicentry->jap_reading && !only_kanji){
-            GSList *jap_reading = dicentry->jap_reading;
-            while(jap_reading && !match){
-              match = g_regex_match (regex, jap_reading->data, 0, &match_info);
-
-              if(match){
-              gchar *comment = g_strdup_printf("%s %s -> %s",
-                                               tmp_vinfl_struct->type,
-                                               tmp_vinfl_struct->conj,
-                                               tmp_vinfl_struct->infl
-                                               );
-            
-                results = add_match(match_info, comment, dicentry, results);
-
-              }
-              else jap_reading = jap_reading->next;
-
-              g_match_info_unref(match_info);
-            }
-            
-          } //if verbe or adj-i relevant
-                    
-          //free memory
-          g_regex_unref(regex);
-        }  //end if verb or adj
-      }  //end dicentries
-    }
-
-    g_string_free(deinflected, TRUE);
+      g_string_free(deinflected, TRUE);
   }
-  
   return results;
 }
