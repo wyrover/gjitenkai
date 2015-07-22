@@ -228,6 +228,6 @@ void worddic_dicfile_free(WorddicDicfile *dicfile){
 }
 
 void worddic_dicfile_free_entries(WorddicDicfile *dicfile){
-  g_slist_free_full(dicfile->entries, dicentry_free);
+  g_slist_free_full(dicfile->entries, (GDestroyNotify)dicentry_free);
   dicfile->entries = NULL;
 }

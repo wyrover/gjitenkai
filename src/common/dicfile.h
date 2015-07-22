@@ -40,7 +40,7 @@ enum dicfile_status{
 
 struct _GjitenDicfile {
   gchar *path;
-  const gchar *name;
+  gchar *name;
   gchar *mem;
   int file;
   enum dicfile_status status;

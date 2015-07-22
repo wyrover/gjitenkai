@@ -10,8 +10,8 @@
 #include "../common/dicfile.h"
 
 typedef struct _WorddicDicfile {
-  const gchar *path;
-  const gchar *name;
+  gchar *path;
+  gchar *name;
   GSList *entries;
 
   gboolean is_active;
