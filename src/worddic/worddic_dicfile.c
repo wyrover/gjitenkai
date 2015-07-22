@@ -90,7 +90,6 @@ GList *add_match(GMatchInfo *match_info,
 
 GList *dicfile_search(WorddicDicfile *dicfile,
                       const gchar *search_expression){
-
   //list of matched dictonnary entries
   GList *results = NULL;
 
