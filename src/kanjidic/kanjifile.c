@@ -17,14 +17,7 @@ kanjifile_entry *do_kdicline(const gchar *kstr){
   
   kanjifile_entry *entry = g_new0(kanjifile_entry, 1);
   gchar *translation;
-  
-  //for each words in the array, check what information it is 
-  //the first word is the kanji
-  gunichar utf8kanji = g_utf8_get_char(kstr);
-  gchar *p_str_kanji = g_new0(gchar, sizeof(gunichar));
-  g_unichar_to_utf8(utf8kanji, p_str_kanji);
-  entry->kanji = (gunichar*)p_str_kanji;
-  
+    
   while(pos = get_word(word, kstr, sizeof(word), pos)){
     //the first character of a word indicates it's purpose
     char first_char = word[0];
