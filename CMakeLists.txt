@@ -45,8 +45,8 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 #if we want to create a NSIS script
 if(NSIS)
 	set(CPACK_PACKAGE_EXECUTABLES GJitenKai gjitenkai.exe)
-	set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/README.md)
 	set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
+	set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
 	include (NSIS.cmake)
 
 	#install the gtk lib runtime in the binary directory
@@ -154,8 +154,18 @@ install(FILES
   po/fr/kanjidic.mo
   DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
 
+# Install desktop file
+install(
+  FILES gjitenkai.desktop
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+
+# Install icon
+install(
+  FILES pixmaps/gjitenkai.png
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/icons)
+
 # Install pixmaps
-install(FILES pixmaps/gjitenkai.png pixmaps/kai.png pixmaps/kai.ico DESTINATION ${PIXMAPDIR})
+install(FILES pixmaps/gjitenkai.png pixmaps/kai.png DESTINATION ${PIXMAPDIR})
 
 # Install programs 
 ## Set the output binary full path name variable

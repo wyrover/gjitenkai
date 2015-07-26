@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Gjiten Kai
+Exec=gjitenkai
+Icon=kai.png
+Type=Application
+Encoding=UTF-8
+Categories=GTK;GNOME;Utility;
+Terminal=false
