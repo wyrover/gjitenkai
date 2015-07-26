@@ -13,6 +13,7 @@
 
 gchar *read_file(const gchar *filename);
 gchar *get_eof_line(gchar *ptr, gchar *end_ptr);
+int get_word(char *dest, const char *src, int size, int pos);
 void to_utf8(gunichar c, char* utf8_c);
 
 gchar *hira2kata(const gchar *hirastr);

@@ -382,6 +382,6 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
 
       
     }//end if kanji info active
-  }
+    }
   gtk_widget_show_all(GTK_WIDGET(grid_kanji_display));
 }

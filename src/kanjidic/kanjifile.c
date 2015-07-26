@@ -11,8 +11,12 @@ char* get_line_from_dic(const gchar *kanji, GjitenDicfile *kanjidic) {
   return repstr;
 }
 
-kanjifile_entry *do_kdicline(const gchar *kstr) {  
+kanjifile_entry *do_kdicline(const gchar *kstr){
+  char word[KBUFSIZE];
+  gint pos=sizeof(gunichar);
+  
   kanjifile_entry *entry = g_new0(kanjifile_entry, 1);
+  gchar *translation;
   
   //for each words in the array, check what information it is 
   //the first word is the kanji
@@ -20,16 +24,10 @@ kanjifile_entry *do_kdicline(const gchar *kstr) {
   gchar *p_str_kanji = g_new0(gchar, sizeof(gunichar));
   g_unichar_to_utf8(utf8kanji, p_str_kanji);
   entry->kanji = (gunichar*)p_str_kanji;
-
-  gchar **words = g_strsplit(kstr, " ", -1);
-
-  while(words){
-    gchar *word = *words;
-    if(!g_strcmp0(word, "\n"))break;
-    
+  
+  while(pos = get_word(word, kstr, sizeof(word), pos)){
     //the first character of a word indicates it's purpose
     char first_char = word[0];
-    size_t len = strlen(word);
     
     switch(first_char){
     case 'S':
@@ -45,24 +43,21 @@ kanjifile_entry *do_kdicline(const gchar *kstr) {
       sscanf(word, "G%d", &entry->jouyou);
       break;
     case '{':
-      //trim the {}
-      memmove(word, word+1, len-2);
-      word[len-2] = 0;
-    
-      entry->translations = g_slist_append(entry->translations, word);
+      translation = strdup(word+1);  //+1 to skip the { character.
+      entry->translations = g_slist_append(entry->translations, translation);
       break;
     default:
       //check if katakana (onyomi) or hiragana (kunyomi)
       if (hasKatakanaString(word)){
-        entry->onyomi = g_slist_append(entry->onyomi, word);
+        entry->onyomi = g_slist_append(entry->onyomi, strdup(word));
       }
       else if (hasHiraganaString(word)){
-        entry->kunyomi = g_slist_append(entry->kunyomi, word);
+        entry->kunyomi = g_slist_append(entry->kunyomi, strdup(word));
       }
       
       break;
-      }
-    words++;
+    }
   }
+  
   return entry;
 }
