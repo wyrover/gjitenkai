@@ -12,5 +12,5 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 _CPack_Packages/
 *-win32.exe
-libgjitenkai.dll.a
+*.dll.a
 resources/NSIS/NSIS.definitions.nsh
