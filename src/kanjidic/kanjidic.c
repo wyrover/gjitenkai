@@ -286,6 +286,10 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
   ////get the entry from the line
   kanjifile_entry *kanji_data= kanjidic_dicfile_parse_line(kanji_info_line);
 
+  //free line
+  g_free(kanji_info_line);
+
+  
   //Display the kanji and the kanji related informations
   GtkWidget *label_kanji = gtk_label_new(kanji);
   gtk_label_set_selectable (GTK_LABEL(label_kanji), TRUE);
