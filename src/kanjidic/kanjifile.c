@@ -18,7 +18,7 @@ kanjifile_entry *do_kdicline(const gchar *kstr){
   kanjifile_entry *entry = g_new0(kanjifile_entry, 1);
   gchar *translation;
     
-  while(pos = get_word(word, kstr, sizeof(word), pos)){
+  while((pos = get_word(word, kstr, sizeof(word), pos))){
     //the first character of a word indicates it's purpose
     char first_char = word[0];
     
