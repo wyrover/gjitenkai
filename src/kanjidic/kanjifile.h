@@ -51,8 +51,10 @@ gchar* get_line_from_dic(const gchar *kanji, GjitenDicfile *kanjidic);
 
 /**
    Parse a line of the kdic
-   kstr must contains a line of the kdic
+   @param line of the kdic
  */
-kanjifile_entry* do_kdicline(const gchar *kstr);
+kanjifile_entry* kanjidic_dicfile_parse_line(const gchar *kstr);
+
+void kanjifile_entry_free(kanjifile_entry* p_entry);
 
 #endif
