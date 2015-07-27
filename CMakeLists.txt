@@ -1,5 +1,7 @@
+set(PROJECT_NAME gjitenkai)
+
 # Set the name and the supported language of the project
-project(gjitenkai C)
+project(${PROJECT_NAME} C)
 
 # Set the minimum version of cmake required to build this project
 cmake_minimum_required(VERSION 2.6)
@@ -10,17 +12,17 @@ include(GNUInstallDirs)
 ##directories where to install files.
 #These path are used in with the install instruction which only supports
 #relative path
-set(DATADIR ${CMAKE_INSTALL_DATADIR}/data)
+set(DATADIR ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
 set(DICDIR ${CMAKE_INSTALL_DATADIR}/dict)
 set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
 set(SCHEMADIR ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
-set(PIXMAPDIR ${CMAKE_INSTALL_DATADIR}/data)
+set(PIXMAPDIR ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
 
 #These path are passed onto config.h.in to be used a preprocessor definitions
-set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
+set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/${PROJECT_NAME})
 set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
 set(LOCALDIR_FULL ${CMAKE_INSTALL_FULL_LOCALEDIR})
-set(PIXMAPDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/data)
+set(PIXMAPDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/${PROJECT_NAME})
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
@@ -44,7 +46,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 #if we want to create a NSIS script
 if(NSIS)
-	set(CPACK_PACKAGE_EXECUTABLES GJitenKai gjitenkai.exe)
+	set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME}.exe)
 	set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
 	set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
 	include (NSIS.cmake)
@@ -87,12 +89,12 @@ endif(MINGW)
 add_definitions(${GTK3_CFLAGS_OTHER})
 add_definitions(-Wall)
 
-# files needed to compile gjitenkai
+# files needed to compile ${PROJECT_NAME}
 add_executable(
-  gjitenkai
-  src/gjitenkai/main.c 
-  src/gjitenkai/gjitenkai.c
-  src/gjitenkai/callbacks.c
+  ${PROJECT_NAME}
+  src/${PROJECT_NAME}/main.c 
+  src/${PROJECT_NAME}/${PROJECT_NAME}.c
+  src/${PROJECT_NAME}/callbacks.c
   src/worddic/conf.c 
   src/worddic/worddic.c 
   src/worddic/preferences.c
@@ -118,7 +120,7 @@ add_executable(
 )
 
 # Link the target to the GTK+ libraries
-target_link_libraries(gjitenkai ${GTK3_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${GTK3_LIBRARIES})
 
 # Compiler flag needed to reach callback functions
 set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
@@ -144,36 +146,38 @@ install(FILES data/kanjidic.utf8 DESTINATION ${DICDIR})
 install(FILES data/radkfile.utf8 data/vconj.utf8 DESTINATION ${DATADIR})
 
 # Install UI definitions files
-install(FILES UI/worddic.glade UI/kanjidic.glade UI/gjitenkai.glade DESTINATION ${DATADIR})
+install(FILES UI/worddic.glade UI/kanjidic.glade UI/${PROJECT_NAME}.glade DESTINATION ${DATADIR})
 
 # Install locales
 ##Français
 install(FILES
-  po/fr/gjitenkai.mo
+  po/fr/${PROJECT_NAME}.mo
   po/fr/worddic.mo
   po/fr/kanjidic.mo
   DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
 
 # Install desktop file
 install(
-  FILES gjitenkai.desktop
+  FILES ${PROJECT_NAME}.desktop
   DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 
 # Install icon
 install(
-  FILES pixmaps/gjitenkai.png
+  FILES pixmaps/${PROJECT_NAME}.png
   DESTINATION ${CMAKE_INSTALL_DATADIR}/icons)
 
 # Install pixmaps
-install(FILES pixmaps/gjitenkai.png pixmaps/kai.png DESTINATION ${PIXMAPDIR})
+install(
+  FILES pixmaps/${PROJECT_NAME}.png pixmaps/kai.png
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
 
 # Install programs 
 ## Set the output binary full path name variable
-set(GJITENKAI_OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/gjitenkai)
+set(${PROJECT_NAME}_OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
 
 #if the current system is Windows, the generated binary will end with .exe
 if(${WIN32})
-	set(GJITENKAI_OUTPUT ${GJITENKAI_OUTPUT}.exe)
+	set(${PROJECT_NAME}_OUTPUT ${${PROJECT_NAME}_OUTPUT}.exe)
 endif()
 
-install(PROGRAMS ${GJITENKAI_OUTPUT} DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(PROGRAMS ${${PROJECT_NAME}_OUTPUT} DESTINATION ${CMAKE_INSTALL_BINDIR})
