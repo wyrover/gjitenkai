@@ -11,6 +11,6 @@ gschemas.compiled
 CPackConfig.cmake
 CPackSourceConfig.cmake
 _CPack_Packages/
-gjitenkai-*-win32.exe
+*-win32.exe
 libgjitenkai.dll.a
 resources/NSIS/NSIS.definitions.nsh
