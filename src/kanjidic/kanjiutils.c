@@ -158,9 +158,12 @@ GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfil
 
     if (srch_resp != SRCH_OK) break;
     if (oldrespos == respos) continue;
+  
+    gchar word[4];
+    get_word(word, repstr, sizeof(word), 0);
+    word[3] = '\0';
 
-    kanjifile_entry* entry = kanjidic_dicfile_parse_line(repstr);
-    list = g_list_prepend(list, entry->kanji);
+    list = g_list_prepend(list, strdup(word));
   }
 
   return list;
