@@ -16,13 +16,11 @@ set(DATADIR ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
 set(DICDIR ${CMAKE_INSTALL_DATADIR}/dict)
 set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
 set(SCHEMADIR ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
-set(PIXMAPDIR ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
 
 #These path are passed onto config.h.in to be used a preprocessor definitions
 set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/${PROJECT_NAME})
 set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
 set(LOCALDIR_FULL ${CMAKE_INSTALL_FULL_LOCALEDIR})
-set(PIXMAPDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/${PROJECT_NAME})
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
