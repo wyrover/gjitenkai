@@ -147,8 +147,7 @@ GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfil
   if (srch_resp != SRCH_OK) return NULL;
   oldrespos = srchpos = respos;
   
-  char *repstr2 = strdup(repstr);
-  kanjifile_entry* entry = do_kdicline(repstr2);
+  kanjifile_entry* entry = kanjidic_dicfile_parse_line(repstr);
   list = g_list_prepend(list, entry->kanji);
   
   while (roff != 0) {
@@ -160,8 +159,7 @@ GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfil
     if (srch_resp != SRCH_OK) break;
     if (oldrespos == respos) continue;
 
-    char *repstr2 = strdup(repstr);
-    kanjifile_entry* entry = do_kdicline(repstr2);
+    kanjifile_entry* entry = kanjidic_dicfile_parse_line(repstr);
     list = g_list_prepend(list, entry->kanji);
   }
 
