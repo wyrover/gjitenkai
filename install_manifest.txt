@@ -1,9 +1,0 @@
-/usr/share/glib-2.0/schemas/apps.gjitenkai.gschema.xml
-/gjiten-kai/radkfile.utf8
-/gjiten-kai/vconj.utf8
-/usr/local/share/dict/edict.utf8
-/usr/local/share/dict/kanjidic.utf8
-/usr/local/share/locale/fr/LC_MESSAGES/worddic.mo/worddic_fr.mo
-/usr/local/bin/gjitenkai
-/usr/local/bin/worddic
-/usr/local/bin/kanjidic
