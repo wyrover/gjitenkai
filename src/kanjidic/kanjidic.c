@@ -253,7 +253,7 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
 
   if(!same_kanji){
     //add the kanji in the history list
-    kanjidic->history = g_slist_prepend(kanjidic->history, strdup(kanji));
+    kanjidic->history = g_slist_prepend(kanjidic->history, kanji);
 
     //add the kanji in the history widget
     GtkWidget *button_history = gtk_button_new_with_label(kanji);
