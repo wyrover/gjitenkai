@@ -284,7 +284,7 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
   ///get the line from the kanji
   gchar *kanji_info_line = get_line_from_dic(kanji, kanjidic->conf->kanjidic);
   ////get the entry from the line
-  kanjifile_entry *kanji_data= do_kdicline(kanji_info_line);
+  kanjifile_entry *kanji_data= kanjidic_dicfile_parse_line(kanji_info_line);
 
   //Display the kanji and the kanji related informations
   GtkWidget *label_kanji = gtk_label_new(kanji);
@@ -356,7 +356,7 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
       else if(!strcmp(ki->gsettings_name, "translation")){
         item = kanji_data->translations;
       }
-
+      
       //item point to one of the kanji_entry's list to display or NULL
       for (;
            item != NULL;
@@ -382,6 +382,9 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
 
       
     }//end if kanji info active
-    }
+  }
   gtk_widget_show_all(GTK_WIDGET(grid_kanji_display));
+
+  //free memory
+  kanjifile_entry_free(kanji_data);
 }
