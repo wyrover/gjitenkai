@@ -31,11 +31,11 @@ int main( int argc, char **argv )
   GtkWindow *window = (GtkWindow*)gtk_builder_get_object(gjitenkai.definitions, 
                                                          "gjiten");
   gtk_window_set_default_size(GTK_WINDOW(window), 800, 400);
+
+  //set icon
   GdkPixbuf *pixbuf;
   GError *error = NULL;
-  
-  pixbuf = gdk_pixbuf_new_from_file(GJITENKAI_PIXMAPDIR"/kai.png", &error);
-   
+  pixbuf = gdk_pixbuf_new_from_file(GJITENKAI_PIXMAPDIR"/kai.png", &error);   
   gtk_window_set_icon(GTK_WINDOW(window), pixbuf);
  
   //get the top level box of worddic and kanjidic
