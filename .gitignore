@@ -3,6 +3,7 @@ CMakeFiles
 CMakeScripts
 Makefile
 cmake_install.cmake
+data/gschemas/gschemas.compiled
 install_manifest.txt
 bin
 config.h
