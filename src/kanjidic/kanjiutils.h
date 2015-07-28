@@ -2,6 +2,7 @@
 #define KANJIUTILS_H
 
 #include <gtk/gtk.h>
+#include <glib/gprintf.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>

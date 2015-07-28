@@ -327,7 +327,7 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
                        (GtkWidget*)label_kanji_info_name,
                        0, i, 1, 1);
 
-      if(!strcmp(ki->gsettings_name, "radical")){
+      if(!strcmp(ki->gsettings_name, "radical") && kanjidic->rad_info_list){
         //list radicals without separation chars
         KanjiInfo *kanji_info = g_hash_table_lookup(kanjidic->kanji_info_hash, kanji);
         GList *kanji_info_list;

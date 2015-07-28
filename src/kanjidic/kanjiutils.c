@@ -9,15 +9,19 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
   RadInfo *rad_info = NULL;
   KanjiInfo *kanji_info;
 
-  gchar *radkfile = NULL;
-
   GHashTable *rad_info_hash   = *pp_rad_info_hash;
   GHashTable *kanji_info_hash = *pp_kanji_info_hash;
 
+  gchar *radkfile = NULL;
   radkfile = read_file(RADKFILE_NAME);
 
-  if (radkfile == NULL) gjiten_abort_with_msg("failed to read radkfile %s\n",
-                                              RADKFILE_NAME);
+  if (radkfile == NULL){
+    g_printf("failed to read radkfile %s\n", RADKFILE_NAME);
+
+      rad_info_hash = NULL;
+      kanji_info_hash = NULL;
+      return NULL;
+  }
   
   radkfile_end = radkfile + strlen(radkfile);
   radkfile_ptr = radkfile;
