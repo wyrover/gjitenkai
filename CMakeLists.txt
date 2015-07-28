@@ -107,7 +107,7 @@ add_executable(
   src/kanjidic/kanjiutils.c 
   src/kanjidic/callbacks.c
   src/kanjidic/kanjifile.c
-  src/kanjidic/radical_list.c
+  src/kanjidic/radical_window.c
   src/kanjidic/preferences.c
   src/kanjidic/kanji_item.c
   src/common/conf.c

@@ -1,7 +1,7 @@
 #include "kanjidic.h"
 #include "kanjiutils.h"
 #include "kanjifile.h"
-#include "radical_list.h"
+#include "radical_window.h"
 #include "kanji_item.h"
 
 //////////////////////

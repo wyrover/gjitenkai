@@ -1,4 +1,4 @@
-#include "radical_list.h"
+#include "radical_window.h"
 
 void radical_list_init(kanjidic *kanjidic){
   button_list = NULL;

@@ -1,5 +1,5 @@
-#ifndef RADICAL_LIST_H
-#define RADICAL_LIST_H
+#ifndef RADICAL_WINDOW_H
+#define RADICAL_WINDOW_H
 
 #include <gtk/gtk.h>
 
