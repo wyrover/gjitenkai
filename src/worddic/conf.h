@@ -61,12 +61,6 @@ typedef struct _WorddicConfig {
   gboolean search_kata_on_hira;
   gboolean search_hira_on_kata;
   gboolean verb_deinflection;
-
-  gboolean searchlimit_enabled;
-  gboolean autoadjust_enabled;
-
-  //struct _GjitenDicfile *selected_dic;
-  PangoFontDescription *normalfont_desc;
 }WorddicConfig;
 
 WorddicConfig *worddic_conf_load(GSettings *settings);
