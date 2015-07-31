@@ -13,6 +13,8 @@ void results_free(GList *results){
 
 int main( int argc, char **argv )
 {
+  GList *results = NULL;
+  
   g_printf("parameters are dictionary path and search expression\n\
 parameters are not checked\n");
   
@@ -26,15 +28,48 @@ parameters are not checked\n");
 
   //close dicrionary
   worddic_dicfile_close(dicfile);
+
+  //kana
+  //search hiragana on katakana
+  if(hasKatakanaString(argv[2])) {
+    gchar *hiragana = kata_to_hira(argv[2]);
+    results = g_list_concat(results, dicfile_search(dicfile,
+                                                    hiragana,
+                                                    "from katakana",
+                                                    GIALL,
+                                                    ANY_MATCH,
+                                                    ANY_MATCH,
+                                                    1)
+                            );
+    g_free(hiragana);  //free memory
+  }
+  ///////////////////////////////////
+
+  
+  //search kata
+  if(hasHiraganaString(argv[2])) { 
+    gchar *katakana = hira_to_kata(argv[2]);
+    results = g_list_concat(results, dicfile_search(dicfile,
+                                                    katakana,
+                                                    "from hiragana",
+                                                    GIALL,
+                                                    ANY_MATCH,
+                                                    ANY_MATCH,
+                                                    1)
+                            );
+    g_free(katakana); //free memory
+  }
+  ////////////////////////////////
   
   //search 
-  GList *results = dicfile_search(dicfile,
-                                  argv[2],
-                                  NULL,
-                                  GIALL,
-                                  ANY_MATCH,
-                                  ANY_MATCH,
-                                  -1);
+  results = g_list_concat(results, dicfile_search(dicfile,
+                                                  argv[2],
+                                                  NULL,
+                                                  GIALL,
+                                                  ANY_MATCH,
+                                                  ANY_MATCH,
+                                                  -1)
+                          );
   //print
   GList *l;
   for(l=results;l!=NULL;l = l->next){
