@@ -185,6 +185,12 @@ gboolean isKanjiChar(const gunichar c) {
   if ((c >= 0x2F800) && (c <= 0x2FA1F)) return TRUE;  //cjk supplement
   return FALSE;
 }
+
+gboolean isFullChar(const gunichar c) {
+  if(( c >= 0xFF00) && (c <= 0xFFEF))return TRUE;
+  return FALSE;
+}
+
 gboolean isOtherChar(const gunichar c) {
   if ((c >= 0x2E80) && (c <= 0x2EFF)) return TRUE;  //cjk radical
   if ((c >= 0x2F00) && (c <= 0x2FDF)) return TRUE;  //cjk kangxi radicals
@@ -198,7 +204,7 @@ gboolean isOtherChar(const gunichar c) {
 }
 
 /* Convert Hiragana -> Katakana.*/
-gchar *hira2kata(const gchar *hirastr) {
+gchar *hira_to_kata(const gchar *hirastr) {
   const gchar *hiraptr = hirastr;
   gchar *kata = g_new0(gchar, strlen(hirastr) + 6);
   gchar *kataptr = kata;
@@ -221,7 +227,7 @@ gchar *hira2kata(const gchar *hirastr) {
 }
 
 /* Convert Katakana to Hiragana*/
-gchar *kata2hira(const gchar *katastr) {
+gchar *kata_to_hira(const gchar *katastr) {
   const gchar *kataptr = katastr;
   gchar *hira = g_new0(gchar, strlen(katastr) + 6);
   gchar *hiraptr = hira;
@@ -243,13 +249,13 @@ gchar *kata2hira(const gchar *katastr) {
   return hira;
 }
 
-gchar *full2half(const gchar *full){
+gchar *full_to_half(const gchar *full){
   gchar *half = g_new0(gchar, 1);
   g_unichar_to_utf8(g_utf8_get_char(full) - 0xFEE0, half);
   return half;
 }
 
-gchar *ideographical_full_stop_2_full_stop(const gchar *c){
+gchar *ideographical_full_stop_to_full_stop(const gchar *c){
   gchar *r = g_new0(gchar, 1);
   g_unichar_to_utf8(g_utf8_get_char(c) - 0x2FD4, r);
   return r;

@@ -16,15 +16,16 @@ gchar *get_eof_line(gchar *ptr, gchar *end_ptr);
 int get_word(char *dest, const char *src, int size, int pos);
 void to_utf8(gunichar c, char* utf8_c);
 
-gchar *hira2kata(const gchar *hirastr);
-gchar *kata2hira(const gchar *hirastr);
-gchar *full2half(const gchar *full);
-gchar *ideographical_full_stop_2_full_stop(const gchar *c);
+gchar *hira_to_kata(const gchar *hirastr);
+gchar *kata_to_hira(const gchar *hirastr);
+gchar *full_to_half(const gchar *full);
+gchar *ideographical_full_stop_to_full_stop(const gchar *c);
 gboolean isKanaChar(const gunichar c);
 gboolean isKatakanaChar(const gunichar c);
 gboolean isHiraganaChar(const gunichar c);
 gboolean isKanjiChar(const gunichar c);
 gboolean isJPChar(const gunichar c);
+gboolean isFullChar(const gunichar c);
 gboolean isOtherChar(const gunichar c);
 
 int strg_end_compare(const gchar *strg1, const gchar *strg2);
