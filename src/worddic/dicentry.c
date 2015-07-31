@@ -80,6 +80,10 @@ GjitenDicentry* parse_line(const gchar* p_line){
               gchar *saveptr_entry_GI=NULL;
               gchar *entry_GI = (gchar*)strtok_r(GI, ",", &saveptr_entry_GI);
 
+              //by default, set the entry as a noun
+              dicentry->GI = NOUN;
+              
+              //for all entries, set the GENERAL information
               do{
                 if(!strcmp(entry_GI, "v1")){
                   dicentry->GI = V1;

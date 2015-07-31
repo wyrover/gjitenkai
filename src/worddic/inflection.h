@@ -54,6 +54,8 @@ enum conj_type{
 
 #define VCONJ_TYPE_MAX 26
 
+#define IS_ADJI (ADJ_TO_ADVERB || ADJ_PAST || ADJ_NEGATIVE_PAST || ADJ_NEGATIVE_PAST || ADJ_PAST_KATTA)
+
 struct vinfl_struct {
   gchar *conj;
   gchar *infl;

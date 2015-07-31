@@ -36,7 +36,8 @@ GList *add_match(GMatchInfo *match_info,
 
 GList *dicfile_search(WorddicDicfile *dicfile,
                       const gchar *search_expression,
-                      gchar *comment);
+                      gchar *comment,
+                      enum entry_GI itype);
 
 void worddic_dicfile_free(WorddicDicfile *dicfile);
 void worddic_dicfile_free_entries(WorddicDicfile *dicfile);

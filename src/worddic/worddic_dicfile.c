@@ -80,7 +80,8 @@ GList *add_match(GMatchInfo *match_info,
   dicresult *p_dicresult = g_new0(dicresult, 1);
   p_dicresult->match = word;
   p_dicresult->entry = dicentry;
-  p_dicresult->comment = comment;
+  if(comment)p_dicresult->comment = strdup(comment);
+  else p_dicresult->comment = NULL;
   
   //add the dicentry in the result list
   results = g_list_prepend(results, p_dicresult);
@@ -90,7 +91,8 @@ GList *add_match(GMatchInfo *match_info,
 
 GList *dicfile_search(WorddicDicfile *dicfile,
                       const gchar *search_expression,
-                      gchar *comment){
+                      gchar *comment,
+                      enum entry_GI itype){
   //list of matched dictonnary entries
   GList *results = NULL;
 
@@ -114,8 +116,8 @@ GList *dicfile_search(WorddicDicfile *dicfile,
   gboolean jpsrch = detect_japanese(search_expression);
 
   if(jpsrch){
-    //if the search expression contains at least a japanese character,
     //search matches in the japanese definition or japanese reading
+    //if the search expression contains at least a japanese character
 
     //check if there if the japanese characters are not hiragana or katakana, meaning
     //that there are only kanji except for regex characters. this variable can be used
@@ -127,14 +129,16 @@ GList *dicfile_search(WorddicDicfile *dicfile,
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
         list_dicentry = list_dicentry->next){
-           
-      GjitenDicentry* dicentry = list_dicentry->data;
       
-      GSList *jap_definition = dicentry->jap_definition;
+      GjitenDicentry* dicentry = list_dicentry->data;
+
+      //skip this entry if the type is not what we are searching
+      if(!(dicentry->GI & itype))continue;
 
       has_matched = FALSE;
             
       //search in the definition
+      GSList *jap_definition = dicentry->jap_definition;
       while(jap_definition && !has_matched){
         has_matched = g_regex_match (regex, jap_definition->data, 0, &match_info);
 
@@ -149,9 +153,8 @@ GList *dicfile_search(WorddicDicfile *dicfile,
         g_match_info_unref(match_info);
       }
       
-      
+      //search in the japanese reading (if any)
       //if no match in the definition and if the search string is not only kanji
-      //search in the reading (if any)
       if(!has_matched && dicentry->jap_reading && !only_kanji){
         GSList *jap_reading = dicentry->jap_reading;
         while(jap_reading && !has_matched){
@@ -178,10 +181,13 @@ GList *dicfile_search(WorddicDicfile *dicfile,
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
         list_dicentry = list_dicentry->next){
-
+            
       has_matched = FALSE;
       GjitenDicentry* dicentry = list_dicentry->data;
 
+      //check if the type match what we are searching
+      if(!(dicentry->GI & itype))continue;
+      
       GSList *gloss_list = dicentry->gloss;
       //search in the gloss list
       while(gloss_list && !has_matched){

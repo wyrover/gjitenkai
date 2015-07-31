@@ -116,17 +116,31 @@ GList* search_inflections(WorddicDicfile *dicfile,
     deinflected = g_string_append_c(deinflected, '$');
     deinflected = g_string_prepend_c(deinflected, '^');
 
+    //comment that explains which inflection was searched
     gchar *comment = g_strdup_printf("%s %s -> %s",
                                      tmp_vinfl_struct->type,
                                      tmp_vinfl_struct->conj,
                                      tmp_vinfl_struct->infl);
+
+    //if the inflection type is from an adj-i, only search for adj-i
+    //if not adji-i, assume it's a verbe 
+    enum entry_GI entry_type;
+    if(tmp_vinfl_struct->itype == IS_ADJI){
+      entry_type = ADJI;
+    }
+    else{
+      entry_type = SET_VERBE;
+    }
     
+    //search in the dictionary
     GList *results_infl = dicfile_search(dicfile,
                                          deinflected->str,
-                                         comment);
+                                         comment,
+                                         entry_type);
 
     results = g_list_concat(results, results_infl);
 
+    g_free(comment);
     g_string_free(deinflected, TRUE);
   }
   return results;
