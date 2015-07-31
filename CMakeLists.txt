@@ -85,9 +85,6 @@ endif(MINGW)
 add_definitions(${GTK3_CFLAGS_OTHER})
 add_definitions(-Wall)
 
-#flags for debug
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pg")
-
 # files needed to compile gjitenkai
 add_executable(
   ${PROJECT_NAME}
