@@ -5,10 +5,11 @@
 
 int main( int argc, char **argv )
 {
-  gchar * full = "？";
+  //gchar * full = "？";
   //gchar * full = "！";
   //gchar * full = "）";
   //gchar * full = "｛";
+  gchar *full = "＋";
 
   //test if full is a full char (supposed to be true)
   if(isFullChar(g_utf8_get_char(full))){
