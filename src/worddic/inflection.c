@@ -75,6 +75,7 @@ void init_inflection() {
       while (g_ascii_isspace(*vinfl_ptr) == TRUE) {
         vinfl_ptr = g_utf8_next_char(vinfl_ptr); //skip the space
       }
+      
       tmp_vinfl_struct->type = vconj_types[atoi(vinfl_ptr)];
       tmp_vinfl_struct->itype = atoi(vinfl_ptr);
       vinfl_ptr =  get_eof_line(vinfl_ptr, vinfl_end);
@@ -88,22 +89,27 @@ void init_inflection() {
 
 GList* search_inflections(WorddicDicfile *dicfile,
                           const gchar *srchstrg) {
+  //list to return
   GList *results = NULL;
-    
+
+  //remember previous searches to avoid duplicates
+  GSList *previous_search = NULL;
+  
   //for all the inflections
   GSList *vinfl_list_browser = NULL;
   for(vinfl_list_browser = vinfl_list;
       vinfl_list_browser != NULL;
       vinfl_list_browser = g_slist_next(vinfl_list_browser)){
 
-    GString *deinflected = g_string_new(NULL);
- 
     struct vinfl_struct * tmp_vinfl_struct = NULL;
     tmp_vinfl_struct = (struct vinfl_struct *) vinfl_list_browser->data;
-
+    
     //if the inflected conjugaison match the end of the string to search
     if(!g_str_has_suffix(srchstrg, tmp_vinfl_struct->conj)){continue;}
 
+    //create a new GString to modify
+    GString *deinflected = g_string_new(NULL);
+    
     // create deinflected string with the searched expression
     deinflected = g_string_append(deinflected, srchstrg);
 
@@ -111,6 +117,23 @@ GList* search_inflections(WorddicDicfile *dicfile,
     gint radical_pos = strlen(srchstrg) - strlen(tmp_vinfl_struct->conj);
     deinflected = g_string_truncate (deinflected, radical_pos);
     deinflected = g_string_append(deinflected, tmp_vinfl_struct->infl);
+
+    //check if deinflected was previously searched
+    GSList *l=NULL;
+    for(l=previous_search;
+        l != NULL;
+        l = l->next){
+      if(!strcmp(l->data, deinflected->str)){
+        //free memory
+        g_string_free(deinflected, TRUE);
+        deinflected = NULL;
+        break;
+      }
+    }
+    
+    //deinflected has been freed because the same string existed in a previous
+    //search. skip this iteration
+    if(!deinflected)continue;
     
     //comment that explains which inflection was searched
     gchar *comment = g_strdup_printf("%s %s -> %s",
@@ -138,14 +161,22 @@ GList* search_inflections(WorddicDicfile *dicfile,
                                          comment,
                                          entry_type,
                                          EXACT_MATCH,
-                                         ANY_MATCH,
+                                         ANY_MATCH, //latin search is irrelevent
                                          1);
 
     results = g_list_concat(results, results_infl);
 
+    // add the string to history
+    previous_search = g_slist_append(previous_search, deinflected->str);
+    
     //free memory
     g_free(comment);
-    g_string_free(deinflected, TRUE);
+    // str is still needed in previous_search 
+    g_string_free(deinflected, FALSE);
   }
+
+  //free history
+  g_slist_free_full(previous_search, g_free);
+  
   return results;
 }
