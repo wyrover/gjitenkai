@@ -161,7 +161,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
       //search hiragana on katakana
       if (worddic->conf->search_hira_on_kata &&
           hasKatakanaString(entry_text)) {
-        gchar *hiragana = kata2hira(entry_text);
+        gchar *hiragana = kata_to_hira(entry_text);
         results = g_list_concat(results, dicfile_search(dicfile,
                                                         hiragana,
                                                         "from katakana",
@@ -172,7 +172,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
       //search katakana on hiragana
       if (worddic->conf->search_kata_on_hira &&
           hasHiraganaString(entry_text)) { 
-        gchar *katakana = hira2kata(entry_text);
+        gchar *katakana = hira_to_kata(entry_text);
         results = g_list_concat(results, dicfile_search(dicfile,
                                                         katakana,
                                                         "from hiragana",
