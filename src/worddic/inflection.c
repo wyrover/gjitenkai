@@ -111,7 +111,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
     gint radical_pos = strlen(srchstrg) - strlen(tmp_vinfl_struct->conj);
     deinflected = g_string_truncate (deinflected, radical_pos);
     deinflected = g_string_append(deinflected, tmp_vinfl_struct->infl);
- 
+    
     //comment that explains which inflection was searched
     gchar *comment = g_strdup_printf("%s %s -> %s",
                                      tmp_vinfl_struct->type,
@@ -121,7 +121,11 @@ GList* search_inflections(WorddicDicfile *dicfile,
     //if the inflection type is from an adj-i, only search for adj-i
     //if not adji-i, assume it's a verbe 
     enum entry_GI entry_type;
-    if(tmp_vinfl_struct->itype == IS_ADJI){
+    if(tmp_vinfl_struct->itype == ADJ_TO_ADVERB ||
+       tmp_vinfl_struct->itype == ADJ_PAST ||
+       tmp_vinfl_struct->itype == ADJ_NEGATIVE_PAST ||
+       tmp_vinfl_struct->itype == ADJ_NEGATIVE_PAST ||
+       tmp_vinfl_struct->itype == ADJ_PAST_KATTA){
       entry_type = ADJI;
     }
     else{
@@ -133,8 +137,8 @@ GList* search_inflections(WorddicDicfile *dicfile,
                                          deinflected->str,
                                          comment,
                                          entry_type,
-                                         EXACT_MATCH,
-                                         0,
+                                         ANY_MATCH,
+                                         ANY_MATCH,
                                          1);
 
     results = g_list_concat(results, results_infl);
