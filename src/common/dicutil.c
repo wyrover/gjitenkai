@@ -132,31 +132,6 @@ gboolean is_kanji_only(const gchar *line) {
   return TRUE;
 }
 
-//Finds out if the result is EXACT_MATCH, START_WITH_MATCH, END_WITH_MATCH, ANY_MATCH
-/*int get_jp_match_type(gchar *line, const gchar *srchstrg, int offset) {
-  int srchstrglen;
-
-  srchstrglen = strlen(srchstrg);
-  if (offset == 0) { //can be EXACT or START_WITH
-    if ((*(line + srchstrglen)) == ' ') return EXACT_MATCH;
-    return START_WITH_MATCH;
-  }
-  else { //Check for Furigana
-    if (g_unichar_isalpha(g_utf8_get_char(g_utf8_prev_char(line + offset))) == FALSE) {
-      if (g_unichar_isalpha(g_utf8_get_char(line + offset + srchstrglen)) == FALSE) {
-        return EXACT_MATCH;
-      }
-      else return START_WITH_MATCH;
-    }
-    else { // has an alpha char before
-      if (g_unichar_isalpha(g_utf8_get_char(line + offset + srchstrglen)) == FALSE)
-        return END_WITH_MATCH;
-    }
-  }
-  if ((*(line + offset + srchstrglen)) == ' ') return END_WITH_MATCH;
-  return ANY_MATCH;
-  }*/
-
 gboolean isJPChar(const gunichar c) {
   if (isKanaChar(c) == TRUE) return TRUE;
   if (isKanjiChar(c) == TRUE) return TRUE;

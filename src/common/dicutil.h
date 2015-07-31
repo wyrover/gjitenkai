@@ -30,7 +30,6 @@ gboolean isFullChar(const gunichar c);
 gboolean isOtherChar(const gunichar c);
 
 int strg_end_compare(const gchar *strg1, const gchar *strg2);
-//int get_jp_match_type(gchar *line, const gchar *srchstrg, int offset);
 gboolean is_kanji_only(const gchar *line);
 gboolean isHiraganaString(const gchar *strg);
 gboolean isKatakanaString(const gchar *strg);
