@@ -18,7 +18,8 @@ void to_utf8(gunichar c, char* utf8_c);
 
 gchar *hira2kata(const gchar *hirastr);
 gchar *kata2hira(const gchar *hirastr);
-gchar *full2half(const gchar *instr);
+gchar *full2half(const gchar *full);
+gchar *ideographical_full_stop_2_full_stop(const gchar *c);
 gboolean isKanaChar(const gunichar c);
 gboolean isKatakanaChar(const gunichar c);
 gboolean isHiraganaChar(const gunichar c);

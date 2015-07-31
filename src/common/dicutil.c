@@ -243,6 +243,19 @@ gchar *kata2hira(const gchar *katastr) {
   return hira;
 }
 
+gchar *full2half(const gchar *full){
+  gchar *half = g_new0(gchar, 1);
+  g_unichar_to_utf8(g_utf8_get_char(full) - 0xFEE0, half);
+  return half;
+}
+
+gchar *ideographical_full_stop_2_full_stop(const gchar *c){
+  gchar *r = g_new0(gchar, 1);
+  g_unichar_to_utf8(g_utf8_get_char(c) - 0x2FD4, r);
+  return r;
+}
+
+
 gboolean isHiraganaString(const gchar *strg) {
   const gchar *hiraptr = strg;
 
