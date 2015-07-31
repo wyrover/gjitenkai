@@ -1,7 +1,5 @@
-set(PROJECT_NAME gjitenkai)
-
 # Set the name and the supported language of the project
-project(${PROJECT_NAME} C)
+project(gjitenkai C)
 
 # Set the minimum version of cmake required to build this project
 cmake_minimum_required(VERSION 2.6)
@@ -86,6 +84,9 @@ endif(MINGW)
 # Add other flags to the compiler
 add_definitions(${GTK3_CFLAGS_OTHER})
 add_definitions(-Wall)
+
+#flags for debug
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pg")
 
 # files needed to compile gjitenkai
 add_executable(
