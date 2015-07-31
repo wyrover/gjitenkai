@@ -182,7 +182,7 @@ GList* get_kanji_by_stroke(int stroke, int plusmin, GList *list, GjitenDicfile *
   lowerlim = stroke - plusmin;
   if (lowerlim < 1) lowerlim = 1;
  
-  //find the kanji by key, with the 'S' key (strokes)
+  //find the kanji with the 'S' key (strokes)
   for (i = lowerlim; i <= upperlim ; i++) {
     snprintf(srchkey, 10, " S%d ", i);
     list = get_kanji_by_key(srchkey, list, dicfile);

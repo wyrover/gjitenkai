@@ -162,7 +162,9 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
       if (worddic->conf->search_hira_on_kata &&
           hasKatakanaString(entry_text)) {
         gchar *hiragana = kata2hira(entry_text);
-        results = g_list_concat(results, dicfile_search(dicfile, hiragana));
+        results = g_list_concat(results, dicfile_search(dicfile,
+                                                        hiragana,
+                                                        strdup("from katakana")));
         g_free(hiragana);  //free memory
       }
     
@@ -170,13 +172,15 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
       if (worddic->conf->search_kata_on_hira &&
           hasHiraganaString(entry_text)) { 
         gchar *katakana = hira2kata(entry_text);
-        results = g_list_concat(results, dicfile_search(dicfile, katakana));
+        results = g_list_concat(results, dicfile_search(dicfile,
+                                                        katakana,
+                                                        strdup("from hiragana")));
         g_free(katakana); //free memory
       }
     }
 
     //standard search
-    results = g_list_concat(results, dicfile_search(dicfile, entry_text));
+    results = g_list_concat(results, dicfile_search(dicfile, entry_text, NULL));
     
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);

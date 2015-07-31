@@ -59,10 +59,10 @@ G_MODULE_EXPORT void on_checkbutton_filter_key_toggled(GtkCheckButton *check_but
    -if this is a non-radical kanji, replace it by it's radicals
  */
 G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
-                                         const gchar *text,
-                                         gint         length,
-                                         gint        *position,
-                                         kanjidic    *kanjidic){
+                                                         const gchar *text,
+                                                         gint         length,
+                                                         gint        *position,
+                                                         kanjidic    *kanjidic){
 
   //if unicode special character, do nothing
   char carriage_return[] = "\x0D";

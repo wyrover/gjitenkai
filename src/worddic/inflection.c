@@ -116,21 +116,15 @@ GList* search_inflections(WorddicDicfile *dicfile,
     deinflected = g_string_append_c(deinflected, '$');
     deinflected = g_string_prepend_c(deinflected, '^');
 
+    gchar *comment = g_strdup_printf("%s %s -> %s",
+                                     tmp_vinfl_struct->type,
+                                     tmp_vinfl_struct->conj,
+                                     tmp_vinfl_struct->infl);
+    
     GList *results_infl = dicfile_search(dicfile,
-                                         deinflected->str);
-    GList *list_results = NULL;
-    for(list_results = results_infl;
-        list_results != NULL;
-        list_results = list_results->next){
-      gchar *comment = g_strdup_printf("%s %s -> %s",
-                                       tmp_vinfl_struct->type,
-                                       tmp_vinfl_struct->conj,
-                                       tmp_vinfl_struct->infl
-                                       );
-      dicresult *dicresult_infl = list_results->data;
-      dicresult_infl->comment = comment;
-    }
-      
+                                         deinflected->str,
+                                         comment);
+
     results = g_list_concat(results, results_infl);
 
     g_string_free(deinflected, TRUE);

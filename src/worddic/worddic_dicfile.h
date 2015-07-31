@@ -35,7 +35,8 @@ GList *add_match(GMatchInfo *match_info,
 		 GList *results);
 
 GList *dicfile_search(WorddicDicfile *dicfile,
-                      const gchar *search_expression);
+                      const gchar *search_expression,
+                      gchar *comment);
 
 void worddic_dicfile_free(WorddicDicfile *dicfile);
 void worddic_dicfile_free_entries(WorddicDicfile *dicfile);

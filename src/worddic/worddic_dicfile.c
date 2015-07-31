@@ -89,7 +89,8 @@ GList *add_match(GMatchInfo *match_info,
 }
 
 GList *dicfile_search(WorddicDicfile *dicfile,
-                      const gchar *search_expression){
+                      const gchar *search_expression,
+                      gchar *comment){
   //list of matched dictonnary entries
   GList *results = NULL;
 
@@ -139,7 +140,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
 
         //if there is a match, copy the entry into the result list
         if(has_matched){
-          results = add_match(match_info, NULL, dicentry, results);
+          results = add_match(match_info, comment, dicentry, results);
         }
         else{
           jap_definition = jap_definition->next;
@@ -157,7 +158,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
           has_matched = g_regex_match (regex, jap_reading->data, 0, &match_info);
 
           if(has_matched){
-            results = add_match(match_info, NULL, dicentry, results);
+            results = add_match(match_info, comment, dicentry, results);
           }
           else{
             jap_reading = jap_reading->next;
@@ -191,7 +192,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
           has_matched = g_regex_match (regex, sub_gloss_list->data, 0, &match_info);
           
           if(has_matched){
-            results = add_match(match_info, NULL, dicentry, results);
+            results = add_match(match_info, comment, dicentry, results);
           }
           else {
             sub_gloss_list = sub_gloss_list->next;
