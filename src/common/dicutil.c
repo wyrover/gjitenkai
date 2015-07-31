@@ -228,6 +228,22 @@ gchar *regex_full_to_half(const gchar *str) {
       length = g_utf8_next_char(strptr) - strptr;
       strncat(halfptr, ",", length);
     }
+    else if(!g_strcmp0(utf8char, "」")){
+      length = g_utf8_next_char(strptr) - strptr;
+      strncat(halfptr, "]", length);
+    }
+    else if(!g_strcmp0(utf8char, "「")){
+      length = g_utf8_next_char(strptr) - strptr;
+      strncat(halfptr, "[", length);
+    }
+    else if(!g_strcmp0(utf8char, "＄")){
+      length = g_utf8_next_char(strptr) - strptr;
+      strncat(halfptr, "$", length);
+    }
+    else if(!g_strcmp0(utf8char, "＾")){
+      length = g_utf8_next_char(strptr) - strptr;
+      strncat(halfptr, "^", length);
+    }
     else {
       //no modification, copy from strptr
       length = g_utf8_next_char(strptr) - strptr;
