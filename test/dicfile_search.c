@@ -13,6 +13,9 @@ void results_free(GList *results){
 
 int main( int argc, char **argv )
 {
+  g_printf("parameters are dictionary path and search expression\n\
+parameters are not checked\n");
+  
   //create and open dictionary
   WorddicDicfile *dicfile = g_new0(WorddicDicfile, 1);
   dicfile->path = g_strdup(argv[1]);
@@ -25,8 +28,13 @@ int main( int argc, char **argv )
   worddic_dicfile_close(dicfile);
   
   //search 
-  GList *results = dicfile_search(dicfile, argv[2]);
-  
+  GList *results = dicfile_search(dicfile,
+                                  argv[2],
+                                  NULL,
+                                  GIALL,
+                                  ANY_MATCH,
+                                  ANY_MATCH,
+                                  -1);
   //print
   GList *l;
   for(l=results;l!=NULL;l = l->next){
