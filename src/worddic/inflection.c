@@ -137,7 +137,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
                                          deinflected->str,
                                          comment,
                                          entry_type,
-                                         ANY_MATCH,
+                                         EXACT_MATCH,
                                          ANY_MATCH,
                                          1);
 
