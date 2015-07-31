@@ -136,11 +136,10 @@ GList *dicfile_search(WorddicDicfile *dicfile,
   gint start_position = 0;
   gboolean has_matched=FALSE;
   GMatchInfo *match_info = NULL;
-
+  
   GRegex* regex = g_regex_new (entry_string->str,
                                G_REGEX_OPTIMIZE|
                                G_REGEX_NO_AUTO_CAPTURE|
-                               G_REGEX_UNGREEDY|
                                G_REGEX_CASELESS,
                                start_position,
                                &error);
