@@ -112,10 +112,6 @@ GList* search_inflections(WorddicDicfile *dicfile,
     deinflected = g_string_truncate (deinflected, radical_pos);
     deinflected = g_string_append(deinflected, tmp_vinfl_struct->infl);
  
-    //search exact
-    deinflected = g_string_append_c(deinflected, '$');
-    deinflected = g_string_prepend_c(deinflected, '^');
-
     //comment that explains which inflection was searched
     gchar *comment = g_strdup_printf("%s %s -> %s",
                                      tmp_vinfl_struct->type,
@@ -136,10 +132,14 @@ GList* search_inflections(WorddicDicfile *dicfile,
     GList *results_infl = dicfile_search(dicfile,
                                          deinflected->str,
                                          comment,
-                                         entry_type);
+                                         entry_type,
+                                         EXACT_MATCH,
+                                         0,
+                                         1);
 
     results = g_list_concat(results, results_infl);
 
+    //free memory
     g_free(comment);
     g_string_free(deinflected, TRUE);
   }

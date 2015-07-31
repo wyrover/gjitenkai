@@ -92,9 +92,44 @@ GList *add_match(GMatchInfo *match_info,
 GList *dicfile_search(WorddicDicfile *dicfile,
                       const gchar *search_expression,
                       gchar *comment,
-                      enum entry_GI itype){
+                      enum entry_GI itype,
+                      enum dicfile_search_criteria match_criteria_jp,
+                      enum dicfile_search_criteria match_criteria_lat,
+                      gint is_jp){
   //list of matched dictonnary entries
   GList *results = NULL;
+
+  //detect is the search expression is in japanese or latin char
+  if(is_jp <= -1)is_jp = detect_japanese(search_expression);
+
+  /////////////////////////////////////////////////////////////////
+  //modify the expression with anchors according to the search criteria
+  //create a GString to do so
+  GString *entry_string = g_string_new(search_expression);
+  if(is_jp){
+    if(match_criteria_jp == EXACT_MATCH){
+      entry_string = g_string_prepend_c(entry_string, '^');
+      entry_string = g_string_append_c(entry_string, '$');
+    }
+    else if(match_criteria_jp == START_WITH_MATCH){
+      entry_string = g_string_prepend_c(entry_string, '^');
+    }
+  
+    else if(match_criteria_jp == END_WITH_MATCH){
+      entry_string = g_string_append_c(entry_string, '$');
+    }
+  }
+  else{
+    if(match_criteria_lat == EXACT_MATCH){
+      entry_string = g_string_prepend_c(entry_string, '^');
+      entry_string = g_string_append_c(entry_string, '$');      
+    }
+    else if(match_criteria_lat == WORD_MATCH){
+        entry_string = g_string_prepend(entry_string, "\\b");
+        entry_string = g_string_append(entry_string, "\\b");
+    }
+  }
+  ////////
 
   //regex variables
   GError *error = NULL;
@@ -102,20 +137,20 @@ GList *dicfile_search(WorddicDicfile *dicfile,
   gboolean has_matched=FALSE;
   GMatchInfo *match_info = NULL;
 
-  GRegex* regex = g_regex_new (search_expression,
+  GRegex* regex = g_regex_new (entry_string->str,
                                G_REGEX_OPTIMIZE|
                                G_REGEX_NO_AUTO_CAPTURE|
                                G_REGEX_UNGREEDY|
                                G_REGEX_CASELESS,
                                start_position,
                                &error);
+  //free memory
+  g_string_free(entry_string, TRUE);
 
+  //cannot continue the search if the regex is invalid
   if(!regex)return NULL;
   
-  //detect is the search expression is in japanese or latin char
-  gboolean jpsrch = detect_japanese(search_expression);
-
-  if(jpsrch){
+  if(is_jp){
     //search matches in the japanese definition or japanese reading
     //if the search expression contains at least a japanese character
 
@@ -212,7 +247,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
     }
   }
 
-  //free memory 
+  //free memory
   g_regex_unref(regex);
   
   return results;

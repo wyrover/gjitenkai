@@ -1,4 +1,5 @@
 #include <glib.h>
+#include <glib/gprintf.h>
 
 #include "worddic.h"
 #include "worddic_dicfile.h"
@@ -67,41 +68,16 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
   worddic->results = NULL;
   
   //get the expression to search from the search entry
-  const gchar *entry_text = gtk_entry_get_text(entry);
-  if(!strcmp(entry_text, ""))return;
+  const gchar *search_entry_text = gtk_entry_get_text(entry);
+  if(!strcmp(search_entry_text, ""))return;
   
   //detect is the search is in japanese
-  gboolean is_jp = detect_japanese(entry_text);
-
-  //modify the expression with anchors if there are search criteria
-  GString *entry_string = g_string_new(entry_text);
-  if(is_jp){
-    if(match_criteria_jp == EXACT_MATCH){
-      entry_string = g_string_prepend_c(entry_string, '^');
-      entry_string = g_string_append_c(entry_string, '$');
-    }
-    else if(match_criteria_jp == START_WITH_MATCH){
-      entry_string = g_string_prepend_c(entry_string, '^');
-    }
+  gboolean is_jp = detect_japanese(search_entry_text);
   
-    else if(match_criteria_jp == END_WITH_MATCH){
-      entry_string = g_string_append_c(entry_string, '$');
-    }
-  }
-  else{
-    if(match_criteria_lat == EXACT_MATCH){
-      entry_string = g_string_prepend_c(entry_string, '^');
-      entry_string = g_string_append_c(entry_string, '$');      
-    }
-    else if(match_criteria_lat == WORD_MATCH){
-        entry_string = g_string_prepend(entry_string, "\\b");
-        entry_string = g_string_append(entry_string, "\\b");
-    }
-  }
+  //get the modified string with anchors from the GString
+  //convert fullwidth regex punctuation to halfwidth regex puncutation
+  gchar *entry_text = regex_full_to_half(search_entry_text);
 
-  gchar *entry_text_raw = strdup(entry_text);
-  entry_text = entry_string->str;
-  
   //get the search result text entry to display matches
   GtkTextBuffer *textbuffer_search_results = 
     (GtkTextBuffer*)gtk_builder_get_object(worddic->definitions, 
@@ -131,8 +107,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     }
     
 
-    //if this dictionary was not loaded, parse the file in his path into it's
-    //internal entries
+    //if this dictionary was not loaded, parse it now
     if(!dicfile->is_loaded){
       worddic_dicfile_open(dicfile);
       worddic_dicfile_parse_all(dicfile);
@@ -155,7 +130,8 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
     if(is_jp){
       //search for deinflections
       if(deinflection){
-        results = g_list_concat(results, search_inflections(dicfile, entry_text_raw));
+        results = g_list_concat(results,
+                                search_inflections(dicfile, entry_text));
       }
 
       //search hiragana on katakana
@@ -165,7 +141,11 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
         results = g_list_concat(results, dicfile_search(dicfile,
                                                         hiragana,
                                                         "from katakana",
-                                                        GIALL));
+                                                        GIALL,
+                                                        match_criteria_jp,
+                                                        match_criteria_lat,
+                                                        1)
+                                );
         g_free(hiragana);  //free memory
       }
     
@@ -176,13 +156,24 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
         results = g_list_concat(results, dicfile_search(dicfile,
                                                         katakana,
                                                         "from hiragana",
-                                                        GIALL));
+                                                        GIALL,
+                                                        match_criteria_jp,
+                                                        match_criteria_lat,
+                                                        1)
+                                );
         g_free(katakana); //free memory
       }
     }
 
     //standard search
-    results = g_list_concat(results, dicfile_search(dicfile, entry_text, NULL, GIALL));
+    results = g_list_concat(results, dicfile_search(dicfile,
+                                                    entry_text,
+                                                    NULL,
+                                                    GIALL,
+                                                    match_criteria_jp,
+                                                    match_criteria_lat,
+                                                    is_jp)
+                            );
     
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);
@@ -196,8 +187,7 @@ G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
 
     
   //free memory
-  g_free(entry_text_raw);
-  g_string_free(entry_string, TRUE);
+  g_free(entry_text);
 }
 
 //////////////////////

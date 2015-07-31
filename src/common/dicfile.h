@@ -17,14 +17,6 @@
 #include "conf.h"
 #include "error.h"
 
-enum dicfile_search_criteria{
-  EXACT_MATCH = 1,   //jp latin (whole expression)
-  START_WITH_MATCH,  //jp
-  END_WITH_MATCH,    //jp
-  ANY_MATCH,         //jp latin (any)
-  WORD_MATCH 	     //latin (whole word)
-};
-
 enum dicfie_search_result{
   SRCH_OK = 0,
   SRCH_FAIL,

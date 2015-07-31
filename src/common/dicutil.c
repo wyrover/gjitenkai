@@ -133,7 +133,7 @@ gboolean is_kanji_only(const gchar *line) {
 }
 
 //Finds out if the result is EXACT_MATCH, START_WITH_MATCH, END_WITH_MATCH, ANY_MATCH
-int get_jp_match_type(gchar *line, const gchar *srchstrg, int offset) {
+/*int get_jp_match_type(gchar *line, const gchar *srchstrg, int offset) {
   int srchstrglen;
 
   srchstrglen = strlen(srchstrg);
@@ -155,7 +155,7 @@ int get_jp_match_type(gchar *line, const gchar *srchstrg, int offset) {
   }
   if ((*(line + offset + srchstrglen)) == ' ') return END_WITH_MATCH;
   return ANY_MATCH;
-}
+  }*/
 
 gboolean isJPChar(const gunichar c) {
   if (isKanaChar(c) == TRUE) return TRUE;
@@ -203,12 +203,75 @@ gboolean isOtherChar(const gunichar c) {
   return FALSE;
 }
 
+//replace fullwidth REGEX characters with halfwidth REGEX characters
+//so the user can use REGEX with japanese characters (avoid changing input
+//method back and forth constently)
+gchar *regex_full_to_half(const gchar *str) {
+  const gchar *strptr = str;
+  gchar *half = g_new0(gchar, strlen(str) + 6);
+  gchar *halfptr = half;
+  gint length = 0;
+
+  while (*strptr != 0) {
+    gunichar unicodechar = g_utf8_get_char(strptr);
+    gchar utf8char[sizeof(gunichar)];
+    to_utf8(unicodechar, utf8char);
+    if(!g_strcmp0(utf8char, "＋") ||
+       !g_strcmp0(utf8char, "ー") ||
+       !g_strcmp0(utf8char, "？") ||
+       !g_strcmp0(utf8char, "＊") ||
+       !g_strcmp0(utf8char, "！") ||
+       !g_strcmp0(utf8char, "＼") ||
+       !g_strcmp0(utf8char, "｛") ||
+       !g_strcmp0(utf8char, "｝") ||
+       !g_strcmp0(utf8char, "（") ||
+       !g_strcmp0(utf8char, "）") ||
+       !g_strcmp0(utf8char, "（") ||  
+       !g_strcmp0(utf8char, "１") ||
+       !g_strcmp0(utf8char, "２") ||
+       !g_strcmp0(utf8char, "３") ||
+       !g_strcmp0(utf8char, "４") ||
+       !g_strcmp0(utf8char, "５") ||
+       !g_strcmp0(utf8char, "６") ||
+       !g_strcmp0(utf8char, "７") ||
+       !g_strcmp0(utf8char, "８") ||
+       !g_strcmp0(utf8char, "９") ||
+       !g_strcmp0(utf8char, "０")
+       ){
+      gchar *halfchar = full_to_half(utf8char);
+      length = g_utf8_next_char(strptr) - strptr;
+      strncat(halfptr, halfchar, length);
+      g_free(halfchar);
+    }
+    else if(!g_strcmp0(utf8char, "。")){
+      gchar *halfchar = ideographical_full_stop_to_full_stop(utf8char);
+      length = g_utf8_next_char(strptr) - strptr;
+      strncat(halfptr, halfchar, length);
+      g_free(halfchar);
+    }
+    else {
+      //no modification, copy from strptr
+      length = g_utf8_next_char(strptr) - strptr;
+      strncat(halfptr, strptr, length);
+    }
+          
+    halfptr = g_utf8_next_char(halfptr);
+    strptr = g_utf8_next_char(strptr);
+    if (strptr == NULL){
+      break;
+    }
+  }
+    
+  halfptr[length + 1] = '\0';
+  return half;
+}
+
 /* Convert Hiragana -> Katakana.*/
 gchar *hira_to_kata(const gchar *hirastr) {
   const gchar *hiraptr = hirastr;
   gchar *kata = g_new0(gchar, strlen(hirastr) + 6);
   gchar *kataptr = kata;
-  int length;
+  gint length=0;
 
   while (*hiraptr != 0) {
     if (isHiraganaChar(g_utf8_get_char(hiraptr)) == TRUE) {
@@ -217,12 +280,13 @@ gchar *hira_to_kata(const gchar *hirastr) {
     else {
       length = g_utf8_next_char(hiraptr) - hiraptr;
       strncat(kataptr, hiraptr, length);
-      kataptr[length + 1] = 0;
     }
     kataptr = g_utf8_next_char(kataptr);
     hiraptr = g_utf8_next_char(hiraptr);
     if (hiraptr == NULL) break;
-  } 
+  }
+
+  kataptr[length + 1] = 0;
   return kata;
 }
 
@@ -231,7 +295,7 @@ gchar *kata_to_hira(const gchar *katastr) {
   const gchar *kataptr = katastr;
   gchar *hira = g_new0(gchar, strlen(katastr) + 6);
   gchar *hiraptr = hira;
-  int length;
+  gint length=0;
 
   while (*kataptr != 0) {
     if (isKatakanaChar(g_utf8_get_char(kataptr)) == TRUE) {
@@ -240,12 +304,13 @@ gchar *kata_to_hira(const gchar *katastr) {
     else {
       length = g_utf8_next_char(kataptr) - kataptr;
       strncat(hiraptr, kataptr, length);
-      hiraptr[length + 1] = 0;
     }
     hiraptr = g_utf8_next_char(hiraptr);
     kataptr = g_utf8_next_char(kataptr);
     if (kataptr == NULL) break;
-  } 
+  }
+
+  hiraptr[length + 1] = 0;
   return hira;
 }
 
