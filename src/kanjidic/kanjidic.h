@@ -14,7 +14,7 @@
 #define SETTINGS_KANJIDIC "gjitenkai.kanjidic"
 
 #ifdef MINGW
-	#define UI_DEFINITIONS_FILE_KANJIDIC path_relative("..\\share\\data\\kanjidic.glade")
+	#define UI_DEFINITIONS_FILE_KANJIDIC path_relative("..\\share\\gjitenkai\\kanjidic.glade")
 #else
 	#define UI_DEFINITIONS_FILE_KANJIDIC GJITENKAI_DATADIR"/kanjidic.glade"
 #endif

@@ -8,7 +8,7 @@
 #include "../kanjidic/kanjidic.h"
 
 #ifdef MINGW
-	#define UI_DEFINITIONS_FILE_GJITENKAI path_relative("..\\share\\data\\gjitenkai.glade")
+	#define UI_DEFINITIONS_FILE_GJITENKAI path_relative("..\\share\\gjitenkai\\gjitenkai.glade")
 #else
 	#define UI_DEFINITIONS_FILE_GJITENKAI GJITENKAI_DATADIR"/gjitenkai.glade"
 #endif

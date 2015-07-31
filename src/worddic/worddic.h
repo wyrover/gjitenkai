@@ -15,7 +15,7 @@
 #define SETTINGS_WORDDIC "gjitenkai.worddic"
 
 #ifdef MINGW
-	#define UI_DEFINITIONS_FILE_WORDDIC path_relative("..\\share\\data\\worddic.glade")
+	#define UI_DEFINITIONS_FILE_WORDDIC path_relative("..\\share\\gjitenkai\\worddic.glade")
 #else
 	#define UI_DEFINITIONS_FILE_WORDDIC GJITENKAI_DATADIR"/worddic.glade"
 #endif
