@@ -17,6 +17,12 @@
 #include "../common/dicfile.h"
 #include "../common/dicutil.h"
 
+#ifdef MINGW
+	#define VINFL_FILENAME path_relative("..\\share\\gjitenkai\\vconj.utf8")
+#else
+	#define VINFL_FILENAME GJITENKAI_DATADIR"/vconj.utf8"
+#endif
+
 /**
 use a text file (vconj.utf8) which maps the dictionary form of a verb with 
 diffent forms (which is called inflection). 
@@ -61,11 +67,16 @@ struct vinfl_struct {
   enum conj_type itype;
 };
 
+//globals
 GSList *vinfl_list;
+gchar *vinfl_start;
+gchar *vconj_types[VCONJ_TYPE_MAX];
+
 
 void init_inflection();
-
 GList* search_inflections(WorddicDicfile *dicfile,
                           const gchar *srchstrg);
+void free_inflection();
+void free_vinfl(struct vinfl_struct *vinfl);
 
 #endif

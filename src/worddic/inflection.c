@@ -1,24 +1,21 @@
 #include "inflection.h"
 
 void init_inflection() {
-
-  gchar *vconj_types[VCONJ_TYPE_MAX];
-  
   vinfl_list=NULL;
   gchar *tmp_ptr;
-  gchar *vinfl_start, *vinfl_ptr, *vinfl_end;
+  gchar *vinfl_ptr, *vinfl_end;
   int vinfl_part = 1;
   int conj_type = 40;
   struct vinfl_struct *tmp_vinfl_struct;
-  GSList *tmp_list_ptr = NULL;
 
   gchar *vconj = VINFL_FILENAME;
+  vinfl_start = NULL;
   vinfl_start = read_file(vconj);
-  
+
 #ifdef MINGW
   g_free(vconj);
 #endif
-
+  
   vinfl_end = vinfl_start + strlen(vinfl_start);
   vinfl_ptr = vinfl_start;
 
@@ -49,8 +46,7 @@ void init_inflection() {
 
         //find end of line
         vinfl_ptr = get_eof_line(vinfl_ptr, vinfl_end);
-        vconj_types[conj_type] = g_strndup(tmp_ptr, vinfl_ptr - tmp_ptr -1);
-  
+        vconj_types[conj_type] = g_strndup(tmp_ptr, vinfl_ptr - tmp_ptr -1);  
       }
       break;
     case 2:
@@ -58,7 +54,7 @@ void init_inflection() {
         vinfl_ptr =  get_eof_line(vinfl_ptr, vinfl_end);
         break;
       }
-      tmp_vinfl_struct = (struct vinfl_struct *) malloc (sizeof(struct vinfl_struct));
+      tmp_vinfl_struct = g_new0 (struct vinfl_struct, 1);
       tmp_ptr = vinfl_ptr;
       while (g_unichar_iswide(g_utf8_get_char(vinfl_ptr)) == TRUE) {
         vinfl_ptr = g_utf8_next_char(vinfl_ptr); //skip the conjugation
@@ -79,9 +75,9 @@ void init_inflection() {
       tmp_vinfl_struct->type = vconj_types[atoi(vinfl_ptr)];
       tmp_vinfl_struct->itype = atoi(vinfl_ptr);
       vinfl_ptr =  get_eof_line(vinfl_ptr, vinfl_end);
-  
-      tmp_list_ptr = g_slist_append(tmp_list_ptr, tmp_vinfl_struct);
-      if (vinfl_list == NULL) vinfl_list = tmp_list_ptr;
+
+      //push the tmp vinfl structure in the list
+      vinfl_list = g_slist_prepend(vinfl_list, tmp_vinfl_struct);
       break;
     }
   }
@@ -179,4 +175,22 @@ GList* search_inflections(WorddicDicfile *dicfile,
   g_slist_free_full(previous_search, g_free);
   
   return results;
+}
+
+void free_inflection(){
+  g_free(vinfl_start);
+  gint i;
+  for(i=0;i<VCONJ_TYPE_MAX;i++){
+    g_free(vconj_types[i]);
+  }
+}
+
+void free_vinfl(struct vinfl_struct *vinfl){
+  g_free(vinfl->conj);
+  vinfl->conj = NULL;
+  g_free(vinfl->infl);
+  vinfl->infl = NULL;
+  g_free(vinfl->type);
+  vinfl->type = NULL;
+  g_free(vinfl);
 }

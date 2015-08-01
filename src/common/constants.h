@@ -4,10 +4,8 @@
 #include "../../config.h"
 
 #ifdef MINGW
-	#define VINFL_FILENAME path_relative("..\\share\\gjitenkai\\vconj.utf8")
 	#define RADKFILE_NAME path_relative("..\\share\\gjitenkai\\radkfile.utf8")
 #else
-	#define VINFL_FILENAME strdup(GJITENKAI_DATADIR"/vconj.utf8")
 	#define RADKFILE_NAME strdup(GJITENKAI_DATADIR"/radkfile.utf8")
 #endif
 

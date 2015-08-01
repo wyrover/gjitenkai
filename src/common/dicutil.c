@@ -39,12 +39,16 @@ gchar *read_file(const gchar *filename){
   rewind (pFile);
 
   // allocate memory to contain the whole file:
-  file_content = (char*) malloc (sizeof(char)*file_content_size);
-  if (file_content == NULL) {fputs ("Memory error",stderr); exit (2);}
+  file_content = (gchar*) g_malloc (sizeof(gchar)*file_content_size + 1);
+  if (file_content == NULL) {
+    g_printf ("Memory error when reading file %s\n", filename);
+  }
 
   // copy the file into the file_content:
   result = fread (file_content,1,file_content_size,pFile);
-  if (result != file_content_size) {fputs ("Reading error",stderr); exit (3);}
+  if (result != file_content_size) {
+    g_printf ("Error when reading file %s\n", filename);
+  }
 
   fclose (pFile);
 
