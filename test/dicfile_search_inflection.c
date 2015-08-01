@@ -1,6 +1,10 @@
 //gcc -g dicfile_search_inflection.c ../src/worddic/worddic_dicfile.c ../src/worddic/dicentry.c ../src/common/dicutil.c ../src/worddic/gloss.c ../src/worddic/dicresult.c ../src/worddic/inflection.c ./print_entry.c $(pkg-config --cflags --libs gtk+-3.0) -I../src/worddic/ -o dicfile_search_inflection
+
+//たべます
+
 #include <gtk/gtk.h>
 
+#include "../src/worddic/inflection.h"
 #include "../src/worddic/worddic_dicfile.h"
 
 
@@ -12,17 +16,14 @@ void results_free(GList *results){
 }
 
 int main( int argc, char **argv )
-{
-  if(!g_strcmp0(argv[1], "ぐ")){
-    g_printf("GU!\n");
-    return 1;
-  }
-    
+{    
   //create and open dictionary
   WorddicDicfile *dicfile = g_new0(WorddicDicfile, 1);
   dicfile->path = g_strdup(argv[1]);
   worddic_dicfile_open(dicfile);
 
+  gchar * search_expression = argv[2];
+  
   //parse dictionary
   worddic_dicfile_parse_all(dicfile);
 
@@ -33,7 +34,7 @@ int main( int argc, char **argv )
   init_inflection();
   
   //search for infections 
-  GList *results = search_inflections(dicfile, argv[2]);
+  GList *results = search_inflections(dicfile, search_expression);
   
   //print
   GList *l;
@@ -45,7 +46,8 @@ int main( int argc, char **argv )
     //print the entry
     print_entry(result->entry);
   }
-  
+
+  //free memory
   //free dicresult
   //when freeing a dicreslt, do not free the dicentry as it will be used again
   //at the next search, just free the comment and the match
@@ -54,6 +56,9 @@ int main( int argc, char **argv )
   
   //free dictionary
   worddic_dicfile_free(dicfile);
+
+  //free inflection
+  free_inflection();
   
   return 1;
 }
