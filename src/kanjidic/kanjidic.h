@@ -29,7 +29,7 @@ typedef struct kanjidic_t
   //with these two hash, search can be performed on kanji and radicals
   GHashTable *kanji_info_hash;  //kanji   -> list of kanjiinfo
   GHashTable *rad_info_hash;    //radical ->  list of radicalinfo
-  GList *rad_info_list;         //list of radicalinfo
+  GSList *rad_info_list;         //list of radicalinfo
 
   //search options
   gboolean filter_by_stroke;
@@ -68,8 +68,8 @@ void set_ui_key_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic);
 /**
    Search kanji according to the search filter values
  */
-GList* search_kanji(kanjidic *kanjidic);
-void display_candidates(kanjidic *kanjidic, GList *kanji_list);
+GSList* search_kanji(kanjidic *kanjidic);
+void display_candidates(kanjidic *kanjidic, GSList *kanji_list);
 
 void display_kanji(kanjidic *kanjidic, const gchar* kanji);
 

@@ -85,10 +85,10 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
   GtkEditable *editable = GTK_EDITABLE(entry);
 
   //if the kanji is a radical (kanji is found in the rad_info_hash), quit
-  GList *all_radical_list = g_hash_table_get_keys(kanjidic->rad_info_hash);
+  GSList *all_radical_list = (GSList *)g_hash_table_get_keys(kanjidic->rad_info_hash);
   for (;
        all_radical_list != NULL; 
-       all_radical_list = g_list_next(all_radical_list)) {
+       all_radical_list = g_slist_next(all_radical_list)) {
     if(!strcmp(all_radical_list->data, text)){
       return;
     }
@@ -127,19 +127,19 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
   }
 
   //get the radicals of the kanji and insert them into the entry
-  GList* kanji_radical_list = get_radical_of_kanji(unichar, 
+  GSList* kanji_radical_list = get_radical_of_kanji(unichar, 
                                              kanjidic->kanji_info_hash);
 
   //if the kanji_radical_list size if of only one character, 
   //and the kanji inserted is the radical found, return. 
   //(prevent infinit recursivity)
-  if(g_list_length(kanji_radical_list) == 1 && 
+  if(g_slist_length(kanji_radical_list) == 1 && 
      !strcmp(utf8char, kanji_radical_list->data))return;
 
   //insert radicals into the entry
   for (;
        kanji_radical_list != NULL;
-       kanji_radical_list = g_list_next(kanji_radical_list)) {
+       kanji_radical_list = g_slist_next(kanji_radical_list)) {
 
     gtk_editable_insert_text(editable, 
                              kanji_radical_list->data, 
@@ -164,7 +164,7 @@ G_MODULE_EXPORT void on_button_clear_radical_clicked(GtkButton* button, kanjidic
 }
 
 G_MODULE_EXPORT void on_entry_filter_radical_activate(GtkWidget *entry, kanjidic *kanjidic){
-  GList * kanji_list = search_kanji(kanjidic);
+  GSList * kanji_list = search_kanji(kanjidic);
   display_candidates(kanjidic, kanji_list);
 }
 
@@ -177,7 +177,7 @@ G_MODULE_EXPORT void on_button_kanji_clicked(GtkButton *button, kanjidic *kanjid
 }
 
 G_MODULE_EXPORT void on_button_search_clicked(GtkWidget *widget, kanjidic *kanjidic) {
-  GList * kanji_list = search_kanji(kanjidic);
+  GSList * kanji_list = search_kanji(kanjidic);
   display_candidates(kanjidic, kanji_list);
 }
 

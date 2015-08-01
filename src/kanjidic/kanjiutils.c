@@ -1,8 +1,8 @@
 #include "kanjiutils.h"
 
-GList* load_radkfile(GHashTable **pp_rad_info_hash, 
+GSList* load_radkfile(GHashTable **pp_rad_info_hash, 
                      GHashTable **pp_kanji_info_hash,
-                     GList      *rad_info_list) {
+                     GSList      *rad_info_list) {
   gint rad_cnt = 0;
   gchar *radkfile_ptr;
   gchar *radkfile_end;
@@ -49,7 +49,7 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
       //new rad_info to be stored in the rad_info_hash and rad_info_list
       rad_info = g_new0(RadInfo, 1);
       rad_info->kanji_info_list = NULL;
-      rad_info_list = g_list_prepend(rad_info_list, rad_info);
+      rad_info_list = g_slist_prepend(rad_info_list, rad_info);
 
       //store radical character
       //the characters in the file are in UTF8 format. We need unicode.  
@@ -99,8 +99,8 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
         }
 
         //add the kanji and the radical info in their respective lists
-        kanji_info->rad_info_list = g_list_prepend(kanji_info->rad_info_list, rad_info);
-        rad_info->kanji_info_list = g_list_prepend(rad_info->kanji_info_list, kanji_info);
+        kanji_info->rad_info_list = g_slist_prepend(kanji_info->rad_info_list, rad_info);
+        rad_info->kanji_info_list = g_slist_prepend(rad_info->kanji_info_list, kanji_info);
 
         //navigate to next character
         radkfile_ptr = g_utf8_next_char(radkfile_ptr);
@@ -111,9 +111,9 @@ GList* load_radkfile(GHashTable **pp_rad_info_hash,
   return rad_info_list;
 }
 
-GList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash) {
-  GList *kanji_info_list = NULL;
-  GList *radical_list = NULL; //list of radical to be returned
+GSList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash) {
+  GSList *kanji_info_list = NULL;
+  GSList *radical_list = NULL; //list of radical to be returned
 
   //convert to UTF8
   gchar utf8kanji[3];
@@ -131,7 +131,7 @@ GList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash) {
   for (kanji_info_list = kanji_info->rad_info_list;
        kanji_info_list != NULL;
        kanji_info_list = kanji_info_list->next) {
-    radical_list = g_list_prepend(radical_list, 
+    radical_list = g_slist_prepend(radical_list, 
                                   (gpointer) ((RadInfo *) kanji_info_list->data)->radical
                                   );
   }
@@ -139,7 +139,7 @@ GList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash) {
   return radical_list;
 }
 
-GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfile)  {
+GSList* get_kanji_by_key(const gchar *srchkey, GSList *list, GjitenDicfile *dicfile)  {
   gint srch_resp = 0, roff = 0, rlen = 0;
   gchar repstr[1024];
   guint32 respos, oldrespos; 
@@ -152,7 +152,7 @@ GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfil
   oldrespos = srchpos = respos;
   
   kanjifile_entry* entry = kanjidic_dicfile_parse_line(repstr);
-  list = g_list_prepend(list, entry->kanji);
+  list = g_slist_prepend(list, entry->kanji);
   
   while (roff != 0) {
     oldrespos = respos;
@@ -167,13 +167,13 @@ GList* get_kanji_by_key(const gchar *srchkey, GList *list, GjitenDicfile *dicfil
     get_word(word, repstr, sizeof(word), 0);
     word[3] = '\0';
 
-    list = g_list_prepend(list, strdup(word));
+    list = g_slist_prepend(list, strdup(word));
   }
 
   return list;
 }
 
-GList* get_kanji_by_stroke(int stroke, int plusmin, GList *list, GjitenDicfile *dicfile) {
+GSList* get_kanji_by_stroke(int stroke, int plusmin, GSList *list, GjitenDicfile *dicfile) {
   static char srchkey[10];
   int i, lowerlim, upperlim;
  
@@ -191,11 +191,11 @@ GList* get_kanji_by_stroke(int stroke, int plusmin, GList *list, GjitenDicfile *
   return list;
 }
 
-GList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash) { 
+GSList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash) { 
   gint radnum;                         //number of character in radstrg
   RadInfo *rad_info;             
-  GList *kanji_info_list = NULL;
-  GList *result = NULL;                //list of matched kanji to return
+  GSList *kanji_info_list = NULL;
+  GSList *result = NULL;                //list of matched kanji to return
   const gchar *radstrg_ptr;            //pointer to browse radstrg
 
   radnum = g_utf8_strlen(radstrg, -1); 
@@ -218,13 +218,13 @@ GList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash) {
 
     if (rad_info) {
       //contains all the kanji of the current radical
-      GList *radical_kanji_list = NULL;
+      GSList *radical_kanji_list = NULL;
 
       //add all the kanji from the radical info list to the tmp list
       for (kanji_info_list = rad_info->kanji_info_list;
            kanji_info_list != NULL;
            kanji_info_list = kanji_info_list->next) {
-        radical_kanji_list = g_list_prepend(radical_kanji_list, 
+        radical_kanji_list = g_slist_prepend(radical_kanji_list, 
                                             (gpointer) ((KanjiInfo *) kanji_info_list->data)->kanji
                                             );
       }
@@ -247,8 +247,8 @@ GList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash) {
   return result;
 }
 
-GList* list_merge(GList *list_a, GList *list_b) {
-  GList *ptr1, *ptr2, *nextptr;
+GSList* list_merge(GSList *list_a, GSList *list_b) {
+  GSList *ptr1, *ptr2, *nextptr;
   int found;
 
   if(!list_a)return list_b;
@@ -256,7 +256,7 @@ GList* list_merge(GList *list_a, GList *list_b) {
 
   ptr1 = list_a;
   while (ptr1 != NULL) {
-    nextptr = g_list_next(ptr1);
+    nextptr = g_slist_next(ptr1);
     found = FALSE;
     ptr2 = list_b;
     while (ptr2 != NULL) {
@@ -264,21 +264,21 @@ GList* list_merge(GList *list_a, GList *list_b) {
         found = TRUE;
         break;
       }
-      ptr2 = g_list_next(ptr2);
+      ptr2 = g_slist_next(ptr2);
     }
     if (found == FALSE) {
-      list_a = g_list_remove(list_a, ptr1->data);
+      list_a = g_slist_remove(list_a, ptr1->data);
     }
     ptr1 = nextptr;
   }
-  g_list_free(list_b);
+  g_slist_free(list_b);
   list_b = NULL;
 
   return list_a;
 }
 
-GList* list_merge_str(GList *list_a, GList *list_b) {
-  GList *ptr1, *ptr2, *nextptr;
+GSList* list_merge_str(GSList *list_a, GSList *list_b) {
+  GSList *ptr1, *ptr2, *nextptr;
   int found;
 
   if(!list_a)return list_b;
@@ -286,7 +286,7 @@ GList* list_merge_str(GList *list_a, GList *list_b) {
 
   ptr1 = list_a;
   while (ptr1 != NULL) {
-    nextptr = g_list_next(ptr1);
+    nextptr = g_slist_next(ptr1);
     found = FALSE;
     ptr2 = list_b;
     while (ptr2 != NULL) {
@@ -294,14 +294,14 @@ GList* list_merge_str(GList *list_a, GList *list_b) {
         found = TRUE;
         break;
       }
-      ptr2 = g_list_next(ptr2);
+      ptr2 = g_slist_next(ptr2);
     }
     if (found == FALSE) {
-      list_a = g_list_remove(list_a, ptr1->data);
+      list_a = g_slist_remove(list_a, ptr1->data);
     }
     ptr1 = nextptr;
   }
-  g_list_free(list_b);
+  g_slist_free(list_b);
   list_b = NULL;
 
   return list_a;

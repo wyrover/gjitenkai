@@ -120,8 +120,8 @@ void set_ui_key_filter_sensitivity(gboolean sensitivity, kanjidic *kanjidic){
   gtk_widget_set_sensitive(GTK_WIDGET(entry_filter_key), sensitivity);
 }
 
-GList *search_kanji(kanjidic *kanjidic){
-  GList *kanji_list=NULL;
+GSList *search_kanji(kanjidic *kanjidic){
+  GSList *kanji_list=NULL;
   
   //filter by strokes
   if(kanjidic->filter_by_stroke){
@@ -137,7 +137,7 @@ GList *search_kanji(kanjidic *kanjidic){
     gint stroke_filter_diff = gtk_spin_button_get_value_as_int(spinbutton_filter_stroke_diff);
     
     //get all kanji with the entered radicals
-    GList *kanji_by_stroke_list=NULL;
+    GSList *kanji_by_stroke_list=NULL;
     kanji_by_stroke_list = get_kanji_by_stroke(stroke_filter, stroke_filter_diff, 
                                                kanji_by_stroke_list,
                                                kanjidic->conf->kanjidic);
@@ -153,7 +153,7 @@ GList *search_kanji(kanjidic *kanjidic){
     //if the entry is empty, ignore the filter
     if(strcmp(radicals, "")){
       //get all kanji with the entered radicals
-      GList *kanji_by_radical_list=NULL;
+      GSList *kanji_by_radical_list=NULL;
       kanji_by_radical_list = get_kanji_by_radical(radicals, kanjidic->rad_info_hash);
       kanji_list = list_merge_str(kanji_list, kanji_by_radical_list);
     }
@@ -167,7 +167,7 @@ GList *search_kanji(kanjidic *kanjidic){
 
     //if the entry is empty, ignore the filter
     if(strcmp(key, "")){
-      GList *kanji_by_key_list=NULL;
+      GSList *kanji_by_key_list=NULL;
       kanji_by_key_list = get_kanji_by_key(key, 
                                            kanji_by_key_list, 
                                            kanjidic->conf->kanjidic);
@@ -178,7 +178,7 @@ GList *search_kanji(kanjidic *kanjidic){
   return kanji_list;
 }
 
-void display_candidates(kanjidic *kanjidic, GList *kanji_list){
+void display_candidates(kanjidic *kanjidic, GSList *kanji_list){
   //anchor in the result textview where to append the 'kanji buttons'
   GtkTextChildAnchor *kanji_results_anchor;
   GtkTextIter kanji_results_iter;
@@ -204,7 +204,7 @@ void display_candidates(kanjidic *kanjidic, GList *kanji_list){
   //for each kanji in the list
   for (;
        kanji_list != NULL;
-       kanji_list = g_list_next(kanji_list)) {
+       kanji_list = g_slist_next(kanji_list)) {
 
     gchar *kanji = (gchar*)kanji_list->data;
     
@@ -253,7 +253,7 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
 
   if(!same_kanji){
     //add the kanji in the history list
-    kanjidic->history = g_slist_prepend(kanjidic->history, kanji);
+    kanjidic->history = g_slist_prepend(kanjidic->history, g_strdup(kanji));
 
     //add the kanji in the history widget
     GtkWidget *button_history = gtk_button_new_with_label(kanji);
@@ -330,7 +330,7 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
       if(!strcmp(ki->gsettings_name, "radical") && kanjidic->rad_info_list){
         //list radicals without separation chars
         KanjiInfo *kanji_info = g_hash_table_lookup(kanjidic->kanji_info_hash, kanji);
-        GList *kanji_info_list;
+        GSList *kanji_info_list;
         
         for (kanji_info_list = kanji_info->rad_info_list;
              kanji_info_list != NULL;
