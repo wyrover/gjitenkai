@@ -2,23 +2,47 @@
 
 void worddic_dicfile_open(WorddicDicfile *dicfile){
 
-  dicfile->fp = fopen(dicfile->path, "r");
+  if(g_str_has_suffix(dicfile->path, ".gz")){
+    dicfile->is_gz = TRUE;
+  }
+  else{
+    dicfile->is_gz = FALSE;
+  }
 
+  if(dicfile->is_gz){
+    dicfile->fp = (FILE*)gzopen(dicfile->path, "r");
+  }
+  else{
+    dicfile->fp = fopen(dicfile->path, "r");
+  }
+  
   //first line is informations (date, author, copyright, ...)
   //It will also be used to check encoding
   gchar *informations = NULL;
   size_t len = 0;
-  ssize_t read = getline(&informations, &len, dicfile->fp);
-    
+
+  ssize_t read;
+  if(!dicfile->is_gz){
+    read = getline(&informations, &len, dicfile->fp);
+  }
+  else{
+    char buffer[GZLEN];
+    gchar *tmpline = gzgets ((gzFile)dicfile->fp, buffer, GZLEN - 1);
+    informations = strdup(tmpline);
+  }
+  
   //check if utf8 or not
+  g_printf("VALIDATING %s\n", informations);
   dicfile->utf8 = g_utf8_validate(informations, read, NULL);
 
   if(!dicfile->utf8){
+    g_printf("NOT UTF8, convert\n");
     dicfile->informations = g_convert (informations, -1, "UTF-8", "EUC-JP",
                                        NULL, NULL, NULL);
     g_free(informations);
   }
   else {
+    g_printf("UTF8\n");
     if(!dicfile->informations){
       dicfile->informations = informations;
     }
@@ -26,7 +50,8 @@ void worddic_dicfile_open(WorddicDicfile *dicfile){
 }
 
 void worddic_dicfile_close(WorddicDicfile *dicfile){
-  fclose(dicfile->fp);
+  if(dicfile->is_gz)gzclose((gzFile)dicfile->fp);
+  else fclose(dicfile->fp);
 }
 
 void worddic_dicfile_parse_all(WorddicDicfile *dicfile){
@@ -43,8 +68,20 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
 
   gchar *line=NULL;
   //get a line in the file
-  read = getline(&line, &len, dicfile->fp);
-
+  if(!dicfile->is_gz){
+    read = getline(&line, &len, dicfile->fp);
+  }
+  else{    
+    gchar buffer[GZLEN];
+    gchar *tmpline = (gchar*)gzgets ((gzFile)dicfile->fp, buffer, GZLEN - 1);
+   
+    if(tmpline){
+      line = strdup(tmpline);
+      read = strlen(line);
+    }
+    else read = -1;
+  }
+  
   //if no more characters to read, return false
   if(read == -1){
     g_free(line);
@@ -60,10 +97,12 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
   else {
     utf_line = line;
   }
-  
-  GjitenDicentry* dicentry = parse_line(utf_line);
-  dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
-  g_free(utf_line);
+
+  if(utf_line){
+    GjitenDicentry* dicentry = parse_line(utf_line);
+    dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
+    g_free(utf_line);
+  }
   
   return TRUE;
 }

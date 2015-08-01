@@ -2,12 +2,15 @@
 #define WORDDIC_DICFILE_H
 
 #include <gtk/gtk.h>
+#include <zlib.h>
 
 #include "dicentry.h"
 #include "dicresult.h"
 #include "gloss.h"
 
 #include "../common/dicfile.h"
+
+#define GZLEN 1600
 
 enum dicfile_search_criteria{
   EXACT_MATCH = 1,   //jp latin (whole expression)
@@ -27,6 +30,7 @@ typedef struct _WorddicDicfile {
 
   FILE * fp;
   gboolean utf8;
+  gboolean is_gz;
   gchar *informations;
 }WorddicDicfile;
 

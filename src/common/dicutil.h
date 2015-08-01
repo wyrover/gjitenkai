@@ -2,6 +2,8 @@
 #define DICUTIL_H
 
 #include <glib.h>
+#include <glib/gprintf.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
