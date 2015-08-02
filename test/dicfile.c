@@ -1,4 +1,4 @@
-//gcc -g dicfile.c ../src/worddic/worddic_dicfile.c ../src/worddic/dicentry.c ../src/common/dicutil.c ../src/worddic/gloss.c $(pkg-config --cflags --libs gtk+-3.0) -I../src/worddic/ -o dicfile
+//gcc -g  dicfile.c ../src/worddic/worddic_dicfile.c ../src/worddic/dicentry.c ../src/common/dicutil.c ../src/worddic/gloss.c $(pkg-config --cflags --libs gtk+-3.0) -lz -I../src/worddic/ -o dicfile
 #include <gtk/gtk.h>
 
 #include "../src/worddic/worddic_dicfile.h"
