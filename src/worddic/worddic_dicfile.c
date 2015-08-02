@@ -20,29 +20,33 @@ void worddic_dicfile_open(WorddicDicfile *dicfile){
   //It will also be used to check encoding
   gchar *informations = NULL;
   size_t len = 0;
-
   ssize_t read;
+  
   if(!dicfile->is_gz){
     read = getline(&informations, &len, dicfile->fp);
   }
   else{
     char buffer[GZLEN];
     gchar *tmpline = gzgets ((gzFile)dicfile->fp, buffer, GZLEN - 1);
-    informations = strdup(tmpline);
+    if(tmpline){
+      informations = strdup(tmpline);
+      read = strlen(informations);
+    }
+    else {
+		read = -1;
+		return;
+	}
   }
   
   //check if utf8 or not
-  g_printf("VALIDATING %s\n", informations);
   dicfile->utf8 = g_utf8_validate(informations, read, NULL);
 
   if(!dicfile->utf8){
-    g_printf("NOT UTF8, convert\n");
     dicfile->informations = g_convert (informations, -1, "UTF-8", "EUC-JP",
                                        NULL, NULL, NULL);
     g_free(informations);
   }
   else {
-    g_printf("UTF8\n");
     if(!dicfile->informations){
       dicfile->informations = informations;
     }
@@ -79,7 +83,9 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
       line = strdup(tmpline);
       read = strlen(line);
     }
-    else read = -1;
+    else {
+		read = -1;
+	}
   }
   
   //if no more characters to read, return false

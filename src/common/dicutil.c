@@ -421,7 +421,7 @@ size_t getline(char** lineptr, size_t *n, FILE *stream){
   char *has_more = fgets (*lineptr, BUFSIZ, stream);
   if(!has_more)return -1;
   *n = strlen(*lineptr);
-  return *n-1;
+  return *n;
 }
 
 
