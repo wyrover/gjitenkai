@@ -1,6 +1,58 @@
 #include "gjitenkai.h"
+#include "../worddic/worddic.h"
+#include "../kanjidic/kanjidic.h"
 
-G_MODULE_EXPORT void on_gjitenkai_menuitem_prefs_activate(GtkButton *button, gjitenkai *gjitenkai){
+//create a regex expression with a kanji list in an 'alternative operator' []
+static gboolean eval_cb (const GMatchInfo *info,
+                         GString          *res,
+                         gpointer         data){
+  kanjidic *kanjidic = data;
+  gchar *match;
+  
+  match = g_match_info_fetch (info, 0);
+
+  GSList *kanji_by_radical_list=NULL;
+  kanji_by_radical_list = get_kanji_by_radical(match, kanjidic->rad_info_hash);
+  GSList *l=NULL;
+
+  GString *kanji_list = g_string_new("[");
+  for(l=kanji_by_radical_list;l != NULL;l = l->next){
+    kanji_list = g_string_append (kanji_list, (gchar*)l->data);
+  }
+  kanji_list = g_string_append_c (kanji_list, ']');
+    
+  res = g_string_append (res, kanji_list->str);
+
+  g_string_free(kanji_list, TRUE);
+  g_free (match);
+
+  return FALSE;
+}
+
+/**
+   Search into kanjidic the radicals before searching in worddic
+*/
+
+G_MODULE_EXPORT void on_gjitenkai_search_expression_activate(GtkEntry *entry,
+                                                             gjitenkai *gjitenkai){
+  GRegex *reg  = NULL;
+
+  const gchar *search_entry_text = gtk_entry_get_text(entry);
+  if(!strcmp(search_entry_text, ""))return;
+
+  //search for radicals in pairs of fullwidth bracets and replace it with a
+  //list of kanji in an square bracets [] alerternative operator  
+  reg = g_regex_new ("＜.+＞", G_REGEX_UNGREEDY, 0, NULL);
+  const gchar *res = g_regex_replace_eval (reg, search_entry_text, -1, 0, 0,
+                                           eval_cb, gjitenkai->kanjidic, NULL);
+
+  g_regex_unref(reg);
+  //search in worrdic 
+  worddic_search(res, gjitenkai->worddic);
+}
+
+G_MODULE_EXPORT void on_gjitenkai_menuitem_prefs_activate(GtkButton *button,
+                                                          gjitenkai *gjitenkai){
   //set size and display the preference window
   GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(gjitenkai->definitions, 
                                                                "prefs");
@@ -8,15 +60,19 @@ G_MODULE_EXPORT void on_gjitenkai_menuitem_prefs_activate(GtkButton *button, gji
   gtk_widget_show_all ((GtkWidget*)prefs);
 }
 
-G_MODULE_EXPORT void on_gjitenkai_button_prefs_OK_clicked(GtkButton *button, gjitenkai *gjitenkai){
+G_MODULE_EXPORT void on_gjitenkai_button_prefs_OK_clicked(GtkButton *button,
+                                                          gjitenkai *gjitenkai){
  GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(gjitenkai->definitions, 
                                                                "prefs");
  gtk_widget_hide(GTK_WIDGET(prefs));
 }
 
-G_MODULE_EXPORT void on_menuitem_view_worddic_toggled(GtkCheckMenuItem *menu_item, gjitenkai *gjitenkai){
-  GtkWidget *box_worddic = (GtkWidget*)gtk_builder_get_object(gjitenkai->worddic->definitions, 
-                                                              "box_toplevel");  
+G_MODULE_EXPORT void on_menuitem_view_worddic_toggled(GtkCheckMenuItem *menu_item,
+                                                      gjitenkai *gjitenkai){
+  GtkWidget *box_worddic = (GtkWidget*)
+    gtk_builder_get_object(gjitenkai->worddic->definitions, 
+                           "box_toplevel");
+  
   if(gtk_check_menu_item_get_active(menu_item)){
     gtk_widget_show(box_worddic);
   }

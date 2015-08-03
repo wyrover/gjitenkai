@@ -1067,14 +1067,14 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkSearchEntry" id="search1">
+          <object class="GtkSearchEntry" id="search_expression">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="primary_icon_name">edit-find-symbolic</property>
             <property name="primary_icon_activatable">False</property>
             <property name="primary_icon_sensitive">False</property>
             <property name="placeholder_text" translatable="yes">Enter expression</property>
-            <signal name="activate" handler="on_search_activate" swapped="no"/>
+            <signal name="activate" handler="on_search_expression_activate" swapped="no"/>
             <signal name="insert-text" handler="on_text_insert_detect_unicode" swapped="no"/>
           </object>
           <packing>
@@ -1098,7 +1098,6 @@
                 <property name="wrap_mode">word</property>
                 <property name="cursor_visible">False</property>
                 <property name="buffer">textbuffer_search_results</property>
-                <signal name="button-release-event" handler="on_search_results_button_release_event" swapped="no"/>
                 <signal name="motion-notify-event" handler="on_search_results_motion_notify_event" swapped="no"/>
               </object>
             </child>

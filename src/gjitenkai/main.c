@@ -6,6 +6,12 @@
 extern gboolean on_gjitenkai_search_results_button_release_event(GtkWidget *text_view,
                                                                  GdkEventButton *event,
                                                                  gjitenkai *gjitenkai);
+extern void on_search_expression_activate(GtkEntry *entry,
+                                          worddic *worddic);
+
+extern void on_gjitenkai_search_expression_activate(GtkEntry *entry,
+                                                     gjitenkai *gjitenkai);
+
 
 int main( int argc, char **argv )
 {
@@ -159,7 +165,10 @@ int main( int argc, char **argv )
   gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group, 
   'y', GDK_CONTROL_MASK | GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
 
-  //callback when the worrdic search result is clicked (search kanji)
+  //////
+  //Callbacks that needs connunication between worddic and kanjidic
+  //callback when the worrdic search result is clicked, get the clicked
+  //character, if it's a kanji, display it in kanjidic
   GtkTextView *result_text_view = (GtkTextView *)gtk_builder_get_object(gjitenkai.worddic->definitions,
                                                                         "search_results");
   g_signal_connect(result_text_view, 
@@ -167,8 +176,21 @@ int main( int argc, char **argv )
                    G_CALLBACK(on_gjitenkai_search_results_button_release_event), 
                    &gjitenkai);
 
+  //callback to expend radical list between fullwidth <bracets> before search.
+  GtkWidget *entry = (GtkWidget*)gtk_builder_get_object(gjitenkai.worddic->definitions, 
+                                                        "search_expression");
+  //disonnect the worddic search callback
+  g_signal_handlers_disconnect_by_func(entry,
+                                       G_CALLBACK(on_search_expression_activate),
+                                       gjitenkai.worddic);
+  //connect to search gjitenkai callback function
+  g_signal_connect(entry, 
+                   "activate",
+                   G_CALLBACK(on_gjitenkai_search_expression_activate), 
+                   &gjitenkai);
+
+  //show and main loop
   gtk_widget_show_all ((GtkWidget*)window);
-  
   gtk_main ();
 
   return 1;

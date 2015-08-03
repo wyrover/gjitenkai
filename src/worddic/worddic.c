@@ -188,6 +188,133 @@ void init_search_menu(worddic *p_worddic)
     gtk_check_menu_item_set_active((GtkCheckMenuItem *)radio_lat, TRUE); 
 }
 
+void worddic_search(const gchar *search_expression, worddic *worddic){
+  //wait if a dictionary is being loaded in a thread
+  if(worddic->thread_load_dic){
+    g_thread_join(worddic->thread_load_dic);
+  }
+  
+  gint match_criteria_jp  = worddic->match_criteria_jp;
+  gint match_criteria_lat  = worddic->match_criteria_lat;
+
+  //clear the last search results
+  worddic->results = g_list_first(worddic->results);
+  g_list_free_full(worddic->results, (GDestroyNotify)dicresult_free);
+  worddic->results = NULL;
+    
+  //detect is the search is in japanese
+  gboolean is_jp = detect_japanese(search_expression);
+  
+  //get the modified string with anchors from the GString
+  //convert fullwidth regex punctuation to halfwidth regex puncutation
+  gchar *entry_text = regex_full_to_half(search_expression);
+  gboolean deinflection   = worddic->conf->verb_deinflection;
+
+  //search in the dictionaries
+  GSList *dicfile_node;
+  WorddicDicfile *dicfile;
+  dicfile_node = worddic->conf->dicfile_list;    //matched dictionary entries
+  GList *results=NULL;
+
+  //get the search result text entry to display matches
+  GtkTextBuffer *textbuffer_search_results = 
+    (GtkTextBuffer*)gtk_builder_get_object(worddic->definitions, 
+                                           "textbuffer_search_results");
+  
+  //clear the display result buffer
+  gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
+
+  //in each dictionaries
+  while (dicfile_node != NULL) {
+    dicfile = dicfile_node->data; 
+
+    //do not search in this dictionary if it's not active
+    if(!dicfile->is_active){
+      dicfile_node = g_slist_next(dicfile_node);
+      continue;
+    }
+    
+
+    //if this dictionary was not loaded, parse it now
+    if(!dicfile->is_loaded){
+      worddic_dicfile_open(dicfile);
+      worddic_dicfile_parse_all(dicfile);
+      worddic_dicfile_close(dicfile);
+
+      dicfile->is_loaded = TRUE;
+
+      /*
+      //update the UI in the preference pane
+      GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
+                                                                  "liststore_dic");
+      GtkTreeIter  iter;
+      GtkTreePath *path = gtk_tree_path_new_from_indices (i, -1);
+      //set the model
+      gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
+      gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_LOADED, TRUE, -1);
+      gtk_tree_path_free (path);
+      */
+    }
+
+    //search that are performed only on japanese text
+    if(is_jp){
+      //search for deinflections
+      if(deinflection){
+        results = g_list_concat(results,
+                                search_inflections(dicfile, entry_text));
+      }
+
+      //search hiragana on katakana
+      if (worddic->conf->search_hira_on_kata &&
+          hasKatakanaString(entry_text)) {
+        gchar *hiragana = kata_to_hira(entry_text);
+        results = g_list_concat(results, dicfile_search(dicfile,
+                                                        hiragana,
+                                                        "from katakana",
+                                                        GIALL,
+                                                        match_criteria_jp,
+                                                        match_criteria_lat,
+                                                        1)
+                                );
+        g_free(hiragana);  //free memory
+      }
+    
+      //search katakana on hiragana
+      if (worddic->conf->search_kata_on_hira &&
+          hasHiraganaString(entry_text)) { 
+        gchar *katakana = hira_to_kata(entry_text);
+        results = g_list_concat(results, dicfile_search(dicfile,
+                                                        katakana,
+                                                        "from hiragana",
+                                                        GIALL,
+                                                        match_criteria_jp,
+                                                        match_criteria_lat,
+                                                        1)
+                                );
+        g_free(katakana); //free memory
+      }
+    }
+
+    //standard search
+    results = g_list_concat(results, dicfile_search(dicfile,
+                                                    entry_text,
+                                                    NULL,
+                                                    GIALL,
+                                                    match_criteria_jp,
+                                                    match_criteria_lat,
+                                                    is_jp)
+                            );
+    
+    //get the next node in the dic list
+    dicfile_node = g_slist_next(dicfile_node);
+  }
+
+  worddic->results = results;
+
+  //print the first page
+  print_entries(textbuffer_search_results, worddic);
+}
+
 void print_unit(GtkTextBuffer *textbuffer,
                 gchar *text,
                 unit_style *style){

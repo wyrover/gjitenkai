@@ -6,12 +6,6 @@
 #include "preferences.h"
 #include "../common/dicfile.h"
 
-G_MODULE_EXPORT gboolean on_search_results_button_release_event(GtkWidget *text_view,
-                                                                GdkEventButton *event,
-                                                                worddic *worddic) {
-  return FALSE;
-}
-
 /*
  * Update the cursor image if the pointer is above a kanji. 
  */
@@ -52,142 +46,13 @@ G_MODULE_EXPORT gboolean on_search_results_motion_notify_event(GtkWidget *text_v
    Search in the dictionaries the entered text in the search entry
    and put the results in the search result textview buffer
 */
-G_MODULE_EXPORT void on_search_activate(GtkEntry *entry, worddic *worddic){
-
-  //wait if a dictionary is being loaded in a thread
-  if(worddic->thread_load_dic){
-    g_thread_join(worddic->thread_load_dic);
-  }
-  
-  gint match_criteria_jp  = worddic->match_criteria_jp;
-  gint match_criteria_lat  = worddic->match_criteria_lat;
-
-  //clear the last search results
-  worddic->results = g_list_first(worddic->results);
-  g_list_free_full(worddic->results, (GDestroyNotify)dicresult_free);
-  worddic->results = NULL;
-  
+G_MODULE_EXPORT void on_search_expression_activate(GtkEntry *entry, worddic *worddic){
   //get the expression to search from the search entry
   const gchar *search_entry_text = gtk_entry_get_text(entry);
   if(!strcmp(search_entry_text, ""))return;
-  
-  //detect is the search is in japanese
-  gboolean is_jp = detect_japanese(search_entry_text);
-  
-  //get the modified string with anchors from the GString
-  //convert fullwidth regex punctuation to halfwidth regex puncutation
-  gchar *entry_text = regex_full_to_half(search_entry_text);
 
-  //get the search result text entry to display matches
-  GtkTextBuffer *textbuffer_search_results = 
-    (GtkTextBuffer*)gtk_builder_get_object(worddic->definitions, 
-                                           "textbuffer_search_results");
-  
-  gboolean deinflection   = worddic->conf->verb_deinflection;
-
-  //search in the dictionaries
-  GSList *dicfile_node;
-  WorddicDicfile *dicfile;
-  dicfile_node = worddic->conf->dicfile_list;    //matched dictionary entries
-  GList *results=NULL;
-
-  //clear the display result buffer
-  gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
-
-  //in each dictionaries
-  gint i=0;
-  while (dicfile_node != NULL) {
-    dicfile = dicfile_node->data; 
-
-    //do not search in this dictionary if it's not active
-    if(!dicfile->is_active){
-      dicfile_node = g_slist_next(dicfile_node);
-      i++;
-      continue;
-    }
-    
-
-    //if this dictionary was not loaded, parse it now
-    if(!dicfile->is_loaded){
-      worddic_dicfile_open(dicfile);
-      worddic_dicfile_parse_all(dicfile);
-      worddic_dicfile_close(dicfile);
-
-      dicfile->is_loaded = TRUE;
-
-      GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
-                                                                  "liststore_dic");
-      GtkTreeIter  iter;
-      GtkTreePath *path = gtk_tree_path_new_from_indices (i, -1);
-      
-      //set the model
-      gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
-      gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_LOADED, TRUE, -1);
-
-      gtk_tree_path_free (path);
-    }
-    
-    if(is_jp){
-      //search for deinflections
-      if(deinflection){
-        results = g_list_concat(results,
-                                search_inflections(dicfile, entry_text));
-      }
-
-      //search hiragana on katakana
-      if (worddic->conf->search_hira_on_kata &&
-          hasKatakanaString(entry_text)) {
-        gchar *hiragana = kata_to_hira(entry_text);
-        results = g_list_concat(results, dicfile_search(dicfile,
-                                                        hiragana,
-                                                        "from katakana",
-                                                        GIALL,
-                                                        match_criteria_jp,
-                                                        match_criteria_lat,
-                                                        1)
-                                );
-        g_free(hiragana);  //free memory
-      }
-    
-      //search katakana on hiragana
-      if (worddic->conf->search_kata_on_hira &&
-          hasHiraganaString(entry_text)) { 
-        gchar *katakana = hira_to_kata(entry_text);
-        results = g_list_concat(results, dicfile_search(dicfile,
-                                                        katakana,
-                                                        "from hiragana",
-                                                        GIALL,
-                                                        match_criteria_jp,
-                                                        match_criteria_lat,
-                                                        1)
-                                );
-        g_free(katakana); //free memory
-      }
-    }
-
-    //standard search
-    results = g_list_concat(results, dicfile_search(dicfile,
-                                                    entry_text,
-                                                    NULL,
-                                                    GIALL,
-                                                    match_criteria_jp,
-                                                    match_criteria_lat,
-                                                    is_jp)
-                            );
-    
-    //get the next node in the dic list
-    dicfile_node = g_slist_next(dicfile_node);
-    i++;
-  }
-
-  worddic->results = results;
-
-  //print the first page
-  print_entries(textbuffer_search_results, worddic);
-
-    
-  //free memory
-  g_free(entry_text);
+  //search for the regex string of the text entry in the dictionaries
+  worddic_search(search_entry_text, worddic);
 }
 
 //////////////////////
