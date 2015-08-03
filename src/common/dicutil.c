@@ -17,7 +17,7 @@ gchar *read_file(const gchar *filename){
     while (1) {
       int err;                    
       int bytes_read;
-      unsigned char buffer[BUFSIZ];
+      char buffer[BUFSIZ];
       bytes_read = gzread (file, buffer, BUFSIZ - 1);
       buffer[bytes_read] = '\0';
       gstr_file_content = g_string_append(gstr_file_content, buffer);

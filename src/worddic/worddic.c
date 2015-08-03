@@ -213,8 +213,9 @@ void worddic_search(const gchar *search_expression, worddic *worddic){
   //search in the dictionaries
   GSList *dicfile_node;
   WorddicDicfile *dicfile;
-  dicfile_node = worddic->conf->dicfile_list;    //matched dictionary entries
-  GList *results=NULL;
+  dicfile_node = worddic->conf->dicfile_list;
+  
+  GList *results=NULL;  //matched dictionary entries to return in a dicresult
 
   //get the search result text entry to display matches
   GtkTextBuffer *textbuffer_search_results = 
@@ -233,7 +234,6 @@ void worddic_search(const gchar *search_expression, worddic *worddic){
       dicfile_node = g_slist_next(dicfile_node);
       continue;
     }
-    
 
     //if this dictionary was not loaded, parse it now
     if(!dicfile->is_loaded){
@@ -243,17 +243,16 @@ void worddic_search(const gchar *search_expression, worddic *worddic){
 
       dicfile->is_loaded = TRUE;
 
-      /*
       //update the UI in the preference pane
       GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions, 
                                                                   "liststore_dic");
-      GtkTreeIter  iter;
+      gint i = g_slist_position(worddic->conf->dicfile_list, dicfile_node);
       GtkTreePath *path = gtk_tree_path_new_from_indices (i, -1);
       //set the model
+      GtkTreeIter  iter;
       gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
-      gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_LOADED, TRUE, -1);
-      gtk_tree_path_free (path);
-      */
+      gtk_list_store_set (GTK_LIST_STORE (model), &iter, 3, TRUE, -1);
+      gtk_tree_path_free (path);      
     }
 
     //search that are performed only on japanese text
