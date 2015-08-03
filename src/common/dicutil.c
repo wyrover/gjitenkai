@@ -5,59 +5,68 @@ gchar *read_file(const gchar *filename){
   guint32 file_content_size;
   gchar *file_content = NULL;
 
+  //if the filename ends with .gz then read with gz functions
+  if(g_str_has_suffix(filename, ".gz")){
+    
+    while (1) {
+      int bytes_read;
+      
+      break;
+    }
+  }
+  else{
+    FILE * pFile;
+    pFile = fopen (filename, "rb" );
+    if (pFile==NULL) {
+      return NULL;
+    }
+  
 #ifdef USE_MMAP
-  int file_content_fd = -1;
+    struct stat file_stat;
 
-  struct stat file_stat;
+    //is the file_content present ? 
+    //assume that since we are using MMAP other POSIX functions are available
+    if (stat(filename, &file_stat) != 0) {
+      g_error("**ERROR** file_content: stat() \n");
+    }
 
-  //is the file_content present ? 
-  //assume that since we are using MMAP other POSIX functions are available
-  if (stat(filename, &file_stat) != 0) {
-  g_error("**ERROR** file_content: stat() \n");
-}
+    //open file_content and get the content
+    file_content_size = file_stat.st_size;
 
-  //open file_content and get the content
-  file_content_size = file_stat.st_size;
-  file_content_fd = open(filename, O_RDONLY);
-  if (file_content_fd == -1) {
-  g_error("**ERROR** file_content: open()\n");
-}
+    if (file_content_fd == -1) {
+      g_error("**ERROR** file_content: open()\n");
+    }
 
-  file_content = (gchar *) mmap(NULL, file_content_size, PROT_READ, MAP_SHARED, file_content_fd, 0);
+    file_content = (gchar *) mmap(NULL, file_content_size, PROT_READ, MAP_SHARED, pFile, 0);
 #else
-  FILE * pFile;
-  size_t result;
+    size_t result;
 
-  pFile = fopen (filename, "rb" );
-  if (pFile==NULL) {
-	return NULL;
-  }
+    // obtain file size:
+    fseek (pFile , 0 , SEEK_END);
+    file_content_size = ftell (pFile);
+    rewind (pFile);
 
-  // obtain file size:
-  fseek (pFile , 0 , SEEK_END);
-  file_content_size = ftell (pFile);
-  rewind (pFile);
+    // allocate memory to contain the whole file:
+    file_content = (gchar*) g_malloc (sizeof(gchar)*file_content_size + 1);
+    if (file_content == NULL) {
+      g_printf ("Memory error when reading file %s\n", filename);
+    }
 
-  // allocate memory to contain the whole file:
-  file_content = (gchar*) g_malloc (sizeof(gchar)*file_content_size + 1);
-  if (file_content == NULL) {
-    g_printf ("Memory error when reading file %s\n", filename);
-  }
+    // copy the file into the file_content:
+    result = fread (file_content,1,file_content_size,pFile);
+    if (result != file_content_size) {
+      g_printf ("Error when reading file %s\n", filename);
+    }
 
-  // copy the file into the file_content:
-  result = fread (file_content,1,file_content_size,pFile);
-  if (result != file_content_size) {
-    g_printf ("Error when reading file %s\n", filename);
-  }
-
-  fclose (pFile);
+    fclose (pFile);
 
 #endif
-
+  }
+  
   return file_content;
 }
 
-gchar *get_eof_line(gchar *ptr, gchar *end_ptr) {
+gchar *get_EOL(gchar *ptr, gchar *end_ptr) {
   static gchar *tmpptr;
   tmpptr = ptr;
   while (*tmpptr != '\n') {

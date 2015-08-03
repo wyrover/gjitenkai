@@ -22,7 +22,7 @@ void init_inflection() {
   vinfl_part = 1;
   while ((vinfl_ptr < vinfl_end) && (vinfl_ptr != NULL)) {
     if (*vinfl_ptr == '#') {                          //ignore comments
-      vinfl_ptr = get_eof_line(vinfl_ptr, vinfl_end); //Goto next line
+      vinfl_ptr = get_EOL(vinfl_ptr, vinfl_end); //Goto next line
       continue;
     }
     if (*vinfl_ptr == '$') vinfl_part = 2;
@@ -45,13 +45,13 @@ void init_inflection() {
         tmp_ptr = vinfl_ptr;
 
         //find end of line
-        vinfl_ptr = get_eof_line(vinfl_ptr, vinfl_end);
+        vinfl_ptr = get_EOL(vinfl_ptr, vinfl_end);
         vconj_types[conj_type] = g_strndup(tmp_ptr, vinfl_ptr - tmp_ptr -1);  
       }
       break;
     case 2:
       if (g_unichar_iswide(g_utf8_get_char(vinfl_ptr)) == FALSE) {
-        vinfl_ptr =  get_eof_line(vinfl_ptr, vinfl_end);
+        vinfl_ptr =  get_EOL(vinfl_ptr, vinfl_end);
         break;
       }
       tmp_vinfl_struct = g_new0 (struct vinfl_struct, 1);
@@ -74,7 +74,7 @@ void init_inflection() {
       
       tmp_vinfl_struct->type = vconj_types[atoi(vinfl_ptr)];
       tmp_vinfl_struct->itype = atoi(vinfl_ptr);
-      vinfl_ptr =  get_eof_line(vinfl_ptr, vinfl_end);
+      vinfl_ptr =  get_EOL(vinfl_ptr, vinfl_end);
 
       //push the tmp vinfl structure in the list
       vinfl_list = g_slist_prepend(vinfl_list, tmp_vinfl_struct);

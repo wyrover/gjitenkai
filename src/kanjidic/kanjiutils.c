@@ -31,7 +31,7 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
 
     //if comment (first char on this line is #), skip this line
     if (*radkfile_ptr == '#') {  
-      radkfile_ptr = get_eof_line(radkfile_ptr, radkfile_end); 
+      radkfile_ptr = get_EOL(radkfile_ptr, radkfile_end); 
       continue;
     }
     
@@ -70,7 +70,7 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
       g_hash_table_insert(rad_info_hash, (gpointer)rad_info->radical, rad_info);
       
       //Goto next line
-      radkfile_ptr = get_eof_line(radkfile_ptr, radkfile_end);
+      radkfile_ptr = get_EOL(radkfile_ptr, radkfile_end);
     }
     else {
       //search the kanji to be stored in the list of the kanji key / radical info list
