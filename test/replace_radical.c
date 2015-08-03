@@ -1,4 +1,5 @@
-//gcc replace_radical.c ../src/kanjidic/callbacks.c  ../src/kanjidic/kanjifile.c ../src/kanjidic/conf.c       ../src/kanjidic/kanji_item.c  ../src/kanjidic/preferences.c ../src/kanjidic/kanjidic.c ../src/kanjidic/kanjiutils.c  ../src/common/*.c $(pkg-config --cflags --libs gtk+-3.0) -I../src/kanjidic/ -o replace_radical && ./replace_radical ＜月化＞食
+//gcc replace_radical.c ../src/kanjidic/callbacks.c  ../src/kanjidic/kanjifile.c ../src/kanjidic/conf.c ../src/kanjidic/kanji_item.c  ../src/kanjidic/preferences.c ../src/kanjidic/kanjidic.c ../src/kanjidic/kanjiutils.c  ../src/kanjidic/radical_window.c ../src/common/*.c $(pkg-config --cflags --libs gtk+-3.0) -I../src/kanjidic/ -o replace_radical
+
 #include <gtk/gtk.h>
 
 #include "../config.h"
@@ -22,7 +23,7 @@ void init(kanjidic *kanjidic){
 static gboolean eval_cb (const GMatchInfo *info,
                          GString          *res,
                          gpointer         data){
-  kanjidic *kanjidic = (kanjidic*)data;
+  kanjidic *kanjidic = data;
   gchar *match;
   gchar *r;
   
