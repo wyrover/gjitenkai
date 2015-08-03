@@ -7,12 +7,37 @@ gchar *read_file(const gchar *filename){
 
   //if the filename ends with .gz then read with gz functions
   if(g_str_has_suffix(filename, ".gz")){
-    
-    while (1) {
-      int bytes_read;
-      
-      break;
+    gzFile file;
+    file = gzopen (filename, "r");
+    if (! file) {
+      return NULL;
     }
+
+    GString *gstr_file_content = g_string_new(NULL);
+    while (1) {
+      int err;                    
+      int bytes_read;
+      unsigned char buffer[BUFSIZ];
+      bytes_read = gzread (file, buffer, BUFSIZ - 1);
+      buffer[bytes_read] = '\0';
+      gstr_file_content = g_string_append(gstr_file_content, buffer);
+      if (bytes_read < BUFSIZ - 1) {
+        if (gzeof (file)) {
+          break;
+        }
+        else {
+          const char * error_string;
+          error_string = gzerror (file, & err);
+          if (err) {
+            fprintf (stderr, "Error: %s.\n", error_string);
+            exit (EXIT_FAILURE);
+          }
+        }
+      }
+    }
+    file_content = gstr_file_content->str;
+    g_string_free(gstr_file_content, FALSE);    
+    gzclose(file);
   }
   else{
     FILE * pFile;

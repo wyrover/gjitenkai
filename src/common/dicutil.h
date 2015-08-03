@@ -3,7 +3,7 @@
 
 #include <glib.h>
 #include <glib/gprintf.h>
-
+#include <zlib.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
