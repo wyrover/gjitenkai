@@ -20,7 +20,7 @@ void gjitenkai_init (gjitenkai *gjitenkai)
   
 }
 
-void gjitenkai_menu_history_append(gjitenkai *p_gjitenkai, gchar *text){
+void gjitenkai_menu_history_append(gjitenkai *p_gjitenkai, const gchar *text){
   GtkWidget *submenu_history = (GtkWidget *)gtk_builder_get_object(p_gjitenkai->definitions,
                                                                    "menu_history");
   GtkWidget *menuitem_search_expression = gtk_menu_item_new_with_label(text);

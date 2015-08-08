@@ -27,6 +27,6 @@ typedef struct gjitenkai_t
 
 
 void gjitenkai_init (gjitenkai * );
-void gjitenkai_menu_history_append(gjitenkai *p_gjitenkai, gchar* text);
+void gjitenkai_menu_history_append(gjitenkai *p_gjitenkai, const gchar* text);
 
 #endif

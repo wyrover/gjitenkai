@@ -62,7 +62,7 @@ G_MODULE_EXPORT void on_gjitenkai_menuitem_history_click(GtkWidget *menuitem_his
   GtkWidget *entry = (GtkWidget*)gtk_builder_get_object(gjitenkai->worddic->definitions,
                                                         "search_expression");
   GtkWidget *child = gtk_bin_get_child (GTK_BIN (menuitem_history));
-  gchar *text = gtk_label_get_text(GTK_LABEL(child));
+  const gchar *text = gtk_label_get_text(GTK_LABEL(child));
   gtk_entry_set_text(GTK_ENTRY(entry), text);
 }
 

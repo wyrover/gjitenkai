@@ -21,7 +21,7 @@ enum dicfile_search_criteria{
 };
 
 typedef struct search_expression_t{
-  gchar *search_text;
+  const gchar *search_text;
   enum  dicfile_search_criteria search_criteria_jp;
   enum  dicfile_search_criteria search_criteria_lat;
 }search_expression;
