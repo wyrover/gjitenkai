@@ -41,14 +41,29 @@ G_MODULE_EXPORT void on_gjitenkai_search_expression_activate(GtkEntry *entry,
   if(!strcmp(search_entry_text, ""))return;
 
   //search for radicals in pairs of fullwidth bracets and replace it with a
-  //list of kanji in an square bracets [] alerternative operator  
+  //list of kanji in an square bracets [] alternative operator  
   reg = g_regex_new ("＜.+＞", G_REGEX_UNGREEDY, 0, NULL);
   const gchar *res = g_regex_replace_eval (reg, search_entry_text, -1, 0, 0,
                                            eval_cb, gjitenkai->kanjidic, NULL);
 
+  //free memory
   g_regex_unref(reg);
+  
   //search in worrdic 
   worddic_search(res, gjitenkai->worddic);
+
+  //update history
+  gjitenkai_menu_history_append(gjitenkai, search_entry_text);
+}
+
+G_MODULE_EXPORT void on_gjitenkai_menuitem_history_click(GtkWidget *menuitem_history,
+                                                         gjitenkai *gjitenkai){
+  //get the search entry
+  GtkWidget *entry = (GtkWidget*)gtk_builder_get_object(gjitenkai->worddic->definitions,
+                                                        "search_expression");
+  GtkWidget *child = gtk_bin_get_child (GTK_BIN (menuitem_history));
+  gchar *text = gtk_label_get_text(GTK_LABEL(child));
+  gtk_entry_set_text(GTK_ENTRY(entry), text);
 }
 
 G_MODULE_EXPORT void on_gjitenkai_menuitem_prefs_activate(GtkButton *button,

@@ -61,6 +61,9 @@ typedef struct _WorddicConfig {
   gboolean search_kata_on_hira;
   gboolean search_hira_on_kata;
   gboolean verb_deinflection;
+
+  //search history is a list of search_expression
+  GSList *history;
 }WorddicConfig;
 
 WorddicConfig *worddic_conf_load(GSettings *settings);

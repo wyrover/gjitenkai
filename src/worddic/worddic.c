@@ -32,9 +32,9 @@ void worddic_init (worddic *p_worddic)
   p_worddic->entries_per_page = 512;
   
   init_search_menu(p_worddic);
-
+  
   //highlight style of the result text buffer
-  GtkTextBuffer*textbuffer_search_results = (GtkTextBuffer*)
+  GtkTextBuffer *textbuffer_search_results = (GtkTextBuffer*)
     gtk_builder_get_object(p_worddic->definitions, 
                            "textbuffer_search_results");
   
@@ -135,7 +135,8 @@ void worddic_init (worddic *p_worddic)
 		   "edge-reached",
 		   G_CALLBACK(on_worddic_search_results_edge_reached),
 		   p_worddic);
-#endif 
+#endif
+
 }
 
 void init_search_menu(worddic *p_worddic)
@@ -195,9 +196,9 @@ void worddic_search(const gchar *search_text, worddic *worddic){
   }
 
   //search expression instance
-  search_expression search_expr;
-  search_expr.search_criteria_jp = worddic->match_criteria_jp;
-  search_expr.search_criteria_lat = worddic->match_criteria_lat;
+  search_expression *search_expr = g_new0(search_expression, 1);
+  search_expr->search_criteria_jp = worddic->match_criteria_jp;
+  search_expr->search_criteria_lat = worddic->match_criteria_lat;
   
   //clear the last search results
   worddic->results = g_list_first(worddic->results);
@@ -269,10 +270,10 @@ void worddic_search(const gchar *search_text, worddic *worddic){
       if (worddic->conf->search_hira_on_kata &&
           hasKatakanaString(entry_text)) {
         gchar *hiragana = kata_to_hira(entry_text);
-        search_expr.search_text = hiragana;
+        search_expr->search_text = hiragana;
         
         results = g_list_concat(results, dicfile_search(dicfile,
-                                                        &search_expr,
+                                                        search_expr,
                                                         "from katakana",
                                                         GIALL,
                                                         1)
@@ -284,10 +285,10 @@ void worddic_search(const gchar *search_text, worddic *worddic){
       if (worddic->conf->search_kata_on_hira &&
           hasHiraganaString(entry_text)) { 
         gchar *katakana = hira_to_kata(entry_text);
-        search_expr.search_text = katakana;
+        search_expr->search_text = katakana;
         
         results = g_list_concat(results, dicfile_search(dicfile,
-                                                        &search_expr,
+                                                        search_expr,
                                                         "from hiragana",
                                                         GIALL,
                                                         1)
@@ -297,9 +298,9 @@ void worddic_search(const gchar *search_text, worddic *worddic){
     }
 
     //standard search
-    search_expr.search_text = search_text;
+    search_expr->search_text = search_text;
     results = g_list_concat(results, dicfile_search(dicfile,
-                                                    &search_expr,
+                                                    search_expr,
                                                     NULL,
                                                     GIALL,
                                                     is_jp)
@@ -309,10 +310,31 @@ void worddic_search(const gchar *search_text, worddic *worddic){
     dicfile_node = g_slist_next(dicfile_node);
   }
 
+  //assign the result list to the worddic result list
   worddic->results = results;
-
+  
   //print the first page
   print_entries(textbuffer_search_results, worddic);
+
+  //if the result list is not empty, add the search expression to history
+  if(results){
+    //add to the history list
+    worddic->conf->history = g_slist_append(worddic->conf->history, search_expr);
+
+    //update the menu
+    //worddic_menu_history_update(worddic);
+  }
+  else{
+    g_free(search_expr);
+  }
+}
+
+void worddic_menu_history_update(worddic *p_worddic){
+  GtkWidget *submenu_history = (GtkWidget *)gtk_builder_get_object(p_worddic->definitions,
+                                                                   "menu_history");
+  GtkWidget *menuitem_search_expression = gtk_menu_item_new_with_label("WORDDIC");
+  gtk_menu_shell_append(GTK_MENU_SHELL(submenu_history), menuitem_search_expression);
+  gtk_widget_show(menuitem_search_expression);  
 }
 
 void print_unit(GtkTextBuffer *textbuffer,

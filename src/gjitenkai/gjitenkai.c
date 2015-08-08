@@ -1,5 +1,8 @@
 #include "gjitenkai.h"
 
+extern G_MODULE_EXPORT void on_gjitenkai_menuitem_history_click(GtkWidget *menuitem_history,
+                                                                gjitenkai *gjitenkai);
+
 void gjitenkai_init (gjitenkai *gjitenkai)
 {
   GError *err = NULL;
@@ -17,3 +20,15 @@ void gjitenkai_init (gjitenkai *gjitenkai)
   
 }
 
+void gjitenkai_menu_history_append(gjitenkai *p_gjitenkai, gchar *text){
+  GtkWidget *submenu_history = (GtkWidget *)gtk_builder_get_object(p_gjitenkai->definitions,
+                                                                   "menu_history");
+  GtkWidget *menuitem_search_expression = gtk_menu_item_new_with_label(text);
+  g_signal_connect(menuitem_search_expression,
+                   "activate",
+                   G_CALLBACK(on_gjitenkai_menuitem_history_click),
+                   p_gjitenkai);
+  
+  gtk_menu_shell_append(GTK_MENU_SHELL(submenu_history), menuitem_search_expression);
+  gtk_widget_show(menuitem_search_expression);
+}

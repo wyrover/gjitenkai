@@ -34,8 +34,8 @@ typedef struct worddic_t
 
   GThread   *thread_load_dic;
   
-  GList *results;
-  gint entries_per_page;   //number of entries to display per page
+  GList *results;          //dicresuls list to partially display
+  gint entries_per_page;   //number of entries to display per 'page'
   gint current_page;       //current page to be displayed
 } worddic;
 
@@ -44,6 +44,7 @@ extern void init_prefs_window(worddic *worddic);
 
 void worddic_init (worddic * );
 void init_search_menu(worddic *);
+void worddic_menu_history_update(worddic *p_worddic);
 /**
 Search for the regex expression in active dictionaries entries. 
 if an active dictionary entries are not loaded, they are automatically

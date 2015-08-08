@@ -93,7 +93,7 @@ int main( int argc, char **argv )
   //append the search menuitems of worddic to the gjitenkai main menubar
   //main menubar from gjitenkai
   GtkMenuBar* main_menu_bar = (GtkMenuBar*)gtk_builder_get_object(gjitenkai.definitions, 
-                                                                  "main_menubar");
+                                                                  "menubar");
 
   //worddic search menu item
   GtkMenuItem* menu_item_search = (GtkMenuItem*)gtk_builder_get_object(gjitenkai.worddic->definitions, 
