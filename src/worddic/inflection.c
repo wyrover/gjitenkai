@@ -90,7 +90,12 @@ GList* search_inflections(WorddicDicfile *dicfile,
 
   //remember previous searches to avoid duplicates
   GSList *previous_search = NULL;
-  
+
+  //declare a search expression variable
+  search_expression search_expr;
+  search_expr.search_criteria_jp = EXACT_MATCH; //inflection needs to be exact
+  search_expr.search_criteria_lat = ANY_MATCH;  //latin search is irrelevent
+
   //for all the inflections
   GSList *vinfl_list_browser = NULL;
   for(vinfl_list_browser = vinfl_list;
@@ -152,12 +157,11 @@ GList* search_inflections(WorddicDicfile *dicfile,
     }
     
     //search in the dictionary
+    search_expr.search_text = deinflected->str;
     GList *results_infl = dicfile_search(dicfile,
-                                         deinflected->str,
+                                         &search_expr,
                                          comment,
                                          entry_type,
-                                         EXACT_MATCH,
-                                         ANY_MATCH, //latin search is irrelevent
                                          1);
 
     results = g_list_concat(results, results_infl);
@@ -167,6 +171,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
     
     //free memory
     g_free(comment);
+    
     // str is still needed in previous_search 
     g_string_free(deinflected, FALSE);
   }

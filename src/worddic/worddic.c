@@ -188,26 +188,28 @@ void init_search_menu(worddic *p_worddic)
     gtk_check_menu_item_set_active((GtkCheckMenuItem *)radio_lat, TRUE); 
 }
 
-void worddic_search(const gchar *search_expression, worddic *worddic){
+void worddic_search(const gchar *search_text, worddic *worddic){
   //wait if a dictionary is being loaded in a thread
   if(worddic->thread_load_dic){
     g_thread_join(worddic->thread_load_dic);
   }
-  
-  gint match_criteria_jp  = worddic->match_criteria_jp;
-  gint match_criteria_lat  = worddic->match_criteria_lat;
 
+  //search expression instance
+  search_expression search_expr;
+  search_expr.search_criteria_jp = worddic->match_criteria_jp;
+  search_expr.search_criteria_lat = worddic->match_criteria_lat;
+  
   //clear the last search results
   worddic->results = g_list_first(worddic->results);
   g_list_free_full(worddic->results, (GDestroyNotify)dicresult_free);
   worddic->results = NULL;
     
   //detect is the search is in japanese
-  gboolean is_jp = detect_japanese(search_expression);
+  gboolean is_jp = detect_japanese(search_text);
   
   //get the modified string with anchors from the GString
   //convert fullwidth regex punctuation to halfwidth regex puncutation
-  gchar *entry_text = regex_full_to_half(search_expression);
+  gchar *entry_text = regex_full_to_half(search_text);
   gboolean deinflection   = worddic->conf->verb_deinflection;
 
   //search in the dictionaries
@@ -267,12 +269,12 @@ void worddic_search(const gchar *search_expression, worddic *worddic){
       if (worddic->conf->search_hira_on_kata &&
           hasKatakanaString(entry_text)) {
         gchar *hiragana = kata_to_hira(entry_text);
+        search_expr.search_text = hiragana;
+        
         results = g_list_concat(results, dicfile_search(dicfile,
-                                                        hiragana,
+                                                        &search_expr,
                                                         "from katakana",
                                                         GIALL,
-                                                        match_criteria_jp,
-                                                        match_criteria_lat,
                                                         1)
                                 );
         g_free(hiragana);  //free memory
@@ -282,12 +284,12 @@ void worddic_search(const gchar *search_expression, worddic *worddic){
       if (worddic->conf->search_kata_on_hira &&
           hasHiraganaString(entry_text)) { 
         gchar *katakana = hira_to_kata(entry_text);
+        search_expr.search_text = katakana;
+        
         results = g_list_concat(results, dicfile_search(dicfile,
-                                                        katakana,
+                                                        &search_expr,
                                                         "from hiragana",
                                                         GIALL,
-                                                        match_criteria_jp,
-                                                        match_criteria_lat,
                                                         1)
                                 );
         g_free(katakana); //free memory
@@ -295,12 +297,11 @@ void worddic_search(const gchar *search_expression, worddic *worddic){
     }
 
     //standard search
+    search_expr.search_text = search_text;
     results = g_list_concat(results, dicfile_search(dicfile,
-                                                    entry_text,
+                                                    &search_expr,
                                                     NULL,
                                                     GIALL,
-                                                    match_criteria_jp,
-                                                    match_criteria_lat,
                                                     is_jp)
                             );
     

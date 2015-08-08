@@ -33,9 +33,9 @@ void worddic_dicfile_open(WorddicDicfile *dicfile){
       read = strlen(informations);
     }
     else {
-		read = -1;
-		return;
-	}
+      read = -1;
+      return;
+    }
   }
   
   //check if utf8 or not
@@ -84,8 +84,8 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
       read = strlen(line);
     }
     else {
-		read = -1;
-	}
+      read = -1;
+    }
   }
   
   //if no more characters to read, return false
@@ -135,43 +135,47 @@ GList *add_match(GMatchInfo *match_info,
 }
 
 GList *dicfile_search(WorddicDicfile *dicfile,
-                      const gchar *search_expression,
+                      search_expression *p_search_expression,
                       gchar *comment,
                       enum entry_GI itype,
-                      enum dicfile_search_criteria match_criteria_jp,
-                      enum dicfile_search_criteria match_criteria_lat,
                       gint is_jp){
+
+  //variable from search expression structure
+  gchar *search_text = p_search_expression->search_text;
+  enum dicfile_search_criteria search_criteria_jp = p_search_expression->search_criteria_jp;
+  enum dicfile_search_criteria search_criteria_lat = p_search_expression->search_criteria_lat;
+  
   //list of matched dictonnary entries
   GList *results = NULL;
 
   //detect is the search expression is in japanese or latin char
-  if(is_jp <= -1)is_jp = detect_japanese(search_expression);
+  if(is_jp <= -1)is_jp = detect_japanese(search_text);
 
   /////////////////////////////////////////////////////////////////
   //modify the expression with anchors according to the search criteria
   //create a GString to do so
-  GString *entry_string = g_string_new(search_expression);
+  GString *entry_string = g_string_new(search_text);
   if(is_jp){
-    if(match_criteria_jp == EXACT_MATCH){
+    if(search_criteria_jp == EXACT_MATCH){
       entry_string = g_string_prepend_c(entry_string, '^');
       entry_string = g_string_append_c(entry_string, '$');
     }
-    else if(match_criteria_jp == START_WITH_MATCH){
+    else if(search_criteria_jp == START_WITH_MATCH){
       entry_string = g_string_prepend_c(entry_string, '^');
     }
   
-    else if(match_criteria_jp == END_WITH_MATCH){
+    else if(search_criteria_jp == END_WITH_MATCH){
       entry_string = g_string_append_c(entry_string, '$');
     }
   }
   else{
-    if(match_criteria_lat == EXACT_MATCH){
+    if(search_criteria_lat == EXACT_MATCH){
       entry_string = g_string_prepend_c(entry_string, '^');
       entry_string = g_string_append_c(entry_string, '$');      
     }
-    else if(match_criteria_lat == WORD_MATCH){
-        entry_string = g_string_prepend(entry_string, "\\b");
-        entry_string = g_string_append(entry_string, "\\b");
+    else if(search_criteria_lat == WORD_MATCH){
+      entry_string = g_string_prepend(entry_string, "\\b");
+      entry_string = g_string_append(entry_string, "\\b");
     }
   }
   ////////
@@ -201,8 +205,8 @@ GList *dicfile_search(WorddicDicfile *dicfile,
     //check if there if the japanese characters are not hiragana or katakana, meaning
     //that there are only kanji except for regex characters. this variable can be used
     //to ignore the reading unit to improve the speed a bit
-    gboolean only_kanji = (!hasKatakanaString(search_expression) &&
-                           !hasHiraganaString(search_expression));
+    gboolean only_kanji = (!hasKatakanaString(search_text) &&
+                           !hasHiraganaString(search_text));
 
     GSList* list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;

@@ -20,6 +20,12 @@ enum dicfile_search_criteria{
   WORD_MATCH 	     //latin (whole word)
 };
 
+typedef struct search_expression_t{
+  gchar *search_text;
+  enum  dicfile_search_criteria search_criteria_jp;
+  enum  dicfile_search_criteria search_criteria_lat;
+}search_expression;
+
 typedef struct _WorddicDicfile {
   gchar *path;
   gchar *name;
@@ -54,11 +60,9 @@ GList *add_match(GMatchInfo *match_info,
    -1 auto detect
  */
 GList *dicfile_search(WorddicDicfile *dicfile,
-                      const gchar *search_expression,
+                      search_expression *p_seach_expression,
                       gchar *comment,
                       enum entry_GI itype,
-                      enum dicfile_search_criteria match_criteria_jp,
-                      enum dicfile_search_criteria match_criteria_lat,
                       gint is_jp);
 
 void worddic_dicfile_free(WorddicDicfile *dicfile);
