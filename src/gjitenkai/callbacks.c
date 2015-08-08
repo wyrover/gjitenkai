@@ -25,7 +25,7 @@ static gboolean eval_cb (const GMatchInfo *info,
 
   g_string_free(kanji_list, TRUE);
   g_free (match);
-
+  
   return FALSE;
 }
 
