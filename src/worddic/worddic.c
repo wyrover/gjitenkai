@@ -196,9 +196,9 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   }
 
   //search expression instance
-  search_expression *search_expr = g_new0(search_expression, 1);
-  search_expr->search_criteria_jp = worddic->match_criteria_jp;
-  search_expr->search_criteria_lat = worddic->match_criteria_lat;
+  search_expression search_expr;
+  search_expr.search_criteria_jp = worddic->match_criteria_jp;
+  search_expr.search_criteria_lat = worddic->match_criteria_lat;
   
   //clear the last search results
   worddic->results = g_list_first(worddic->results);
@@ -270,10 +270,10 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
       if (worddic->conf->search_hira_on_kata &&
           hasKatakanaString(entry_text)) {
         gchar *hiragana = kata_to_hira(entry_text);
-        search_expr->search_text = hiragana;
+        search_expr.search_text = hiragana;
         
         results = g_list_concat(results, dicfile_search(dicfile,
-                                                        search_expr,
+                                                        &search_expr,
                                                         "from katakana",
                                                         GIALL,
                                                         1)
@@ -285,10 +285,10 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
       if (worddic->conf->search_kata_on_hira &&
           hasHiraganaString(entry_text)) { 
         gchar *katakana = hira_to_kata(entry_text);
-        search_expr->search_text = katakana;
+        search_expr.search_text = katakana;
         
         results = g_list_concat(results, dicfile_search(dicfile,
-                                                        search_expr,
+                                                        &search_expr,
                                                         "from hiragana",
                                                         GIALL,
                                                         1)
@@ -298,9 +298,9 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
     }
 
     //standard search
-    search_expr->search_text = search_text;
+    search_expr.search_text = search_text;
     results = g_list_concat(results, dicfile_search(dicfile,
-                                                    search_expr,
+                                                    &search_expr,
                                                     NULL,
                                                     GIALL,
                                                     is_jp)
@@ -315,8 +315,6 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   
   //print the first page
   print_entries(textbuffer_search_results, worddic);
-
-  g_free(search_expr);
   
   if(results){
     return TRUE;
