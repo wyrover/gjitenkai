@@ -50,12 +50,45 @@ G_MODULE_EXPORT void on_gjitenkai_search_expression_activate(GtkEntry *entry,
   g_regex_unref(reg);
   
   //search in worrdic 
-  worddic_search(res, gjitenkai->worddic);
+  gboolean has_match = worddic_search(res, gjitenkai->worddic);
 
-  //update history
-  gjitenkai_menu_history_append(gjitenkai, search_entry_text);
+  //if there are results
+  if(has_match){
+    //append to the history menu
+    gjitenkai_menu_history_append(gjitenkai, search_entry_text);
+    //save
+    worddic_conf_save(gjitenkai->worddic->settings,
+                      gjitenkai->worddic->conf,
+                      WSE_HISTORY);
+  }
 }
 
+//History
+////Clear
+G_MODULE_EXPORT void on_gjitenkai_history_clear_activate (GtkMenuItem *menuitem, 
+                                                gjitenkai *gjitenkai){
+  //free the history list
+  g_slist_free_full(gjitenkai->worddic->conf->history, (GDestroyNotify)g_free);
+  gjitenkai->worddic->conf->history = NULL;
+
+  //remove history menuitem
+  GtkWidget *submenu_history = (GtkWidget *)gtk_builder_get_object(gjitenkai->definitions,
+                                                                   "menu_history");
+  //remove the menu items from the history menu
+  GList *children, *iter;
+  children = gtk_container_get_children(GTK_CONTAINER(submenu_history));
+  for(iter = children; iter != NULL; iter = g_list_next(iter)){
+    GtkWidget *w = GTK_WIDGET(iter->data);
+    //remove the menuitem it's not the clear item
+    if(GTK_MENU_ITEM(w) != menuitem)gtk_widget_destroy(w);
+  }
+  g_list_free(children);
+
+  //reset the settings
+  g_settings_reset(gjitenkai->worddic->settings, "history");
+}
+
+////History element
 G_MODULE_EXPORT void on_gjitenkai_menuitem_history_click(GtkWidget *menuitem_history,
                                                          gjitenkai *gjitenkai){
   //get the search entry
@@ -65,6 +98,7 @@ G_MODULE_EXPORT void on_gjitenkai_menuitem_history_click(GtkWidget *menuitem_his
   const gchar *text = gtk_label_get_text(GTK_LABEL(child));
   gtk_entry_set_text(GTK_ENTRY(entry), text);
 }
+
 
 G_MODULE_EXPORT void on_gjitenkai_menuitem_prefs_activate(GtkButton *button,
                                                           gjitenkai *gjitenkai){

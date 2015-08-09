@@ -189,7 +189,7 @@ void init_search_menu(worddic *p_worddic)
     gtk_check_menu_item_set_active((GtkCheckMenuItem *)radio_lat, TRUE); 
 }
 
-void worddic_search(const gchar *search_text, worddic *worddic){
+gboolean worddic_search(const gchar *search_text, worddic *worddic){
   //wait if a dictionary is being loaded in a thread
   if(worddic->thread_load_dic){
     g_thread_join(worddic->thread_load_dic);
@@ -319,22 +319,16 @@ void worddic_search(const gchar *search_text, worddic *worddic){
   //if the result list is not empty, add the search expression to history
   if(results){
     //add to the history list
-    worddic->conf->history = g_slist_append(worddic->conf->history, search_expr);
-
+    worddic->conf->history = g_slist_append(worddic->conf->history, search_expr->search_text);
+    return TRUE;
     //update the menu
     //worddic_menu_history_update(worddic);
   }
   else{
+    g_free(search_expr->search_text);
     g_free(search_expr);
+    return FALSE;
   }
-}
-
-void worddic_menu_history_update(worddic *p_worddic){
-  GtkWidget *submenu_history = (GtkWidget *)gtk_builder_get_object(p_worddic->definitions,
-                                                                   "menu_history");
-  GtkWidget *menuitem_search_expression = gtk_menu_item_new_with_label("WORDDIC");
-  gtk_menu_shell_append(GTK_MENU_SHELL(submenu_history), menuitem_search_expression);
-  gtk_widget_show(menuitem_search_expression);  
 }
 
 void print_unit(GtkTextBuffer *textbuffer,

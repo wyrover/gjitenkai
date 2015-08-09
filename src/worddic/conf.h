@@ -34,6 +34,7 @@ typedef enum worddic_save_enum{
   WSE_JAPANESE_READING    = 1 << 4,
   WSE_GLOSS               = 1 << 5,
   WSE_NOTES               = 1 << 6,
+  WSE_HISTORY             = 1 << 7,
   WSE_ALL                 = 1111111
 }worddic_save;
 

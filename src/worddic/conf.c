@@ -100,12 +100,40 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   conf->search_hira_on_kata = g_settings_get_boolean(settings, "search-hira-on-kata");
   conf->verb_deinflection = g_settings_get_boolean(settings, "deinflection-enabled");
 
+  //load the history
+  GVariantIter history_iter;
+  GVariant *history_variant;
+  history_variant = g_settings_get_value(settings, "history");
+  g_variant_iter_init(&history_iter, history_variant);
+
+  gchar *searched_expression = NULL;
+  
+  while (g_variant_iter_next (&history_iter, "(&s)", &searched_expression)) {
+    //add to the history list
+    conf->history = g_slist_append(conf->history, g_strdup(searched_expression));
+  }
+  g_variant_unref(history_variant);
+  
   return conf;
 }
 
 void worddic_conf_save(GSettings *settings,
                        WorddicConfig *conf,
                        worddic_save fields){
+
+  if(fields & WSE_HISTORY){
+    GVariantBuilder builder;
+    g_variant_builder_init(&builder, G_VARIANT_TYPE("a(s)"));
+    GSList *l=NULL;
+    for(l=conf->history;l!=NULL;l = l->next){
+      gchar *searched_expression = (gchar*)l->data;
+      g_variant_builder_add(&builder,
+                            "(s)",
+                            searched_expression);
+    }
+    g_settings_set_value(settings, "history", g_variant_builder_end(&builder));
+  }
+
   if(fields & WSE_HIGHLIGHT_COLOR){
     //save the result highlight color as a string
     char *str_results_highlight_color = gdk_rgba_to_string(conf->results_highlight_color);
@@ -123,8 +151,8 @@ void worddic_conf_save(GSettings *settings,
   }
 
   if(fields & WSE_DICFILE){
-    GSList *diclist;
-    WorddicDicfile *dicfile;
+    GSList *diclist = NULL;
+    WorddicDicfile *dicfile = NULL;
 
     //Save dicfiles [path and name seperated with linebreak]
     GVariantBuilder builder;
@@ -141,7 +169,6 @@ void worddic_conf_save(GSettings *settings,
       diclist = g_slist_next(diclist);
     }
     g_settings_set_value(settings, "dictionaries", g_variant_builder_end(&builder));
-
   }
 
   if(fields & WSE_JAPANESE_DEFINITION){

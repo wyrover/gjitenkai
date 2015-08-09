@@ -28,7 +28,9 @@ void gjitenkai_menu_history_append(gjitenkai *p_gjitenkai, const gchar *text){
                    "activate",
                    G_CALLBACK(on_gjitenkai_menuitem_history_click),
                    p_gjitenkai);
-  
-  gtk_menu_shell_append(GTK_MENU_SHELL(submenu_history), menuitem_search_expression);
+
+  gtk_menu_shell_insert(GTK_MENU_SHELL(submenu_history),
+                        GTK_WIDGET(menuitem_search_expression),
+                        1);
   gtk_widget_show(menuitem_search_expression);
 }

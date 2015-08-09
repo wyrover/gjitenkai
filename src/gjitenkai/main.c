@@ -12,7 +12,6 @@ extern void on_search_expression_activate(GtkEntry *entry,
 extern void on_gjitenkai_search_expression_activate(GtkEntry *entry,
                                                      gjitenkai *gjitenkai);
 
-
 int main( int argc, char **argv )
 {
   bindtextdomain("gjitenkai", GJITENKAI_LOCALDIR);
@@ -33,6 +32,13 @@ int main( int argc, char **argv )
   gjitenkai_init (&gjitenkai);
   worddic_init(gjitenkai.worddic);
   kanjidic_init(gjitenkai.kanjidic);
+
+  //add worddic history in the history menu
+  GSList *l=NULL;
+  for(l=gjitenkai.worddic->conf->history;l!=NULL;l = l->next){
+    gchar *searched_expression = (gchar*)l->data;
+    gjitenkai_menu_history_append(&gjitenkai, searched_expression);
+  }
   
   GtkWindow *window = (GtkWindow*)gtk_builder_get_object(gjitenkai.definitions, 
                                                          "gjiten");

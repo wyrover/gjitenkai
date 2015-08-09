@@ -100,7 +100,7 @@
         Name and path are strings, active is true or false (boolean)
       </description>
     </key>
-    <key name="history" type="as">
+    <key name="history" type="a(s)">
       <default>[]</default>
     </key>
   </schema>

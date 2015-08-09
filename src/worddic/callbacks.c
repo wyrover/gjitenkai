@@ -117,6 +117,18 @@ G_MODULE_EXPORT void on_menuitem_help_about_activate (GtkMenuItem *menuitem,
   gtk_widget_hide (GTK_WIDGET(window_about)); 
 }
 
+//History
+////Clear
+G_MODULE_EXPORT void on_history_clear_activate (GtkMenuItem *menuitem, 
+                                                worddic *worddic){
+  //free the history list
+  g_list_free_full(worddic->conf->history, (GDestroyNotify)g_free);
+  worddic->conf->history = NULL;
+
+  //remove history menuitem
+  GtkWidget *submenu_history = (GtkWidget *)gtk_builder_get_object(worddic->definitions,
+                                                                   "menu_history");  
+}
 
 //if available for this version of GTK, display the next page of result when
 //the scroll window is scrolled at the bottom

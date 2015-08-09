@@ -44,15 +44,16 @@ extern void init_prefs_window(worddic *worddic);
 
 void worddic_init (worddic * );
 void init_search_menu(worddic *);
-void worddic_menu_history_update(worddic *p_worddic);
 /**
 Search for the regex expression in active dictionaries entries. 
 if an active dictionary entries are not loaded, they are automatically
 loaded. If a thread currently loading dictionary entries, wait until 
 the thread ends. 
 Will also do special searches (inflection, katakana/hiragana conversions)   
+@return TRUE is one or more expression matched
+FALSE if no match
  */
-void worddic_search(const gchar *search_text, worddic *worddic);
+gboolean worddic_search(const gchar *search_text, worddic *worddic);
 void print_unit(GtkTextBuffer *textbuffer,
                 gchar *text, unit_style *style);
 void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic);
