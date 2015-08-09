@@ -121,13 +121,6 @@ G_MODULE_EXPORT void on_menuitem_help_about_activate (GtkMenuItem *menuitem,
 ////Clear
 G_MODULE_EXPORT void on_history_clear_activate (GtkMenuItem *menuitem, 
                                                 worddic *worddic){
-  //free the history list
-  g_list_free_full(worddic->conf->history, (GDestroyNotify)g_free);
-  worddic->conf->history = NULL;
-
-  //remove history menuitem
-  GtkWidget *submenu_history = (GtkWidget *)gtk_builder_get_object(worddic->definitions,
-                                                                   "menu_history");  
 }
 
 //if available for this version of GTK, display the next page of result when

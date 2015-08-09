@@ -319,13 +319,11 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   //if the result list is not empty, add the search expression to history
   if(results){
     //add to the history list
-    worddic->conf->history = g_slist_append(worddic->conf->history, search_expr->search_text);
+    worddic->conf->history = g_slist_append(worddic->conf->history,
+                                            g_strdup(search_expr->search_text));
     return TRUE;
-    //update the menu
-    //worddic_menu_history_update(worddic);
   }
   else{
-    g_free(search_expr->search_text);
     g_free(search_expr);
     return FALSE;
   }
