@@ -316,15 +316,12 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   //print the first page
   print_entries(textbuffer_search_results, worddic);
 
-  //if the result list is not empty, add the search expression to history
+  g_free(search_expr);
+  
   if(results){
-    //add to the history list
-    worddic->conf->history = g_slist_append(worddic->conf->history,
-                                            g_strdup(search_expr->search_text));
     return TRUE;
   }
   else{
-    g_free(search_expr);
     return FALSE;
   }
 }
