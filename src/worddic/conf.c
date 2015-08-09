@@ -1,5 +1,55 @@
 #include "conf.h"
 
+void worddic_conf_load_unit_style(GSettings *settings,
+                                  unit_style *us,
+                                  const gchar *name){
+  gchar *key = NULL;
+
+  key = g_strconcat(name, "-start", NULL);
+  us->start = g_settings_get_string(settings, key);
+  g_free(key);key=NULL;
+
+  key = g_strconcat(name, "-end", NULL);
+  us->end = g_settings_get_string(settings, key);
+  g_free(key);key=NULL;
+
+  key = g_strconcat(name, "-font", NULL);
+  us->font = g_settings_get_string(settings, key);
+  g_free(key);key=NULL;
+  
+  key = g_strconcat(name, "-color", NULL);
+  gchar *jap_def_color_str = g_settings_get_string(settings, key);
+  g_free(key);key=NULL;
+  
+  us->color = g_new0(GdkRGBA, 1);
+  gdk_rgba_parse(us->color, jap_def_color_str);
+}
+
+void worddic_conf_save_unit_style(GSettings *settings,
+                                  unit_style *us,
+                                  const gchar *name){
+  gchar *key = NULL;
+  
+  key = g_strconcat(name, "-start", NULL);
+  g_settings_set_string(settings, key, us->start);
+  g_free(key);key=NULL;
+
+  key = g_strconcat(name, "-end", NULL);
+  g_settings_set_string(settings, key, us->end);
+  g_free(key);key=NULL;
+
+  key = g_strconcat(name, "-font", NULL);
+  g_settings_set_string(settings, key, us->font);
+  g_free(key);key=NULL;
+
+  key = g_strconcat(name, "-color", NULL);
+  char *str_subgloss_color = gdk_rgba_to_string(us->color);
+  g_settings_set_string(settings, key, str_subgloss_color);
+  g_free(str_subgloss_color);
+  g_free(key);key=NULL;
+}
+
+
 WorddicConfig *worddic_conf_load(GSettings *settings){
   WorddicConfig *conf;
 
@@ -12,46 +62,11 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   char *str_results_highlight_color = g_settings_get_string(settings, "results-highlight-color");
 
   //load the dictionary entries units styles
-  ////japanese definition
-  conf->jap_def.start = g_settings_get_string(settings, "japanese-definition-start");
-  conf->jap_def.end = g_settings_get_string(settings, "japanese-definition-end");
-  conf->jap_def.font = g_settings_get_string(settings, "japanese-definition-font");
-  gchar *jap_def_color_str = g_settings_get_string(settings, "japanese-definition-color");
-  conf->jap_def.color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(conf->jap_def.color, jap_def_color_str);
-
-  ////japanese reading
-  conf->jap_reading.start = g_settings_get_string(settings, "japanese-reading-start");
-  conf->jap_reading.end = g_settings_get_string(settings, "japanese-reading-end");
-  conf->jap_reading.font = g_settings_get_string(settings, "japanese-reading-font");
-  gchar *jap_reading_color_str = g_settings_get_string(settings, "japanese-reading-color");
-  conf->jap_reading.color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(conf->jap_reading.color,
-                 jap_reading_color_str);
-
-  ////gloss
-  conf->gloss.start = g_settings_get_string(settings, "gloss-start");
-  conf->gloss.end = g_settings_get_string(settings, "gloss-end");
-  conf->gloss.font = g_settings_get_string(settings, "gloss-font");
-  gchar *gloss_color_str = g_settings_get_string(settings, "gloss-color");
-  conf->gloss.color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(conf->gloss.color, gloss_color_str);
-
-  ////subgloss
-  conf->subgloss.start = g_settings_get_string(settings, "subgloss-start");
-  conf->subgloss.end = g_settings_get_string(settings, "subgloss-end");
-  conf->subgloss.font = g_settings_get_string(settings, "subgloss-font");
-  gchar *subgloss_color_str = g_settings_get_string(settings, "subgloss-color");
-  conf->subgloss.color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(conf->subgloss.color, subgloss_color_str);
-
-  ////notes
-  conf->notes.start = g_settings_get_string(settings, "notes-start");
-  conf->notes.end = g_settings_get_string(settings, "notes-end");
-  conf->notes.font = g_settings_get_string(settings, "notes-font");
-  gchar *notes_color_str = g_settings_get_string(settings, "notes-color");
-  conf->notes.color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(conf->notes.color, notes_color_str);
+  worddic_conf_load_unit_style(settings, &conf->jap_def, "japanese-definition");
+  worddic_conf_load_unit_style(settings, &conf->jap_reading, "japanese-reading");
+  worddic_conf_load_unit_style(settings, &conf->gloss, "gloss");
+  worddic_conf_load_unit_style(settings, &conf->subgloss, "subgloss");
+  worddic_conf_load_unit_style(settings, &conf->notes, "notes");
   
   //highlight color
   conf->results_highlight_color = g_new0(GdkRGBA, 1);
@@ -79,9 +94,6 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
     }
   }
   g_variant_unref(dictionaries);
-
-    
-  //if (conf->dicfile_list != NULL) conf->selected_dic = conf->dicfile_list->data;
   
   //load the search options 
   conf->search_kata_on_hira = g_settings_get_boolean(settings, "search-kata-on-hira");
@@ -133,44 +145,19 @@ void worddic_conf_save(GSettings *settings,
   }
 
   if(fields & WSE_JAPANESE_DEFINITION){
-    g_settings_set_string(settings, "japanese-definition-start", conf->jap_def.start);
-    g_settings_set_string(settings, "japanese-definition-end", conf->jap_def.end);
-    g_settings_set_string(settings, "japanese-definition-font", conf->jap_def.font);
-    char *str_jap_def_color = gdk_rgba_to_string(conf->jap_def.color);
-    g_settings_set_string(settings, "japanese-definition-color", str_jap_def_color);
-
+    worddic_conf_save_unit_style(settings, &conf->jap_def, "japanese-definition");
   }
   
   if(fields & WSE_JAPANESE_READING){
-    g_settings_set_string(settings, "japanese-reading-start", conf->jap_reading.start);
-    g_settings_set_string(settings, "japanese-reading-end", conf->jap_reading.end);
-    g_settings_set_string(settings, "japanese-reading-font", conf->jap_reading.font);
-    char *str_jap_reading_color = gdk_rgba_to_string(conf->jap_reading.color);
-    g_settings_set_string(settings, "japanese-reading-color", str_jap_reading_color);
-
+    worddic_conf_save_unit_style(settings, &conf->jap_reading, "japanese-reading");
   }
 
   if(fields & WSE_GLOSS){
-    g_settings_set_string(settings, "gloss-start", conf->gloss.start);
-    g_settings_set_string(settings, "gloss-end", conf->gloss.end);
-    g_settings_set_string(settings, "gloss-font", conf->gloss.font);
-    char *str_gloss_color = gdk_rgba_to_string(conf->gloss.color);
-    g_settings_set_string(settings, "gloss-color", str_gloss_color);
-
-    g_settings_set_string(settings, "subgloss-start", conf->subgloss.start);
-    g_settings_set_string(settings, "subgloss-end", conf->subgloss.end);
-    g_settings_set_string(settings, "subgloss-font", conf->subgloss.font);
-    char *str_subgloss_color = gdk_rgba_to_string(conf->subgloss.color);
-    g_settings_set_string(settings, "subgloss-color", str_subgloss_color);
-
+    worddic_conf_save_unit_style(settings, &conf->gloss, "gloss");
+    worddic_conf_save_unit_style(settings, &conf->subgloss, "subgloss");
   }
   
   if(fields & WSE_NOTES){
-    g_settings_set_string(settings, "notes-start", conf->notes.start);
-    g_settings_set_string(settings, "notes-end", conf->notes.end);
-    g_settings_set_string(settings, "notes-font", conf->notes.font);
-    char *str_notes_color = gdk_rgba_to_string(conf->notes.color);
-    g_settings_set_string(settings, "notes-color", str_notes_color);
-
+    worddic_conf_save_unit_style(settings, &conf->notes, "notes");
   }
 }

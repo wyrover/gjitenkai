@@ -66,6 +66,9 @@ typedef struct _WorddicConfig {
   GSList *history;
 }WorddicConfig;
 
+void worddic_conf_load_unit_style(GSettings *settings,
+                                  unit_style *us,
+                                  const gchar *name);
 WorddicConfig *worddic_conf_load(GSettings *settings);
 void worddic_conf_save(GSettings *settings,
                        WorddicConfig *conf,
