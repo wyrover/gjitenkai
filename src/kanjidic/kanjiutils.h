@@ -21,7 +21,7 @@
    *List of kanji with this radical
  */
 typedef struct _RadInfo {
-	gunichar *radical;
+	gchar *radical;
 	gint strokes;
 	GSList *kanji_info_list;
 } RadInfo;

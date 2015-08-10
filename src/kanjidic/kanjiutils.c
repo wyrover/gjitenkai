@@ -54,8 +54,8 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
       //store radical character
       //the characters in the file are in UTF8 format. We need unicode.  
       gunichar utf8radical = g_utf8_get_char(radkfile_ptr);
-      gunichar *p_str_radical = g_new0(gunichar, 1);
-      g_unichar_to_utf8(utf8radical, (gchar*)p_str_radical);
+      gchar *p_str_radical = g_new0(gchar, 3);
+      g_unichar_to_utf8(utf8radical, p_str_radical);
       rad_info->radical = p_str_radical;
       
       //Find stroke number (move until digit detected)
