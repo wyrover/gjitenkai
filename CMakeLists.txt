@@ -42,40 +42,46 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 #if we want to create a NSIS script
 if(NSIS)
-	set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME}.exe)
-	set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
-	set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
-	include (NSIS.cmake)
+  set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME}.exe)
+  set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
+  set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
+  include (NSIS.cmake)
 
-	#install the gtk lib runtime in the binary directory
-	set (GTK_BIN C:/gtk/bin)   #TODO set the GTK_BIN variable dynamically 
-	
-	#these are all the required dll listed in the GTK documentation
-	#see http://www.gtk.org/download/win32_contentlist.php
-    INSTALL(FILES ${GTK_BIN}/libatk-1.0-0.dll
-				  ${GTK_BIN}/libcairo-2.dll
-				  ${GTK_BIN}/libcairo-gobject-2.dll
-				  ${GTK_BIN}/libffi-6.dll
-				  ${GTK_BIN}/libfreetype-6.dll
-				  ${GTK_BIN}/libgdk_pixbuf-2.0-0.dll
-				  ${GTK_BIN}/libgio-2.0-0.dll 
-				  ${GTK_BIN}/libglib-2.0-0.dll
-				  ${GTK_BIN}/libgmodule-2.0-0.dll 
-				  ${GTK_BIN}/libgobject-2.0-0.dll 
-				  ${GTK_BIN}/libgtk-3-0.dll
-				  ${GTK_BIN}/libiconv-2.dll 
-				  ${GTK_BIN}/libintl-8.dll 
-				  ${GTK_BIN}/libpango-1.0-0.dll 
-				  ${GTK_BIN}/libpangocairo-1.0-0.dll
-				  ${GTK_BIN}/libpangowin32-1.0-0.dll
-				  ${GTK_BIN}/libpixman-1-0.dll
-				  ${GTK_BIN}/libpng15-15.dll
-				  ${GTK_BIN}/libxml2-2.dll
-				  ${GTK_BIN}/pthreadGC2.dll
-				  ${GTK_BIN}/zlib1.dll 
-            DESTINATION ${CMAKE_INSTALL_BINDIR})
+  #install the gtk lib runtime in the binary directory
+  set (GTK_BIN C:/gtk/bin)   #TODO set the GTK_BIN variable dynamically 
+  
+  #these are all the required dll listed in the GTK documentation
+  #see http://www.gtk.org/download/win32_contentlist.php
+  INSTALL(FILES
+    ${GTK_BIN}/libatk-1.0-0.dll
+	${GTK_BIN}/libfontconfig-1.dll
+	${GTK_BIN}/libgdk-3-0.dll
+	${GTK_BIN}/liblzma-5.dll
+    ${GTK_BIN}/libcairo-2.dll
+    ${GTK_BIN}/libcairo-gobject-2.dll
+    ${GTK_BIN}/libffi-6.dll
+    ${GTK_BIN}/libfreetype-6.dll
+    ${GTK_BIN}/libgdk_pixbuf-2.0-0.dll
+    ${GTK_BIN}/libgio-2.0-0.dll 
+    ${GTK_BIN}/libglib-2.0-0.dll
+    ${GTK_BIN}/libgmodule-2.0-0.dll 
+    ${GTK_BIN}/libgobject-2.0-0.dll
+    ${GTK_BIN}/libgtk-3-0.dll
+    ${GTK_BIN}/libiconv-2.dll 
+    ${GTK_BIN}/libintl-8.dll 
+    ${GTK_BIN}/libpango-1.0-0.dll
+    ${GTK_BIN}/libpango-1.0-0.dll 
+    ${GTK_BIN}/libpangocairo-1.0-0.dll
+    ${GTK_BIN}/libpangoft2-1.0-0.dll
+    ${GTK_BIN}/libpangowin32-1.0-0.dll
+    ${GTK_BIN}/libpixman-1-0.dll
+    ${GTK_BIN}/libpng15-15.dll
+    ${GTK_BIN}/libxml2-2.dll
+    ${GTK_BIN}/pthreadGC2.dll
+    ${GTK_BIN}/zlib1.dll 
+    DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif(NSIS)
-	
+
 # Custom target for packaging.
 if(MINGW)
   add_definitions(-DMINGW)
@@ -113,7 +119,7 @@ add_executable(
   src/common/dicutil.c
   src/common/callbacks.c
   src/common/error.c   
-)
+  )
 
 # Link the target to the GTK+ libraries
 target_link_libraries(${PROJECT_NAME} ${GTK3_LIBRARIES} -lz)
@@ -173,7 +179,7 @@ set(${PROJECT_NAME}_OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
 
 #if the current system is Windows, the generated binary will end with .exe
 if(${WIN32})
-	set(${PROJECT_NAME}_OUTPUT ${${PROJECT_NAME}_OUTPUT}.exe)
+  set(${PROJECT_NAME}_OUTPUT ${${PROJECT_NAME}_OUTPUT}.exe)
 endif()
 
 install(PROGRAMS ${${PROJECT_NAME}_OUTPUT} DESTINATION ${CMAKE_INSTALL_BINDIR})
