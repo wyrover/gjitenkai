@@ -2,8 +2,8 @@
 
 void worddic_init (worddic *p_worddic)
 {
-  gchar filename[PATH_MAX];
-  GET_FILE(GJITENKAI_DATADIR"/gjitenkai/"UI_DEFINITIONS_FILE_WORDDIC, filename);
+  gchar filename[PATH_MAX]={0};
+  GET_FILE(GJITENKAI_DATADIR"/"PROJECT_NAME"/"UI_DEFINITIONS_FILE_WORDDIC, filename);
   
   GError *err = NULL;
   p_worddic->definitions = gtk_builder_new ();

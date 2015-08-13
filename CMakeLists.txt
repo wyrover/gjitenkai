@@ -17,13 +17,13 @@ set(SCHEMADIR ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
 
 #These path are passed onto config.h.in to be used as preprocessor definitions
 if(MINGW)
-	set(SHARE_DIR "../" {$SOURCE_SHARE}/{$PROJECT_NAME})
-	set(LOCALE_DIR ${SHARE_DIR}/locale)
-        set(DICT_DIR ${SHARE_DIR}/dict)
+	set(SHARE_DIR ../share)
+	set(LOCALE_DIR ${SHARE_DIR}/${PROJECT_NAME}/locale)
+    set(DICT_DIR ${SHARE_DIR}/${PROJECT_NAME}/dict)
 else(MINGW)
 	set(SHARE_DIR ${CMAKE_INSTALL_FULL_DATADIR})
 	set(LOCALE_DIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
-        set(DICT_DIR ${CMAKE_INSTALL_FULL_DATADIR}/dict)
+    set(DICT_DIR ${CMAKE_INSTALL_FULL_DATADIR}/dict)
 endif(MINGW)
 
 

@@ -4,8 +4,8 @@ GdkCursor * cursor;
 
 void kanjidic_init (kanjidic *kanjidic)
 {
-  gchar filename[PATH_MAX];
-  GET_FILE(GJITENKAI_DATADIR"/gjitenkai/"UI_DEFINITIONS_FILE_KANJIDIC,filename);
+  gchar filename[PATH_MAX]={0};
+  GET_FILE(GJITENKAI_DATADIR"/"PROJECT_NAME"/"UI_DEFINITIONS_FILE_KANJIDIC,filename);
 
   GError *err = NULL;
   kanjidic->definitions = gtk_builder_new ();

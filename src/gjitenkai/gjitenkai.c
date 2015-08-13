@@ -5,10 +5,12 @@ extern G_MODULE_EXPORT void on_gjitenkai_menuitem_history_click(GtkWidget *menui
 
 void gjitenkai_init (gjitenkai *gjitenkai)
 {
+  gchar filename[PATH_MAX]={0};
+  GET_FILE(GJITENKAI_DATADIR"/"PROJECT_NAME"/"UI_DEFINITIONS_FILE_GJITENKAI, filename);
+  
   GError *err = NULL;
   gjitenkai->definitions = gtk_builder_new ();
-  gtk_builder_add_from_file (gjitenkai->definitions,
-                             "UI/"UI_DEFINITIONS_FILE_GJITENKAI, &err);  
+  gtk_builder_add_from_file (gjitenkai->definitions, filename, &err);  
   if (err != NULL) {
     g_printerr
       ("Error while loading gjitenkai definitions file: %s\n",

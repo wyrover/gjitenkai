@@ -8,8 +8,8 @@ void init_inflection() {
   int conj_type = 40;
   struct vinfl_struct *tmp_vinfl_struct;
 
-  gchar filename[PATH_MAX];
-  GET_FILE(GJITENKAI_DATADIR"/gjitenkai/"VINFL_FILENAME, filename);
+  gchar filename[PATH_MAX]={0};
+  GET_FILE(GJITENKAI_DATADIR"/"PROJECT_NAME"/"VINFL_FILENAME, filename);
 
   vinfl_start = NULL;
   vinfl_start = read_file(filename);

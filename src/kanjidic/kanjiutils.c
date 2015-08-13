@@ -12,7 +12,7 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
   GHashTable *rad_info_hash   = *pp_rad_info_hash;
   GHashTable *kanji_info_hash = *pp_kanji_info_hash;
 
-  gchar filename[PATH_MAX];
+  gchar filename[PATH_MAX]={0};
   GET_FILE(GJITENKAI_DATADIR"/gjitenkai/"RADKFILE_NAME, filename);
   
   gchar *radkfile=NULL;
