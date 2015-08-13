@@ -413,36 +413,36 @@ gboolean detect_japanese(const gchar *srchstrg){
 
 #ifdef MINGW
 char* strtok_r(
-    char *str, 
-    const char *delim, 
-    char **nextp)
+               char *str, 
+               const char *delim, 
+               char **nextp)
 {
-    char *ret;
+  char *ret;
 
-    if (str == NULL)
+  if (str == NULL)
     {
-        str = *nextp;
+      str = *nextp;
     }
 
-    str += strspn(str, delim);
+  str += strspn(str, delim);
 
-    if (*str == '\0')
+  if (*str == '\0')
     {
-        return NULL;
+      return NULL;
     }
 
-    ret = str;
+  ret = str;
 
-    str += strcspn(str, delim);
+  str += strcspn(str, delim);
 
-    if (*str)
+  if (*str)
     {
-        *str++ = '\0';
+      *str++ = '\0';
     }
 
-    *nextp = str;
+  *nextp = str;
 
-    return ret;
+  return ret;
 }
 
 #ifdef BUFSIZ
@@ -458,15 +458,17 @@ size_t getline(char** lineptr, size_t *n, FILE *stream){
   return *n;
 }
 
+void path_relative(gchar *path, gchar *res){
+  //get the .exe full path and filename
+  gchar buffer[PATH_MAX];
+  GetModuleFileName(NULL, buffer, PATH_MAX) ;
+	
+  gchar *dirname = g_path_get_dirname(buffer);
+  g_strlcat(res, dirname, PATH_MAX);
+  g_free(dirname);
 
-gchar *path_relative(gchar *path){
-	gchar buffer[MAX_PATH];
-	GetModuleFileName(NULL, buffer, MAX_PATH) ;
-	
-	gchar *dirname = g_path_get_dirname(buffer);
-	gchar *result = g_strconcat(dirname, "\\", path, NULL);
-	
-	return result;
+  g_strlcat(res, "\\", PATH_MAX);
+  g_strlcat(res, path, PATH_MAX);
 }
 
 #endif

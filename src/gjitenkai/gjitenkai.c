@@ -8,7 +8,7 @@ void gjitenkai_init (gjitenkai *gjitenkai)
   GError *err = NULL;
   gjitenkai->definitions = gtk_builder_new ();
   gtk_builder_add_from_file (gjitenkai->definitions,
-                             UI_DEFINITIONS_FILE_GJITENKAI, &err);  
+                             "UI/"UI_DEFINITIONS_FILE_GJITENKAI, &err);  
   if (err != NULL) {
     g_printerr
       ("Error while loading gjitenkai definitions file: %s\n",

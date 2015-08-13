@@ -12,15 +12,18 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
   GHashTable *rad_info_hash   = *pp_rad_info_hash;
   GHashTable *kanji_info_hash = *pp_kanji_info_hash;
 
-  gchar *radkfile = NULL;
-  radkfile = read_file(RADKFILE_NAME);
+  gchar filename[PATH_MAX];
+  GET_FILE(GJITENKAI_DATADIR"/gjitenkai/"RADKFILE_NAME, filename);
+  
+  gchar *radkfile=NULL;
+  radkfile = read_file(filename);
 
   if (radkfile == NULL){
-    g_printf("failed to read radkfile %s\n", RADKFILE_NAME);
+    g_printf("failed to read radkfile '%s'\n", filename);
 
-      rad_info_hash = NULL;
-      kanji_info_hash = NULL;
-      return NULL;
+    rad_info_hash = NULL;
+    kanji_info_hash = NULL;
+    return NULL;
   }
   
   radkfile_end = radkfile + strlen(radkfile);

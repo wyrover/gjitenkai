@@ -15,17 +15,23 @@ set(DICDIR ${CMAKE_INSTALL_DATADIR}/dict)
 set(LOCALDIR ${CMAKE_INSTALL_LOCALEDIR})
 set(SCHEMADIR ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
 
-#These path are passed onto config.h.in to be used a preprocessor definitions
-set(DATADIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/${PROJECT_NAME})
-set(DICDIR_FULL ${CMAKE_INSTALL_FULL_DATADIR}/dict)
-set(LOCALDIR_FULL ${CMAKE_INSTALL_FULL_LOCALEDIR})
+#These path are passed onto config.h.in to be used as preprocessor definitions
+if(MINGW)
+	set(SHARE_DIR "../" {$SOURCE_SHARE}/{$PROJECT_NAME})
+	set(LOCALE_DIR ${SHARE_DIR}/locale)
+        set(DICT_DIR ${SHARE_DIR}/dict)
+else(MINGW)
+	set(SHARE_DIR ${CMAKE_INSTALL_FULL_DATADIR})
+	set(LOCALE_DIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
+        set(DICT_DIR ${CMAKE_INSTALL_FULL_DATADIR}/dict)
+endif(MINGW)
+
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
 
 ############################################################
 option(NSIS "Use NSIS generator to produce installer" OFF)
-
 
 # Use the package PkgConfig to detect GTK+ headers/library files
 find_package(PkgConfig REQUIRED)

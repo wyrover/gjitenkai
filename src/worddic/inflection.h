@@ -17,11 +17,7 @@
 #include "../common/dicfile.h"
 #include "../common/dicutil.h"
 
-#ifdef MINGW
-	#define VINFL_FILENAME path_relative("..\\share\\gjitenkai\\vconj.utf8")
-#else
-	#define VINFL_FILENAME GJITENKAI_DATADIR"/vconj.utf8"
-#endif
+#define VINFL_FILENAME "vconj.utf8"
 
 /**
 use a text file (vconj.utf8) which maps the dictionary form of a verb with 

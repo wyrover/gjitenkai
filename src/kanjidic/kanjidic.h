@@ -11,13 +11,7 @@
 #include "kanji_item.h"
 #include "../common/dicfile.h"
 
-#define SETTINGS_KANJIDIC "gjitenkai.kanjidic"
-
-#ifdef MINGW
-	#define UI_DEFINITIONS_FILE_KANJIDIC path_relative("..\\share\\gjitenkai\\kanjidic.glade")
-#else
-	#define UI_DEFINITIONS_FILE_KANJIDIC GJITENKAI_DATADIR"/kanjidic.glade"
-#endif
+#define UI_DEFINITIONS_FILE_KANJIDIC "kanjidic.glade"
 
 typedef struct kanjidic_t
 {

@@ -8,13 +8,15 @@ void init_inflection() {
   int conj_type = 40;
   struct vinfl_struct *tmp_vinfl_struct;
 
-  gchar *vconj = VINFL_FILENAME;
-  vinfl_start = NULL;
-  vinfl_start = read_file(vconj);
+  gchar filename[PATH_MAX];
+  GET_FILE(GJITENKAI_DATADIR"/gjitenkai/"VINFL_FILENAME, filename);
 
-#ifdef MINGW
-  g_free(vconj);
-#endif
+  vinfl_start = NULL;
+  vinfl_start = read_file(filename);
+
+  if(!vinfl_start){
+    g_printf("cannot load verbe inflection file '%s'\n",  filename);
+  }
   
   vinfl_end = vinfl_start + strlen(vinfl_start);
   vinfl_ptr = vinfl_start;

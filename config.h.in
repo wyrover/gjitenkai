@@ -1,5 +1,5 @@
 /* config.h, generated from config.h.in by CMake ${CMAKE_VERSION} */
 
-#define GJITENKAI_DATADIR "${DATADIR_FULL}"
-#define GJITENKAI_DICDIR "${DICDIR_FULL}"
-#define GJITENKAI_LOCALDIR "${LOCALDIR_FULL}"
+#define GJITENKAI_DATADIR  "${SHARE_DIR}"
+#define GJITENKAI_DICDIR   "${DICT_DIR}"
+#define GJITENKAI_LOCALDIR "${LOCALE_DIR}"

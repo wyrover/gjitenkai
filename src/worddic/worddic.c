@@ -2,10 +2,13 @@
 
 void worddic_init (worddic *p_worddic)
 {
+  gchar filename[PATH_MAX];
+  GET_FILE(GJITENKAI_DATADIR"/gjitenkai/"UI_DEFINITIONS_FILE_WORDDIC, filename);
+  
   GError *err = NULL;
   p_worddic->definitions = gtk_builder_new ();
   gtk_builder_add_from_file (p_worddic->definitions,
-                             UI_DEFINITIONS_FILE_WORDDIC, &err);
+                             filename, &err);
   if (err != NULL) {
     g_printerr
       ("Error while loading worddic definitions file: %s\n",

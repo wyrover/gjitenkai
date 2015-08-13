@@ -4,10 +4,13 @@ GdkCursor * cursor;
 
 void kanjidic_init (kanjidic *kanjidic)
 {
+  gchar filename[PATH_MAX];
+  GET_FILE(GJITENKAI_DATADIR"/gjitenkai/"UI_DEFINITIONS_FILE_KANJIDIC,filename);
+
   GError *err = NULL;
   kanjidic->definitions = gtk_builder_new ();
   gtk_builder_add_from_file (kanjidic->definitions,
-                             UI_DEFINITIONS_FILE_KANJIDIC, &err);
+                             filename, &err);
   if (err != NULL) {
     g_printerr
       ("Error while loading kanjidic definitions file: %s\n",

@@ -3,11 +3,7 @@
 
 #include "../../config.h"
 
-#ifdef MINGW
-	#define RADKFILE_NAME path_relative("..\\share\\gjitenkai\\radkfile.utf8")
-#else
-	#define RADKFILE_NAME strdup(GJITENKAI_DATADIR"/radkfile.utf8")
-#endif
+#define RADKFILE_NAME "radkfile.utf8"
 
 #define SETTINGS_KANJIDIC "gjitenkai.kanjidic"
 #define GSETTINGS_ROOT "/gjitenkai"

@@ -7,11 +7,8 @@
 #include "../worddic/worddic.h"
 #include "../kanjidic/kanjidic.h"
 
-#ifdef MINGW
-	#define UI_DEFINITIONS_FILE_GJITENKAI path_relative("..\\share\\gjitenkai\\gjitenkai.glade")
-#else
-	#define UI_DEFINITIONS_FILE_GJITENKAI GJITENKAI_DATADIR"/gjitenkai.glade"
-#endif
+
+#define UI_DEFINITIONS_FILE_GJITENKAI "gjitenkai.glade"
 
 typedef struct gjitenkai_t
 {

@@ -14,11 +14,7 @@
 
 #define SETTINGS_WORDDIC "gjitenkai.worddic"
 
-#ifdef MINGW
-	#define UI_DEFINITIONS_FILE_WORDDIC path_relative("..\\share\\gjitenkai\\worddic.glade")
-#else
-	#define UI_DEFINITIONS_FILE_WORDDIC GJITENKAI_DATADIR"/worddic.glade"
-#endif
+#define UI_DEFINITIONS_FILE_WORDDIC "worddic.glade"
 
 GdkCursor *cursor_selection;
 GdkCursor *cursor_default;
