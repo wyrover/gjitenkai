@@ -119,8 +119,7 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
 
 void worddic_conf_save(GSettings *settings,
                        WorddicConfig *conf,
-                       worddic_save fields){
-
+                       worddic_save fields){	 
   if(fields & WSE_HISTORY){
     GVariantBuilder builder;
     g_variant_builder_init(&builder, G_VARIANT_TYPE("a(s)"));
