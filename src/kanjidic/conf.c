@@ -12,7 +12,7 @@ KanjidicConfig *kanjidic_conf_load(kanjidic *p_kanjidic) {
   if ((conf->kanjidic->path == NULL) || (strlen(conf->kanjidic->path)) == 0) {
 
     gchar file[PATH_MAX] = {0};
-    GET_FILE(GJITENKAI_DICDIR"/"PROJECT_NAME"/kanjidic.utf8", file);
+    GET_FILE(GJITENKAI_DATADIR"/"PROJECT_NAME"/kanjidic.utf8", file);
     
     conf->kanjidic->path = g_strdup(file);
     g_printf("load %s\n", file);
