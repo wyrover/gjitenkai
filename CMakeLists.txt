@@ -31,7 +31,9 @@ endif(MINGW)
 configure_file(config.h.in config.h)
 
 ############################################################
+##Windows only options
 option(NSIS "Use NSIS generator to produce installer" OFF)
+option(STANDALONE "Install as standalone" OFF)
 
 # Use the package PkgConfig to detect GTK+ headers/library files
 find_package(PkgConfig REQUIRED)
@@ -47,11 +49,13 @@ link_directories(${GTK3_LIBRARY_DIRS})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 #if we want to create a NSIS script
-if(NSIS)
-  set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME}.exe)
-  set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
-  set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
-  include (NSIS.cmake)
+if(NSIS OR STANDALONE)
+  if(NSIS)
+    set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME}.exe)
+    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
+    set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
+    include (NSIS.cmake)
+  endif()
 
   #install the Gtk DLLs from the Gtk's bin directory 
   set (GTK_BIN ${GLIB_PREFIX}/bin)
@@ -86,7 +90,7 @@ if(NSIS)
     ${GTK_BIN}/libxml2-2.dll
     ${GTK_BIN}/zlib1.dll
     DESTINATION ${CMAKE_INSTALL_BINDIR})
-endif(NSIS)
+endif()
 
 # Custom target for packaging.
 if(MINGW)
@@ -135,7 +139,7 @@ set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
 
 #if using NSIS, compile the setting xml file in the source tree
 #if not using NSIS install and compile in the glib directory
-if(NSIS)
+if(NSIS OR STANDALONE)
   #Settings. Compile this software gschema localy
   compile_schemas(${SCHEMADIR}/NSIS ${SCHEMADIR})    
 
@@ -144,11 +148,20 @@ if(NSIS)
     DESTINATION ${SCHEMADIR}
     )
 
-  #install required files for standalone app
-  ##icone
-  
-else(NSIS)
-  # install the xml schema in glib gschema.xml
+  #install files from the glib dir to the install dir
+  ##icons
+  install(
+    DIRECTORY ${GLIB_PREFIX}/share/icons
+    DESTINATION ${CMAKE_INSTALL_DATADIR}
+    )
+
+  install(
+    FILES ${GLIB_PREFIX}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/../lib/gdk-pixbuf-2.0/2.10.0/
+    )
+
+else()
+  # install the gschema.xml schema file in glib system dir
   install(
     FILES ${SCHEMADIR}/${PROJECT_NAME}.gschema.xml
     DESTINATION ${GLIB_PREFIX}/${SCHEMADIR}
@@ -161,7 +174,7 @@ else(NSIS)
     )
 
   compile_schemas_install(${GLIB_PREFIX}/${SCHEMADIR})
-endif(NSIS)
+endif()
 
 ## Install UI definitions files
 install(
