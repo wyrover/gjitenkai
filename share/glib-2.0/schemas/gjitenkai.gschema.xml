@@ -90,6 +90,9 @@
     <key name="notes-end" type="s">
       <default>']'</default>
     </key>
+    <key name="dark-theme" type="b">
+      <default>false</default>
+    </key>
     <key name="dictionaries" type="a(ssb)">
       <default>[]</default>
       <summary>List of dictionary files (paths and names)</summary>

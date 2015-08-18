@@ -32,7 +32,7 @@ int main( int argc, char **argv )
   gjitenkai_init (&gjitenkai);
   worddic_init(gjitenkai.worddic);
   kanjidic_init(gjitenkai.kanjidic);
-
+  
   //add worddic history in the history menu
   GSList *l=NULL;
   for(l=gjitenkai.worddic->conf->history;l!=NULL;l = l->next){

@@ -35,7 +35,8 @@ typedef enum worddic_save_enum{
   WSE_GLOSS               = 1 << 5,
   WSE_NOTES               = 1 << 6,
   WSE_HISTORY             = 1 << 7,
-  WSE_ALL                 = 1111111
+  WSE_DARK_THEME          = 1 << 8,
+  WSE_ALL                 = 11111111
 }worddic_save;
 
 typedef struct _WorddicConfig {
@@ -57,6 +58,9 @@ typedef struct _WorddicConfig {
   unit_style gloss;
   unit_style subgloss;
   unit_style notes;
+
+  //dark theme
+  gboolean dark_theme;
   
   //search options
   gboolean search_kata_on_hira;

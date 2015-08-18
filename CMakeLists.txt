@@ -4,28 +4,28 @@ project(gjitenkai C)
 # Set the minimum version of cmake required to build this project
 cmake_minimum_required(VERSION 2.6)
 
-#install directories variables
+#include directories variables
 include(GNUInstallDirs)
 
-##directories where to find/install files.
-#These path are used in with the install instruction which only supports
-#relative path
-set(SHAREDIR       ${CMAKE_INSTALL_DATADIR})
-set(LOCALDIR       ${CMAKE_INSTALL_LOCALEDIR})
+#include GSettings macro
+include(GSettings.cmake)
+
+#Directories in the source tree
+set (SOURCE_SHARE "share")
+
+##directories where to install files.
+#These path must be relative
 set(GLIB_SCHEMADIR "glib-2.0/schemas")
 set(SCHEMADIR      ${CMAKE_INSTALL_DATADIR}/${GLIB_SCHEMADIR})
 
 #These path are passed onto config.h.in to be used as preprocessor definitions
 if(MINGW)
-	set(SHARE_DIR "../share")
-    set(LOCALE_DIR ${SHARE_DIR}/${PROJECT_NAME}/locale)
-	set(DICT_DIR ${SHARE_DIR}/${PROJECT_NAME}/dict)
+  set(SHARE_DIR "../share")
+  set(LOCALE_DIR ${SHARE_DIR}/${PROJECT_NAME}/locale)
 else(MINGW)
-	set(SHARE_DIR ${CMAKE_INSTALL_FULL_DATADIR})
-	set(LOCALE_DIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
-	set(DICT_DIR ${CMAKE_INSTALL_FULL_DATADIR}/dict)
+  set(SHARE_DIR ${CMAKE_INSTALL_FULL_DATADIR})
+  set(LOCALE_DIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
 endif(MINGW)
-
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
@@ -46,28 +46,20 @@ link_directories(${GTK3_LIBRARY_DIRS})
 #compiled binary output directory
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
-#set the pkg-config variable
-set(PKG_CONFIG_EXECUTABLE pkg-config)
-
-#find the glib prefix directory with pkg-config 
-execute_process (
-COMMAND ${PKG_CONFIG_EXECUTABLE} gio-2.0 --variable prefix
-OUTPUT_VARIABLE GLIB_PREFIX OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-	
 #if we want to create a NSIS script
 if(NSIS)
   set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME}.exe)
-  #set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
-  #set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
+  set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
+  set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
   include (NSIS.cmake)
 
   #install the Gtk DLLs from the Gtk's bin directory 
   set (GTK_BIN ${GLIB_PREFIX}/bin)
-  
+
   #these are all the required dll listed in the GTK documentation
   #see http://www.gtk.org/download/win32_contentlist.php
-  INSTALL(FILES
+  INSTALL(
+    FILES
     ${GTK_BIN}/libatk-1.0-0.dll
     ${GTK_BIN}/libfontconfig-1.dll
     ${GTK_BIN}/libgdk-3-0.dll
@@ -92,15 +84,20 @@ if(NSIS)
     ${GTK_BIN}/libpixman-1-0.dll
     ${GTK_BIN}/libpng16-16.dll
     ${GTK_BIN}/libxml2-2.dll
-    ${GTK_BIN}/zlib1.dll 
+    ${GTK_BIN}/zlib1.dll
     DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif(NSIS)
+
+# Custom target for packaging.
+if(MINGW)
+  add_definitions(-DMINGW)
+endif(MINGW)
 
 # Add other flags to the compiler
 add_definitions(${GTK3_CFLAGS_OTHER})
 add_definitions(-Wall)
 
-# files needed to compile gjitenkai
+# files needed to compile the executable
 add_executable(
   ${PROJECT_NAME}
   src/${PROJECT_NAME}/main.c 
@@ -136,37 +133,53 @@ target_link_libraries(${PROJECT_NAME} ${GTK3_LIBRARIES} -lz)
 # Compiler flag needed to reach callback functions
 set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
 
-include(GSettings.cmake)
+#if using NSIS, compile the setting xml file in the source tree
+#if not using NSIS install and compile in the glib directory
+if(NSIS)
+  #Settings. Compile this software gschema localy
+  compile_schemas(${SCHEMADIR}/NSIS ${SCHEMADIR})    
 
-if(MINGW)
-  #under windows point to a directory with specific options and org files
-  compile_schemas(${SCHEMADIR}/windows ${SCHEMADIR})
-  
-  #add a compiler definition
-  add_definitions(-DMINGW)
-else()
-  compile_schemas(${SCHEMADIR} ${SCHEMADIR})
-endif()
+  install(
+    FILES ${SCHEMADIR}/gschemas.compiled
+    DESTINATION ${SCHEMADIR}
+    )
 
-# INSTALL
-##Install settings
-###Compiled file
+  #install theme
+  install
+else(NSIS)
+  # install the xml schema in glib gschema.xml
+  install(
+    FILES ${SCHEMADIR}/${PROJECT_NAME}.gschema.xml
+    DESTINATION ${GLIB_PREFIX}/${SCHEMADIR}
+    )
+
+  #compile the glib schemas directory
+  install(
+    CODE
+    "message (STATUS \"Compiling GSettings schemas at ${GLIB_PREFIX}/${SCHEMADIR}\")"
+    )
+
+  compile_schemas_install(${GLIB_PREFIX}/${SCHEMADIR})
+endif(NSIS)
+
+## Install UI definitions files
 install(
-  FILES ${SCHEMADIR}/gschemas.compiled
-  DESTINATION ${SCHEMADIR}
+  FILES
+  ${SOURCE_SHARE}/${PROJECT_NAME}/${PROJECT_NAME}.glade
+  ${SOURCE_SHARE}/${PROJECT_NAME}/worddic.glade
+  ${SOURCE_SHARE}/${PROJECT_NAME}/kanjidic.glade
+  DESTINATION 
+  ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
   )
 
-#The xml gschema is installed exepct when creating an NSIS package because:
-#In a standalone application using an installer, we only need the app schema
-#Absolute install path are forbidden when creating a package
-if(NOT NSIS)
-message ("COMPLETE SHEMADIR IS ${GLIB_PREFIX}/${SCHEMADIR}")
-###gschema.xml
+## Install locales
+###Français
 install(
-  FILES ${SCHEMADIR}/${PROJECT_NAME}.gschema.xml
-  DESTINATION ${GLIB_PREFIX}/${SCHEMADIR}
-  )
-endif()
+  FILES
+  po/fr/${PROJECT_NAME}.mo
+  po/fr/worddic.mo
+  po/fr/kanjidic.mo
+  DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
 
 ## Install kanjidic
 install(
@@ -182,46 +195,26 @@ install(
   DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
   )
 
-## Install UI definitions files
+## Install icons
 install(
-  FILES 
-  ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/worddic.glade 
-  ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/kanjidic.glade 
-  ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/${PROJECT_NAME}.glade
-  DESTINATION 
-  ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
-  )
-
-## Install locales
-###FranÃ§ais
-install(FILES
-  po/fr/${PROJECT_NAME}.mo
-  po/fr/worddic.mo
-  po/fr/kanjidic.mo
-  DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
+  FILES ${SOURCE_SHARE}/${PROJECT_NAME}/${PROJECT_NAME}.png
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/icons)
+install(
+  FILES ${SOURCE_SHARE}/${PROJECT_NAME}/${PROJECT_NAME}.png
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
 
 ## Install desktop file
 install(
   FILES ${PROJECT_NAME}.desktop
   DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 
-## Install icon
-# install(
-  # FILES pixmaps/${PROJECT_NAME}.png
-  # DESTINATION ${CMAKE_INSTALL_DATADIR}/icons)
+## Install programs 
+## Set the output binary full path name variable
+set(OUTPUT_BIN ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
 
-## Install pixmaps
-install(
-  FILES pixmaps/${PROJECT_NAME}.png pixmaps/kai.png
-  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
-
-## Install program
-### Set the output binary full path name variable
-set(OUTPUT_NAME ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
-
-#if the current system is Windows, the generated binary will end with .exe
+#if the current system is Windows, the generated binary ends with .exe
 if(MINGW)
-  set(OUTPUT_NAME ${OUTPUT_NAME}.exe)
+  set(OUTPUT_BIN ${OUTPUT_BIN}.exe)
 endif()
 
-install(PROGRAMS ${OUTPUT_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(PROGRAMS ${OUTPUT_BIN} DESTINATION ${CMAKE_INSTALL_BINDIR})

@@ -123,6 +123,21 @@ G_MODULE_EXPORT void on_history_clear_activate (GtkMenuItem *menuitem,
                                                 worddic *worddic){
 }
 
+G_MODULE_EXPORT void on_checkbutton_dark_theme_toggled(GtkCheckButton* check_button,  
+                                                       worddic *worddic){
+  gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
+
+  GtkSettings *settings = gtk_settings_get_default ();
+  
+  g_object_set (G_OBJECT (settings),
+                "gtk-application-prefer-dark-theme",
+                toggled,
+                NULL);
+  
+  worddic->conf->dark_theme = toggled;
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_DARK_THEME);
+}
+
 //if available for this version of GTK, display the next page of result when
 //the scroll window is scrolled at the bottom
 #if GTK_MAJOR_VERSION >= 3 && GTK_MINOR_VERSION >= 16
@@ -138,4 +153,6 @@ void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* s
     print_entries(textbuffer_search_results, worddic);
   }
 }
+
 #endif
+

@@ -283,6 +283,11 @@ void init_prefs_window(worddic *worddic){
                            "entry_notes_end");
   gtk_entry_set_text(entry_notes_end, worddic->conf->notes.end);
 
+  //dark theme
+  GtkWidget *checkbutton_dark_theme = gtk_builder_get_object(worddic->definitions,
+                                                             "checkbutton_dark_theme");
+  gtk_toggle_button_set_active(checkbutton_dark_theme, worddic->conf->dark_theme);
+  
   ////Dictionary tab
   GtkTreeIter iter;
   GtkTreeView *view = (GtkTreeView*)gtk_builder_get_object(worddic->definitions, 
@@ -690,3 +695,4 @@ G_MODULE_EXPORT gboolean on_treeview_dicfile_changed(GtkTreeSelection *treeselec
   
   return TRUE;
 }
+

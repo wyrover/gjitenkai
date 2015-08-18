@@ -67,6 +67,12 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   worddic_conf_load_unit_style(settings, &conf->gloss, "gloss");
   worddic_conf_load_unit_style(settings, &conf->subgloss, "subgloss");
   worddic_conf_load_unit_style(settings, &conf->notes, "notes");
+
+  //dark theme
+  GtkSettings *gsettings = gtk_settings_get_default ();
+  g_object_get (G_OBJECT (gsettings),
+                "gtk-application-prefer-dark-theme", &conf->dark_theme,
+                NULL);
   
   //highlight color
   conf->results_highlight_color = g_new0(GdkRGBA, 1);

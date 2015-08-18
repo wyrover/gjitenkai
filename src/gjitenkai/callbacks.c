@@ -250,3 +250,4 @@ G_MODULE_EXPORT gboolean on_gjitenkai_search_results_button_release_event(GtkWid
 
   return FALSE;
 }
+
