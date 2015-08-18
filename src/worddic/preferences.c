@@ -54,6 +54,8 @@ G_MODULE_EXPORT gboolean on_button_dictionary_edit_clicked(GtkWidget *widget, wo
   GtkTreeIter iter ;
   gint index = getsingleselect(treeview_dic, &iter);
 
+  if(index == -1)return FALSE;
+  
   //init the edit dic dialog with the selected dic name and path
   GtkDialog *dialog_dic_edit = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                                   "dialog_dic_edit");
