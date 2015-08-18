@@ -144,8 +144,9 @@ if(NSIS)
     DESTINATION ${SCHEMADIR}
     )
 
-  #install theme
-  install
+  #install required files for standalone app
+  ##icone
+  
 else(NSIS)
   # install the xml schema in glib gschema.xml
   install(
