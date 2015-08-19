@@ -104,7 +104,8 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   //load the search options 
   conf->search_kata_on_hira = g_settings_get_boolean(settings, "search-kata-on-hira");
   conf->search_hira_on_kata = g_settings_get_boolean(settings, "search-hira-on-kata");
-  conf->verb_deinflection = g_settings_get_boolean(settings, "deinflection-enabled");
+  conf->verb_deinflection   = g_settings_get_boolean(settings, "deinflection-enabled");
+  conf->record_history      = TRUE;//g_settings_get_boolean(settings, "record-history");
 
   //load the history
   GVariantIter history_iter;
@@ -153,6 +154,8 @@ void worddic_conf_save(GSettings *settings,
                            conf->search_hira_on_kata);
     g_settings_set_boolean(settings, "deinflection-enabled",
                            conf->verb_deinflection);
+    /*g_settings_set_boolean(settings, "record-history",
+      conf->record_history);    */
   }
 
   if(fields & WSE_DICFILE){

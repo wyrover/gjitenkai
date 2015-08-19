@@ -52,8 +52,8 @@ G_MODULE_EXPORT void on_gjitenkai_search_expression_activate(GtkEntry *entry,
   //search in worrdic 
   gboolean has_match = worddic_search(res, gjitenkai->worddic);
 
-  //if there are results
-  if(has_match){
+  //if there are results and the user allow record history
+  if(has_match && gjitenkai->worddic->conf->record_history){
     //append to the history menu
     gjitenkai->worddic->conf->history = g_slist_append(gjitenkai->worddic->conf->history,
                                                        g_strdup(search_entry_text));

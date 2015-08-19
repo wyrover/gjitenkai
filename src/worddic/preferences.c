@@ -328,8 +328,11 @@ void init_prefs_window(worddic *worddic){
 
   check_button = (GtkToggleButton*)gtk_builder_get_object(worddic->definitions, 
                                                           "checkbutton_search_katakana_on_hiragana");
-
   gtk_toggle_button_set_active(check_button, worddic->conf->search_kata_on_hira);
+
+  check_button = (GtkToggleButton*)gtk_builder_get_object(worddic->definitions, 
+                                                          "checkbutton_record_history");
+  gtk_toggle_button_set_active(check_button, worddic->conf->record_history);
 }
 
 
@@ -533,7 +536,16 @@ G_MODULE_EXPORT void on_checkbutton_verbadj_deinflection_toggled(GtkCheckButton*
   worddic_conf_save(worddic->settings, worddic->conf, WSE_SEARCH_OPTION);
 }
 
-G_MODULE_EXPORT gboolean on_button_OK_clicked(GtkWidget *widget, worddic *worddic) {
+G_MODULE_EXPORT void on_checkbutton_record_history_toggled(GtkCheckButton* check_button,
+                                                               worddic *worddic){
+  gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
+  worddic->conf->record_history = toggled;
+
+  worddic_conf_save(worddic->settings, worddic->conf, WSE_SEARCH_OPTION);
+}
+
+G_MODULE_EXPORT gboolean on_button_OK_clicked(GtkWidget *widget,
+                                              worddic *worddic) {
   GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
                                                         "prefs");
   gtk_widget_hide (GTK_WIDGET(prefs));
