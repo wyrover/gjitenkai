@@ -35,16 +35,16 @@ msgstr ""
 "Pour commencer une recherche vous devez avoir un <i>fichier dictionnaire EDICT</i>. \n"
 "\n"
 "Vous pouvez en Télécharger un sur le <a href=\"http://ftp.monash.edu.au/pub/"
-"nihongo/00INDEX.html#dic_fil\">Site officiel d'EDICT</a>. (il existe une version en français nommée kanjidic_fr.gz)\n"
+"nihongo/00INDEX.html#dic_fil\">Site officiel d'EDICT</a>. \n (il existe une version en français nommée kanjidic_fr.gz)\n"
 "\n"
-"Puis l'ajouter dans Gjiten Kai via le <b>menu Edition/Preferences</b> \n"
+"Puis l'ajouter dans Gjiten Kai via le <b>menu Edition/Préférences</b> \n"
 "<b>Worddic - Dictionnaires - Ajouter</b>\n"
 "\n"
 
 
 #: share/gjitenkai/worddic.glade:451
 msgid "Activate Dark Theme"
-msgstr "Activer le theme sombre"
+msgstr "Activer le thème sombre"
 
 #: share/gjitenkai/worddic.glade:506
 msgid "Active"
@@ -64,7 +64,7 @@ msgstr "Apparence"
 
 #: share/gjitenkai/worddic.glade:442
 msgid "Dark theme"
-msgstr "Theme sombre"
+msgstr "Thème sombre"
 
 #: share/gjitenkai/worddic.glade:630
 msgid "Dictionaries"
@@ -108,7 +108,7 @@ msgstr "Japonais"
 
 #: share/gjitenkai/worddic.glade:88
 msgid "Japanese Definition"
-msgstr "Definition Japonaise"
+msgstr "Définition Japonaise"
 
 #: share/gjitenkai/worddic.glade:101
 msgid "Japanese Reading"
@@ -144,7 +144,7 @@ msgstr "Chemin"
 
 #: share/gjitenkai/worddic.glade:791
 msgid "Preferences"
-msgstr ""
+msgstr "Préférences"
 
 #: share/gjitenkai/worddic.glade:692
 msgid "Record search history"
@@ -172,7 +172,7 @@ msgstr "Commence avec l'Expression"
 
 #: share/gjitenkai/worddic.glade:676
 msgid "Verbs and Adjectives deinflection"
-msgstr "Déinflexion des verbes et des adjectives en i"
+msgstr "Déinflexion des verbes et des adjectifs en i"
 
 #: share/gjitenkai/worddic.glade:884
 msgid "Whole Expression"

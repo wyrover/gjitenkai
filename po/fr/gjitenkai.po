@@ -53,7 +53,7 @@ msgstr "Baie vitrée"
 
 #: share/gjitenkai/gjitenkai.glade:112
 msgid "Preferences"
-msgstr ""
+msgstr "Préférences"
 
 #: share/gjitenkai/gjitenkai.glade:135
 msgid "Worddic"

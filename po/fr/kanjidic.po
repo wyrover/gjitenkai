@@ -51,7 +51,7 @@ msgstr "Police du Kanji"
 
 #: share/gjitenkai/kanjidic.glade:552
 msgid "Keys"
-msgstr "Cles"
+msgstr "Clés"
 
 #: share/gjitenkai/kanjidic.glade:371
 msgid "OK"
@@ -59,7 +59,7 @@ msgstr ""
 
 #: share/gjitenkai/kanjidic.glade:302
 msgid "Preferences"
-msgstr ""
+msgstr "Préférences"
 
 #: share/gjitenkai/kanjidic.glade:279
 msgid "Quit"
@@ -75,7 +75,7 @@ msgstr "Chercher"
 
 #: share/gjitenkai/kanjidic.glade:154
 msgid "Separator"
-msgstr "Separateur"
+msgstr "Séparateur"
 
 #: share/gjitenkai/kanjidic.glade:595
 msgid "Show"
