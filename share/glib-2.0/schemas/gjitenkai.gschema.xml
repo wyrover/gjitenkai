@@ -6,7 +6,7 @@
   </schema>
   <schema id="gjitenkai.worddic" path="/gjitenkai/worddic/">
     <key name="results-highlight-color" type="s">
-      <default>'rgb(255,0,0)'</default>
+      <default>'rgb(85,87,83)'</default>
     </key>
     <key name="search-kata-on-hira" type="b">
       <default>true</default>
@@ -33,7 +33,7 @@
       <default>'Sans Regular 14'</default>
     </key>
     <key name="japanese-definition-color" type="s">
-      <default>'rgb(255,0,0)'</default>
+      <default>'rgb(245,121,0)'</default>
     </key>
     <key name="japanese-definition-start" type="s">
       <default>'•'</default>
@@ -45,7 +45,7 @@
       <default>'Sans Italic 12'</default>
     </key>
     <key name="japanese-reading-color" type="s">
-      <default>'rgb(10,150,10)'</default>
+      <default>'rgb(115,210,22)'</default>
     </key>
     <key name="japanese-reading-start" type="s">
       <default>'('</default>
@@ -70,7 +70,7 @@
       <default>'Sans Regular 12'</default>
     </key>
     <key name="subgloss-color" type="s">
-      <default>'rgb(155,155,155)'</default>
+      <default>'rgb(252,233,79)'</default>
     </key>
     <key name="subgloss-start" type="s">
       <default>''</default>
@@ -82,7 +82,7 @@
       <default>'Sans Regular 12'</default>
     </key>
     <key name="notes-color" type="s">
-      <default>'rgb(155,155,155)'</default>
+      <default>'rgb(114,159,207)'</default>
     </key>
     <key name="notes-start" type="s">
       <default>'['</default>
@@ -90,6 +90,9 @@
     <key name="notes-end" type="s">
       <default>']'</default>
     </key>
+    <key name="system-theme" type="b">
+      <default>true</default>
+    </key>    
     <key name="dark-theme" type="b">
       <default>false</default>
     </key>
