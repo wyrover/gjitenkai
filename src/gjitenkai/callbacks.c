@@ -59,10 +59,6 @@ G_MODULE_EXPORT void on_gjitenkai_search_expression_activate(GtkEntry *entry,
                                                        g_strdup(search_entry_text));
 
     gjitenkai_menu_history_append(gjitenkai, search_entry_text);
-    //save
-    worddic_conf_save(gjitenkai->worddic->settings,
-                      gjitenkai->worddic->conf,
-                      WSE_HISTORY);
   }
 }
 

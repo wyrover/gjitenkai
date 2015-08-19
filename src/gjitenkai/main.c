@@ -199,5 +199,11 @@ int main( int argc, char **argv )
   gtk_widget_show_all ((GtkWidget*)window);
   gtk_main ();
 
+  //save
+  worddic_conf_save(gjitenkai.worddic->settings,
+                    gjitenkai.worddic->conf,
+                    WSE_HISTORY);
+
+    
   return 1;
 }
