@@ -106,6 +106,9 @@
         Name and path are strings, active is true or false (boolean)
       </description>
     </key>
+    <key name="record-history" type="b">
+      <default>true</default>
+    </key>
     <key name="history" type="a(s)">
       <default>[]</default>
     </key>
