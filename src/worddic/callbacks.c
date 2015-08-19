@@ -156,3 +156,8 @@ void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* s
 
 #endif
 
+void on_button_welcome_clicked(GtkButton* button, worddic *p_worddic){
+  GtkDialog *dialog = (GtkDialog*)gtk_builder_get_object(p_worddic->definitions, 
+                                                         "dialog_welcome");
+  gtk_widget_hide (GTK_WIDGET(dialog)); 
+}

@@ -111,29 +111,9 @@ void worddic_init (worddic *p_worddic)
   cursor_default = gdk_cursor_new_for_display(display, GDK_XTERM);
 
   if(!p_worddic->conf->dicfile_list){
-    GtkWindow *window = (GtkWindow*)gtk_builder_get_object(p_worddic->definitions, 
-                                                           "worddic");
-
-    const gchar *markup = "<b>Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'</b>\n \
-you do not have any <i>EDICT</i> dictionary file setup. \
-\n\n You can download one at the <a href=\"http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil\">Official EDICT website</a>\n\n \
-Then add it in Gjiten Kai using the <b>Edit/Preferences Menu</b> then \n<b>Worddic - Dictionaries - Add</b>";
- 
-    GtkWidget *dialog;
-    GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
-    dialog = gtk_message_dialog_new (window,
-                                     flags,
-                                     GTK_MESSAGE_INFO,
-                                     GTK_BUTTONS_CLOSE,
-                                     NULL);
-    gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog),
-                                   markup);
-
-    g_signal_connect_swapped(G_OBJECT(dialog), "response",
-                             G_CALLBACK(gtk_widget_destroy),
-                             G_OBJECT(dialog));
-		
-    gtk_widget_show_all(dialog);
+    GtkDialog *dialog = (GtkDialog*)gtk_builder_get_object(p_worddic->definitions, 
+                                                           "dialog_welcome");
+    gtk_dialog_run(GTK_DIALOG(dialog));
   }
 
   //add a callback when scrolling to the edge of the result only if GTK >= 3.16

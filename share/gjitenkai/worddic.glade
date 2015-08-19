@@ -955,6 +955,69 @@
       </object>
     </child>
   </object>
+  <object class="GtkDialog" id="dialog_welcome">
+    <property name="can_focus">False</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="type_hint">dialog</property>
+    <property name="urgency_hint">True</property>
+    <property name="transient_for">worddic</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="dialog-vbox3">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_area3">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button_welcome">
+                <property name="label" translatable="yes">Got it ! </property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_button_welcome_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label8">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">&lt;b&gt;Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'&lt;/b&gt;
+
+To start seaching you need an &lt;i&gt;EDICT dictionary file &lt;/i&gt;. 
+
+You can download one at the &lt;a href="http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil"&gt;Official EDICT website&lt;/a&gt;
+
+Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt; 
+&lt;b&gt;Worddic - Dictionaries - Add&lt;/b&gt;
+
+</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkDialog" id="prefs">
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
