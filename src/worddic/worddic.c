@@ -217,6 +217,12 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   //clear the display result buffer
   gtk_text_buffer_set_text(textbuffer_search_results, "", 0);
 
+  if(!worddic->conf->dicfile_list){
+    GtkDialog *dialog = (GtkDialog*)gtk_builder_get_object(worddic->definitions, 
+                                                           "dialog_welcome");
+    gtk_dialog_run(GTK_DIALOG(dialog));
+  }
+  
   //in each dictionaries
   while (dicfile_node != NULL) {
     dicfile = dicfile_node->data; 
