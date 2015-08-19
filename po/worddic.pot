@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-15 14:34+0200\n"
+"POT-Creation-Date: 2015-08-19 10:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,150 +17,172 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: UI/worddic.glade:185
-msgid "("
+#: share/gjitenkai/worddic.glade:1016
+msgid ""
+"<b>Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'</b>\n"
+"\n"
+"To start seaching you need an <i>EDICT dictionary file </i>. \n"
+"\n"
+"You can download one at the <a href=\"http://ftp.monash.edu.au/pub/"
+"nihongo/00INDEX.html#dic_fil\">Official EDICT website</a>\n"
+"\n"
+"Then add it in Gjiten Kai using the <b>Edit/Preferences Menu</b> \n"
+"<b>Worddic - Dictionaries - Add</b>\n"
+"\n"
 msgstr ""
 
-#: UI/worddic.glade:227
-msgid ")"
+#: share/gjitenkai/worddic.glade:451
+msgid "Activate Dark Theme"
 msgstr ""
 
-#: UI/worddic.glade:250
-msgid "/"
-msgstr ""
-
-#: UI/worddic.glade:385
+#: share/gjitenkai/worddic.glade:506
 msgid "Active"
-msgstr "Actif"
+msgstr ""
 
-#: UI/worddic.glade:438
+#: share/gjitenkai/worddic.glade:572
 msgid "Add"
-msgstr "Ajouter"
+msgstr ""
 
-#: UI/worddic.glade:686 UI/worddic.glade:758
+#: share/gjitenkai/worddic.glade:836 share/gjitenkai/worddic.glade:908
 msgid "Any Matches"
 msgstr ""
 
-#: UI/worddic.glade:351
+#: share/gjitenkai/worddic.glade:470
 msgid "Appearance"
 msgstr ""
 
-#: UI/worddic.glade:73
-msgid "Default font and highlight color"
+#: share/gjitenkai/worddic.glade:442
+msgid "Dark theme"
 msgstr ""
 
-#: UI/worddic.glade:496
+#: share/gjitenkai/worddic.glade:630
 msgid "Dictionaries"
 msgstr ""
 
-#: UI/worddic.glade:466
+#: share/gjitenkai/worddic.glade:600
 msgid "Edit"
 msgstr ""
 
-#: UI/worddic.glade:709
+#: share/gjitenkai/worddic.glade:859
 msgid "End With Expression"
 msgstr ""
 
-#: UI/worddic.glade:968
+#: share/gjitenkai/worddic.glade:1195
 msgid "Enter expression"
 msgstr ""
 
-#: UI/worddic.glade:674
+#: share/gjitenkai/worddic.glade:824
 msgid "Exact Match"
 msgstr ""
 
-#: UI/worddic.glade:592
+#: share/gjitenkai/worddic.glade:742
 msgid "Gjiten Kai グジテン改 - Worddic"
 msgstr ""
 
-#: UI/worddic.glade:664
+#: share/gjitenkai/worddic.glade:114
+msgid "Gloss / Sub Gloss"
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:75
+msgid "Highlight Color"
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:927
+msgid "History"
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:814
 msgid "Japanese"
 msgstr ""
 
-#: UI/worddic.glade:95
+#: share/gjitenkai/worddic.glade:88
+msgid "Japanese Definition"
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:101
 msgid "Japanese Reading"
 msgstr ""
 
-#: UI/worddic.glade:84
-msgid "Japanese definition"
-msgstr ""
-
-#: UI/worddic.glade:724
+#: share/gjitenkai/worddic.glade:874
 msgid "Latin"
 msgstr ""
 
-#: UI/worddic.glade:399
+#: share/gjitenkai/worddic.glade:520
 msgid "Loaded"
 msgstr ""
 
-#: UI/worddic.glade:373 UI/worddic.glade:923
+#: share/gjitenkai/worddic.glade:494 share/gjitenkai/worddic.glade:1150
 msgid "Name"
 msgstr ""
 
-#: UI/worddic.glade:829 UI/worddic.glade:874
+#: share/gjitenkai/worddic.glade:419
+msgid "Notes"
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:1056 share/gjitenkai/worddic.glade:1101
 msgid "OK"
 msgstr ""
 
-#: UI/worddic.glade:414 UI/worddic.glade:902
+#: share/gjitenkai/worddic.glade:993
+msgid "Okey ! "
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:535 share/gjitenkai/worddic.glade:1129
 msgid "Path"
 msgstr ""
 
-#: UI/worddic.glade:641
+#: share/gjitenkai/worddic.glade:791
 msgid "Preferences"
 msgstr ""
 
-#: UI/worddic.glade:452
+#: share/gjitenkai/worddic.glade:692
+msgid "Record search history"
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:586
 msgid "Remove"
 msgstr ""
 
-#: UI/worddic.glade:565
+#: share/gjitenkai/worddic.glade:715
 msgid "Search Options"
 msgstr ""
 
-#: UI/worddic.glade:526
+#: share/gjitenkai/worddic.glade:660
 msgid "Search for Hiragana on Katakana input"
 msgstr ""
 
-#: UI/worddic.glade:510
+#: share/gjitenkai/worddic.glade:644
 msgid "Search for Katakana on Hiragana input"
 msgstr ""
 
-#: UI/worddic.glade:697
+#: share/gjitenkai/worddic.glade:847
 msgid "Start With Expression"
 msgstr ""
 
-#: UI/worddic.glade:106
-msgid "Translation"
+#: share/gjitenkai/worddic.glade:676
+msgid "Verbs and Adjectives deinflection"
 msgstr ""
 
-#: UI/worddic.glade:542
-msgid "Verbs and adjectives deinflection"
-msgstr ""
-
-#: UI/worddic.glade:734
+#: share/gjitenkai/worddic.glade:884
 msgid "Whole Expression"
 msgstr ""
 
-#: UI/worddic.glade:747
+#: share/gjitenkai/worddic.glade:897
 msgid "Whole Words"
 msgstr ""
 
-#: UI/worddic.glade:631
+#: share/gjitenkai/worddic.glade:781
 msgid "_Edit"
 msgstr ""
 
-#: UI/worddic.glade:607
+#: share/gjitenkai/worddic.glade:757
 msgid "_File"
 msgstr ""
 
-#: UI/worddic.glade:777
+#: share/gjitenkai/worddic.glade:941
 msgid "_Help"
 msgstr ""
 
-#: UI/worddic.glade:654
+#: share/gjitenkai/worddic.glade:804
 msgid "_Search"
-msgstr ""
-
-#: UI/worddic.glade:121
-msgid "•"
 msgstr ""
