@@ -437,8 +437,6 @@
       </object>
     </child>
   </object>
-  <object class="GtkTextBuffer" id="textbuffer1"/>
-  <object class="GtkTextBuffer" id="textbuffer_kanji_display"/>
   <object class="GtkTextBuffer" id="textbuffer_kanji_result"/>
   <object class="GtkBox" id="box_toplevel">
     <property name="visible">True</property>
