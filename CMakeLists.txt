@@ -62,8 +62,7 @@ if(NSIS OR STANDALONE)
 
   #these are all the required dll listed in the GTK documentation
   #see http://www.gtk.org/download/win32_contentlist.php
-  INSTALL(
-    FILES
+  set (GTK_LIBS
     ${GTK_BIN}/libatk-1.0-0.dll
     ${GTK_BIN}/libfontconfig-1.dll
     ${GTK_BIN}/libgdk-3-0.dll
@@ -88,14 +87,33 @@ if(NSIS OR STANDALONE)
     ${GTK_BIN}/libpixman-1-0.dll
     ${GTK_BIN}/libpng16-16.dll
     ${GTK_BIN}/libxml2-2.dll
-    ${GTK_BIN}/zlib1.dll
-    DESTINATION ${CMAKE_INSTALL_BINDIR})
+    ${GTK_BIN}/zlib1.dll)
+
+  install(
+    PROGRAMS ${GTK_LIBS}
+    DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT System
+    )
+
+  #install WINGW runtime libs
+  get_filename_component( MINGW_BIN ${CMAKE_C_COMPILER} DIRECTORY )
+  set(RUNTIME_LIBS
+    ${MINGW_BIN}/libgcc_s_dw2-1.dll
+    ${MINGW_BIN}/libwinpthread-1.dll
+    ${MINGW_BIN}/libbz2-1.dll
+    ${MINGW_BIN}/libepoxy-0.dll
+    ${MINGW_BIN}/libexpat-1.dll
+    ${MINGW_BIN}/libharfbuzz-0.dll
+    ${MINGW_BIN}/libstdc++-6.dll)
+
+  install( PROGRAMS ${RUNTIME_LIBS} DESTINATION bin COMPONENT System )
+
 endif()
 
-# Custom target for packaging.
+# Custom definition
 if(MINGW)
   add_definitions(-DMINGW)
 endif(MINGW)
+
 
 # Add other flags to the compiler
 add_definitions(${GTK3_CFLAGS_OTHER})
