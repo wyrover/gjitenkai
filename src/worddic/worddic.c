@@ -197,7 +197,6 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   //detect is the search is in japanese
   gboolean is_jp = detect_japanese(search_text);
   
-  //get the modified string with anchors from the GString
   //convert fullwidth regex punctuation to halfwidth regex puncutation
   gchar *entry_text = regex_full_to_half(search_text);
   gboolean deinflection   = worddic->conf->verb_deinflection;
@@ -293,7 +292,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
     }
 
     //standard search
-    search_expr.search_text = search_text;
+    search_expr.search_text = entry_text;
     results = g_list_concat(results, dicfile_search(dicfile,
                                                     &search_expr,
                                                     NULL,
@@ -310,6 +309,9 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   
   //print the first page
   print_entries(textbuffer_search_results, worddic);
+
+  //free memory
+  g_free(entry_text);
   
   if(results){
     return TRUE;

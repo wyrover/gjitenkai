@@ -139,7 +139,6 @@ GList *dicfile_search(WorddicDicfile *dicfile,
                       gchar *comment,
                       enum entry_GI itype,
                       gint is_jp){
-
   //variable from search expression structure
   const gchar *search_text = p_search_expression->search_text;
   enum dicfile_search_criteria search_criteria_jp = p_search_expression->search_criteria_jp;
