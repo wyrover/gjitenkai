@@ -40,9 +40,9 @@ G_MODULE_EXPORT void on_gjitenkai_search_expression_activate(GtkEntry *entry,
   const gchar *search_entry_text = gtk_entry_get_text(entry);
   if(!strcmp(search_entry_text, ""))return;
 
-  //search for radicals in pairs of fullwidth bracets and replace it with a
-  //list of kanji in an square bracets [] alternative operator  
-  reg = g_regex_new ("＜.+＞", G_REGEX_UNGREEDY, 0, NULL);
+  //search for radicals in pairs of bracets (or fullwidth bracets) and replace
+  //it with a list of kanji in an square bracets [] alternative operator  
+  reg = g_regex_new ("[<＜].+[＞>]", G_REGEX_UNGREEDY, 0, NULL);
   const gchar *res = g_regex_replace_eval (reg, search_entry_text, -1, 0, 0,
                                            eval_cb, gjitenkai->kanjidic, NULL);
 
