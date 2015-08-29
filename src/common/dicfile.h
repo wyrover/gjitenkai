@@ -48,6 +48,6 @@ void dicutil_unload_dic(GjitenDicfile *dicfile);
 gboolean dicfile_init(GjitenDicfile *dicfile);
 void dicfile_close(GjitenDicfile *dicfile);
 gint search_string(gint srchtype, GjitenDicfile *dicfile, const gchar *srchstrg,
-                     guint32 *res_index, gint *hit_pos, gint *res_len, gchar *res_str);
+                     guintptr *res_index, gint *hit_pos, gint *res_len, gchar *res_str);
 
 #endif

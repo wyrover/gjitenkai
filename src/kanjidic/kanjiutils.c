@@ -145,7 +145,7 @@ GSList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash) {
 GSList* get_kanji_by_key(const gchar *srchkey, GSList *list, GjitenDicfile *dicfile)  {
   gint srch_resp = 0, roff = 0, rlen = 0;
   gchar repstr[1024];
-  guint32 respos, oldrespos; 
+  guintptr respos, oldrespos; 
   gint loopnum = 0;
   gint srchpos = 0;
 
@@ -263,7 +263,7 @@ GSList* list_merge(GSList *list_a, GSList *list_b) {
     found = FALSE;
     ptr2 = list_b;
     while (ptr2 != NULL) {
-      if ((gunichar) ptr1->data == (gunichar) ptr2->data) {
+      if ( (gpointer) (ptr1->data) == (gpointer) (ptr2->data) ) {
         found = TRUE;
         break;
       }

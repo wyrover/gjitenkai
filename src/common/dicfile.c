@@ -73,7 +73,7 @@ void dicfile_close(GjitenDicfile *dicfile) {
 }
 
 gint search_string(gint srchtype, GjitenDicfile *dicfile, const gchar *srchstrg,
-                   guint32 *res_index, gint *hit_pos, gint *res_len, gchar *res_str){
+                   guintptr *res_index, gint *hit_pos, gint *res_len, gchar *res_str){
   gint search_result;
   gchar *linestart, *lineend; 
   gint copySize = 1023;
@@ -120,7 +120,7 @@ gint search_string(gint srchtype, GjitenDicfile *dicfile, const gchar *srchstrg,
     else copySize = 1023;
     strncpy(res_str, linestart, copySize);
     res_str[copySize] = 0;
-    *res_index  = (guint32)linestart;
+    *res_index  = (guintptr) linestart;
     search_result = SRCH_OK; // search succeeded 
   }
 
