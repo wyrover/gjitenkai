@@ -15,7 +15,7 @@ KanjidicConfig *kanjidic_conf_load(kanjidic *p_kanjidic) {
     GET_FILE(GJITENKAI_DATADIR"/"PROJECT_NAME"/kanjidic.utf8", file);
     
     conf->kanjidic->path = g_strdup(file);
-    g_printf("load %s\n", file);
+    //g_printf("load %s\n", file);
   }
 
   //kanji tag font and color
