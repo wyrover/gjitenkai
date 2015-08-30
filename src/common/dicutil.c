@@ -302,7 +302,9 @@ gchar *regex_full_to_half(const gchar *str) {
 /* Convert Hiragana -> Katakana.*/
 gchar *hira_to_kata(const gchar *hirastr) {
   const gchar *hiraptr = hirastr;
-  gchar *kata = g_new0(gchar, strlen(hirastr) + 6);
+
+  //create a new char with at least the required size for a UTF8 char
+  gchar *kata = g_new0(gchar, strlen(hirastr) + UTF8_MIN_SIZE);
   gchar *kataptr = kata;
   gint length=0;
 
@@ -326,7 +328,7 @@ gchar *hira_to_kata(const gchar *hirastr) {
 /* Convert Katakana to Hiragana*/
 gchar *kata_to_hira(const gchar *katastr) {
   const gchar *kataptr = katastr;
-  gchar *hira = g_new0(gchar, strlen(katastr) + 6);
+  gchar *hira = g_new0(gchar, strlen(katastr) + UTF8_MIN_SIZE);
   gchar *hiraptr = hira;
   gint length=0;
 
@@ -348,13 +350,13 @@ gchar *kata_to_hira(const gchar *katastr) {
 }
 
 gchar *full_to_half(const gchar *full){
-  gchar *half = g_new0(gchar, 1);
+  gchar *half = g_new0(gchar, UTF8_MIN_SIZE);
   g_unichar_to_utf8(g_utf8_get_char(full) - 0xFEE0, half);
   return half;
 }
 
 gchar *ideographical_full_stop_to_full_stop(const gchar *c){
-  gchar *r = g_new0(gchar, 1);
+  gchar *r = g_new0(gchar, UTF8_MIN_SIZE);
   g_unichar_to_utf8(g_utf8_get_char(c) - 0x2FD4, r);
   return r;
 }

@@ -40,7 +40,6 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
     
     //if radical info line (first char on this line is $)
     if (*radkfile_ptr == '$') {
-
       rad_cnt++;          //Increase number of radicals found
       radkfile_ptr = g_utf8_next_char(radkfile_ptr);
 
@@ -57,7 +56,7 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
       //store radical character
       //the characters in the file are in UTF8 format. We need unicode.  
       gunichar utf8radical = g_utf8_get_char(radkfile_ptr);
-      gchar *p_str_radical = g_new0(gchar, 3);
+      gchar *p_str_radical = g_new0(gchar, UTF8_MIN_SIZE);
       g_unichar_to_utf8(utf8radical, p_str_radical);
       rad_info->radical = p_str_radical;
       
@@ -86,7 +85,7 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
 
         gunichar utf8kanji = g_utf8_get_char(radkfile_ptr);
 
-        gchar *kanji = g_new0(gchar, sizeof(gunichar));
+        gchar *kanji = g_new0(gchar, UTF8_MIN_SIZE);
         g_unichar_to_utf8(utf8kanji, kanji);
         
         //search in the kanji infohash if this kanji is alderly present, 
@@ -119,7 +118,7 @@ GSList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash) {
   GSList *radical_list = NULL; //list of radical to be returned
 
   //convert to UTF8
-  gchar utf8kanji[3];
+  gchar utf8kanji[UTF8_MIN_SIZE];
   int at = g_unichar_to_utf8(kanji, utf8kanji);
   utf8kanji[at] = '\0';
 
@@ -212,7 +211,7 @@ GSList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash) {
   for(i=0;i<radnum; i++){
     //get the radical in utf8 format
     gunichar uniradical = g_utf8_get_char(radstrg_ptr);
-    gchar radical[3];
+    gchar radical[UTF8_MIN_SIZE];
     int at = g_unichar_to_utf8(uniradical, radical);
     radical[at] = '\0';
   

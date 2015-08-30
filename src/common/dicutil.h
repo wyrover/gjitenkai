@@ -13,6 +13,8 @@
 #include "dicfile.h"
 #include "error.h"
 
+#define UTF8_MIN_SIZE 6
+
 gchar *read_file(const gchar *filename);
 gchar *get_EOL(gchar *ptr, gchar *end_ptr);
 int get_word(char *dest, const char *src, int size, int pos);

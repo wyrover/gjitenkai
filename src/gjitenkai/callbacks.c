@@ -239,7 +239,7 @@ G_MODULE_EXPORT gboolean on_gjitenkai_search_results_button_release_event(GtkWid
   gtk_text_view_get_iter_at_position(GTK_TEXT_VIEW(text_view), &mouse_iter, &trailing, x, y);
   kanji = gtk_text_iter_get_char(&mouse_iter);
   if ((kanji != 0xFFFC) && (kanji != 0) && (isKanjiChar(kanji) == TRUE)) {
-    gchar str_kanji[6];
+    gchar str_kanji[UTF8_MIN_SIZE];
     to_utf8(kanji, str_kanji);
     display_kanji(gjitenkai->kanjidic, str_kanji);
   }

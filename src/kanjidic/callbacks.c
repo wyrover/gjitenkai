@@ -77,7 +77,7 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
 
   //get the entered character in utf8 format
   gunichar unichar = g_utf8_get_char(text);
-  gchar utf8char[3];
+  gchar utf8char[UTF8_MIN_SIZE];
   int at = g_unichar_to_utf8(unichar, utf8char);
   utf8char[at] = '\0';
 
@@ -114,7 +114,7 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
     gunichar uniradical;
     while( (uniradical = g_utf8_get_char(radstrg_ptr)) ){
 
-      gchar radical[3];
+      gchar radical[UTF8_MIN_SIZE];
       int at = g_unichar_to_utf8(uniradical, radical);
       radical[at] = '\0';
 
