@@ -135,8 +135,6 @@
               <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">1</property>
-                <property name="xpad">5</property>
                 <property name="label" translatable="yes">Kanji font</property>
                 <property name="ellipsize">end</property>
               </object>
@@ -149,8 +147,6 @@
               <object class="GtkLabel" id="label7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">1</property>
-                <property name="xpad">5</property>
                 <property name="label" translatable="yes">Separator</property>
               </object>
               <packing>
@@ -162,8 +158,6 @@
               <object class="GtkLabel" id="label8">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">1</property>
-                <property name="xpad">5</property>
                 <property name="label" translatable="yes">Items</property>
               </object>
               <packing>
@@ -175,8 +169,6 @@
               <object class="GtkLabel" id="label5">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">1</property>
-                <property name="xpad">5</property>
                 <property name="label" translatable="yes">Kanji Candidates</property>
               </object>
               <packing>
@@ -443,7 +435,7 @@
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
     <child>
-      <object class="GtkBox" id="box4">
+      <object class="GtkBox" id="box_filters">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="hexpand">False</property>
@@ -460,7 +452,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
-                <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
                 <signal name="toggled" handler="on_checkbutton_filter_strokes_toggled" swapped="no"/>
               </object>
@@ -475,7 +466,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
-                <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
                 <signal name="toggled" handler="on_checkbutton_filter_radicals_toggled" swapped="no"/>
               </object>
@@ -553,7 +543,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
-                <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
                 <signal name="toggled" handler="on_checkbutton_filter_key_toggled" swapped="no"/>
               </object>
@@ -648,6 +637,8 @@
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <property name="orientation">vertical</property>
+        <property name="position">70</property>
+        <property name="position_set">True</property>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow_kanji_result">
             <property name="visible">True</property>
