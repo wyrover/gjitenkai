@@ -152,6 +152,11 @@ add_executable(
 # Link the target to the GTK+ libraries
 target_link_libraries(${PROJECT_NAME} ${GTK3_LIBRARIES} -lz)
 
+#prevent prompt to open
+if(MINGW)
+  SET( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
+endif()
+
 # Compiler flag needed to reach callback functions
 set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
 
