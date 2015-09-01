@@ -65,6 +65,8 @@ if(NSIS OR STANDALONE)
   set (GTK_LIBS
     ${GTK_BIN}/libatk-1.0-0.dll
     ${GTK_BIN}/libfontconfig-1.dll
+    ${GTK_BIN}/libcroco-0.6-3.dll
+    ${GTK_BIN}/librsvg-2-2.dll
     ${GTK_BIN}/libgdk-3-0.dll
     ${GTK_BIN}/liblzma-5.dll
     ${GTK_BIN}/libcairo-2.dll
@@ -152,7 +154,7 @@ add_executable(
 # Link the target to the GTK+ libraries
 target_link_libraries(${PROJECT_NAME} ${GTK3_LIBRARIES} -lz)
 
-#prevent prompt to open
+#prevent prompt to open under Windows
 if(MINGW)
   SET( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
 endif()
@@ -163,24 +165,38 @@ set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
 #if using NSIS, compile the setting xml file in the source tree
 #if not using NSIS install and compile in the glib directory
 if(NSIS OR STANDALONE)
-  #Settings. Compile this software gschema localy
+  #compile gschema in source tree
   compile_schemas(${SCHEMADIR}/NSIS ${SCHEMADIR})    
 
+  #install in directory relative to binary 
   install(
     FILES ${SCHEMADIR}/gschemas.compiled
     DESTINATION ${SCHEMADIR}
     )
 
-  #install files from the glib dir to the install dir
-  ##icons
+  #icons
   install(
-    DIRECTORY ${GLIB_PREFIX}/share/icons
-    DESTINATION ${CMAKE_INSTALL_DATADIR}
+    DIRECTORY ${GLIB_PREFIX}/share/icons/Adwaita/scalable/
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/Adwaita/scalable
     )
 
   install(
-    FILES ${GLIB_PREFIX}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+    FILES
+    ${GLIB_PREFIX}/share/icons/Adwaita/index.theme
+    ${GLIB_PREFIX}/share/icons/Adwaita/icon-theme.cache
+    DESTINATION
+    ${CMAKE_INSTALL_DATADIR}/icons/Adwaita/
+    )
+
+
+  #pixbuf cache file and dll
+  install(
+    FILES share/loaders.cache
     DESTINATION ${CMAKE_INSTALL_DATADIR}/../lib/gdk-pixbuf-2.0/2.10.0/
+    )
+  install(
+    FILES ${GLIB_PREFIX}/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.dll
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/../lib/gdk-pixbuf-2.0/2.10.0/loaders/
     )
 
 else()
