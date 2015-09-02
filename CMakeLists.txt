@@ -27,6 +27,18 @@ else(MINGW)
   set(LOCALE_DIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
 endif(MINGW)
 
+#set the Windows executable icone with windres and a rc file
+set(RES_FILES "")
+if(MINGW)
+ set(RES_FILES "resources/${PROJECT_NAME}.rc")
+ set(CMAKE_RC_COMPILER_INIT windres)
+ ENABLE_LANGUAGE(RC)
+ set(CMAKE_RC_COMPILE_OBJECT
+ "<CMAKE_RC_COMPILER> -O coff -i <SOURCE> -o <OBJECT>")
+endif(MINGW)
+
+
+
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
 
@@ -108,7 +120,6 @@ if(NSIS OR STANDALONE)
     ${MINGW_BIN}/libstdc++-6.dll)
 
   install( PROGRAMS ${RUNTIME_LIBS} DESTINATION bin COMPONENT System )
-
 endif()
 
 # Custom definition
@@ -148,7 +159,8 @@ add_executable(
   src/common/dicfile.c 
   src/common/dicutil.c
   src/common/callbacks.c
-  src/common/error.c   
+  src/common/error.c
+  ${RES_FILES}
   )
 
 # Link the target to the GTK+ libraries
