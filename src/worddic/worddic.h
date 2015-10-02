@@ -28,7 +28,7 @@ typedef struct worddic_t
   gint match_criteria_lat;
   gint match_criteria_jp;
 
-  GThread   *thread_load_dic;
+  GThread *thread_load_dic;
   
   GList *results;          //dicresuls list to partially display
   gint entries_per_page;   //number of entries to display per 'page'

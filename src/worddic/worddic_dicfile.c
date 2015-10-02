@@ -319,3 +319,14 @@ void worddic_dicfile_free_entries(WorddicDicfile *dicfile){
   g_slist_free_full(dicfile->entries, (GDestroyNotify)dicentry_free);
   dicfile->entries = NULL;
 }
+
+void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile){
+  dicfile->is_loaded = FALSE;
+  worddic_dicfile_open(dicfile);
+  
+  //parse all entries
+  worddic_dicfile_parse_all(dicfile);
+  
+  worddic_dicfile_close(dicfile);
+  dicfile->is_loaded = TRUE;
+}

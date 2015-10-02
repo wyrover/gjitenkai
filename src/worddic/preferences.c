@@ -590,21 +590,7 @@ G_MODULE_EXPORT  void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle
   worddic_conf_save(worddic->settings, worddic->conf, WSE_DICFILE);
 }
 
-gpointer proxy_worddic_dicfile_parse_all(WorddicDicfile *dicfile){
-  dicfile->is_loaded = FALSE;
-  worddic_dicfile_open(dicfile);
-  
-  //parse all entries
-  worddic_dicfile_parse_all(dicfile);
-  
-  worddic_dicfile_close(dicfile);
-  dicfile->is_loaded = TRUE;
-
-  return NULL;
-}
-
-static gboolean
-cb_load_dic_timeout( dic_state_ui *ui )
+static gboolean cb_load_dic_timeout( dic_state_ui *ui )
 {
   if(ui->dicfile->is_loaded){
     GtkCellRendererToggle *cell = ui->cell;
@@ -654,7 +640,7 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
                                                                  "treeview_dic");
     //Create new thread
     worddic->thread_load_dic = g_thread_new ("Load dicfile",
-                                             (GThreadFunc)proxy_worddic_dicfile_parse_all,
+                                             (GThreadFunc)worddic_dicfile_open_parse_all_close,
                                              dicfile);
 
     //update the UI every N MiliSeconds
