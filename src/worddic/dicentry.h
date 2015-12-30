@@ -17,23 +17,12 @@ http://www.edrdg.org/jmdict/edict_doc.html
 */
 
 enum entry_GI{
-  NOUN   = 1 << 0,
-  ADJI   = 1 << 1,
+  ADJI   = 1 << 0,
+  NOUN   = 1 << 1,
   V1     = 1 << 2,
-  V5R    = 1 << 3,
-  V5M    = 1 << 4,
-  V5K    = 1 << 5,
-  V5U    = 1 << 6,
-  V5S    = 1 << 7,
-  V5G    = 1 << 8,
-  V5N    = 1 << 9,
-  V5T    = 1 << 10,
-  V5ARU  = 1 << 11,
-  GIALL  =  111111111111
+  V5     = 1 << 3,
+  GIALL  =  0b1111
 };
-
-#define SET_VERBE_5 V5R | V5M | V5K | V5U | V5S | V5G | V5N | V5T | V5ARU
-#define SET_VERBE V1 | SET_VERBE_5
 
 struct _GjitenDicentry {
   GSList *jap_definition; //kanji (gchar*)

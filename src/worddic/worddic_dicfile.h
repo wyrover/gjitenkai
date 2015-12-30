@@ -27,16 +27,31 @@ typedef struct search_expression_t{
 }search_expression;
 
 typedef struct _WorddicDicfile {
+  //path of the dictionary on the coputer
   gchar *path;
+
+  //user defined name
   gchar *name;
+
+  //list of dicentry (on entry per line)
   GSList *entries;
 
+  //search will be performed only on active dictionaries
   gboolean is_active;
+
+  //are the entries loaded ? 
   gboolean is_loaded;
 
+  //file pointer to read the dictionary file
   FILE * fp;
+
+  //tells if the dictionary file is utf8 encoded
   gboolean utf8;
+
+  //tells if the dictionary file is gzipped
   gboolean is_gz;
+
+  //first line of the edict dictionary with date and copyrights
   gchar *informations;
 }WorddicDicfile;
 

@@ -155,7 +155,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
       entry_type = ADJI;
     }
     else{
-      entry_type = SET_VERBE;
+      entry_type = V1 | V5;
     }
     
     //search in the dictionary
