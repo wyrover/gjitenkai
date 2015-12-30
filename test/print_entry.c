@@ -24,6 +24,7 @@ void print_entry(GjitenDicentry* entry){
       unit = unit->next){
     g_printf("\t%s\n", unit->data);
   }
+  g_printf("General Information ENUM TYPE :\n\t%d\n", entry->GI);
 
   for(unit = entry->gloss;
       unit != NULL;
