@@ -198,7 +198,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   gboolean is_jp = detect_japanese(search_text);
   
   //convert fullwidth regex punctuation to halfwidth regex puncutation
-  gchar *entry_text = regex_full_to_half(search_text);
+  gchar *search_text_half = regex_full_to_half(search_text);
   gboolean deinflection   = worddic->conf->verb_deinflection;
 
   //search in the dictionaries
@@ -257,13 +257,13 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
       //search for deinflections
       if(deinflection){
         results = g_list_concat(results,
-                                search_inflections(dicfile, entry_text));
+                                search_inflections(dicfile, search_text_half));
       }
 
       //search hiragana on katakana
       if (worddic->conf->search_hira_on_kata &&
-          hasKatakanaString(entry_text)) {
-        gchar *hiragana = kata_to_hira(entry_text);
+          hasKatakanaString(search_text_half)) {
+        gchar *hiragana = kata_to_hira(search_text_half);
         search_expr.search_text = hiragana;
         
         results = g_list_concat(results, dicfile_search(dicfile,
@@ -277,8 +277,8 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
     
       //search katakana on hiragana
       if (worddic->conf->search_kata_on_hira &&
-          hasHiraganaString(entry_text)) { 
-        gchar *katakana = hira_to_kata(entry_text);
+          hasHiraganaString(search_text_half)) { 
+        gchar *katakana = hira_to_kata(search_text_half);
         search_expr.search_text = katakana;
         
         results = g_list_concat(results, dicfile_search(dicfile,
@@ -292,7 +292,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
     }
 
     //standard search
-    search_expr.search_text = entry_text;
+    search_expr.search_text = search_text_half;
     results = g_list_concat(results, dicfile_search(dicfile,
                                                     &search_expr,
                                                     NULL,
@@ -311,7 +311,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   print_entries(textbuffer_search_results, worddic);
 
   //free memory
-  g_free(entry_text);
+  g_free(search_text_half);
   
   if(results){
     return TRUE;
