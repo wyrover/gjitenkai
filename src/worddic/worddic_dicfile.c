@@ -113,27 +113,6 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
   return TRUE;
 }
 
-GList *add_match(GMatchInfo *match_info,
-		 gchar *comment,
-		 GjitenDicentry* dicentry,
-		 GList *results){
-  //fetch the matched string
-  gchar *word = g_match_info_fetch (match_info, 0);
-
-  //create a new dicresult struct with the entry and the match
-  //when freeing the result, do not free the entry
-  dicresult *p_dicresult = g_new0(dicresult, 1);
-  p_dicresult->match = word;
-  p_dicresult->entry = dicentry;
-  if(comment)p_dicresult->comment = strdup(comment);
-  else p_dicresult->comment = NULL;
-  
-  //add the dicentry in the result list
-  results = g_list_prepend(results, p_dicresult);
-
-  return results;
-}
-
 GList *dicfile_search(WorddicDicfile *dicfile,
                       search_expression *p_search_expression,
                       gchar *comment,

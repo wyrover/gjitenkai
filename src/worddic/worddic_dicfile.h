@@ -64,10 +64,35 @@ void worddic_dicfile_close(WorddicDicfile *dicfile);
 
 void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile);
 
-GList *add_match(GMatchInfo *match_info,
+/**
+   Create a dicresult from a GMatchInfo, a comment and an entry and
+   prepend it to the list of results
+   Prepend is used as it is much faster than append which seeks the end of the
+   list at each call.
+
+   @Return the result list. 
+ */
+static inline GList *add_match(GMatchInfo *match_info,
 		 gchar *comment,
 		 GjitenDicentry* dicentry,
-		 GList *results);
+		 GList *results){
+  //fetch the matched string
+  gchar *word = g_match_info_fetch (match_info, 0);
+
+  //create a new dicresult struct with the entry and the match
+  //when freeing the result, do not free the entry
+  dicresult *p_dicresult = g_new0(dicresult, 1);
+  p_dicresult->match = word;
+  p_dicresult->entry = dicentry;
+  if(comment)p_dicresult->comment = strdup(comment);
+  else p_dicresult->comment = NULL;
+  
+  //add the dicentry in the result list
+  results = g_list_prepend(results, p_dicresult);
+
+  return results;
+}
+
 
 /**
    @param dicfile dictionary file to search to
