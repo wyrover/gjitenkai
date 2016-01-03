@@ -230,7 +230,6 @@ gchar *regex_full_to_half(const gchar *str) {
     gchar utf8char[sizeof(gunichar)];
     to_utf8(unicodechar, utf8char);
     if(!g_strcmp0(utf8char, "＋") ||
-       !g_strcmp0(utf8char, "ー") ||
        !g_strcmp0(utf8char, "？") ||
        !g_strcmp0(utf8char, "＊") ||
        !g_strcmp0(utf8char, "！") ||
