@@ -3,9 +3,9 @@
 #include "../kanjidic/kanjidic.h"
 
 //create a regex expression with a kanji list in an 'alternative operator' []
-static gboolean eval_cb (const GMatchInfo *info,
-                         GString          *res,
-                         gpointer         data){
+static gboolean on_eval_expend_bushuu (const GMatchInfo *info,
+				       GString          *res,
+				       gpointer         data){
   kanjidic *kanjidic = data;
   gchar *match;
   
@@ -35,22 +35,27 @@ static gboolean eval_cb (const GMatchInfo *info,
 
 G_MODULE_EXPORT void on_gjitenkai_search_expression_activate(GtkEntry *entry,
                                                              gjitenkai *gjitenkai){
-  GRegex *reg  = NULL;
-
   const gchar *search_entry_text = gtk_entry_get_text(entry);
   if(!strcmp(search_entry_text, ""))return;
 
   //search for radicals in pairs of bracets (or fullwidth bracets) and replace
-  //it with a list of kanji in an square bracets [] alternative operator  
-  reg = g_regex_new ("[<＜].+[＞>]", G_REGEX_UNGREEDY, 0, NULL);
-  const gchar *res = g_regex_replace_eval (reg, search_entry_text, -1, 0, 0,
-                                           eval_cb, gjitenkai->kanjidic, NULL);
-
+  //it with a list of kanji in a square bracets [] alternative operator  
+  GRegex *regex_bushuu_delim = g_regex_new ("[<＜].+[＞>]",
+					    G_REGEX_UNGREEDY,
+					    0,
+					    NULL);
+  const gchar *search_text = g_regex_replace_eval (regex_bushuu_delim,
+						   search_entry_text,
+						   -1, 0, 0,
+						   on_eval_expend_bushuu,
+						   gjitenkai->kanjidic,
+						   NULL);
   //free memory
-  g_regex_unref(reg);
-  
+  g_regex_unref(regex_bushuu_delim);
+
   //search in worrdic 
-  gboolean has_match = worddic_search(res, gjitenkai->worddic);
+  gboolean has_match = worddic_search(search_text,
+				      gjitenkai->worddic);
 
   //if there are results and the user allow record history
   if(has_match && gjitenkai->worddic->conf->record_history){
