@@ -68,7 +68,7 @@ msgstr "Thème sombre"
 
 #: share/gjitenkai/worddic.glade:630
 msgid "Dictionaries"
-msgstr "Dictionaires"
+msgstr "Dictionnaires"
 
 #: share/gjitenkai/worddic.glade:600
 msgid "Edit"
