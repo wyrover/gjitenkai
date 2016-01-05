@@ -14,7 +14,7 @@ include(GSettings.cmake)
 set (SOURCE_SHARE "share")
 
 ##directories where to install files.
-#These path must be relative
+#These paths must be relative
 set(GLIB_SCHEMADIR "glib-2.0/schemas")
 set(SCHEMADIR      ${CMAKE_INSTALL_DATADIR}/${GLIB_SCHEMADIR})
 
@@ -27,7 +27,7 @@ else(MINGW)
   set(LOCALE_DIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
 endif(MINGW)
 
-#set the Windows executable icone with windres and a rc file
+#set the Windows executable icon with windres and a rc file
 set(RES_FILES "")
 if(MINGW)
  set(RES_FILES "resources/${PROJECT_NAME}.rc")
@@ -37,13 +37,11 @@ if(MINGW)
  "<CMAKE_RC_COMPILER> -O coff -i <SOURCE> -o <OBJECT>")
 endif(MINGW)
 
-
-
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
 
 ############################################################
-##Windows only options
+##Options for Windows only
 option(NSIS "Use NSIS generator to produce installer" OFF)
 option(STANDALONE "Install as standalone" OFF)
 
@@ -72,8 +70,7 @@ if(NSIS OR STANDALONE)
   #install the Gtk DLLs from the Gtk's bin directory 
   set (GTK_BIN ${GLIB_PREFIX}/bin)
 
-  #these are all the required dll listed in the GTK documentation
-  #see http://www.gtk.org/download/win32_contentlist.php
+  #these are all the required dll for GTK
   set (GTK_LIBS
     ${GTK_BIN}/libatk-1.0-0.dll
     ${GTK_BIN}/libfontconfig-1.dll
@@ -127,7 +124,6 @@ if(MINGW)
   add_definitions(-DMINGW)
 endif(MINGW)
 
-
 # Add other flags to the compiler
 add_definitions(${GTK3_CFLAGS_OTHER})
 add_definitions(-Wall)
@@ -160,7 +156,7 @@ add_executable(
   src/common/dicutil.c
   src/common/callbacks.c
   src/common/error.c
-  ${RES_FILES}
+  ${RES_FILES}   #resouces file for icon
   )
 
 # Link the target to the GTK+ libraries
@@ -174,19 +170,29 @@ endif()
 # Compiler flag needed to reach callback functions
 set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
 
-#if using NSIS, compile the setting xml file in the source tree
-#if not using NSIS install and compile in the glib directory
+#if using NSIS or STANDALONE, compile the setting xml file in a tmp directory
+#if not, install and compile in the system glib directory
 if(NSIS OR STANDALONE)
-  #compile gschema in source tree
-  compile_schemas(${SCHEMADIR}/NSIS ${SCHEMADIR})    
+  #compile gschema with required gtk settings in a temporary directory
+  #set the tmp directory name
+  set(TMP_SCHEMADIR $ENV{TMP}/${PROJECT_NAME})
+  #create tmp directory
+  file(MAKE_DIRECTORY ${TMP_SCHEMADIR})
+  #copy application schema and gtk schemas to the tmp directory
+  file(COPY ${SOURCE_SHARE}/${GLIB_SCHEMADIR}/${PROJECT_NAME}.gschema.xml
+	${GLIB_PREFIX}/${SCHEMADIR}/org.gtk.Settings.ColorChooser.gschema.xml
+	${GLIB_PREFIX}/${SCHEMADIR}/org.gtk.Settings.FileChooser.gschema.xml
+       DESTINATION ${TMP_SCHEMADIR})
+  #compile schemas in tmp directory, output in local schemadir
+  compile_schemas(${TMP_SCHEMADIR} ${SCHEMADIR})    
 
-  #install in directory relative to binary 
+  #install compiled gschema in a directory relative to the binary 
   install(
     FILES ${SCHEMADIR}/gschemas.compiled
     DESTINATION ${SCHEMADIR}
     )
 
-  #icons
+  #install icons
   install(
     DIRECTORY ${GLIB_PREFIX}/share/icons/Adwaita/scalable/
     DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/Adwaita/scalable
@@ -200,7 +206,6 @@ if(NSIS OR STANDALONE)
     ${CMAKE_INSTALL_DATADIR}/icons/Adwaita/
     )
 
-
   #pixbuf cache file and dll
   install(
     FILES share/loaders.cache
@@ -212,13 +217,13 @@ if(NSIS OR STANDALONE)
     )
 
 else()
-  # install the gschema.xml schema file in glib system dir
+  # at install, copy the software gschema.xml to the glib gschemas directory
   install(
-    FILES ${SCHEMADIR}/${PROJECT_NAME}.gschema.xml
+    FILES ${SOURCE_SHARE}/${GLIB_SCHEMADIR}/${PROJECT_NAME}.gschema.xml
     DESTINATION ${GLIB_PREFIX}/${SCHEMADIR}
     )
 
-  #compile the glib schemas directory
+  #at install, compile glib gschemas directory
   install(
     CODE
     "message (STATUS \"Compiling GSettings schemas at ${GLIB_PREFIX}/${SCHEMADIR}\")"
