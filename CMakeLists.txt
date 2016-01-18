@@ -18,32 +18,34 @@ set (SOURCE_SHARE "share")
 set(GLIB_SCHEMADIR "glib-2.0/schemas")
 set(SCHEMADIR      ${CMAKE_INSTALL_DATADIR}/${GLIB_SCHEMADIR})
 
+set(RES_FILES "")
+## Set the output binary full path name variable
+set(OUTPUT_BIN ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
+
 #These path are passed onto config.h.in to be used as preprocessor definitions
 if(MINGW)
-  set(SHARE_DIR "../share")
-  set(LOCALE_DIR ${SHARE_DIR}/${PROJECT_NAME}/locale)
-else(MINGW)
+  include(MinGW.cmake)
+else()
   set(SHARE_DIR ${CMAKE_INSTALL_FULL_DATADIR})
   set(LOCALE_DIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
-endif(MINGW)
 
-#set the Windows executable icon with windres and a rc file
-set(RES_FILES "")
-if(MINGW)
- set(RES_FILES "resources/${PROJECT_NAME}.rc")
- set(CMAKE_RC_COMPILER_INIT windres)
- ENABLE_LANGUAGE(RC)
- set(CMAKE_RC_COMPILE_OBJECT
- "<CMAKE_RC_COMPILER> -O coff -i <SOURCE> -o <OBJECT>")
-endif(MINGW)
+  # at install, copy the software gschema.xml to the glib gschemas directory
+  install(
+    FILES ${SOURCE_SHARE}/${GLIB_SCHEMADIR}/${PROJECT_NAME}.gschema.xml
+    DESTINATION ${GLIB_PREFIX}/${SCHEMADIR}
+    )
+
+  #at install, compile glib gschemas directory
+  install(
+    CODE
+    "message (STATUS \"Compiling GSettings schemas at ${GLIB_PREFIX}/${SCHEMADIR}\")"
+    )
+
+  compile_schemas_install(${GLIB_PREFIX}/${SCHEMADIR})
+endif()
 
 #generate config.h from config.h.in
 configure_file(config.h.in config.h)
-
-############################################################
-##Options for Windows only
-option(NSIS "Use NSIS generator to produce installer" OFF)
-option(STANDALONE "Install as standalone" OFF)
 
 # Use the package PkgConfig to detect GTK+ headers/library files
 find_package(PkgConfig REQUIRED)
@@ -57,72 +59,6 @@ link_directories(${GTK3_LIBRARY_DIRS})
 
 #compiled binary output directory
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
-
-#if we want to create a NSIS script
-if(NSIS OR STANDALONE)
-  if(NSIS)
-    set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME}.exe)
-    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
-    set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
-    include (NSIS.cmake)
-  endif()
-
-  #install the Gtk DLLs from the Gtk's bin directory 
-  set (GTK_BIN ${GLIB_PREFIX}/bin)
-
-  #these are all the required dll for GTK
-  set (GTK_LIBS
-    ${GTK_BIN}/libatk-1.0-0.dll
-    ${GTK_BIN}/libfontconfig-1.dll
-    ${GTK_BIN}/libcroco-0.6-3.dll
-    ${GTK_BIN}/librsvg-2-2.dll
-    ${GTK_BIN}/libgdk-3-0.dll
-    ${GTK_BIN}/liblzma-5.dll
-    ${GTK_BIN}/libcairo-2.dll
-    ${GTK_BIN}/libcairo-gobject-2.dll
-    ${GTK_BIN}/libffi-6.dll
-    ${GTK_BIN}/libfreetype-6.dll
-    ${GTK_BIN}/libgdk_pixbuf-2.0-0.dll
-    ${GTK_BIN}/libgio-2.0-0.dll 
-    ${GTK_BIN}/libglib-2.0-0.dll
-    ${GTK_BIN}/libgmodule-2.0-0.dll 
-    ${GTK_BIN}/libgobject-2.0-0.dll
-    ${GTK_BIN}/libgtk-3-0.dll
-    ${GTK_BIN}/libiconv-2.dll 
-    ${GTK_BIN}/libintl-8.dll 
-    ${GTK_BIN}/libpango-1.0-0.dll
-    ${GTK_BIN}/libpango-1.0-0.dll 
-    ${GTK_BIN}/libpangocairo-1.0-0.dll
-    ${GTK_BIN}/libpangoft2-1.0-0.dll
-    ${GTK_BIN}/libpangowin32-1.0-0.dll
-    ${GTK_BIN}/libpixman-1-0.dll
-    ${GTK_BIN}/libpng16-16.dll
-    ${GTK_BIN}/libxml2-2.dll
-    ${GTK_BIN}/zlib1.dll)
-
-  install(
-    PROGRAMS ${GTK_LIBS}
-    DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT System
-    )
-
-  #install WINGW runtime libs
-  get_filename_component( MINGW_BIN ${CMAKE_C_COMPILER} DIRECTORY )
-  set(RUNTIME_LIBS
-    ${MINGW_BIN}/libgcc_s_dw2-1.dll
-    ${MINGW_BIN}/libwinpthread-1.dll
-    ${MINGW_BIN}/libbz2-1.dll
-    ${MINGW_BIN}/libepoxy-0.dll
-    ${MINGW_BIN}/libexpat-1.dll
-    ${MINGW_BIN}/libharfbuzz-0.dll
-    ${MINGW_BIN}/libstdc++-6.dll)
-
-  install( PROGRAMS ${RUNTIME_LIBS} DESTINATION bin COMPONENT System )
-endif()
-
-# Custom definition
-if(MINGW)
-  add_definitions(-DMINGW)
-endif(MINGW)
 
 # Add other flags to the compiler
 add_definitions(${GTK3_CFLAGS_OTHER})
@@ -162,75 +98,8 @@ add_executable(
 # Link the target to the GTK+ libraries
 target_link_libraries(${PROJECT_NAME} ${GTK3_LIBRARIES} -lz)
 
-#prevent prompt to open under Windows
-if(MINGW)
-  SET( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
-endif()
-
 # Compiler flag needed to reach callback functions
 set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
-
-#if using NSIS or STANDALONE, compile the setting xml file in a tmp directory
-#if not, install and compile in the system glib directory
-if(NSIS OR STANDALONE)
-  #compile gschema with required gtk settings in a temporary directory
-  #set the tmp directory name
-  set(TMP_SCHEMADIR $ENV{TMP}/${PROJECT_NAME})
-  #create tmp directory
-  file(MAKE_DIRECTORY ${TMP_SCHEMADIR})
-  #copy application schema and gtk schemas to the tmp directory
-  file(COPY ${SOURCE_SHARE}/${GLIB_SCHEMADIR}/${PROJECT_NAME}.gschema.xml
-	${GLIB_PREFIX}/${SCHEMADIR}/org.gtk.Settings.ColorChooser.gschema.xml
-	${GLIB_PREFIX}/${SCHEMADIR}/org.gtk.Settings.FileChooser.gschema.xml
-       DESTINATION ${TMP_SCHEMADIR})
-  #compile schemas in tmp directory, output in local schemadir
-  compile_schemas(${TMP_SCHEMADIR} ${SCHEMADIR})    
-
-  #install compiled gschema in a directory relative to the binary 
-  install(
-    FILES ${SCHEMADIR}/gschemas.compiled
-    DESTINATION ${SCHEMADIR}
-    )
-
-  #install icons
-  install(
-    DIRECTORY ${GLIB_PREFIX}/share/icons/Adwaita/scalable/
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/Adwaita/scalable
-    )
-
-  install(
-    FILES
-    ${GLIB_PREFIX}/share/icons/Adwaita/index.theme
-    ${GLIB_PREFIX}/share/icons/Adwaita/icon-theme.cache
-    DESTINATION
-    ${CMAKE_INSTALL_DATADIR}/icons/Adwaita/
-    )
-
-  #pixbuf cache file and dll
-  install(
-    FILES share/loaders.cache
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/../lib/gdk-pixbuf-2.0/2.10.0/
-    )
-  install(
-    FILES ${GLIB_PREFIX}/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.dll
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/../lib/gdk-pixbuf-2.0/2.10.0/loaders/
-    )
-
-else()
-  # at install, copy the software gschema.xml to the glib gschemas directory
-  install(
-    FILES ${SOURCE_SHARE}/${GLIB_SCHEMADIR}/${PROJECT_NAME}.gschema.xml
-    DESTINATION ${GLIB_PREFIX}/${SCHEMADIR}
-    )
-
-  #at install, compile glib gschemas directory
-  install(
-    CODE
-    "message (STATUS \"Compiling GSettings schemas at ${GLIB_PREFIX}/${SCHEMADIR}\")"
-    )
-
-  compile_schemas_install(${GLIB_PREFIX}/${SCHEMADIR})
-endif()
 
 ## Install UI definitions files
 install(
@@ -279,13 +148,5 @@ install(
   FILES ${PROJECT_NAME}.desktop
   DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 
-## Install programs 
-## Set the output binary full path name variable
-set(OUTPUT_BIN ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
-
-#if the current system is Windows, the generated binary ends with .exe
-if(MINGW)
-  set(OUTPUT_BIN ${OUTPUT_BIN}.exe)
-endif()
-
+## Install programs
 install(PROGRAMS ${OUTPUT_BIN} DESTINATION ${CMAKE_INSTALL_BINDIR})
