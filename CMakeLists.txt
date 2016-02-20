@@ -19,6 +19,10 @@ set(GLIB_SCHEMADIR "glib-2.0/schemas")
 set(SCHEMADIR      ${CMAKE_INSTALL_DATADIR}/${GLIB_SCHEMADIR})
 
 set(RES_FILES "")
+
+#compiled binary output directory
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+
 ## Set the output binary full path name variable
 set(OUTPUT_BIN ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
 
@@ -57,9 +61,6 @@ include_directories(${GTK3_INCLUDE_DIRS})
 link_directories(${GTK3_LIBRARY_DIRS})
 ############################################################
 
-#compiled binary output directory
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
-
 # Add other flags to the compiler
 add_definitions(${GTK3_CFLAGS_OTHER})
 add_definitions(-Wall)
@@ -67,28 +68,28 @@ add_definitions(-Wall)
 # files needed to compile the executable
 add_executable(
   ${PROJECT_NAME}
-  src/${PROJECT_NAME}/main.c 
+  src/${PROJECT_NAME}/main.c
   src/${PROJECT_NAME}/${PROJECT_NAME}.c
   src/${PROJECT_NAME}/callbacks.c
-  src/worddic/conf.c 
-  src/worddic/worddic.c 
+  src/worddic/conf.c
+  src/worddic/worddic.c
   src/worddic/preferences.c
-  src/worddic/inflection.c 
+  src/worddic/inflection.c
   src/worddic/callbacks.c
   src/worddic/dicentry.c
   src/worddic/worddic_dicfile.c
   src/worddic/dicresult.c
   src/worddic/gloss.c
-  src/kanjidic/conf.c 
-  src/kanjidic/kanjidic.c 
-  src/kanjidic/kanjiutils.c 
+  src/kanjidic/conf.c
+  src/kanjidic/kanjidic.c
+  src/kanjidic/kanjiutils.c
   src/kanjidic/callbacks.c
   src/kanjidic/kanjifile.c
   src/kanjidic/radical_window.c
   src/kanjidic/preferences.c
   src/kanjidic/kanji_item.c
   src/common/conf.c
-  src/common/dicfile.c 
+  src/common/dicfile.c
   src/common/dicutil.c
   src/common/callbacks.c
   src/common/error.c
@@ -107,7 +108,7 @@ install(
   ${SOURCE_SHARE}/${PROJECT_NAME}/${PROJECT_NAME}.glade
   ${SOURCE_SHARE}/${PROJECT_NAME}/worddic.glade
   ${SOURCE_SHARE}/${PROJECT_NAME}/kanjidic.glade
-  DESTINATION 
+  DESTINATION
   ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
   )
 
@@ -122,13 +123,13 @@ install(
 
 ## Install kanjidic
 install(
-  FILES ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/kanjidic.utf8 
+  FILES ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/kanjidic.utf8
   DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
   )
 
 ## Install radicals and inflection rules in the data dir
 install(
-  FILES 
+  FILES
   ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/radkfile.utf8
   ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/vconj.utf8
   DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
