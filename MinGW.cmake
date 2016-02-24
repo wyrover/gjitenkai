@@ -12,7 +12,7 @@ set(LOCALE_DIR ${SHARE_DIR}/${PROJECT_NAME}/locale)
 
 # Add MINGW flag to use in source code
 add_definitions(-DMINGW)
-#prevent prompt to open 
+#prevent prompt to open
 SET( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
 
 #set the Windows executable icon with windres and a rc file Windows
@@ -32,7 +32,7 @@ if(STANDALONE)
     include (NSIS.cmake)
   endif()
 
-  #install the Gtk DLLs from the Gtk's bin directory 
+  #install the Gtk DLLs from the Gtk's bin directory
   set (GTK_BIN ${GLIB_PREFIX}/bin)
 
   #these are all the required dll for GTK
@@ -46,22 +46,24 @@ if(STANDALONE)
     ${GTK_BIN}/libffi-6.dll
     ${GTK_BIN}/libfreetype-6.dll
     ${GTK_BIN}/libgdk_pixbuf-2.0-0.dll
-    ${GTK_BIN}/libgio-2.0-0.dll 
+    ${GTK_BIN}/libgio-2.0-0.dll
     ${GTK_BIN}/libglib-2.0-0.dll
-    ${GTK_BIN}/libgmodule-2.0-0.dll 
+    ${GTK_BIN}/libgmodule-2.0-0.dll
     ${GTK_BIN}/libgobject-2.0-0.dll
     ${GTK_BIN}/libgtk-3-0.dll
-    ${GTK_BIN}/libiconv-2.dll 
-    ${GTK_BIN}/libintl-8.dll 
+    ${GTK_BIN}/libiconv-2.dll
+    ${GTK_BIN}/libintl-8.dll
     ${GTK_BIN}/libpango-1.0-0.dll
-    ${GTK_BIN}/libpango-1.0-0.dll 
+    ${GTK_BIN}/libpango-1.0-0.dll
     ${GTK_BIN}/libpangocairo-1.0-0.dll
     ${GTK_BIN}/libpangoft2-1.0-0.dll
     ${GTK_BIN}/libpangowin32-1.0-0.dll
     ${GTK_BIN}/libpixman-1-0.dll
     ${GTK_BIN}/libpng16-16.dll
     ${GTK_BIN}/libxml2-2.dll
-    ${GTK_BIN}/zlib1.dll)
+    ${GTK_BIN}/zlib1.dll
+    ${GTK_BIN}/libcroco-0.6-3.dll
+    ${GTK_BIN}/librsvg-2-2.dll)
 
   install(
     PROGRAMS ${GTK_LIBS}
@@ -70,8 +72,15 @@ if(STANDALONE)
 
   #install WINGW runtime libs
   get_filename_component( MINGW_BIN ${CMAKE_C_COMPILER} DIRECTORY )
+
+ if(${MINGW_BIN} MATCHES mingw64)
+    set(LIB_GCC libgcc_s_seh-1.dll)
+  else()
+    set(LIB_GCC libgcc_s_dw2-1.dll)
+  endif()
+
   set(RUNTIME_LIBS
-    ${MINGW_BIN}/libgcc_s_dw2-1.dll
+    ${MINGW_BIN}/${LIB_GCC}
     ${MINGW_BIN}/libwinpthread-1.dll
     ${MINGW_BIN}/libbz2-1.dll
     ${MINGW_BIN}/libepoxy-0.dll
@@ -92,9 +101,9 @@ if(STANDALONE)
     ${GLIB_PREFIX}/${SCHEMADIR}/org.gtk.Settings.FileChooser.gschema.xml
     DESTINATION ${TMP_SCHEMADIR})
   #compile schemas in tmp directory, output in local schemadir
-  compile_schemas(${TMP_SCHEMADIR} ${SCHEMADIR})    
+  compile_schemas(${TMP_SCHEMADIR} ${SCHEMADIR})
 
-  #install compiled gschema in a directory relative to the binary 
+  #install compiled gschema in a directory relative to the binary
   install(
     FILES ${SCHEMADIR}/gschemas.compiled
     DESTINATION ${SCHEMADIR}
