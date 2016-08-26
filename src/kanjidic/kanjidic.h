@@ -11,7 +11,7 @@
 #include "kanji_item.h"
 #include "../common/dicfile.h"
 
-#define UI_DEFINITIONS_FILE_KANJIDIC "kanjidic.glade"
+#define UI_DEFINITIONS_FILE_KANJIDIC "kanjidic.ui"
 
 typedef struct kanjidic_t
 {
@@ -31,7 +31,7 @@ typedef struct kanjidic_t
   gboolean filter_by_key;
 
   //kanji tag style in the kanji display
-  GtkTextTag *texttag_kanji; 
+  GtkTextTag *texttag_kanji;
 
   //history of displayed kanji
   GSList *history;

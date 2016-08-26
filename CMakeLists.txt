@@ -105,9 +105,9 @@ set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
 ## Install UI definitions files
 install(
   FILES
-  ${SOURCE_SHARE}/${PROJECT_NAME}/${PROJECT_NAME}.glade
-  ${SOURCE_SHARE}/${PROJECT_NAME}/worddic.glade
-  ${SOURCE_SHARE}/${PROJECT_NAME}/kanjidic.glade
+  ${SOURCE_SHARE}/${PROJECT_NAME}/${PROJECT_NAME}.ui
+  ${SOURCE_SHARE}/${PROJECT_NAME}/worddic.ui
+  ${SOURCE_SHARE}/${PROJECT_NAME}/kanjidic.ui
   DESTINATION
   ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
   )

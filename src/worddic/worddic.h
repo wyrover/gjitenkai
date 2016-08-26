@@ -14,7 +14,7 @@
 
 #define SETTINGS_WORDDIC "gjitenkai.worddic"
 
-#define UI_DEFINITIONS_FILE_WORDDIC "worddic.glade"
+#define UI_DEFINITIONS_FILE_WORDDIC "worddic.ui"
 
 GdkCursor *cursor_selection;
 GdkCursor *cursor_default;
@@ -29,7 +29,7 @@ typedef struct worddic_t
   gint match_criteria_jp;
 
   GThread *thread_load_dic;
-  
+
   GList *results;          //dicresuls list to partially display
   gint entries_per_page;   //number of entries to display per 'page'
   gint current_page;       //current page to be displayed
@@ -41,11 +41,11 @@ extern void init_prefs_window(worddic *worddic);
 void worddic_init (worddic * );
 void init_search_menu(worddic *);
 /**
-Search for the regex expression in active dictionaries entries. 
+Search for the regex expression in active dictionaries entries.
 if an active dictionary entries are not loaded, they are automatically
-loaded. If a thread currently loading dictionary entries, wait until 
-the thread ends. 
-Will also do special searches (inflection, katakana/hiragana conversions)   
+loaded. If a thread currently loading dictionary entries, wait until
+the thread ends.
+Will also do special searches (inflection, katakana/hiragana conversions)
 @return TRUE is one or more expression matched
 FALSE if no match
  */

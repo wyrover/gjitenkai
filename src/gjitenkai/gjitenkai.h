@@ -8,7 +8,7 @@
 #include "../kanjidic/kanjidic.h"
 
 
-#define UI_DEFINITIONS_FILE_GJITENKAI "gjitenkai.glade"
+#define UI_DEFINITIONS_FILE_GJITENKAI "gjitenkai.ui"
 
 typedef struct gjitenkai_t
 {
@@ -19,7 +19,7 @@ typedef struct gjitenkai_t
   //display worddic and kanjidic in a pane or notebook
   GtkNotebook *notebook;
   GtkPaned *paned;
-  
+
 } gjitenkai;
 
 
