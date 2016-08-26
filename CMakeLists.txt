@@ -138,7 +138,7 @@ install(
 ## Install icon
 install(
   FILES ${SOURCE_SHARE}/${PROJECT_NAME}/kai.png
-  DESTINATION ${CMAKE_INSTALL_DATADIR}/icons)
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
 #install about menu banner
 install(
   FILES ${SOURCE_SHARE}/${PROJECT_NAME}/${PROJECT_NAME}.png
