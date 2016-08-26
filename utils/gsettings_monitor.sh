@@ -1,1 +1,1 @@
-gsettings monitor sampleapp
+gsettings monitor gjitenkai

@@ -1,1 +1,1 @@
-gsettings list-keys sampleapp
+gsettings list-keys gjitenkai
