@@ -2,7 +2,7 @@
 
 gchar *read_file(const gchar *filename){
 
-  guint32 file_content_size;
+  guintptr file_content_size;
   gchar *file_content = NULL;
 
   //if the filename ends with .gz then read with gz functions
@@ -15,7 +15,7 @@ gchar *read_file(const gchar *filename){
 
     GString *gstr_file_content = g_string_new(NULL);
     while (1) {
-      int err;                    
+      int err;
       int bytes_read;
       char buffer[BUFSIZ];
       bytes_read = gzread (file, buffer, BUFSIZ - 1);
@@ -36,7 +36,7 @@ gchar *read_file(const gchar *filename){
       }
     }
     file_content = gstr_file_content->str;
-    g_string_free(gstr_file_content, FALSE);    
+    g_string_free(gstr_file_content, FALSE);
     gzclose(file);
   }
   else{
@@ -45,11 +45,11 @@ gchar *read_file(const gchar *filename){
     if (pFile==NULL) {
       return NULL;
     }
-  
+
 #ifdef USE_MMAP
     struct stat file_stat;
 
-    //is the file_content present ? 
+    //is the file_content present ?
     //assume that since we are using MMAP other POSIX functions are available
     if (stat(filename, &file_stat) != 0) {
       g_error("**ERROR** file_content: stat() \n");
@@ -87,7 +87,7 @@ gchar *read_file(const gchar *filename){
 
 #endif
   }
-  
+
   return file_content;
 }
 
@@ -104,11 +104,11 @@ gchar *get_EOL(gchar *ptr, gchar *end_ptr) {
 
 int get_word(char *dest, const char *src, int size, int pos) {
   int k,j;
-  
+
   k = pos;
   while (src[k] == ' ')  k++;
   if ( (int) (strlen(src) - 1) <= k) return(0);
-  
+
   j = 0;
   if (src[k] == '{') {
     while ((src[k] != '}') && (j < size))  {
@@ -148,7 +148,7 @@ int strg_end_compare(const gchar *strg1, const gchar *strg2) {
   for (i = 0; i < g_utf8_strlen(strg2, -1); i++) {
     strg1_end = g_utf8_prev_char(strg1_end);
     strg2_end = g_utf8_prev_char(strg2_end);
-    if (g_utf8_get_char(strg1_end) != g_utf8_get_char(strg2_end)) 
+    if (g_utf8_get_char(strg1_end) != g_utf8_get_char(strg2_end))
       matching = FALSE;
   }
   return matching;
@@ -238,7 +238,7 @@ gchar *regex_full_to_half(const gchar *str) {
        !g_strcmp0(utf8char, "｝") ||
        !g_strcmp0(utf8char, "（") ||
        !g_strcmp0(utf8char, "）") ||
-       !g_strcmp0(utf8char, "（") ||  
+       !g_strcmp0(utf8char, "（") ||
        !g_strcmp0(utf8char, "１") ||
        !g_strcmp0(utf8char, "２") ||
        !g_strcmp0(utf8char, "３") ||
@@ -286,14 +286,14 @@ gchar *regex_full_to_half(const gchar *str) {
       length = g_utf8_next_char(strptr) - strptr;
       strncat(halfptr, strptr, length);
     }
-          
+
     halfptr = g_utf8_next_char(halfptr);
     strptr = g_utf8_next_char(strptr);
     if (strptr == NULL){
       break;
     }
   }
-    
+
   halfptr[length + 1] = '\0';
   return half;
 }
@@ -403,7 +403,7 @@ gboolean hasKatakanaString(const gchar *strg) {
 
 gboolean detect_japanese(const gchar *srchstrg){
   const gchar *currchar = srchstrg;
-  do { 
+  do {
     //FIXME: this doesn't detect all Japanese
     if (g_unichar_iswide(g_utf8_get_char(currchar)) == TRUE) {
       return TRUE;
@@ -414,8 +414,8 @@ gboolean detect_japanese(const gchar *srchstrg){
 
 #ifdef MINGW
 char* strtok_r(
-               char *str, 
-               const char *delim, 
+               char *str,
+               const char *delim,
                char **nextp)
 {
   char *ret;
@@ -463,7 +463,7 @@ void path_relative(gchar *path, gchar *res){
   //get the .exe full path and filename
   gchar buffer[PATH_MAX];
   GetModuleFileName(NULL, buffer, PATH_MAX) ;
-	
+
   gchar *dirname = g_path_get_dirname(buffer);
   g_strlcat(res, dirname, PATH_MAX);
   g_free(dirname);
@@ -473,4 +473,3 @@ void path_relative(gchar *path, gchar *res){
 }
 
 #endif
-
