@@ -1,7 +1,7 @@
 #ifndef WORDDIC_CONSTANTS_H
 #define WORDDIC_CONSTANTS_H
 
-#include "../../config.h"
+#include "../config.h"
 
 #define RADKFILE_NAME "radkfile.utf8"
 

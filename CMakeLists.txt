@@ -49,7 +49,7 @@ else()
 endif()
 
 #generate config.h from config.h.in
-configure_file(config.h.in config.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h)
 
 # Use the package PkgConfig to detect GTK+ headers/library files
 find_package(PkgConfig REQUIRED)

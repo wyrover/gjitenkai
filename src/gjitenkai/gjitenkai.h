@@ -3,7 +3,7 @@
 
 #include <gtk/gtk.h>
 
-#include "../../config.h"
+#include "../config.h"
 #include "../worddic/worddic.h"
 #include "../kanjidic/kanjidic.h"
 

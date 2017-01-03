@@ -10,7 +10,7 @@
 #include <fcntl.h>
 #include <glib/gi18n.h>
 
-#include "../../config.h"
+#include "../config.h"
 
 #include "kanjidic.h"
 
@@ -24,7 +24,7 @@ struct _KanjidicConfig {
 
   const gchar *kanji_font;          //kanji to display' style
   GdkRGBA *kanji_color;
-  
+
   const gchar *separator;           //separator between entry (katakana & hiragana)
   const gchar *kanji_result_font;   //font for the candidats
 

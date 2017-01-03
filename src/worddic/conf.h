@@ -10,7 +10,7 @@
 #include <fcntl.h>
 #include <glib/gi18n.h>
 
-#include "../../config.h"
+#include "../config.h"
 
 #include "worddic.h"
 #include "worddic_dicfile.h"
@@ -61,13 +61,13 @@ typedef struct _WorddicConfig {
 
   //dark theme
   gboolean dark_theme;
-  
+
   //search options
   gboolean search_kata_on_hira;
   gboolean search_hira_on_kata;
   gboolean verb_deinflection;
   gboolean record_history;
-  
+
   //search history is a list of search_expression
   GSList *history;
 }WorddicConfig;
