@@ -21,7 +21,7 @@ set(SCHEMADIR      ${CMAKE_INSTALL_DATADIR}/${GLIB_SCHEMADIR})
 set(RES_FILES "")
 
 #compiled binary output directory
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 ## Set the output binary full path name variable
 set(OUTPUT_BIN ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
