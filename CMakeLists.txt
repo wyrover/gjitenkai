@@ -139,6 +139,9 @@ install(
 install(
   FILES ${SOURCE_SHARE}/${PROJECT_NAME}/kai.png
   DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
+install(
+  FILES ${SOURCE_SHARE}/${PROJECT_NAME}/kai.png
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/48x48/apps/)
 #install about menu banner
 install(
   FILES ${SOURCE_SHARE}/${PROJECT_NAME}/${PROJECT_NAME}.png
