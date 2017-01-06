@@ -40,7 +40,7 @@
     </key>
     <key name="japanese-definition-end" type="s">
       <default>''</default>
-    </key>    
+    </key>
     <key name="japanese-reading-font" type="s">
       <default>'Sans Italic 12'</default>
     </key>
@@ -52,12 +52,12 @@
     </key>
     <key name="japanese-reading-end" type="s">
       <default>')'</default>
-    </key>    
+    </key>
     <key name="gloss-font" type="s">
       <default>'Sans Regular 12'</default>
     </key>
     <key name="gloss-color" type="s">
-      <default>'rgb(155,155,155)'</default>
+      <default>'rgb(80,80,0)'</default>
     </key>
     <key name="gloss-start" type="s">
       <default>'
@@ -92,7 +92,7 @@
     </key>
     <key name="system-theme" type="b">
       <default>true</default>
-    </key>    
+    </key>
     <key name="dark-theme" type="b">
       <default>false</default>
     </key>
@@ -102,7 +102,7 @@
       <description>
         List of dictionary files. Format is:
         [/path/to/dicfile\ndictionary-name\nactive,/path/to/dicfile\ndictionary-name\nactive]
-        Don't put a space after the comma. 
+        Don't put a space after the comma.
         Name and path are strings, active is true or false (boolean)
       </description>
     </key>
@@ -146,7 +146,7 @@
     </key>
     <key name="radname" type="b">
       <default>false</default>
-    </key>        
+    </key>
     <key name="strokes" type="b">
       <default>true</default>
     </key>
@@ -236,7 +236,7 @@
     </key>
     <key name="radname-pos" type="i">
       <default>0</default>
-    </key>        
+    </key>
     <key name="strokes-pos" type="i">
       <default>1</default>
     </key>
@@ -293,7 +293,7 @@
     </key>
     <key name="missc-pos" type="i">
       <default>0</default>
-    </key>    
+    </key>
     <key name="kanji-font" type="s">
       <default>'KanjiStrokeOrders 52'</default>
     </key>
@@ -305,7 +305,7 @@
     </key>
     <key name="separator" type="s">
       <default>' | '</default>
-    </key>    
+    </key>
     <key name="kanjidicfile" type="s">
       <default>''</default>
       <summary>Kanjidic dictionary file in UTF8 format</summary>
