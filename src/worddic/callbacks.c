@@ -157,11 +157,6 @@ void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* s
 
 #endif
 
-static SoupSession *session;
-static GMainLoop *loop;
-static gboolean debug, head, quiet;
-static const gchar *output_file_path = NULL;
-
 G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_worddic){
   const char *download_url = "http://ftp.monash.edu/pub/nihongo/edict2u.gz";
 
