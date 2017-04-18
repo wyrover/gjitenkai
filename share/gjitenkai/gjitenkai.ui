@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.19.0 
+<!-- Generated with glade 3.20.0 
 
 Copyright (C) 
 
@@ -64,6 +64,9 @@ Original Gjiten developer Botond Botyanszki </property>
           <placeholder/>
         </child>
       </object>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
   <object class="GtkRadioMenuItem" id="radiomenuitem_search_japanese">
@@ -249,6 +252,15 @@ Original Gjiten developer Botond Botyanszki </property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
+                      <object class="GtkMenuItem" id="download_dictionary">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Download Dictionary</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_button_download_clicked" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkImageMenuItem" id="menuitem_help_about">
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>
@@ -273,6 +285,9 @@ Original Gjiten developer Botond Botyanszki </property>
           <placeholder/>
         </child>
       </object>
+    </child>
+    <child type="titlebar">
+      <placeholder/>
     </child>
   </object>
   <object class="GtkDialog" id="prefs">
@@ -345,6 +360,9 @@ Original Gjiten developer Botond Botyanszki </property>
           </packing>
         </child>
       </object>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
 </interface>

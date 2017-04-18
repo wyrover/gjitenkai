@@ -4,5 +4,5 @@ Exec=gjitenkai
 Icon=kai.png
 Type=Application
 Encoding=UTF-8
-Categories=Education;Dictionary;GNOME;GTK;
+Categories=Education;Dictionary;GTK3;
 Terminal=false

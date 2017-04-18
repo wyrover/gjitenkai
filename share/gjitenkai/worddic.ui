@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.20.0 -->
 <interface domain="worddic">
-  <requires lib="gtk+" version="3.12"/>
+  <requires lib="gtk+" version="3.20"/>
   <object class="GtkAboutDialog" id="aboutdialog">
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
@@ -40,6 +40,9 @@
           <placeholder/>
         </child>
       </object>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
   <object class="GtkListStore" id="liststore_dic">
@@ -950,6 +953,14 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
+                      <object class="GtkMenuItem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Download Dictionary</property>
+                        <property name="use_underline">True</property>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkImageMenuItem" id="imagemenuitem_help_about">
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>
@@ -975,6 +986,9 @@
         </child>
       </object>
     </child>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkDialog" id="dialog_welcome">
     <property name="can_focus">False</property>
@@ -994,12 +1008,36 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="button_welcome">
-                <property name="label" translatable="yes">Okey ! </property>
+              <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="on_button_welcome_clicked" swapped="no"/>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkButton" id="button_download">
+                    <property name="label" translatable="yes">Download </property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_button_download_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_welcome">
+                    <property name="label" translatable="yes">Ignore</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -1037,6 +1075,9 @@ Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt;
           </packing>
         </child>
       </object>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
   <object class="GtkDialog" id="prefs">
@@ -1082,6 +1123,9 @@ Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt;
           <placeholder/>
         </child>
       </object>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
   <object class="GtkDialog" id="dialog_dic_edit">
@@ -1178,6 +1222,9 @@ Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt;
           </packing>
         </child>
       </object>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
   <object class="GtkTextBuffer" id="textbuffer_search_results"/>

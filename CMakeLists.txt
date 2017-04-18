@@ -54,11 +54,13 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DI
 # Use the package PkgConfig to detect GTK+ headers/library files
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+pkg_check_modules(LIBSOUP REQUIRED libsoup-2.4)
+
 
 # Setup CMake to use GTK+, tell the compiler where to look for headers
 # and to the linker where to look for libraries
-include_directories(${GTK3_INCLUDE_DIRS})
-link_directories(${GTK3_LIBRARY_DIRS})
+include_directories(${GTK3_INCLUDE_DIRS} ${LIBSOUP_INCLUDE_DIRS})
+link_directories(${GTK3_LIBRARY_DIRS} ${LIBSOUP_LIBRARY_DIRS})
 ############################################################
 
 # Add other flags to the compiler
@@ -97,7 +99,7 @@ add_executable(
   )
 
 # Link the target to the GTK+ libraries
-target_link_libraries(${PROJECT_NAME} ${GTK3_LIBRARIES} -lz)
+target_link_libraries(${PROJECT_NAME} ${GTK3_LIBRARIES} ${LIBSOUP_LIBRARIES} -lz)
 
 # Compiler flag needed to reach callback functions
 set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")
