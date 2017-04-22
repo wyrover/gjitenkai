@@ -206,16 +206,19 @@ static void on_dictionary_download_finished_callback (SoupSession *session,
 }
 
 static void got_chunk (SoupMessage *msg, SoupBuffer *chunk, worddic *p_worddic){
-  gdouble resp_len = 5925214;
-  g_printf("> %.2f / %.2f = %.2f\n",
-	   (gdouble)msg->response_body->length,
-	   (gdouble)resp_len,
-	   (gdouble) msg->response_body->length / resp_len);
-
+  SoupMessageHeaders *response_headers = msg->response_headers;
+  gdouble resp_len = soup_message_headers_get_content_length(response_headers);
   GtkProgressBar *pbar = (GtkProgressBar*) gtk_builder_get_object(p_worddic->definitions,
 								  "progressbar_download_dic");
   gtk_progress_bar_set_fraction(pbar, ((gdouble)msg->response_body->length / (gdouble)resp_len));
 }
+/*
+static void got_headers (SoupMessage *msg, worddic *p_worddic){
+  SoupMessageHeaders *response_headers = msg->response_headers;
+  soup_message_headers_get_encoding(response_headers);
+  gdouble resp_len = soup_message_headers_get_content_length(response_headers);
+}
+*/
 
 G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_worddic){
   //disable the button to prevent multiple click
@@ -231,6 +234,7 @@ G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_wo
   soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, p_worddic);
 
   g_object_connect (msg,
+		    //"signal::got-headers", got_headers, p_worddic,
 		    "signal::got-chunk", got_chunk, p_worddic,
 		    NULL);
 }
