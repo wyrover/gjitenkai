@@ -157,10 +157,12 @@ void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* s
 
 #endif
 
+static SoupSession *session;
+
 G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_worddic){
   const char *download_url = "http://ftp.monash.edu/pub/nihongo/edict2u.gz";
 
-  session = soup_session_sync_new();
+  session = soup_session_new();
   SoupMessage *msg;
   msg = soup_message_new ("GET",  download_url);
   soup_session_send_message (session, msg);
