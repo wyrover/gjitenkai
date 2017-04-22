@@ -217,6 +217,17 @@ G_MODULE_EXPORT void on_gjiten_menuitem_help_about_activate(GtkMenuItem *menuite
   gtk_widget_hide (GTK_WIDGET(window_about));
 }
 
+G_MODULE_EXPORT void on_gjiten_menuitem_help_download_dic_activate (GtkMenuItem *menuitem,
+								    gjitenkai *gjitenkai){
+
+  GtkDialog *dialog = (GtkDialog*)gtk_builder_get_object(gjitenkai->worddic->definitions,
+							 "dialog_dic_download");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_hide (GTK_WIDGET(dialog));
+}
+
+
+
 //hide and prevent deletion
 G_MODULE_EXPORT gboolean on_gjitenkai_prefs_delete_event(GtkWindow *window,
                                                          gjitenkai *gjitenkai) {

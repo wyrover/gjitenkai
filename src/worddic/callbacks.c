@@ -163,23 +163,61 @@ void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* s
  */
 static void on_dictionary_download_finished_callback (SoupSession *session,
 						      SoupMessage *msg,
-						      gpointer user_data){
+						      worddic *p_worddic){
   if(SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)){
-    const char *destination = g_strdup_printf("%s/%s", g_get_home_dir(), "edict2u.gz");
+    //file path where to save the dictionary
+    const gchar *destination = g_strdup_printf("%s/%s", g_get_home_dir(), "edict2u.gz");
+
+    //write to a file
     g_file_set_contents(destination,
 			msg->response_body->data,
 			msg->response_body->length,
 			NULL);
-    free(destination);
-    }
 
+    //create a new worddic dictionary
+    WorddicDicfile *dicfile = NULL;
+    dicfile = g_new0(WorddicDicfile, 1);
+    dicfile->name = g_strdup("edict2u from Monash");
+    dicfile->path = destination;
+    dicfile->is_loaded = FALSE;
+    dicfile->is_active = TRUE;
+    p_worddic->conf->dicfile_list = g_slist_append(p_worddic->conf->dicfile_list, dicfile);
+
+    //update the model
+    GtkTreeIter iter;
+    GtkListStore *store = (GtkListStore*)gtk_builder_get_object(p_worddic->definitions,
+								"liststore_dic");
+    //insert a new row in the model
+    gtk_list_store_insert (store, &iter, -1);
+    gtk_list_store_set (store, &iter,
+			COL_NAME, dicfile->name,
+			COL_PATH, dicfile->path,
+			COL_ACTIVE, dicfile->is_active,
+			COL_LOADED, dicfile->is_loaded,
+			-1);
+
+    worddic_conf_save(p_worddic->settings, p_worddic->conf, WSE_DICFILE);
+  }
+
+  //re enable the button in case the user wants to download dictionary again
+  GtkButton *button = gtk_builder_get_object(p_worddic->definitions, "button_download");
+  gtk_widget_set_sensitive(button, TRUE);
+  gtk_button_set_label(button, "Download");
+  gtk_widget_queue_draw(button);
 }
 
 G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_worddic){
+  //disable the button to prevent multiple click
+  gtk_widget_set_sensitive(button, FALSE);
+  gtk_button_set_label(button, "Downloading ...");
+
+  //the remote dictionary location is hard coded. TODO put dictionary location in a file or
+  //in a GSettings variable and create UI of a true download manager with several possible
+  //locations
   const char *download_url = "http://ftp.monash.edu/pub/nihongo/edict2u.gz";
   SoupSession *session = soup_session_new();
   SoupMessage *msg = soup_message_new ("GET", download_url);
-  soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, NULL);
+  soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, p_worddic);
 }
 
 G_MODULE_EXPORT void on_button_welcome_clicked(GtkButton* button, worddic *p_worddic){

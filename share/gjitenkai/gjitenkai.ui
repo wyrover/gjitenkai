@@ -252,12 +252,12 @@ Original Gjiten developer Botond Botyanszki </property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkMenuItem" id="download_dictionary">
+                      <object class="GtkMenuItem" id="menuitem_download_dictionary">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Download Dictionary</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="on_button_download_clicked" swapped="no"/>
+                        <signal name="activate" handler="on_gjiten_menuitem_help_download_dic_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
