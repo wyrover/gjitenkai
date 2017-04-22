@@ -157,15 +157,22 @@ void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* s
 
 #endif
 
+/**
+   Callback function when the dictionary has been downloaded.
+   write to local drive the content to a file.
+ */
+static void on_dictionary_download_finished_callback (SoupSession *session,
+						      SoupMessage *msg,
+						      gpointer user_data){
+  g_file_set_contents("edict2u.gz", msg->response_body->data, msg->response_body->length, NULL);
+}
+
 G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_worddic){
   const char *download_url = "http://ftp.monash.edu/pub/nihongo/edict2u.gz";
   SoupSession *session = soup_session_new();
-  SoupMessage *msg;
-  msg = soup_message_new ("GET",  download_url);
-  soup_session_send_message (session, msg);
-  g_file_set_contents("EDICT.gz", msg->response_body->data, msg->response_body->length, NULL);
+  SoupMessage *msg = soup_message_new ("GET", download_url);
+  soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, NULL);
 }
-
 
 G_MODULE_EXPORT void on_button_welcome_clicked(GtkButton* button, worddic *p_worddic){
   GtkDialog *dialog = (GtkDialog*)gtk_builder_get_object(p_worddic->definitions,
