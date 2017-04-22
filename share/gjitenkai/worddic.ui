@@ -88,18 +88,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkProgressBar" id="download_progress">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_download1">
+              <object class="GtkButton" id="button_download_dic">
                 <property name="label" translatable="yes">Download </property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -109,12 +98,25 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkProgressBar" id="progressbar_download_dic">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="text" translatable="yes">Download Progress</property>
+                <property name="show_text">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
@@ -1093,25 +1095,15 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkButton" id="button_download">
-                    <property name="label" translatable="yes">Download </property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_button_download_clicked" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
                   <object class="GtkButton" id="button_welcome">
-                    <property name="label" translatable="yes">Ignore</property>
+                    <property name="label" translatable="yes">Ok</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_button_welcome_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1139,12 +1131,14 @@
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">&lt;b&gt;Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'&lt;/b&gt;
 
-To start seaching you need an &lt;i&gt;EDICT dictionary file &lt;/i&gt;. 
+To start seaching you need an &lt;b&gt;EDICT dictionary file &lt;/b&gt;. 
 
 You can download one at the &lt;a href="http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil"&gt;Official EDICT website&lt;/a&gt;
 
 Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt; 
 &lt;b&gt;Worddic - Dictionaries - Add&lt;/b&gt;
+
+You can also download an EDICT dictionary from the Help Menu. 
 
 </property>
             <property name="use_markup">True</property>

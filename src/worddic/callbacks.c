@@ -160,7 +160,7 @@ void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* s
 /**
    Callback function when the dictionary has been downloaded.
    write to local drive the content to a file.
- */
+*/
 static void on_dictionary_download_finished_callback (SoupSession *session,
 						      SoupMessage *msg,
 						      worddic *p_worddic){
@@ -200,10 +200,21 @@ static void on_dictionary_download_finished_callback (SoupSession *session,
   }
 
   //re enable the button in case the user wants to download dictionary again
-  GtkButton *button = gtk_builder_get_object(p_worddic->definitions, "button_download");
+  GtkButton *button = gtk_builder_get_object(p_worddic->definitions, "button_download_dic");
   gtk_widget_set_sensitive(button, TRUE);
   gtk_button_set_label(button, "Download");
-  gtk_widget_queue_draw(button);
+}
+
+static void got_chunk (SoupMessage *msg, SoupBuffer *chunk, worddic *p_worddic){
+  gdouble resp_len = 5925214;
+  g_printf("> %.2f / %.2f = %.2f\n",
+	   (gdouble)msg->response_body->length,
+	   (gdouble)resp_len,
+	   (gdouble) msg->response_body->length / resp_len);
+
+  GtkProgressBar *pbar = (GtkProgressBar*) gtk_builder_get_object(p_worddic->definitions,
+								  "progressbar_download_dic");
+  gtk_progress_bar_set_fraction(pbar, ((gdouble)msg->response_body->length / (gdouble)resp_len));
 }
 
 G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_worddic){
@@ -218,6 +229,10 @@ G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_wo
   SoupSession *session = soup_session_new();
   SoupMessage *msg = soup_message_new ("GET", download_url);
   soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, p_worddic);
+
+  g_object_connect (msg,
+		    "signal::got-chunk", got_chunk, p_worddic,
+		    NULL);
 }
 
 G_MODULE_EXPORT void on_button_welcome_clicked(GtkButton* button, worddic *p_worddic){
