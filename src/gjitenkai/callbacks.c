@@ -251,9 +251,3 @@ G_MODULE_EXPORT gboolean on_gjitenkai_search_results_button_release_event(GtkWid
 
   return FALSE;
 }
-
-G_MODULE_EXPORT void on_download_dictionary_activate(GtkMenuItem *menu_item, gjitenkai *gjitenkai){
-  GtkWidget *box_kanjidic = (GtkWidget*)gtk_builder_get_object(gjitenkai->kanjidic->definitions,
-							       "box_toplevel");
-  printf("Activated download");
-}
