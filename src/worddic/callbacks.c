@@ -164,8 +164,15 @@ void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* s
 static void on_dictionary_download_finished_callback (SoupSession *session,
 						      SoupMessage *msg,
 						      gpointer user_data){
-  if(SOUP_STATUS_IS_SUCCESSFUL (msg->status_code))
-    g_file_set_contents("edict2u.gz", msg->response_body->data, msg->response_body->length, NULL);
+  if(SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)){
+    const char *destination = g_strdup_printf("%s/%s", g_get_home_dir(), "edict2u.gz");
+    g_file_set_contents(destination,
+			msg->response_body->data,
+			msg->response_body->length,
+			NULL);
+    free(destination);
+    }
+
 }
 
 G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_worddic){
