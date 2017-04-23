@@ -38,15 +38,6 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
     }
   }
 
-  // check the dictionary magic number
-  const gchar* magic = "　？？？";
-  if(!informations||
-     !g_str_has_prefix(informations, magic)){
-    g_printf("Invalid EDICT file (wrong magic number) for file %s\n", dicfile->path);
-    dicfile->informations = g_strdup("Invalid EDICT file");
-    return FALSE;
-  }
-
   //check if utf8, convert it on the fly if this is not the case
   dicfile->utf8 = g_utf8_validate(informations, read, NULL);
 
@@ -60,6 +51,24 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
       dicfile->informations = informations;
     }
   }
+
+  // check the dictionary magic number
+  const gchar* magic = "　？？？";
+  if(!informations||
+     !g_str_has_prefix(informations, magic)){
+    g_printf("Invalid EDICT file (wrong magic number) for file %s\n", dicfile->path);
+    dicfile->informations = g_strdup("Invalid EDICT file");
+    dicfile->type = NULL;
+    dicfile->copyright = NULL;
+    dicfile->creation_date = NULL;
+    return FALSE;
+  }
+
+  gchar **information_v = g_strsplit(informations, "/", 4);
+  dicfile->type = information_v[1];
+  dicfile->copyright = information_v[2];
+  dicfile->creation_date = information_v[3];
+
   return TRUE;
 }
 

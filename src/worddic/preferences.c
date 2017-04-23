@@ -603,7 +603,20 @@ static gboolean cb_load_dic_timeout( dic_state_ui *ui )
     g_object_set(cell, "activatable", TRUE, "inconsistent", FALSE, NULL);
     gtk_widget_queue_draw(GTK_WIDGET(tree));
 
-    gtk_label_set_text(ui->label_dic_info, ui->dicfile->informations);
+    if(ui->dicfile->type && ui->dicfile->copyright && ui->dicfile->creation_date){
+      const char *format = "<span style=\"italic\">\%s</span> %s %s";
+      char *markup = g_markup_printf_escaped (format,
+					      ui->dicfile->type,
+					      ui->dicfile->copyright,
+					      ui->dicfile->creation_date);
+
+      gtk_label_set_markup(ui->label_dic_info, markup);
+      g_free(markup);
+    }
+    else if(ui->dicfile->informations){
+      gtk_label_set_text(ui->label_dic_info, ui->dicfile->informations);
+    }
+
     g_thread_unref(ui->worddic->thread_load_dic);
     ui->worddic->thread_load_dic = NULL;
     g_free(ui);
@@ -690,7 +703,14 @@ G_MODULE_EXPORT gboolean on_treeview_dicfile_changed(GtkTreeSelection *treeselec
   GSList *selected_element = g_slist_nth(worddic->conf->dicfile_list, index);
   WorddicDicfile *dic = selected_element->data;
 
-  if(dic->informations){
+  if(dic->type && dic->copyright && dic->creation_date){
+    const char *format = "<span style=\"italic\">\%s</span> %s %s";
+    char *markup = g_markup_printf_escaped (format, dic->type, dic->copyright, dic->creation_date);
+
+    gtk_label_set_markup(label_dic_info, markup);
+    g_free(markup);
+  }
+  else if(dic->informations){
     gtk_label_set_text(label_dic_info, dic->informations);
   }
   else{

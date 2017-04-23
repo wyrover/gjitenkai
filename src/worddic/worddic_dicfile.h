@@ -51,8 +51,12 @@ typedef struct _WorddicDicfile {
   //tells if the dictionary file is gzipped
   gboolean is_gz;
 
-  //first line of the edict dictionary with magic number, creation date and copyrights
+  //first line of the edict dictionary with:
+  //magic number / Dictionary type / Copyright / Creation date
   gchar *informations;
+  gchar *type;
+  gchar *copyright;
+  gchar *creation_date;
 }WorddicDicfile;
 
 gboolean worddic_dicfile_open(WorddicDicfile *dicfile);
