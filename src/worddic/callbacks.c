@@ -174,29 +174,41 @@ static void on_dictionary_download_finished_callback (SoupSession *session,
 			msg->response_body->length,
 			NULL);
 
-    //create a new worddic dictionary
-    WorddicDicfile *dicfile = NULL;
-    dicfile = g_new0(WorddicDicfile, 1);
-    dicfile->name = g_strdup("edict2u from Monash");
-    dicfile->path = destination;
-    dicfile->is_loaded = FALSE;
-    dicfile->is_active = TRUE;
-    p_worddic->conf->dicfile_list = g_slist_append(p_worddic->conf->dicfile_list, dicfile);
+    // search if a dictionary nammed `dic_name` exist in the dictionary list
+    gchar *dic_name = "edict2u from Monash";
+    GSList *dicfile_node = p_worddic->conf->dicfile_list;
+    while (dicfile_node != NULL){
+      WorddicDicfile *dicfile = dicfile_node->data;
+      if(!g_strcmp0(dicfile->name, dic_name)){
+	break;
+      }
+      dicfile_node = g_slist_next(dicfile_node);
+    }
 
-    //update the model
-    GtkTreeIter iter;
-    GtkListStore *store = (GtkListStore*)gtk_builder_get_object(p_worddic->definitions,
-								"liststore_dic");
-    //insert a new row in the model
-    gtk_list_store_insert (store, &iter, -1);
-    gtk_list_store_set (store, &iter,
-			COL_NAME, dicfile->name,
-			COL_PATH, dicfile->path,
-			COL_ACTIVE, dicfile->is_active,
-			COL_LOADED, dicfile->is_loaded,
-			-1);
+    //if not, create a new worddic dictionary
+    if(!dicfile_node){
+      WorddicDicfile * dicfile = g_new0(WorddicDicfile, 1);
+      dicfile->name = g_strdup(dic_name);
+      dicfile->path = destination;
+      dicfile->is_loaded = FALSE;
+      dicfile->is_active = TRUE;
+      p_worddic->conf->dicfile_list = g_slist_append(p_worddic->conf->dicfile_list, dicfile);
 
-    worddic_conf_save(p_worddic->settings, p_worddic->conf, WSE_DICFILE);
+      //update the model
+      GtkTreeIter iter;
+      GtkListStore *store = (GtkListStore*)gtk_builder_get_object(p_worddic->definitions,
+								  "liststore_dic");
+      //insert a new row in the model
+      gtk_list_store_insert (store, &iter, -1);
+      gtk_list_store_set (store, &iter,
+			  COL_NAME, dicfile->name,
+			  COL_PATH, dicfile->path,
+			  COL_ACTIVE, dicfile->is_active,
+			  COL_LOADED, dicfile->is_loaded,
+			  -1);
+
+      worddic_conf_save(p_worddic->settings, p_worddic->conf, WSE_DICFILE);
+    }
   }
 
   //re enable the button in case the user wants to download dictionary again

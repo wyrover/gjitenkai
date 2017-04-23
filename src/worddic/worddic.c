@@ -200,9 +200,8 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   gchar *search_text_half = regex_full_to_half(search_text);
 
   //search in the dictionaries
-  GSList *dicfile_node;
+  GSList *dicfile_node = worddic->conf->dicfile_list;
   WorddicDicfile *dicfile;
-  dicfile_node = worddic->conf->dicfile_list;
 
   GList *results=NULL;  //matched dictionary entries to return in a dicresult
 
@@ -221,7 +220,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   }
 
   //in each dictionaries
-  while (dicfile_node != NULL) {
+  while (dicfile_node != NULL){
     dicfile = dicfile_node->data;
 
     //do not search in this dictionary if it's not active
