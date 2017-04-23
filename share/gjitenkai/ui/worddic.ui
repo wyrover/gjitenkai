@@ -11,7 +11,7 @@
 
     Gjiten Kai developer (2015 - ...) Olivier Drevet
     </property>
-    <property name="logo">gjitenkai.png</property>
+    <property name="logo">../gjitenkai.png</property>
     <property name="license_type">gpl-3-0</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="aboutdialog-vbox1">
@@ -1129,14 +1129,14 @@
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">&lt;b&gt;Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'&lt;/b&gt;
 
-To start seaching you need an &lt;b&gt;EDICT dictionary file &lt;/b&gt;. 
+To start seaching you need an &lt;b&gt;EDICT dictionary file &lt;/b&gt;.
 
 You can download one at the &lt;a href="http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil"&gt;Official EDICT website&lt;/a&gt;
 
-Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt; 
+Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt;
 &lt;b&gt;Worddic - Dictionaries - Add&lt;/b&gt;
 
-You can also download an EDICT dictionary from the Help Menu. 
+You can also download an EDICT dictionary from the Help Menu.
 
 </property>
             <property name="use_markup">True</property>
