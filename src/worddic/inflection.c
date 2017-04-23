@@ -9,7 +9,9 @@ void init_inflection() {
   struct vinfl_struct *tmp_vinfl_struct;
 
   const gchar * const * dirs = g_get_system_data_dirs();
-  const gchar* filename = get_file(dirs, VINFL_FILENAME);
+  gchar *rest = g_strjoin(G_DIR_SEPARATOR_S, PROJECT_NAME, VINFL_FILENAME, NULL);
+  const gchar* filename = get_file(dirs, rest);
+  g_free(rest);
 
   vinfl_start = NULL;
   gssize length;

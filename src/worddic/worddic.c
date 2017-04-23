@@ -2,7 +2,13 @@
 
 void worddic_init (worddic *p_worddic){
   const gchar * const * dirs = g_get_system_data_dirs();
-  const gchar* filename = get_file(dirs, UI_DEFINITIONS_FILE_WORDDIC);
+  gchar *rest = g_strjoin(G_DIR_SEPARATOR_S,
+			  PROJECT_NAME,
+			  //"ui",
+			  UI_DEFINITIONS_FILE_WORDDIC,
+			  NULL);
+  const gchar* filename = get_file(dirs, rest);
+  g_free(rest);
 
   GError *err = NULL;
   p_worddic->definitions = gtk_builder_new ();

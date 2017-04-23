@@ -13,7 +13,9 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
   GHashTable *kanji_info_hash = *pp_kanji_info_hash;
 
   const gchar * const * dirs = g_get_system_data_dirs();
-  const gchar* filename = get_file(dirs, RADKFILE_NAME);
+  gchar *rest = g_strjoin(G_DIR_SEPARATOR_S, PROJECT_NAME, RADKFILE_NAME, NULL);
+  const gchar* filename = get_file(dirs, rest);
+  g_free(rest);
 
   gchar *radkfile=NULL;
   gssize length;
