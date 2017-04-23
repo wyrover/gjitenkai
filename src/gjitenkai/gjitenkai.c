@@ -3,14 +3,13 @@
 extern G_MODULE_EXPORT void on_gjitenkai_menuitem_history_click(GtkWidget *menuitem_history,
                                                                 gjitenkai *gjitenkai);
 
-void gjitenkai_init (gjitenkai *gjitenkai)
-{
-  gchar filename[PATH_MAX]={0};
-  GET_FILE(GJITENKAI_DATADIR"/"PROJECT_NAME"/"UI_DEFINITIONS_FILE_GJITENKAI, filename);
-  
+void gjitenkai_init (gjitenkai *gjitenkai){
+  const gchar * const * dirs = g_get_system_data_dirs();
+  const gchar* filename = get_file(dirs, UI_DEFINITIONS_FILE_GJITENKAI);
+
   GError *err = NULL;
   gjitenkai->definitions = gtk_builder_new ();
-  gtk_builder_add_from_file (gjitenkai->definitions, filename, &err);  
+  gtk_builder_add_from_file (gjitenkai->definitions, filename, &err);
   if (err != NULL) {
     g_printerr
       ("Error while loading gjitenkai definitions file: %s\n",
@@ -19,7 +18,7 @@ void gjitenkai_init (gjitenkai *gjitenkai)
     gtk_main_quit ();
   }
   gtk_builder_connect_signals (gjitenkai->definitions, gjitenkai);
-  
+
 }
 
 void gjitenkai_menu_history_append(gjitenkai *p_gjitenkai, const gchar *text){

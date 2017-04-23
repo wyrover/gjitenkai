@@ -8,8 +8,8 @@ void init_inflection() {
   int conj_type = 40;
   struct vinfl_struct *tmp_vinfl_struct;
 
-  gchar filename[PATH_MAX]={0};
-  GET_FILE(GJITENKAI_DATADIR"/"PROJECT_NAME"/"VINFL_FILENAME, filename);
+  const gchar * const * dirs = g_get_system_data_dirs();
+  const gchar* filename = get_file(dirs, VINFL_FILENAME);
 
   vinfl_start = NULL;
   vinfl_start = read_file(filename);
@@ -17,7 +17,7 @@ void init_inflection() {
   if(!vinfl_start){
     g_printf("cannot load verbe inflection file '%s'\n",  filename);
   }
-  
+
   vinfl_end = vinfl_start + strlen(vinfl_start);
   vinfl_ptr = vinfl_start;
 
@@ -42,13 +42,13 @@ void init_inflection() {
         //skip the space
         while (g_ascii_isspace(*vinfl_ptr) == TRUE)
           vinfl_ptr = g_utf8_next_char(vinfl_ptr);
-        
+
         // beginning of conjugation definition;
         tmp_ptr = vinfl_ptr;
 
         //find end of line
         vinfl_ptr = get_EOL(vinfl_ptr, vinfl_end);
-        vconj_types[conj_type] = g_strndup(tmp_ptr, vinfl_ptr - tmp_ptr -1);  
+        vconj_types[conj_type] = g_strndup(tmp_ptr, vinfl_ptr - tmp_ptr -1);
       }
       break;
     case 2:
@@ -67,13 +67,13 @@ void init_inflection() {
       }
       tmp_ptr = vinfl_ptr;
       while (g_unichar_iswide(g_utf8_get_char(vinfl_ptr)) == TRUE) {
-        vinfl_ptr = g_utf8_next_char(vinfl_ptr); //skip the inflection	
+        vinfl_ptr = g_utf8_next_char(vinfl_ptr); //skip the inflection
       }
       tmp_vinfl_struct->infl = g_strndup(tmp_ptr, vinfl_ptr - tmp_ptr); //store the inflection
       while (g_ascii_isspace(*vinfl_ptr) == TRUE) {
         vinfl_ptr = g_utf8_next_char(vinfl_ptr); //skip the space
       }
-      
+
       tmp_vinfl_struct->type = vconj_types[atoi(vinfl_ptr)];
       tmp_vinfl_struct->itype = atoi(vinfl_ptr);
       vinfl_ptr =  get_EOL(vinfl_ptr, vinfl_end);
@@ -106,13 +106,13 @@ GList* search_inflections(WorddicDicfile *dicfile,
 
     struct vinfl_struct * tmp_vinfl_struct = NULL;
     tmp_vinfl_struct = (struct vinfl_struct *) vinfl_list_browser->data;
-    
+
     //if the inflected conjugaison match the end of the string to search
     if(!g_str_has_suffix(srchstrg, tmp_vinfl_struct->conj)){continue;}
 
     //create a new GString to modify
     GString *deinflected = g_string_new(NULL);
-    
+
     // create deinflected string with the searched expression
     deinflected = g_string_append(deinflected, srchstrg);
 
@@ -133,11 +133,11 @@ GList* search_inflections(WorddicDicfile *dicfile,
         break;
       }
     }
-    
+
     //deinflected has been freed because the same string existed in a previous
     //search. skip this iteration
     if(!deinflected)continue;
-    
+
     //comment that explains which inflection was searched
     gchar *comment = g_strdup_printf("%s %s -> %s",
                                      tmp_vinfl_struct->type,
@@ -145,7 +145,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
                                      tmp_vinfl_struct->infl);
 
     //if the inflection type is from an adj-i, only search for adj-i
-    //if not adji-i, assume it's a verbe 
+    //if not adji-i, assume it's a verbe
     enum entry_GI entry_type;
     if(tmp_vinfl_struct->itype == ADJ_TO_ADVERB ||
        tmp_vinfl_struct->itype == ADJ_PAST ||
@@ -157,7 +157,7 @@ GList* search_inflections(WorddicDicfile *dicfile,
     else{
       entry_type = V1 | V5;
     }
-    
+
     //search in the dictionary
     search_expr.search_text = deinflected->str;
     GList *results_infl = dicfile_search(dicfile,
@@ -170,17 +170,17 @@ GList* search_inflections(WorddicDicfile *dicfile,
 
     // add the string to history
     previous_search = g_slist_append(previous_search, deinflected->str);
-    
+
     //free memory
     g_free(comment);
-    
-    // str is still needed in previous_search 
+
+    // str is still needed in previous_search
     g_string_free(deinflected, FALSE);
   }
 
   //free history
   g_slist_free_full(previous_search, g_free);
-  
+
   return results;
 }
 

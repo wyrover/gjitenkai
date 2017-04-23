@@ -44,16 +44,12 @@ gboolean detect_japanese(const gchar *srchstrg);
 #ifdef MINGW
 char* strtok_r(char *str, const char *delim, char **nextp);
 size_t getline(char **lineptr, size_t *n, FILE *stream);
-#include <Windows.h>
-void path_relative(gchar *path, gchar *res);
 #endif
 
-#ifdef MINGW
-#define GET_FILE(FILE, RES) path_relative(FILE, RES)
-#else	
-#include <linux/limits.h>
-#define GET_FILE(FILE, RES) strcpy(RES, FILE)
-#endif
-
+/**
+   Search for filename in dirs and return the path of the first match or `NULL` if the file was
+   not found
+ */
+const gchar* get_file(const gchar* const* dirs, const gchar* filename);
 
 #endif

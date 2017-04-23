@@ -7,36 +7,36 @@ int main( int argc, char **argv )
 {
   bindtextdomain("worddic", LOCALDIR);
   textdomain("worddic");
-  
+
   kanjidic kanjidic;
 
   gtk_init (&argc, &argv);
   kanjidic_init (&kanjidic);
 
   //kanjidic window
-  GtkWindow *window = (GtkWindow*)gtk_builder_get_object(kanjidic.definitions, 
+  GtkWindow *window = (GtkWindow*)gtk_builder_get_object(kanjidic.definitions,
                                                           "kanjidic");
 
   //set icon
   GdkPixbuf *pixbuf;
   GError *error = NULL;
   pixbuf = gdk_pixbuf_new_from_file("pixmaps/kai.png", &error);
-   
+
   gtk_window_set_icon(GTK_WINDOW(window), pixbuf);
 
   //box in the top of the window
-  GtkWidget *box_top = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions, 
+  GtkWidget *box_top = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions,
                                                               "box_top");
   //box at toplevel
-  GtkWidget *box_kanjidic = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions, 
+  GtkWidget *box_kanjidic = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions,
                                                               "box_toplevel");
   //Construct the pref dialog
   //pref dialog
-  GtkWidget *dialog_vbox_prefs = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions, 
+  GtkWidget *dialog_vbox_prefs = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions,
                                                                     "dialog-vbox_prefs");
 
   //pref content box at toplevel
-  GtkWidget *box_toplevel_prefs = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions, 
+  GtkWidget *box_toplevel_prefs = (GtkWidget*)gtk_builder_get_object(kanjidic.definitions,
                                                                      "box_toplevel_prefs");
   //preference pack
   gtk_box_pack_start(GTK_BOX(dialog_vbox_prefs), box_toplevel_prefs, TRUE, TRUE, 0);
@@ -46,7 +46,7 @@ int main( int argc, char **argv )
 
   gtk_window_set_default_size(GTK_WINDOW(window), 440, 500);
   gtk_widget_show_all ((GtkWidget*)window);
-  
+
   gtk_main ();
 
   return 1;

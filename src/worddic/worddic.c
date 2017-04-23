@@ -1,9 +1,8 @@
 #include "worddic.h"
 
-void worddic_init (worddic *p_worddic)
-{
-  gchar filename[PATH_MAX]={0};
-  GET_FILE(GJITENKAI_DATADIR"/"PROJECT_NAME"/"UI_DEFINITIONS_FILE_WORDDIC, filename);
+void worddic_init (worddic *p_worddic){
+  const gchar * const * dirs = g_get_system_data_dirs();
+  const gchar* filename = get_file(dirs, UI_DEFINITIONS_FILE_WORDDIC);
 
   GError *err = NULL;
   p_worddic->definitions = gtk_builder_new ();

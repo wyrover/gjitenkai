@@ -3,19 +3,16 @@
 KanjidicConfig *kanjidic_conf_load(kanjidic *p_kanjidic) {
   GSettings *kanjidic_settings = p_kanjidic->settings;
   KanjidicConfig * conf = g_new0(KanjidicConfig, 1);
-  
+
   //new kanjidic file
   if (conf->kanjidic == NULL) conf->kanjidic = g_new0(GjitenDicfile, 1);
   conf->kanjidic->name = g_strdup("kanjidic");
   conf->kanjidic->path = g_settings_get_string(kanjidic_settings, "kanjidicfile");
 
   if ((conf->kanjidic->path == NULL) || (strlen(conf->kanjidic->path)) == 0) {
-
-    gchar file[PATH_MAX] = {0};
-    GET_FILE(GJITENKAI_DATADIR"/"PROJECT_NAME"/kanjidic.utf8", file);
-    
-    conf->kanjidic->path = g_strdup(file);
-    //g_printf("load %s\n", file);
+    const gchar * const * dirs = g_get_system_data_dirs();
+    const gchar* filename = get_file(dirs, "kanjidic.utf8");
+    conf->kanjidic->path = filename;
   }
 
   //kanji tag font and color
@@ -40,7 +37,7 @@ KanjidicConfig *kanjidic_conf_load(kanjidic *p_kanjidic) {
 }
 
 void kanjidic_conf_save(KanjidicConfig *conf, GSettings *settings) {
-  
+
   //Kanjidic options save
   //path of the kanjidic
   g_settings_set_string(settings, "kanjidicfile", conf->kanjidic->path);

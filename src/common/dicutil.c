@@ -416,30 +416,26 @@ gboolean detect_japanese(const gchar *srchstrg){
 char* strtok_r(
                char *str,
                const char *delim,
-               char **nextp)
-{
+               char **nextp){
   char *ret;
 
-  if (str == NULL)
-    {
+  if (str == NULL){
       str = *nextp;
-    }
+  }
 
   str += strspn(str, delim);
 
-  if (*str == '\0')
-    {
+  if (*str == '\0'){
       return NULL;
-    }
+  }
 
   ret = str;
 
   str += strcspn(str, delim);
 
-  if (*str)
-    {
+  if (*str){
       *str++ = '\0';
-    }
+  }
 
   *nextp = str;
 
@@ -459,17 +455,15 @@ size_t getline(char** lineptr, size_t *n, FILE *stream){
   return *n;
 }
 
-void path_relative(gchar *path, gchar *res){
-  //get the .exe full path and filename
-  gchar buffer[PATH_MAX];
-  GetModuleFileName(NULL, buffer, PATH_MAX) ;
-
-  gchar *dirname = g_path_get_dirname(buffer);
-  g_strlcat(res, dirname, PATH_MAX);
-  g_free(dirname);
-
-  g_strlcat(res, "\\", PATH_MAX);
-  g_strlcat(res, path, PATH_MAX);
-}
-
 #endif
+
+const gchar* get_file(const gchar* const *dirs, const gchar* filename){
+  gint i;
+  const gchar* res = NULL;
+  for (i = 0; dirs[i]; i++){
+    res = g_strdup_printf ("%s/%s/%s", dirs[i], PROJECT_NAME, filename);
+    if(g_file_test(res, G_FILE_TEST_EXISTS))return res;
+    else g_free(res);
+  }
+  return NULL;
+}
