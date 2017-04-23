@@ -323,12 +323,9 @@ void worddic_dicfile_free_entries(WorddicDicfile *dicfile){
 void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile){
   if(worddic_dicfile_open(dicfile)){
     worddic_dicfile_parse_all(dicfile);  //parse all entries
-    dicfile->is_valid = TRUE;
     dicfile->is_loaded = TRUE;
   }
-  else {
-    dicfile->is_valid = FALSE;
-    dicfile->is_loaded = FALSE;
-  }
+  else dicfile->is_loaded = FALSE;
+
   worddic_dicfile_close(dicfile);
 }
