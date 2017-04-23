@@ -42,6 +42,9 @@ typedef struct _WorddicDicfile {
   //are the entries loaded ?
   gboolean is_loaded;
 
+  //set to false if magic sequance is not found at the beginning of the file
+  gboolean is_valid;
+
   //file pointer to read the dictionary file
   FILE * fp;
 

@@ -61,6 +61,7 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
     dicfile->type = NULL;
     dicfile->copyright = NULL;
     dicfile->creation_date = NULL;
+    dicfile->is_valid = FALSE;
     return FALSE;
   }
 
@@ -68,6 +69,7 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
   dicfile->type = information_v[1];
   dicfile->copyright = information_v[2];
   dicfile->creation_date = information_v[3];
+  dicfile->is_valid = TRUE;
 
   return TRUE;
 }
@@ -321,12 +323,12 @@ void worddic_dicfile_free_entries(WorddicDicfile *dicfile){
 void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile){
   if(worddic_dicfile_open(dicfile)){
     worddic_dicfile_parse_all(dicfile);  //parse all entries
+    dicfile->is_valid = TRUE;
     dicfile->is_loaded = TRUE;
   }
   else {
-    //XXX set loaded to true even if nothing has been loaded
-    //this is needed because this property is checked by the loading thread to tells when release
-    dicfile->is_loaded = TRUE;
+    dicfile->is_valid = FALSE;
+    dicfile->is_loaded = FALSE;
   }
   worddic_dicfile_close(dicfile);
 }

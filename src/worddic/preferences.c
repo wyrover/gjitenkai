@@ -596,7 +596,20 @@ G_MODULE_EXPORT  void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle
 
 static gboolean cb_load_dic_timeout( dic_state_ui *ui )
 {
-  if(ui->dicfile->is_loaded){
+
+  if(!ui->dicfile->is_valid){
+    GtkCellRendererToggle *cell = ui->cell;
+    GtkTreeView *tree = ui->treeview;
+
+    g_object_set(cell, "activatable", TRUE, "inconsistent", FALSE, NULL);
+    gtk_widget_queue_draw(GTK_WIDGET(tree));
+
+    g_thread_unref(ui->worddic->thread_load_dic);
+    ui->worddic->thread_load_dic = NULL;
+    g_free(ui);
+    return FALSE;
+  }
+  else if(ui->dicfile->is_loaded){
     GtkCellRendererToggle *cell = ui->cell;
     GtkTreeView *tree = ui->treeview;
 
