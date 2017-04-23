@@ -7,7 +7,7 @@ void gjitenkai_init (gjitenkai *gjitenkai){
   const gchar * const * dirs = g_get_system_data_dirs();
   const gchar* rest = g_strjoin(G_DIR_SEPARATOR_S,
 				 PROJECT_NAME,
-				//"ui",
+				"ui",
 				 UI_DEFINITIONS_FILE_GJITENKAI,
 				 NULL);
   const gchar* filename = get_file(dirs, rest);

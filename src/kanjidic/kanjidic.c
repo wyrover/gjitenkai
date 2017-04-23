@@ -6,7 +6,7 @@ void kanjidic_init (kanjidic *kanjidic){
   const gchar * const * dirs = g_get_system_data_dirs();
   gchar* rest = g_strjoin(G_DIR_SEPARATOR_S,
 			  PROJECT_NAME,
-			  //"ui",
+			  "ui",
 			  UI_DEFINITIONS_FILE_KANJIDIC,
 			  NULL);
   const gchar* filename = get_file(dirs, rest);
