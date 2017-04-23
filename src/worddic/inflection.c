@@ -12,7 +12,8 @@ void init_inflection() {
   const gchar* filename = get_file(dirs, VINFL_FILENAME);
 
   vinfl_start = NULL;
-  vinfl_start = read_file(filename);
+  gssize length;
+  g_file_get_contents (filename, &vinfl_start, &length, NULL);
 
   if(!vinfl_start){
     g_printf("cannot load verbe inflection file '%s'\n",  filename);

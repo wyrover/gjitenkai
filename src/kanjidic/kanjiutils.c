@@ -16,7 +16,8 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
   const gchar* filename = get_file(dirs, RADKFILE_NAME);
 
   gchar *radkfile=NULL;
-  radkfile = read_file(filename);
+  gssize length;
+  g_file_get_contents (filename, &radkfile, &length, NULL);
 
   if (radkfile == NULL){
     g_printf("failed to read radkfile '%s'\n", filename);
