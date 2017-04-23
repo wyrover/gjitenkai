@@ -637,7 +637,7 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
   //load in memory the entries
   if(!loaded){
     //set the cell state activatable to false to avoid double clicks
-    //and inconsistent to true to display current state
+    //and set the loaded status to inconsistent
     g_object_set(cell, "activatable", FALSE, "inconsistent", TRUE, NULL);
 
     GtkTreeView *treeview = (GtkTreeView*)gtk_builder_get_object(worddic->definitions,

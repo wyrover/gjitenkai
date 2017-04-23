@@ -39,7 +39,7 @@ typedef struct _WorddicDicfile {
   //search will be performed only on active dictionaries
   gboolean is_active;
 
-  //are the entries loaded ? 
+  //are the entries loaded ?
   gboolean is_loaded;
 
   //file pointer to read the dictionary file
@@ -51,11 +51,11 @@ typedef struct _WorddicDicfile {
   //tells if the dictionary file is gzipped
   gboolean is_gz;
 
-  //first line of the edict dictionary with date and copyrights
+  //first line of the edict dictionary with magic number, creation date and copyrights
   gchar *informations;
 }WorddicDicfile;
 
-void worddic_dicfile_open(WorddicDicfile *dicfile);
+gboolean worddic_dicfile_open(WorddicDicfile *dicfile);
 
 void worddic_dicfile_parse_all(WorddicDicfile *dicfile);
 gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile);
@@ -70,7 +70,7 @@ void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile);
    Prepend is used as it is much faster than append which seeks the end of the
    list at each call.
 
-   @Return the result list. 
+   @Return the result list.
  */
 static inline GList *add_match(GMatchInfo *match_info,
 		 gchar *comment,
@@ -86,7 +86,7 @@ static inline GList *add_match(GMatchInfo *match_info,
   p_dicresult->entry = dicentry;
   if(comment)p_dicresult->comment = strdup(comment);
   else p_dicresult->comment = NULL;
-  
+
   //add the dicentry in the result list
   results = g_list_prepend(results, p_dicresult);
 
@@ -96,7 +96,7 @@ static inline GList *add_match(GMatchInfo *match_info,
 
 /**
    @param dicfile dictionary file to search to
-   @param is_jp 
+   @param is_jp
    0 search in glosses
    1 search in japanese definition and reading
    -1 auto detect

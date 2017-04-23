@@ -231,8 +231,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
     }
 
     //if this dictionary was not loaded, parse it now
-    if(!dicfile->is_loaded){
-      worddic_dicfile_open(dicfile);
+    if(!dicfile->is_loaded && worddic_dicfile_open(dicfile)){
       worddic_dicfile_parse_all(dicfile);
       worddic_dicfile_close(dicfile);
 

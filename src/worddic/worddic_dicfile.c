@@ -1,6 +1,6 @@
 #include "worddic_dicfile.h"
 
-void worddic_dicfile_open(WorddicDicfile *dicfile){
+gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
 
   if(g_str_has_suffix(dicfile->path, ".gz")){
     dicfile->is_gz = TRUE;
@@ -15,13 +15,13 @@ void worddic_dicfile_open(WorddicDicfile *dicfile){
   else{
     dicfile->fp = fopen(dicfile->path, "r");
   }
-  
+
   //first line is informations (date, author, copyright, ...)
   //It will also be used to check encoding
   gchar *informations = NULL;
   size_t len = 0;
   ssize_t read;
-  
+
   if(!dicfile->is_gz){
     read = getline(&informations, &len, dicfile->fp);
   }
@@ -34,11 +34,23 @@ void worddic_dicfile_open(WorddicDicfile *dicfile){
     }
     else {
       read = -1;
-      return;
+      return FALSE;
     }
   }
-  
-  //check if utf8 or not
+
+  // check the dictionary magic number
+  const char* magic = "　？？？";
+  if(!informations||
+     informations[0] != magic[0] ||
+     informations[1] != magic[1] ||
+     informations[2] != magic[2] ||
+     informations[3] != magic[3]){
+    g_printf("Invalid EDICT file (wrong magic number) for file %s\n", dicfile->path);
+    dicfile->informations = g_strdup("Invalid EDICT file");
+    return FALSE;
+  }
+
+  //check if utf8, convert it on the fly if this is not the case
   dicfile->utf8 = g_utf8_validate(informations, read, NULL);
 
   if(!dicfile->utf8){
@@ -51,6 +63,7 @@ void worddic_dicfile_open(WorddicDicfile *dicfile){
       dicfile->informations = informations;
     }
   }
+  return TRUE;
 }
 
 void worddic_dicfile_close(WorddicDicfile *dicfile){
@@ -75,10 +88,10 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
   if(!dicfile->is_gz){
     read = getline(&line, &len, dicfile->fp);
   }
-  else{    
+  else{
     gchar buffer[GZLEN];
     gchar *tmpline = (gchar*)gzgets ((gzFile)dicfile->fp, buffer, GZLEN - 1);
-   
+
     if(tmpline){
       line = strdup(tmpline);
       read = strlen(line);
@@ -87,13 +100,13 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
       read = -1;
     }
   }
-  
+
   //if no more characters to read, return false
   if(read == -1){
     g_free(line);
     return FALSE;
   }
-  
+
   gchar *utf_line = NULL;
   if(!dicfile->utf8){
     //if not utf8 convert the line (assum it's EUC-JP)
@@ -109,7 +122,7 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
     dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
     g_free(utf_line);
   }
-  
+
   return TRUE;
 }
 
@@ -122,7 +135,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
   const gchar *search_text = p_search_expression->search_text;
   enum dicfile_search_criteria search_criteria_jp = p_search_expression->search_criteria_jp;
   enum dicfile_search_criteria search_criteria_lat = p_search_expression->search_criteria_lat;
-  
+
   //list of matched dictonnary entries
   GList *results = NULL;
 
@@ -141,7 +154,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
     else if(search_criteria_jp == START_WITH_MATCH){
       entry_string = g_string_prepend_c(entry_string, '^');
     }
-  
+
     else if(search_criteria_jp == END_WITH_MATCH){
       entry_string = g_string_append_c(entry_string, '$');
     }
@@ -149,7 +162,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
   else{
     if(search_criteria_lat == EXACT_MATCH){
       entry_string = g_string_prepend_c(entry_string, '^');
-      entry_string = g_string_append_c(entry_string, '$');      
+      entry_string = g_string_append_c(entry_string, '$');
     }
     else if(search_criteria_lat == WORD_MATCH){
       entry_string = g_string_prepend(entry_string, "\\b");
@@ -163,7 +176,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
   gint start_position = 0;
   gboolean has_matched=FALSE;
   GMatchInfo *match_info = NULL;
-  
+
   GRegex* regex = g_regex_new (entry_string->str,
                                G_REGEX_OPTIMIZE|
                                G_REGEX_NO_AUTO_CAPTURE|
@@ -175,7 +188,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
 
   //cannot continue the search if the regex is invalid
   if(!regex)return NULL;
-  
+
   if(is_jp){
     //search matches in the japanese definition or japanese reading
     //if the search expression contains at least a japanese character
@@ -190,14 +203,14 @@ GList *dicfile_search(WorddicDicfile *dicfile,
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
         list_dicentry = list_dicentry->next){
-      
+
       GjitenDicentry* dicentry = list_dicentry->data;
 
       //skip this entry if the type is not what we are searching
       if(!(dicentry->GI & itype))continue;
 
       has_matched = FALSE;
-            
+
       //search in the definition
       GSList *jap_definition = dicentry->jap_definition;
       while(jap_definition && !has_matched){
@@ -210,10 +223,10 @@ GList *dicfile_search(WorddicDicfile *dicfile,
         else{
           jap_definition = jap_definition->next;
         }
-        
+
         g_match_info_unref(match_info);
       }
-      
+
       //search in the japanese reading (if any)
       //if no match in the definition and if the search string is not only kanji
       if(!has_matched && dicentry->jap_reading && !only_kanji){
@@ -227,12 +240,12 @@ GList *dicfile_search(WorddicDicfile *dicfile,
           else{
             jap_reading = jap_reading->next;
           }
-          
+
           g_match_info_unref(match_info);
-        
+
         }
       }
-      
+
     } //for all dictionary entries
   }
   else{
@@ -242,13 +255,13 @@ GList *dicfile_search(WorddicDicfile *dicfile,
     for(list_dicentry = dicfile->entries;
         list_dicentry != NULL;
         list_dicentry = list_dicentry->next){
-            
+
       has_matched = FALSE;
       GjitenDicentry* dicentry = list_dicentry->data;
 
       //check if the type match what we are searching
       if(!(dicentry->GI & itype))continue;
-      
+
       GSList *gloss_list = dicentry->gloss;
       //search in the gloss list
       while(gloss_list && !has_matched){
@@ -257,7 +270,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
         //search in the sub glosses
         while(sub_gloss_list && !has_matched){
           has_matched = g_regex_match (regex, sub_gloss_list->data, 0, &match_info);
-          
+
           if(has_matched){
             results = add_match(match_info, comment, dicentry, results);
           }
@@ -267,7 +280,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
 
           g_match_info_unref(match_info);
         }
-        
+
         gloss_list = gloss_list->next;
       }
     }
@@ -275,7 +288,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
 
   //free memory
   g_regex_unref(regex);
-  
+
   return results;
 }
 
@@ -285,12 +298,12 @@ void worddic_dicfile_free(WorddicDicfile *dicfile){
 
   g_free(dicfile->path);
   dicfile->path = NULL;
-  
+
   g_free(dicfile->informations);
   dicfile->informations = NULL;
-  
+
   worddic_dicfile_free_entries(dicfile);
-  
+
   g_free(dicfile);
 }
 
@@ -300,12 +313,14 @@ void worddic_dicfile_free_entries(WorddicDicfile *dicfile){
 }
 
 void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile){
-  dicfile->is_loaded = FALSE;
-  worddic_dicfile_open(dicfile);
-  
-  //parse all entries
-  worddic_dicfile_parse_all(dicfile);
-  
+  if(worddic_dicfile_open(dicfile)){
+    worddic_dicfile_parse_all(dicfile);  //parse all entries
+    dicfile->is_loaded = TRUE;
+  }
+  else {
+    //XXX set loaded to true even if nothing has been loaded
+    //this is needed because this property is checked by the loading thread to tells when release
+    dicfile->is_loaded = TRUE;
+  }
   worddic_dicfile_close(dicfile);
-  dicfile->is_loaded = TRUE;
 }
