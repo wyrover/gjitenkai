@@ -39,12 +39,9 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
   }
 
   // check the dictionary magic number
-  const char* magic = "　？？？";
+  const gchar* magic = "　？？？";
   if(!informations||
-     informations[0] != magic[0] ||
-     informations[1] != magic[1] ||
-     informations[2] != magic[2] ||
-     informations[3] != magic[3]){
+     !g_str_has_prefix(informations, magic)){
     g_printf("Invalid EDICT file (wrong magic number) for file %s\n", dicfile->path);
     dicfile->informations = g_strdup("Invalid EDICT file");
     return FALSE;
