@@ -126,6 +126,15 @@ install(
   po/fr/kanjidic.mo
   DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/fr/LC_MESSAGES/)
 
+###Japanese
+install(
+  FILES
+  po/jp/${PROJECT_NAME}.mo
+  po/jp/worddic.mo
+  po/jp/kanjidic.mo
+  DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/jp/LC_MESSAGES/)
+
+
 ## Install kanjidic
 install(
   FILES ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/kanjidic.utf8
