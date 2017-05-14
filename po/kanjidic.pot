@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-19 10:18+0200\n"
+"POT-Creation-Date: 2017-05-14 11:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,86 +17,86 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: share/gjitenkai/kanjidic.glade:524
+#: share/gjitenkai/ui/kanjidic.ui:514
 msgid "+/-"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:333
+#: share/gjitenkai/ui/kanjidic.ui:325
 msgid "About"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:208
+#: share/gjitenkai/ui/kanjidic.ui:200
 msgid "Appearance"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:609
+#: share/gjitenkai/ui/kanjidic.ui:598
 msgid "Clear"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:232
+#: share/gjitenkai/ui/kanjidic.ui:224
 msgid "Dictionary"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:167
+#: share/gjitenkai/ui/kanjidic.ui:161
 msgid "Items"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:180
+#: share/gjitenkai/ui/kanjidic.ui:172
 msgid "Kanji Candidates"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:140
+#: share/gjitenkai/ui/kanjidic.ui:138
 msgid "Kanji font"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:552
+#: share/gjitenkai/ui/kanjidic.ui:542
 msgid "Keys"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:371
+#: share/gjitenkai/ui/kanjidic.ui:363
 msgid "OK"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:302
+#: share/gjitenkai/ui/kanjidic.ui:294
 msgid "Preferences"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:279
+#: share/gjitenkai/ui/kanjidic.ui:271
 msgid "Quit"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:474
+#: share/gjitenkai/ui/kanjidic.ui:465
 msgid "Radicals"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:578
+#: share/gjitenkai/ui/kanjidic.ui:567
 msgid "Search"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:154
+#: share/gjitenkai/ui/kanjidic.ui:150
 msgid "Separator"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:595
+#: share/gjitenkai/ui/kanjidic.ui:584
 msgid "Show"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:459
+#: share/gjitenkai/ui/kanjidic.ui:451
 msgid "Strokes"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:292
+#: share/gjitenkai/ui/kanjidic.ui:284
 msgid "_Edit"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:269
+#: share/gjitenkai/ui/kanjidic.ui:261
 msgid "_File"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:323
+#: share/gjitenkai/ui/kanjidic.ui:315
 msgid "_Help"
 msgstr ""
 
-#: share/gjitenkai/kanjidic.glade:315
+#: share/gjitenkai/ui/kanjidic.ui:307
 msgid "_View"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-19 10:17+0200\n"
+"POT-Creation-Date: 2017-05-14 11:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,57 +17,61 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: share/gjitenkai/gjitenkai.glade:202
+#: share/gjitenkai/ui/gjitenkai.ui:229
 msgid "Clear"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:10
+#: share/gjitenkai/ui/gjitenkai.ui:258
+msgid "Download Dictionary"
+msgstr ""
+
+#: share/gjitenkai/ui/gjitenkai.ui:32
 msgid ""
-"GjitenKai uses EDICT, KANJIDIC and RADKFILE. \n"
+"GjitenKai uses EDICT, KANJIDIC and RADKFILE.\n"
 "Copyright Creative Commons Attribution-ShareAlike Licence (V3.0)\n"
 "See http://www.edrdg.org/edrdg/licence.html "
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:192
+#: share/gjitenkai/ui/gjitenkai.ui:219
 msgid "History"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:146
+#: share/gjitenkai/ui/gjitenkai.ui:173
 msgid "Kanjidic"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:176
+#: share/gjitenkai/ui/gjitenkai.ui:203
 msgid "Notebook"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:273
+#: share/gjitenkai/ui/gjitenkai.ui:312
 msgid "OK"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:163
+#: share/gjitenkai/ui/gjitenkai.ui:190
 msgid "Paned"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:112
+#: share/gjitenkai/ui/gjitenkai.ui:139
 msgid "Preferences"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:135
+#: share/gjitenkai/ui/gjitenkai.ui:162
 msgid "Worddic"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:102
+#: share/gjitenkai/ui/gjitenkai.ui:129
 msgid "_Edit"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:78
+#: share/gjitenkai/ui/gjitenkai.ui:105
 msgid "_File"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:221
+#: share/gjitenkai/ui/gjitenkai.ui:248
 msgid "_Help"
 msgstr ""
 
-#: share/gjitenkai/gjitenkai.glade:125
+#: share/gjitenkai/ui/gjitenkai.ui:152
 msgid "_View"
 msgstr ""
