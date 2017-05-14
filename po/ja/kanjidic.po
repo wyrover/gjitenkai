@@ -31,7 +31,7 @@ msgstr "デザイン"
 
 #: share/gjitenkai/ui/kanjidic.ui:598
 msgid "Clear"
-msgstr "消す"
+msgstr "消去"
 
 #: share/gjitenkai/ui/kanjidic.ui:224
 msgid "Dictionary"
@@ -79,7 +79,7 @@ msgstr "区分け"
 
 #: share/gjitenkai/ui/kanjidic.ui:584
 msgid "Show"
-msgstr "詳細"
+msgstr "部首（全て）"
 
 #: share/gjitenkai/ui/kanjidic.ui:451
 msgid "Strokes"

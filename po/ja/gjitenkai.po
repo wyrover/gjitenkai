@@ -19,11 +19,11 @@ msgstr ""
 
 #: share/gjitenkai/ui/gjitenkai.ui:229
 msgid "Clear"
-msgstr "消す"
+msgstr "消去"
 
 #: share/gjitenkai/ui/gjitenkai.ui:258
 msgid "Download Dictionary"
-msgstr ""
+msgstr "辞書ダウンロード"
 
 #: share/gjitenkai/ui/gjitenkai.ui:32
 msgid ""

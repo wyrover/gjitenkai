@@ -31,11 +31,19 @@ msgid ""
 "\n"
 "You can also download an EDICT dictionary from the Help Menu.\n"
 "\n"
-msgstr ""
+msgstr "ようこそグジテン改へ"
+"\n"
+"使用するには、EDICT辞書ファイルが必要です"
+"こちらから辞書をダウンロード出来ます<a href=\"http://ftp.monash.edu.au/pub/"
+"nihongo/00INDEX.html#dic_fil\">Official EDICT website</a>"
+"他の辞書を追加するには　編集→設定→Worddic→辞書→追加　の手順でおこなってください"
+"\n"
+"ヘルプのメニューからもEDICT辞書をダウンロードすることが出来ます\n"
+"\n"
 
 #: share/gjitenkai/ui/worddic.ui:535
 msgid "Activate Dark Theme"
-msgstr "壁紙　黒"
+msgstr "壁紙"
 
 #: share/gjitenkai/ui/worddic.ui:590
 msgid "Active"
@@ -55,11 +63,11 @@ msgstr "デザイン"
 
 #: share/gjitenkai/ui/worddic.ui:82
 msgid "Click Download to retreive the EDICT dictionary from Monash "
-msgstr ""
+msgstr "モナッシュ大学のサイトからもダウンロードできます。ダウンロードボタンClick !"
 
 #: share/gjitenkai/ui/worddic.ui:526
 msgid "Dark theme"
-msgstr "壁紙　黒"
+msgstr "黒"
 
 #: share/gjitenkai/ui/worddic.ui:714
 msgid "Dictionaries"
@@ -67,11 +75,11 @@ msgstr "辞書"
 
 #: share/gjitenkai/ui/worddic.ui:92
 msgid "Download "
-msgstr ""
+msgstr "ダウンロード"
 
 #: share/gjitenkai/ui/worddic.ui:1039
 msgid "Download Dictionary"
-msgstr ""
+msgstr "辞書ダウンロード"
 
 #: share/gjitenkai/ui/worddic.ui:684
 msgid "Edit"
@@ -87,7 +95,7 @@ msgstr "入力して下さい"
 
 #: share/gjitenkai/ui/worddic.ui:912
 msgid "Exact Match"
-msgstr ""
+msgstr "検索文字のみ"
 
 #: share/gjitenkai/ui/worddic.ui:830
 msgid "Gjiten Kai グジテン改 - Worddic"
@@ -95,7 +103,7 @@ msgstr ""
 
 #: share/gjitenkai/ui/worddic.ui:197
 msgid "Gloss / Sub Gloss"
-msgstr "単語集"
+msgstr "意味（外国語）"
 
 #: share/gjitenkai/ui/worddic.ui:158
 msgid "Highlight Color"
@@ -111,7 +119,7 @@ msgstr "日本語"
 
 #: share/gjitenkai/ui/worddic.ui:171
 msgid "Japanese Definition"
-msgstr "日本語の意味"
+msgstr "意味（日本語）"
 
 #: share/gjitenkai/ui/worddic.ui:184
 msgid "Japanese Reading"
@@ -139,7 +147,7 @@ msgstr ""
 
 #: share/gjitenkai/ui/worddic.ui:1100
 msgid "Ok"
-msgstr "解りました！"
+msgstr ""
 
 #: share/gjitenkai/ui/worddic.ui:619 share/gjitenkai/ui/worddic.ui:1251
 msgid "Path"
