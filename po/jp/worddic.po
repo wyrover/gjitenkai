@@ -1,0 +1,188 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-19 10:17+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: share/gjitenkai/worddic.glade:1016
+msgid ""
+"<b>Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'</b>\n"
+"\n"
+"To start seaching you need an <i>EDICT dictionary file </i>. \n"
+"\n"
+"You can download one at the <a href=\"http://ftp.monash.edu.au/pub/"
+"nihongo/00INDEX.html#dic_fil\">Official EDICT website</a>\n"
+"\n"
+"Then add it in Gjiten Kai using the <b>Edit/Preferences Menu</b> \n"
+"<b>Worddic - Dictionaries - Add</b>\n"
+"\n"
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:451
+msgid "Activate Dark Theme"
+msgstr "壁紙　黒"
+
+#: share/gjitenkai/worddic.glade:506
+msgid "Active"
+msgstr "使用"
+
+#: share/gjitenkai/worddic.glade:572
+msgid "Add"
+msgstr "追加"
+
+#: share/gjitenkai/worddic.glade:836 share/gjitenkai/worddic.glade:908
+msgid "Any Matches"
+msgstr "全て"
+
+#: share/gjitenkai/worddic.glade:470
+msgid "Appearance"
+msgstr "デザイン"
+
+#: share/gjitenkai/worddic.glade:442
+msgid "Dark theme"
+msgstr "壁紙　黒"
+
+#: share/gjitenkai/worddic.glade:630
+msgid "Dictionaries"
+msgstr "辞書"
+
+#: share/gjitenkai/worddic.glade:600
+msgid "Edit"
+msgstr "編集"
+
+#: share/gjitenkai/worddic.glade:859
+msgid "End With Expression"
+msgstr "語末"
+
+#: share/gjitenkai/worddic.glade:1195
+msgid "Enter expression"
+msgstr "入力して下さい"
+
+#: share/gjitenkai/worddic.glade:824
+msgid "Exact Match"
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:742
+msgid "Gjiten Kai グジテン改 - Worddic"
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:114
+msgid "Gloss / Sub Gloss"
+msgstr "単語集"
+
+#: share/gjitenkai/worddic.glade:75
+msgid "Highlight Color"
+msgstr "マーカーの色"
+
+#: share/gjitenkai/worddic.glade:927
+msgid "History"
+msgstr "履歴"
+
+#: share/gjitenkai/worddic.glade:814
+msgid "Japanese"
+msgstr "日本語"
+
+#: share/gjitenkai/worddic.glade:88
+msgid "Japanese Definition"
+msgstr "日本語の意味"
+
+#: share/gjitenkai/worddic.glade:101
+msgid "Japanese Reading"
+msgstr "読み方"
+
+#: share/gjitenkai/worddic.glade:874
+msgid "Latin"
+msgstr "ローマ字"
+
+#: share/gjitenkai/worddic.glade:520
+msgid "Loaded"
+msgstr "ロードされました"
+
+#: share/gjitenkai/worddic.glade:494 share/gjitenkai/worddic.glade:1150
+msgid "Name"
+msgstr "名前"
+
+#: share/gjitenkai/worddic.glade:419
+msgid "Notes"
+msgstr "メモ"
+
+#: share/gjitenkai/worddic.glade:1056 share/gjitenkai/worddic.glade:1101
+msgid "OK"
+msgstr ""
+
+#: share/gjitenkai/worddic.glade:993
+msgid "Okey ! "
+msgstr "解りました！"
+
+#: share/gjitenkai/worddic.glade:535 share/gjitenkai/worddic.glade:1129
+msgid "Path"
+msgstr "パス"
+
+#: share/gjitenkai/worddic.glade:791
+msgid "Preferences"
+msgstr "設定"
+
+#: share/gjitenkai/worddic.glade:692
+msgid "Record search history"
+msgstr "履歴に残す"
+
+#: share/gjitenkai/worddic.glade:586
+msgid "Remove"
+msgstr "消去"
+
+#: share/gjitenkai/worddic.glade:715
+msgid "Search Options"
+msgstr "検索方法"
+
+#: share/gjitenkai/worddic.glade:660
+msgid "Search for Hiragana on Katakana input"
+msgstr "カタカナで入力ひらがなも探す"
+
+#: share/gjitenkai/worddic.glade:644
+msgid "Search for Katakana on Hiragana input"
+msgstr "ひらがなで入力カタカナも探す"
+
+#: share/gjitenkai/worddic.glade:847
+msgid "Start With Expression"
+msgstr "語頭"
+
+#: share/gjitenkai/worddic.glade:676
+msgid "Verbs and Adjectives deinflection"
+msgstr "語尾変化"
+
+#: share/gjitenkai/worddic.glade:884
+msgid "Whole Expression"
+msgstr "文章の中含む"
+
+#: share/gjitenkai/worddic.glade:897
+msgid "Whole Words"
+msgstr "単語のみ"
+
+#: share/gjitenkai/worddic.glade:781
+msgid "_Edit"
+msgstr "編集"
+
+#: share/gjitenkai/worddic.glade:757
+msgid "_File"
+msgstr "ファイル"
+
+#: share/gjitenkai/worddic.glade:941
+msgid "_Help"
+msgstr "ヘルプ"
+
+#: share/gjitenkai/worddic.glade:804
+msgid "_Search"
+msgstr "検索"
