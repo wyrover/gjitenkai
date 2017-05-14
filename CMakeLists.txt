@@ -129,11 +129,10 @@ install(
 ###Japanese
 install(
   FILES
-  po/jp/${PROJECT_NAME}.mo
-  po/jp/worddic.mo
-  po/jp/kanjidic.mo
-  DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/jp/LC_MESSAGES/)
-
+  po/ja/${PROJECT_NAME}.mo
+  po/ja/worddic.mo
+  po/ja/kanjidic.mo
+  DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/ja/LC_MESSAGES/)
 
 ## Install kanjidic
 install(
