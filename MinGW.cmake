@@ -132,7 +132,7 @@ if(STANDALONE)
     #pixbuf cache file and dll
     install(
       DIRECTORY ${GLIB_PREFIX}/lib/gdk-pixbuf-2.0
-      DESTINATION ${CMAKE_INSTALL_DATADIR}/../lib/
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}
       )
   endif(ICONS)
 endif(STANDALONE)
