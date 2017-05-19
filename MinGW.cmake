@@ -63,7 +63,12 @@ if(STANDALONE)
     ${GTK_BIN}/libxml2-2.dll
     ${GTK_BIN}/zlib1.dll
     ${GTK_BIN}/libcroco-0.6-3.dll
-    ${GTK_BIN}/librsvg-2-2.dll)
+    ${GTK_BIN}/librsvg-2-2.dll
+	${GTK_BIN}/libsoup-2.4-1.dll
+	${GTK_BIN}/libpcre-1.dll
+	${GTK_BIN}/libgraphite2.dll
+	${GTK_BIN}/libsqlite3-0.dll
+	)
 
   install(
     PROGRAMS ${GTK_LIBS}
@@ -126,12 +131,8 @@ if(STANDALONE)
 
     #pixbuf cache file and dll
     install(
-      FILES share/loaders.cache
-      DESTINATION ${CMAKE_INSTALL_DATADIR}/../lib/gdk-pixbuf-2.0/2.10.0/
-      )
-    install(
-      FILES ${GLIB_PREFIX}/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.dll
-      DESTINATION ${CMAKE_INSTALL_DATADIR}/../lib/gdk-pixbuf-2.0/2.10.0/loaders/
+      DIRECTORY ${GLIB_PREFIX}/lib/gdk-pixbuf-2.0
+      DESTINATION ${CMAKE_INSTALL_DATADIR}/../lib/
       )
   endif(ICONS)
 endif(STANDALONE)
