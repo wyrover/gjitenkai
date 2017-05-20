@@ -5,7 +5,12 @@
 
 int main( int argc, char **argv )
 {
-  bindtextdomain("worddic", LOCALDIR);
+  const gchar * const * dirs = g_get_system_data_dirs();
+  gchar *rest = g_strjoin(G_DIR_SEPARATOR_S, "locale", NULL);
+  const gchar* localdir = get_file(dirs, rest);
+  g_free(rest);
+
+  bindtextdomain("worddic", localdir);
   textdomain("worddic");
 
   kanjidic kanjidic;

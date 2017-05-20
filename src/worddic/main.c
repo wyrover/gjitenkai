@@ -5,8 +5,13 @@
 
 int main( int argc, char **argv )
 {
+  const gchar * const * dirs = g_get_system_data_dirs();
+  gchar *rest = g_strjoin(G_DIR_SEPARATOR_S, "locale", NULL);
+  const gchar* localdir = get_file(dirs, rest);
+  g_free(rest);
+
   // the system locale data base.
-  bindtextdomain("worddic", GJITENKAI_LOCALDIR);
+  bindtextdomain("worddic", localdir);
 
   // Set the current default message catalog to DOMAINNAME.
   textdomain("worddic");
