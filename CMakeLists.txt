@@ -33,9 +33,6 @@ file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 if(MINGW)
   include(MinGW.cmake)
 else()
-  set(SHARE_DIR ${CMAKE_INSTALL_FULL_DATADIR})
-  set(LOCALE_DIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
-
   # at install, copy the software gschema.xml to the glib gschemas directory
   install(
     FILES ${SOURCE_SHARE}/${GLIB_SCHEMADIR}/${PROJECT_NAME}.gschema.xml

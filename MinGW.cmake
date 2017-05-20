@@ -7,9 +7,6 @@ if(NSIS)
   set (STANDALONE ON)
 endif()
 
-set(SHARE_DIR "../share")
-set(LOCALE_DIR ${SHARE_DIR}/${PROJECT_NAME}/locale)
-
 # Add MINGW flag to use in source code
 add_definitions(-DMINGW)
 #prevent prompt to open
