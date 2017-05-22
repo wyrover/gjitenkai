@@ -20,13 +20,15 @@ int main( int argc, char **argv)
   const gchar* localdir = get_file(dirs, rest);
   g_free(rest);
 
-  bindtextdomain("gjitenkai", localdir);
-  textdomain("gjitenkai");
-  bindtextdomain("worddic", localdir);
-  textdomain("worddic");
-  bindtextdomain("kanjidic", localdir);
-  textdomain("kanjidic");
-
+  if(localdir){
+    bindtextdomain("gjitenkai", localdir);
+    textdomain("gjitenkai");
+    bindtextdomain("worddic", localdir);
+    textdomain("worddic");
+    bindtextdomain("kanjidic", localdir);
+    textdomain("kanjidic");
+  }
+  
   gjitenkai gjitenkai;
   gjitenkai.worddic = g_new0(worddic, 1);
   gjitenkai.kanjidic = g_new0(kanjidic, 1);
