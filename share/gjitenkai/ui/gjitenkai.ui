@@ -86,7 +86,7 @@ Original Gjiten developer Botond Botyanszki </property>
   </object>
   <object class="GtkWindow" id="gjiten">
     <property name="can_focus">False</property>
-    <property name="hide_titlebar_when_maximized">True</property>
+    <property name="hide_titlebar_when_maximized">false</property>
     <property name="icon">../kai.png</property>
     <signal name="destroy" handler="gtk_main_quit" swapped="no"/>
     <child>
