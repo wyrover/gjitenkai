@@ -54,8 +54,8 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
 
   // check the dictionary magic number
   const gchar* magic = "　？？？";
-  if(!informations||
-     !g_str_has_prefix(informations, magic)){
+  if(!dicfile->informations||
+     !g_str_has_prefix(dicfile->informations, magic)){
     g_printf("Invalid EDICT file (wrong magic number) for file %s\n", dicfile->path);
     dicfile->informations = g_strdup("Invalid EDICT file");
     dicfile->type = NULL;
@@ -65,7 +65,7 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
     return FALSE;
   }
 
-  gchar **information_v = g_strsplit(informations, "/", 4);
+  gchar **information_v = g_strsplit(dicfile->informations, "/", 4);
   dicfile->type = information_v[1];
   dicfile->copyright = information_v[2];
   dicfile->creation_date = information_v[3];
