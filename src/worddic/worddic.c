@@ -41,6 +41,12 @@ void worddic_init (worddic *p_worddic){
 
   init_search_menu(p_worddic);
 
+  //dark theme
+  GtkSettings *gsettings = gtk_settings_get_default ();
+  g_object_set (G_OBJECT (gsettings),
+                "gtk-application-prefer-dark-theme", p_worddic->conf->dark_theme,
+                NULL);
+
   //highlight style of the result text buffer
   GtkTextBuffer *textbuffer_search_results = (GtkTextBuffer*)
     gtk_builder_get_object(p_worddic->definitions,
