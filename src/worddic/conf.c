@@ -69,11 +69,8 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   worddic_conf_load_unit_style(settings, &conf->notes, "notes");
 
   //dark theme
-  GtkSettings *gsettings = gtk_settings_get_default ();
-  g_object_get (G_OBJECT (gsettings),
-                "gtk-application-prefer-dark-theme", &conf->dark_theme,
-                NULL);
-  
+  conf->dark_theme = g_settings_get_boolean(settings, "dark-theme");
+
   //highlight color
   conf->results_highlight_color = g_new0(GdkRGBA, 1);
   gdk_rgba_parse(conf->results_highlight_color, str_results_highlight_color);
@@ -194,5 +191,9 @@ void worddic_conf_save(GSettings *settings,
   
   if(fields & WSE_NOTES){
     worddic_conf_save_unit_style(settings, &conf->notes, "notes");
+  }
+
+  if(fields & WSE_DARK_THEME){
+    g_settings_set_boolean(settings, "dark-theme", conf->dark_theme);
   }
 }
