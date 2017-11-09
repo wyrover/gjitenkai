@@ -6,19 +6,29 @@
 The goal of this rewrite of Gjiten is to have a Gjiten with new features and a
 new interface, while keeping the original overall design. 
 
-#Prerequistes
+# Prerequistes
 
-# Edict 
+## Edict 
 To use the worddic (word dictionary) you will need an EDICT dictionary file.
 Get one from the Official EDICT website at 
 http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil
 
 Then set the worrdic file in Edit/preferences/ Worddic - Dictionary - New - Browse ...  
 
-# Other
+## Other
 
 You also need Japanese font and a Japanse input system. See your OS documentation
 for more details. 
+
+# Documentation
+
+A documentation in available in the project Wiki 
+
+https://github.com/odrevet/gjitenkai/wiki/
+
+## Learn how to search expressions efficiently
+
+By reading the use case located at https://github.com/odrevet/gjitenkai/wiki/Search-expressions
 
 # Differences with the Original Gjiten 2.6
 
@@ -31,12 +41,10 @@ for more details.
 * Autoexpend kanji to it's radical list
 * Threaded dictionary loading 
 
-# Links 
-* Page (download links)
+# Web site  
+
 http://odrevet.github.io/gjitenkai/
 
-* Wiki (Documentation)
-https://github.com/odrevet/gjitenkai/wiki/
 
 # Credits
 * Gjiten kai developer (2015 - ...) Olivier Drevet
