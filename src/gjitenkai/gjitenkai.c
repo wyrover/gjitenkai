@@ -11,7 +11,6 @@ void gjitenkai_init (gjitenkai *gjitenkai){
 				 UI_DEFINITIONS_FILE_GJITENKAI,
 				 NULL);
   gchar* filename = get_file(dirs, rest);
-  printf("GJITENKAI FILENAME %s\nREST %s\n", filename, rest);
   g_free(rest);
 
   GError *err = NULL;
@@ -20,9 +19,6 @@ void gjitenkai_init (gjitenkai *gjitenkai){
 
   if(!filename){
     g_printerr("Impossible to find UI definition file at %s", rest);
-  }
-  else{
-    printf("Loading ui definition file %s\n", filename);
   }
 
   g_free(filename);
