@@ -17,7 +17,7 @@ int main( int argc, char **argv)
 {
   const gchar * const * dirs = g_get_system_data_dirs();
   gchar *rest = g_strjoin(G_DIR_SEPARATOR_S, "locale", NULL);
-  const gchar* localdir = get_file(dirs, rest);
+  gchar* localdir = get_file(dirs, rest);
   g_free(rest);
 
   if(localdir){
@@ -28,7 +28,9 @@ int main( int argc, char **argv)
     bindtextdomain("kanjidic", localdir);
     textdomain("kanjidic");
   }
-  
+
+  g_free(localdir);
+
   gjitenkai gjitenkai;
   gjitenkai.worddic = g_new0(worddic, 1);
   gjitenkai.kanjidic = g_new0(kanjidic, 1);

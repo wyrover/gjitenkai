@@ -9,7 +9,7 @@ void kanjidic_init (kanjidic *kanjidic){
 			  "ui",
 			  UI_DEFINITIONS_FILE_KANJIDIC,
 			  NULL);
-  const gchar* filename = get_file(dirs, rest);
+  gchar* filename = get_file(dirs, rest);
   g_free(rest);
 
   GError *err = NULL;
@@ -23,6 +23,9 @@ void kanjidic_init (kanjidic *kanjidic){
     g_error_free (err);
     gtk_main_quit ();
   }
+
+  g_free(filename);
+
   gtk_builder_connect_signals (kanjidic->definitions, kanjidic);
 
   //init the configuration handler

@@ -7,7 +7,7 @@ void worddic_init (worddic *p_worddic){
 			  "ui",
 			  UI_DEFINITIONS_FILE_WORDDIC,
 			  NULL);
-  const gchar* filename = get_file(dirs, rest);
+  gchar* filename = get_file(dirs, rest);
   g_free(rest);
 
   GError *err = NULL;
@@ -21,6 +21,9 @@ void worddic_init (worddic *p_worddic){
     g_error_free (err);
     gtk_main_quit ();
   }
+
+  g_free(filename);
+
   gtk_builder_connect_signals (p_worddic->definitions, p_worddic);
 
   //set the loading dictionary thread to NULL

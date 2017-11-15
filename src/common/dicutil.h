@@ -46,9 +46,13 @@ size_t getline(char **lineptr, size_t *n, FILE *stream);
 #endif
 
 /**
-   Search for filename in dirs and return the path of the first match or `NULL` if the file was
-   not found
+   Search for filename in dirs and return the path of the first match or `NULL`
+   if the file was not found
+   If the file is found relative to the current posiiton then the relative path
+   will be returned
+
+   The result is dynamically allocated and should be freed
  */
-const gchar* get_file(const gchar* const* dirs, const gchar* filename);
+gchar* get_file(const gchar* const* dirs, const gchar* filename);
 
 #endif

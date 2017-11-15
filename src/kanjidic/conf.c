@@ -12,7 +12,7 @@ KanjidicConfig *kanjidic_conf_load(kanjidic *p_kanjidic) {
   if ((conf->kanjidic->path == NULL) || (strlen(conf->kanjidic->path)) == 0) {
     const gchar * const * dirs = g_get_system_data_dirs();
     gchar *rest = g_strjoin(G_DIR_SEPARATOR_S, PROJECT_NAME, "kanjidic.utf8", NULL);
-    const gchar* filename = get_file(dirs, rest);
+    gchar* filename = get_file(dirs, rest);
     g_free(rest);
     conf->kanjidic->path = filename;
   }

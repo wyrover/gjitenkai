@@ -14,7 +14,7 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
 
   const gchar * const * dirs = g_get_system_data_dirs();
   gchar *rest = g_strjoin(G_DIR_SEPARATOR_S, PROJECT_NAME, RADKFILE_NAME, NULL);
-  const gchar* filename = get_file(dirs, rest);
+  gchar* filename = get_file(dirs, rest);
   g_free(rest);
 
   gchar *radkfile=NULL;
@@ -28,6 +28,8 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
     kanji_info_hash = NULL;
     return NULL;
   }
+
+  g_free(filename);
 
   radkfile_end = radkfile + strlen(radkfile);
   radkfile_ptr = radkfile;

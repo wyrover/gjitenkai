@@ -10,12 +10,23 @@ void gjitenkai_init (gjitenkai *gjitenkai){
 				"ui",
 				 UI_DEFINITIONS_FILE_GJITENKAI,
 				 NULL);
-  const gchar* filename = get_file(dirs, rest);
+  gchar* filename = get_file(dirs, rest);
+  printf("GJITENKAI FILENAME %s\nREST %s\n", filename, rest);
   g_free(rest);
 
   GError *err = NULL;
   gjitenkai->definitions = gtk_builder_new ();
   gtk_builder_add_from_file (gjitenkai->definitions, filename, &err);
+
+  if(!filename){
+    g_printerr("Impossible to find UI definition file at %s", rest);
+  }
+  else{
+    printf("Loading ui definition file %s\n", filename);
+  }
+
+  g_free(filename);
+
   if (err != NULL) {
     g_printerr
       ("Error while loading gjitenkai definitions file: %s\n",
@@ -24,7 +35,6 @@ void gjitenkai_init (gjitenkai *gjitenkai){
     gtk_main_quit ();
   }
   gtk_builder_connect_signals (gjitenkai->definitions, gjitenkai);
-
 }
 
 void gjitenkai_menu_history_append(gjitenkai *p_gjitenkai, const gchar *text){

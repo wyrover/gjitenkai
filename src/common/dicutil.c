@@ -366,10 +366,10 @@ size_t getline(char** lineptr, size_t *n, FILE *stream){
 
 #endif
 
-const gchar* get_file(const gchar* const *dirs, const gchar* rest){
-  gint i;
+gchar* get_file(const gchar* const *dirs, const gchar* rest){
+  if(g_file_test(rest, G_FILE_TEST_EXISTS))return g_strdup(rest);
   const gchar* res = NULL;
-  for (i = 0; dirs[i]; i++){
+  for (gint i = 0; dirs[i]; i++){
     res = g_strjoin (G_DIR_SEPARATOR_S, dirs[i], rest, NULL);
     if(g_file_test(res, G_FILE_TEST_EXISTS))return res;
     else g_free(res);

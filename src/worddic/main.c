@@ -7,7 +7,7 @@ int main( int argc, char **argv )
 {
   const gchar * const * dirs = g_get_system_data_dirs();
   gchar *rest = g_strjoin(G_DIR_SEPARATOR_S, "locale", NULL);
-  const gchar* localdir = get_file(dirs, rest);
+  gchar* localdir = get_file(dirs, rest);
   g_free(rest);
 
   // the system locale data base.
@@ -17,6 +17,8 @@ int main( int argc, char **argv )
   textdomain("worddic");
 
   worddic worddic;
+
+  g_free(localdir);
 
   gtk_init (&argc, &argv);
   worddic_init (&worddic);

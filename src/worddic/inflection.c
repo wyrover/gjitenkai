@@ -10,7 +10,7 @@ void init_inflection() {
 
   const gchar * const * dirs = g_get_system_data_dirs();
   gchar *rest = g_strjoin(G_DIR_SEPARATOR_S, PROJECT_NAME, VINFL_FILENAME, NULL);
-  const gchar* filename = get_file(dirs, rest);
+  gchar* filename = get_file(dirs, rest);
   g_free(rest);
 
   vinfl_start = NULL;
@@ -20,6 +20,8 @@ void init_inflection() {
   if(!vinfl_start){
     g_printf("cannot load verbe inflection file '%s'\n",  filename);
   }
+
+  g_free(filename);
 
   vinfl_end = vinfl_start + strlen(vinfl_start);
   vinfl_ptr = vinfl_start;
