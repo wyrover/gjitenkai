@@ -1,22 +1,12 @@
-#Gjiten kai - グジテン改
+# Gjiten kai - グジテン改
 
-<i>A new implementation of Gjiten, a Gnome japanese dictionary</i>
-
-#Links 
-* Page (download links)
-
-http://odrevet.github.io/gjitenkai/
-
-
-* Wiki (Documentation)
-
-https://github.com/odrevet/gjitenkai/wiki/
+<i>A modern re-implementation of Gjiten, a japanese dictionary</i>
 
 # Goal
 The goal of this rewrite of Gjiten is to have a Gjiten with new features and a
 new interface, while keeping the original overall design. 
 
-#Prerequistes
+# Prerequistes
 
 ## Edict 
 To use the worddic (word dictionary) you will need an EDICT dictionary file.
@@ -30,17 +20,31 @@ Then set the worrdic file in Edit/preferences/ Worddic - Dictionary - New - Brow
 You also need Japanese font and a Japanse input system. See your OS documentation
 for more details. 
 
+# Documentation
+
+A documentation in available in the project Wiki 
+
+https://github.com/odrevet/gjitenkai/wiki/
+
+## Learn how to search expressions efficiently
+
+By reading the use case located at https://github.com/odrevet/gjitenkai/wiki/Search-expressions
+
 # Differences with the Original Gjiten 2.6
 
 * Almost entierly rewritten from scratch
+* Very fast (even on older computer)
 * Regex search
 * Configurable output color, font and character separator
 * EDICT2 support
-* Optimized for speed
 * Use GTK3 with Glade
 * Autoexpend kanji to it's radical list
-* Threaded dictionary loading
-* a lot more ! 
+* Threaded dictionary loading 
+
+# Web site  
+
+http://odrevet.github.io/gjitenkai/
+
 
 # Credits
 * Gjiten kai developer (2015 - ...) Olivier Drevet
