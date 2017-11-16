@@ -19,7 +19,6 @@ void radical_list_init(kanjidic *kanjidic){
   df = pango_font_description_from_string("Monospace");
   pango_font_description_set_size(df, 15 * PANGO_SCALE);
 
-
   for (;
        radical_list != NULL;
        radical_list = g_slist_next(radical_list)) {
@@ -30,7 +29,7 @@ void radical_list_init(kanjidic *kanjidic){
     //the stroke count has change: display a label with the new count and
     //update the last stroke count
     if(last_strockes_count != strokes_count){
-      gchar* str_stroke;
+      gchar *str_stroke;
       str_stroke = g_strdup_printf("<span font_weight='bold' fgcolor='#EE0101'>%d</span>",
                                    strokes_count);
 
@@ -126,7 +125,7 @@ void radical_list_update_sensitivity(kanjidic *kanjidic){
           kptr = g_utf8_next_char(kptr);
         }
 
-        //list of matching kanji of to display in a tooltip
+        //list of matching kanji in a  tooltip
         for(kanji_list_browser=kanji_match_list;
             kanji_list_browser != NULL;
             kanji_list_browser = kanji_list_browser->next){
@@ -136,8 +135,11 @@ void radical_list_update_sensitivity(kanjidic *kanjidic){
       }
 
       //set the tootlip with the matching radical list
-      gtk_widget_set_tooltip_text (GTK_WIDGET(button),
-                                   kanji_match->str);
+      char *str_tooltip_markup = g_strdup_printf("<span size='xx-large'>%s</span>",
+						 kanji_match->str);
+      gtk_widget_set_tooltip_markup (GTK_WIDGET(button),
+				     str_tooltip_markup);
+      g_free(str_tooltip_markup);
 
       //set the sensitivity
       gtk_widget_set_sensitive(GTK_WIDGET(button), sensitivity);
