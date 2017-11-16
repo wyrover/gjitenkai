@@ -17,7 +17,7 @@ void radical_list_init(kanjidic *kanjidic){
 
   PangoFontDescription *df;
   df = pango_font_description_from_string("Monospace");
-  pango_font_description_set_size(df, 20 * PANGO_SCALE);
+  pango_font_description_set_size(df, 15 * PANGO_SCALE);
 
 
   for (;
