@@ -48,8 +48,7 @@ void radical_list_init(kanjidic *kanjidic){
 
     //add the button
     GtkButton *button_radical = (GtkButton*)gtk_button_new_with_label(radical);
-    gtk_widget_override_font(GTK_WIDGET(button_radical), df);
-    gtk_widget_set_name(button_radical, "bushu");
+    gtk_widget_set_name(GTK_WIDGET(button_radical), "bushu");
 
     g_signal_connect(button_radical,
                      "clicked",
