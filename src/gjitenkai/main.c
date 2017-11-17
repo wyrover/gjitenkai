@@ -13,6 +13,11 @@ extern void on_search_expression_activate(GtkEntry *entry,
 extern void on_gjitenkai_search_expression_activate(GtkEntry *entry,
                                                      gjitenkai *gjitenkai);
 
+
+const gchar* home = "style.css";
+
+GError *error = 0;
+
 int main( int argc, char **argv)
 {
   const gchar * const * dirs = g_get_system_data_dirs();
@@ -37,6 +42,10 @@ int main( int argc, char **argv)
 
   //init gtk
   gtk_init (&argc, &argv);
+
+  GtkCssProvider *provider;
+  GdkDisplay *display;
+  GdkScreen *screen;
 
   //init application
   gjitenkai_init (&gjitenkai);
@@ -204,6 +213,16 @@ int main( int argc, char **argv)
                    "activate",
                    G_CALLBACK(on_gjitenkai_search_expression_activate),
                    &gjitenkai);
+
+  provider = gtk_css_provider_new();
+  display = gdk_display_get_default ();
+  screen = gdk_display_get_default_screen (display);
+  gtk_style_context_add_provider_for_screen (screen,
+					     GTK_STYLE_PROVIDER (provider),
+					     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  GError *error = 0;
+  gtk_css_provider_load_from_file(provider, g_file_new_for_path(home), &error);
+
 
   //show and main loop
   gtk_widget_show_all ((GtkWidget*)window);
