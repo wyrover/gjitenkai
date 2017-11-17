@@ -42,13 +42,15 @@ void radical_list_init(kanjidic *kanjidic){
       last_strockes_count = strokes_count;
 
       i++;
-      if(i%RADICAL_PER_ROW == 0){j++;i=0;}
+      if(i %RADICAL_PER_ROW == 0){j++;i=0;}
 
     }
 
     //add the button
     GtkButton *button_radical = (GtkButton*)gtk_button_new_with_label(radical);
-    gtk_widget_modify_font(button_radical, df);
+    gtk_widget_override_font(button_radical, df);
+
+
 
     g_signal_connect(button_radical,
                      "clicked",
@@ -60,9 +62,12 @@ void radical_list_init(kanjidic *kanjidic){
     button_list = g_slist_append(button_list, button_radical);
 
     i++;
-    if(i%RADICAL_PER_ROW == 0){j++;i=0;}
+    if(i % RADICAL_PER_ROW == 0){j++;i=0;}
 
   }
+
+  pango_font_description_free(df);
+
 }
 
 void radical_list_update_sensitivity(kanjidic *kanjidic){
@@ -74,6 +79,9 @@ void radical_list_update_sensitivity(kanjidic *kanjidic){
 
   //point to the head of the button list
   GSList *l=button_list;
+
+  //is the kanji bouton's kanji is presnet in the kanji list
+  gboolean kanji_in_list = FALSE;
 
   //if no radicals, set all buttons sensitivity to true
   if(!strcmp(radicals, "")){
@@ -104,7 +112,8 @@ void radical_list_update_sensitivity(kanjidic *kanjidic){
 
       //get the kanji list for the entered radical and the radical of the button
       GSList *kanji_match_list = get_kanji_by_radical(srch,
-                                                     kanjidic->rad_info_hash);
+						      kanjidic->rad_info_hash);
+
       if(kanji_match_list == NULL){
         sensitivity = FALSE;
       }
@@ -113,13 +122,19 @@ void radical_list_update_sensitivity(kanjidic *kanjidic){
 
         sensitivity = TRUE;
 
-        //if this kanji button is alderly in the search list, set to unsensitive
+        //if this kanji button is alderly in the search list,
+	//set it's style to reclect that and set it to unsensitive
         const gchar *kptr=radicals;
         gunichar radical_in_searchentry;
         gunichar radical_clicked = g_utf8_get_char(cur_radical);
-        while ( (radical_in_searchentry = g_utf8_get_char(kptr)) ) {
+        while ((radical_in_searchentry = g_utf8_get_char(kptr))){
           if(radical_clicked == radical_in_searchentry){
             sensitivity = FALSE;
+
+	    GdkColor color;
+	    gdk_color_parse ("blue", &color);
+	    gtk_widget_modify_fg(GTK_WIDGET(button), GTK_STATE_NORMAL, &color);
+
             break;
           }
           kptr = g_utf8_next_char(kptr);
@@ -143,6 +158,12 @@ void radical_list_update_sensitivity(kanjidic *kanjidic){
 
       //set the sensitivity
       gtk_widget_set_sensitive(GTK_WIDGET(button), sensitivity);
+
+      if(sensitivity){
+	GdkColor color;
+	gdk_color_parse ("light green", &color);
+	gtk_widget_modify_fg(GTK_WIDGET(button), GTK_STATE_NORMAL, &color);
+	}
 
       //free memory
       g_string_free(kanji_match, TRUE);
