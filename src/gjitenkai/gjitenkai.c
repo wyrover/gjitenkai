@@ -5,12 +5,12 @@ extern G_MODULE_EXPORT void on_gjitenkai_menuitem_history_click(GtkWidget *menui
 
 void gjitenkai_init (gjitenkai *gjitenkai){
   const gchar * const * dirs = g_get_system_data_dirs();
-  const gchar* rest = g_strjoin(G_DIR_SEPARATOR_S,
-				 PROJECT_NAME,
-				"ui",
-				 UI_DEFINITIONS_FILE_GJITENKAI,
-				 NULL);
-  gchar* filename = get_file(dirs, rest);
+  gchar* rest = g_strjoin(G_DIR_SEPARATOR_S,
+			  PROJECT_NAME,
+			  "ui",
+			  UI_DEFINITIONS_FILE_GJITENKAI,
+			  NULL);
+  gchar* filename = get_file(dirs, (const gchar*) rest);
   g_free(rest);
 
   GError *err = NULL;

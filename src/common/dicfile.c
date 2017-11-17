@@ -16,7 +16,7 @@ gboolean dicfile_load(GjitenDicfile* dicfile, GjitenDicfile *mmaped_dicfile){
   //if no mapped dictionary, load into memory from the dic's file descriptor
   if (mmaped_dicfile == NULL) {
     mmaped_dicfile = dicfile;
-    gssize length;
+    long unsigned int length;
     g_file_get_contents (dicfile->path, &dicfile->mem, &length, NULL);
 
     if (dicfile->mem == NULL) gjiten_abort_with_msg("mmap() failed\n");

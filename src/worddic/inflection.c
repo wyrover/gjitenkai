@@ -14,7 +14,7 @@ void init_inflection() {
   g_free(rest);
 
   vinfl_start = NULL;
-  gssize length;
+  long unsigned int length;
   g_file_get_contents (filename, &vinfl_start, &length, NULL);
 
   if(!vinfl_start){

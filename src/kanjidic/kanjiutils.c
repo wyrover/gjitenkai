@@ -18,7 +18,7 @@ GSList* load_radkfile(GHashTable **pp_rad_info_hash,
   g_free(rest);
 
   gchar *radkfile=NULL;
-  gssize length;
+  long unsigned int length;
   g_file_get_contents (filename, &radkfile, &length, NULL);
 
   if (radkfile == NULL){
