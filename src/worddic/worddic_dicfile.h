@@ -54,6 +54,9 @@ typedef struct _WorddicDicfile {
   //tells if the dictionary file is gzipped
   gboolean is_gz;
 
+  //tells if the dictionarry file is jmdict or edict
+  gboolean is_jmdict;
+
   //first line of the edict dictionary with:
   //magic number / Dictionary type / Copyright / Creation date
   gchar *informations;
