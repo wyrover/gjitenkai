@@ -7,6 +7,7 @@
 #include "print_entry.h"
 #include "../src/worddic/worddic_dicfile.h"
 #include "../src/worddic/dicentry.h"
+#include "../src/worddic/gloss.h"
 
 WorddicDicfile *dicfile;
 
@@ -14,19 +15,22 @@ WorddicDicfile *dicfile;
    return a GjitenDicEntry from an entry in a JMdict
    cur must point to an entry
  */
-GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
+GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur){
   GjitenDicentry* dicentry = g_new0 (GjitenDicentry, 1);
+  gloss *p_gloss = g_new0(gloss, 1);
+  dicentry->gloss = g_slist_prepend(dicentry->gloss, p_gloss);
   xmlChar *key;
   cur = cur->xmlChildrenNode;
   while (cur != NULL) {
-    g_printf("> %s\n", cur->name);
+    //g_printf("> %s\n", cur->name);
     if ((!xmlStrcmp(cur->name, (const xmlChar *)"sense"))){
       xmlNodePtr child_of_sense = cur->xmlChildrenNode;
       while (child_of_sense != NULL){
-	g_printf(">> %s\n", (const xmlChar *)child_of_sense->name);
+	//g_printf(">> %s\n", (const xmlChar *)child_of_sense->name);
 
 	if((!xmlStrcmp(child_of_sense->name, (const xmlChar *)"gloss"))){
-	  g_printf(">>> %s\n", xmlNodeGetContent(child_of_sense));
+	  gchar *p_gloss_content = xmlNodeGetContent(child_of_sense);
+	  p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss, p_gloss_content);
 	}
 
 	child_of_sense = child_of_sense->next;
@@ -64,7 +68,8 @@ void dicfile_parse_jmdict(char *filepath){
   cur = cur->xmlChildrenNode;
   while (cur != NULL) {
     if ((!xmlStrcmp(cur->name, (const xmlChar *)"entry"))){
-      parse_entry_jmdict(doc, cur);
+      GjitenDicentry *dicentry = parse_entry_jmdict(cur);
+      dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
     }
 
     cur = cur->next;
@@ -74,21 +79,20 @@ void dicfile_parse_jmdict(char *filepath){
 
 int main( int argc, char **argv ){
   g_printf("load a jmdict dictionary XML file.\n parameters are:\n\
-'Dicionary path'\n						  \
+'Dicionary path'\n\
 'whatever second argument to print all entries'\n");
-
-  dicfile = g_new0(WorddicDicfile, 1);
 
   char *path = argv[1];
   int print_all = FALSE;
   if(argc > 2)print_all = TRUE;
 
+  dicfile = g_new0(WorddicDicfile, 1);
   dicfile_parse_jmdict(path);
 
-  /*  WorddicDicfile *dicfile = g_new0(WorddicDicfile, 1);
+  /*WorddicDicfile *dicfile = g_new0(WorddicDicfile, 1);
   dicfile->path = g_strdup(path);
   worddic_dicfile_open(dicfile);
-  worddic_dicfile_parse_all(dicfile);
+  worddic_dicfile_parse_all(dicfile);*/
 
   if(print_all){
     //print all entries
@@ -100,7 +104,7 @@ int main( int argc, char **argv ){
     }
   }
 
-  worddic_dicfile_close(dicfile);
-  worddic_dicfile_free(dicfile);*/
+  //worddic_dicfile_close(dicfile);
+  //worddic_dicfile_free(dicfile);
   return 1;
 }
