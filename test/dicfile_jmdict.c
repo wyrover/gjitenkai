@@ -21,15 +21,15 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
   while (cur != NULL) {
     g_printf("> %s\n", cur->name);
     if ((!xmlStrcmp(cur->name, (const xmlChar *)"sense"))){
-      xmlNodePtr ccur = cur->xmlChildrenNode;
-      while (ccur != NULL){
-	g_printf(">> %s\n", (const xmlChar *)ccur->name);
+      xmlNodePtr child_of_sense = cur->xmlChildrenNode;
+      while (child_of_sense != NULL){
+	g_printf(">> %s\n", (const xmlChar *)child_of_sense->name);
 
-	if((!xmlStrcmp(ccur->name, (const xmlChar *)"gloss"))){
-	  g_printf(">>> %s\n", xmlNodeGetContent(cur));
+	if((!xmlStrcmp(child_of_sense->name, (const xmlChar *)"gloss"))){
+	  g_printf(">>> %s\n", xmlNodeGetContent(child_of_sense));
 	}
 
-	ccur = ccur->next;
+	child_of_sense = child_of_sense->next;
       }
 
       //g_printf(">> %s\n", xmlNodeGetContent(cur));
