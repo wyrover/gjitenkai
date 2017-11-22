@@ -11,7 +11,7 @@
 GSList *button_list;
 
 /**
-   declaration of a callback funcion defined in callbacks.c 
+   declaration of a callback funcion defined in callbacks.c
  */
 extern void on_radical_button_clicked(GtkButton *button, kanjidic *kanjidic);
 
@@ -20,6 +20,6 @@ extern void on_radical_button_clicked(GtkButton *button, kanjidic *kanjidic);
  */
 void radical_list_init(kanjidic *kanjidic);
 
-void radical_list_update_sensitivity(kanjidic *kanjidic);
+void radical_buttons_update(kanjidic *kanjidic);
 
 #endif

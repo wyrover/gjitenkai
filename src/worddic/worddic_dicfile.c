@@ -126,7 +126,7 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
   }
 
   if(utf_line){
-    GjitenDicentry* dicentry = parse_line(utf_line);
+    GjitenDicentry *dicentry = parse_line(utf_line);
     dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
     g_free(utf_line);
   }

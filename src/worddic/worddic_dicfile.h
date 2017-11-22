@@ -78,11 +78,11 @@ void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile);
    list at each call.
 
    @Return the result list.
- */
+*/
 static inline GList *add_match(GMatchInfo *match_info,
-		 gchar *comment,
-		 GjitenDicentry* dicentry,
-		 GList *results){
+			       gchar *comment,
+			       GjitenDicentry* dicentry,
+			       GList *results){
   //fetch the matched string
   gchar *word = g_match_info_fetch (match_info, 0);
 
@@ -107,7 +107,7 @@ static inline GList *add_match(GMatchInfo *match_info,
    0 search in glosses
    1 search in japanese definition and reading
    -1 auto detect
- */
+*/
 GList *dicfile_search(WorddicDicfile *dicfile,
                       search_expression *p_seach_expression,
                       gchar *comment,
