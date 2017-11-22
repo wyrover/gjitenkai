@@ -21,28 +21,42 @@ GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur){
   dicentry->gloss = g_slist_prepend(dicentry->gloss, p_gloss);
   xmlChar *key;
   cur = cur->xmlChildrenNode;
-  while (cur != NULL) {
-    //g_printf("> %s\n", cur->name);
+  while (cur) {
     if ((!xmlStrcmp(cur->name, (const xmlChar *)"sense"))){
-      xmlNodePtr child_of_sense = cur->xmlChildrenNode;
-      while (child_of_sense != NULL){
-	//g_printf(">> %s\n", (const xmlChar *)child_of_sense->name);
+      xmlNodePtr child = cur->xmlChildrenNode;
 
-	if((!xmlStrcmp(child_of_sense->name, (const xmlChar *)"gloss"))){
-	  gchar *p_gloss_content = xmlNodeGetContent(child_of_sense);
-	  p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss, p_gloss_content);
+      while (child){
+	if((!xmlStrcmp(child->name, (const xmlChar *)"gloss"))){
+	  gchar *content = xmlNodeGetContent(child);
+	  p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss, content);
 	}
 
-	child_of_sense = child_of_sense->next;
+	child = child->next;
       }
-
-      //g_printf(">> %s\n", xmlNodeGetContent(cur));
-      //dicentry->gloss = g_slist_prepend(dicentry->gloss, p_gloss);
-
-      //key = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
-      //printf("keyword: %s\n", key);
-      //xmlFree(key);
     }
+    else if ((!xmlStrcmp(cur->name, (const xmlChar *)"k_ele"))){
+      xmlNodePtr child = cur->xmlChildrenNode;
+
+      while (child){
+	if((!xmlStrcmp(child->name, (const xmlChar *)"keb"))){
+	  gchar *content = xmlNodeGetContent(child);
+	  dicentry->jap_reading = g_slist_prepend(dicentry->jap_reading, content);
+	}
+	child = child->next;
+      }
+    }
+    else if ((!xmlStrcmp(cur->name, (const xmlChar *)"r_ele"))){
+      xmlNodePtr child = cur->xmlChildrenNode;
+
+      while (child){
+	if((!xmlStrcmp(child->name, (const xmlChar *)"reb"))){
+	  gchar *content = xmlNodeGetContent(child);
+	  dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition, content);
+	}
+	child = child->next;
+      }
+    }
+
     cur = cur->next;
   }
   return dicentry;
