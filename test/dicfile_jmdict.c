@@ -30,6 +30,12 @@ GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur){
 	  gchar *content = xmlNodeGetContent(child);
 	  p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss, content);
 	}
+	else if((!xmlStrcmp(child->name, (const xmlChar *)"pos")) ||
+		(!xmlStrcmp(child->name, (const xmlChar *)"misc"))){
+	  gchar *content = xmlNodeGetContent(child);
+	  p_gloss->general_informations = g_slist_prepend(p_gloss->general_informations, content);
+	}
+
 
 	child = child->next;
       }
