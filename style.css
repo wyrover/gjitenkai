@@ -1,4 +1,4 @@
-.radical{
+#radical{
     color: black;
     background: grey;
     font-size: 25px;
@@ -7,9 +7,9 @@
     box-shadow: 0px 0px 5px black;
 }
 
-.radical_active{
+#radical_active{
     color: red;
-    background: grey;
+    background: yellow;
     font-size: 25px;
     text-shadow: 1px 1px 5px black;
     border-radius: 10px;

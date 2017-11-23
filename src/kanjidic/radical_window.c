@@ -76,9 +76,10 @@ void radical_buttons_update(kanjidic *kanjidic){
          l != NULL;
          l = g_slist_next(l)) {
       gtk_widget_set_sensitive(GTK_WIDGET(l->data), TRUE);
-      GtkStyleContext *context;
-      context = gtk_widget_get_style_context(l->data);
-      gtk_style_context_add_class(context,"radical");
+      //GtkStyleContext *context;
+      //context = gtk_widget_get_style_context(l->data);
+      //gtk_style_context_add_class(context,"radical");
+      gtk_widget_set_name(l->data, "radical_active");
     }
   }
   else{
@@ -91,7 +92,8 @@ void radical_buttons_update(kanjidic *kanjidic){
 
       GtkStyleContext *context;
       context = gtk_widget_get_style_context(button);
-      gtk_style_context_add_class(context,"radical");
+      //gtk_style_context_add_class(context,"radical");
+      gtk_widget_set_name(button, "radical");
 
       //append the current radical to the filter entry radicals text
       gchar* srch = g_new0(gchar, strlen(radicals) + strlen(cur_radical) + 1);
@@ -107,6 +109,21 @@ void radical_buttons_update(kanjidic *kanjidic){
       //get the kanji list for the entered radical and the radical of the button
       GSList *kanji_match_list = get_kanji_by_radical(srch,
 						      kanjidic->rad_info_hash);
+
+
+      //set radical button class to active if in the radical search entry
+      const gchar *kptr=radicals;
+      gunichar radical_in_searchentry;
+      gunichar radical_clicked = g_utf8_get_char(cur_radical);
+      while ((radical_in_searchentry = g_utf8_get_char(kptr))){
+	if(radical_clicked == radical_in_searchentry){
+	  //gtk_style_context_add_class(context,"radical_active");
+	  gtk_widget_set_name(button, "radical_active");
+	  break;
+	}
+	kptr = g_utf8_next_char(kptr);
+      }
+
 
       if(kanji_match_list == NULL){
         sensitivity = FALSE;
