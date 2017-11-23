@@ -70,6 +70,7 @@ typedef struct _WorddicDicfile {
   gchar *creation_date;
 }WorddicDicfile;
 
+gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile);
 gboolean worddic_dicfile_open(WorddicDicfile *dicfile);
 
 void worddic_dicfile_parse_all(WorddicDicfile *dicfile);

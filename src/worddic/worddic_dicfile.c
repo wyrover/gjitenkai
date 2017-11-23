@@ -1,6 +1,6 @@
 #include "worddic_dicfile.h"
 
-void worddic_dicfile_open_edict(WorddicDicfile *dicfile){
+gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile){
   //first line is informations (date, author, copyright, ...)
   //It will also be used to check encoding
   gchar *informations = NULL;
@@ -19,6 +19,7 @@ void worddic_dicfile_open_edict(WorddicDicfile *dicfile){
     }
     else {
       read = -1;
+      dicfile->is_valid = FALSE;
       return FALSE;
     }
   }
@@ -55,6 +56,7 @@ void worddic_dicfile_open_edict(WorddicDicfile *dicfile){
   dicfile->copyright = information_v[2];
   dicfile->creation_date = information_v[3];
   dicfile->is_valid = TRUE;
+  return TRUE;
 }
 
 gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
@@ -91,7 +93,6 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
     }
   }
 
-  g_free (content_type);
   return TRUE;
 }
 
@@ -334,7 +335,8 @@ GList *dicfile_search(WorddicDicfile *dicfile,
         GSList *sub_gloss_list = gloss->sub_gloss;
         //search in the sub glosses
         while(sub_gloss_list && !has_matched){
-          has_matched = g_regex_match (regex, sub_gloss_list->data, 0, &match_info);
+	  sub_gloss *p_sub_gloss = (sub_gloss*)sub_gloss_list->data;
+          has_matched = g_regex_match (regex, p_sub_gloss->content, 0, &match_info);
 
           if(has_matched){
             results = add_match(match_info, comment, dicentry, results);
