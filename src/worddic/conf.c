@@ -16,11 +16,11 @@ void worddic_conf_load_unit_style(GSettings *settings,
   key = g_strconcat(name, "-font", NULL);
   us->font = g_settings_get_string(settings, key);
   g_free(key);key=NULL;
-  
+
   key = g_strconcat(name, "-color", NULL);
   gchar *jap_def_color_str = g_settings_get_string(settings, key);
   g_free(key);key=NULL;
-  
+
   us->color = g_new0(GdkRGBA, 1);
   gdk_rgba_parse(us->color, jap_def_color_str);
 }
@@ -29,7 +29,7 @@ void worddic_conf_save_unit_style(GSettings *settings,
                                   unit_style *us,
                                   const gchar *name){
   gchar *key = NULL;
-  
+
   key = g_strconcat(name, "-start", NULL);
   g_settings_set_string(settings, key, us->start);
   g_free(key);key=NULL;
@@ -43,9 +43,9 @@ void worddic_conf_save_unit_style(GSettings *settings,
   g_free(key);key=NULL;
 
   key = g_strconcat(name, "-color", NULL);
-  char *str_subgloss_color = gdk_rgba_to_string(us->color);
-  g_settings_set_string(settings, key, str_subgloss_color);
-  g_free(str_subgloss_color);
+  char *str_subsense_color = gdk_rgba_to_string(us->color);
+  g_settings_set_string(settings, key, str_subsense_color);
+  g_free(str_subsense_color);
   g_free(key);key=NULL;
 }
 
@@ -64,8 +64,8 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   //load the dictionary entries units styles
   worddic_conf_load_unit_style(settings, &conf->jap_def, "japanese-definition");
   worddic_conf_load_unit_style(settings, &conf->jap_reading, "japanese-reading");
-  worddic_conf_load_unit_style(settings, &conf->gloss, "gloss");
-  worddic_conf_load_unit_style(settings, &conf->subgloss, "subgloss");
+  worddic_conf_load_unit_style(settings, &conf->sense, "gloss");
+  worddic_conf_load_unit_style(settings, &conf->subsense, "subgloss");
   worddic_conf_load_unit_style(settings, &conf->notes, "notes");
 
   //dark theme
@@ -74,7 +74,7 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   //highlight color
   conf->results_highlight_color = g_new0(GdkRGBA, 1);
   gdk_rgba_parse(conf->results_highlight_color, str_results_highlight_color);
-  
+
   //load the dictionaries
   GVariantIter iter;
   GVariant *dictionaries;
@@ -97,8 +97,8 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
     }
   }
   g_variant_unref(dictionaries);
-  
-  //load the search options 
+
+  //load the search options
   conf->search_kata_on_hira = g_settings_get_boolean(settings, "search-kata-on-hira");
   conf->search_hira_on_kata = g_settings_get_boolean(settings, "search-hira-on-kata");
   conf->verb_deinflection   = g_settings_get_boolean(settings, "deinflection-enabled");
@@ -111,19 +111,19 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   g_variant_iter_init(&history_iter, history_variant);
 
   gchar *searched_expression = NULL;
-  
+
   while (g_variant_iter_next (&history_iter, "(&s)", &searched_expression)) {
     //add to the history list
     conf->history = g_slist_append(conf->history, g_strdup(searched_expression));
   }
   g_variant_unref(history_variant);
-  
+
   return conf;
 }
 
 void worddic_conf_save(GSettings *settings,
                        WorddicConfig *conf,
-                       worddic_save fields){	 
+                       worddic_save fields){
   if(fields & WSE_HISTORY){
     GVariantBuilder builder;
     g_variant_builder_init(&builder, G_VARIANT_TYPE("a(s)"));
@@ -179,16 +179,16 @@ void worddic_conf_save(GSettings *settings,
   if(fields & WSE_JAPANESE_DEFINITION){
     worddic_conf_save_unit_style(settings, &conf->jap_def, "japanese-definition");
   }
-  
+
   if(fields & WSE_JAPANESE_READING){
     worddic_conf_save_unit_style(settings, &conf->jap_reading, "japanese-reading");
   }
 
-  if(fields & WSE_GLOSS){
-    worddic_conf_save_unit_style(settings, &conf->gloss, "gloss");
-    worddic_conf_save_unit_style(settings, &conf->subgloss, "subgloss");
+  if(fields & WSE_SENSE){
+    worddic_conf_save_unit_style(settings, &conf->sense, "sense");
+    worddic_conf_save_unit_style(settings, &conf->subsense, "subsense");
   }
-  
+
   if(fields & WSE_NOTES){
     worddic_conf_save_unit_style(settings, &conf->notes, "notes");
   }

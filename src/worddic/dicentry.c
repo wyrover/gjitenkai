@@ -8,43 +8,43 @@ GjitenDicentry* parse_line(const gchar* p_line){
   //dicentry->priority = FALSE;
 
   //cut until the first '/', separating definiton,reading in the first chunk and
-  //glosses in the second chunk
+  //sensees in the second chunk
   gchar * saveptr_chunk=NULL;
   gchar *chunk = (gchar*)strtok_r(line, "/", &saveptr_chunk);
 
   ////////
-  //read glosses (sub gloss) in the second chunk (one sub gloss per /)
-  gchar *sub_gloss_str = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
+  //read sensees (sub sense) in the second chunk (one sub sense per /)
+  gchar *sub_sense_str = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
 
-  //is it the first parenthese (among all of the glosses)
+  //is it the first parenthese (among all of the sensees)
   gboolean first_parentheses = TRUE;
 
-  //if the last iteration was a GI (detect begining of new gloss/new sub gloss)
-  gboolean start_new_gloss = TRUE;
+  //if the last iteration was a GI (detect begining of new sense/new sub sense)
+  gboolean start_new_sense = TRUE;
 
-  //pointer to hold a gloss before it's added to the entry
-  gloss *p_gloss = NULL;
+  //pointer to hold a sense before it's added to the entry
+  sense *p_sense = NULL;
 
   do{
 
-    if(sub_gloss_str && strcmp(sub_gloss_str, "\n") && strcmp(sub_gloss_str, " ")){
-      //check if this is an edict2 EntL sequance or a sub_gloss_str
-      if(g_str_has_prefix(sub_gloss_str, "EntL")){
-        dicentry->ent_seq = g_strdup(sub_gloss_str);
+    if(sub_sense_str && strcmp(sub_sense_str, "\n") && strcmp(sub_sense_str, " ")){
+      //check if this is an edict2 EntL sequance or a sub_sense_str
+      if(g_str_has_prefix(sub_sense_str, "EntL")){
+        dicentry->ent_seq = g_strdup(sub_sense_str);
       }
       else{
-        char *start = sub_gloss_str;
-        char *end = sub_gloss_str;
+        char *start = sub_sense_str;
+        char *end = sub_sense_str;
         gboolean in_token = FALSE;
-        while(in_token || *sub_gloss_str == '(' || *sub_gloss_str == ' '){
+        while(in_token || *sub_sense_str == '(' || *sub_sense_str == ' '){
 
-          if(*sub_gloss_str == '('){
+          if(*sub_sense_str == '('){
             in_token = TRUE;
-            start = sub_gloss_str;
+            start = sub_sense_str;
           }
-          else if(*sub_gloss_str == ')'){
+          else if(*sub_sense_str == ')'){
             in_token = FALSE;
-            end = sub_gloss_str;
+            end = sub_sense_str;
           }
 
           if(start < end && *start) {
@@ -52,22 +52,22 @@ GjitenDicentry* parse_line(const gchar* p_line){
             gchar * GI = start+1;
 
             if(!first_parentheses){
-              if(start_new_gloss){
-                //if new gloss create a new gloss struct
-                p_gloss = g_new0(gloss, 1);
-                dicentry->gloss = g_slist_prepend(dicentry->gloss, p_gloss);
+              if(start_new_sense){
+                //if new sense create a new sense struct
+                p_sense = g_new0(sense, 1);
+                dicentry->sense = g_slist_prepend(dicentry->sense, p_sense);
               }
 
-              //Sub_Gloss_Str' General Informations: one per pair of parentheses
-              //add this GI in the gloss
-              p_gloss->general_informations = g_slist_append(p_gloss->general_informations,
+              //Sub_Sense_Str' General Informations: one per pair of parentheses
+              //add this GI in the sense
+              p_sense->general_informations = g_slist_append(p_sense->general_informations,
                                                              g_strdup(GI));
               if(!g_strcmp0(GI, "P")){
                 dicentry->priority = TRUE;
               }
 
-              //if a GI is detected next, add it in the same gloss
-              start_new_gloss = FALSE;
+              //if a GI is detected next, add it in the same sense
+              start_new_sense = FALSE;
             }
             else{
               //if in first parentheses: General Informations of the whole entry
@@ -99,40 +99,40 @@ GjitenDicentry* parse_line(const gchar* p_line){
               first_parentheses = FALSE;
             }
 
-            start = sub_gloss_str = end;
+            start = sub_sense_str = end;
           }
-          sub_gloss_str++;
+          sub_sense_str++;
         } //end () token
 
-        //in case there was no GI for this gloss
-        if(!p_gloss){
-          p_gloss = g_new0(gloss, 1);
-          dicentry->gloss = g_slist_prepend(dicentry->gloss, p_gloss);
+        //in case there was no GI for this sense
+        if(!p_sense){
+          p_sense = g_new0(sense, 1);
+          dicentry->sense = g_slist_prepend(dicentry->sense, p_sense);
         }
 
-        //the rest of the string is the sub gloss (sub_gloss_str point at the end
-        //of the last pair of parentheses of this sub gloss)
-	sub_gloss *p_sub_gloss = g_new0 (sub_gloss, 1);
-	p_sub_gloss->content = g_strdup(sub_gloss_str);
-        p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss,
-                                             p_sub_gloss);
+        //the rest of the string is the sub sense (sub_sense_str point at the end
+        //of the last pair of parentheses of this sub sense)
+	sub_sense *p_sub_sense = g_new0 (sub_sense, 1);
+	p_sub_sense->content = g_strdup(sub_sense_str);
+        p_sense->sub_sense = g_slist_prepend(p_sense->sub_sense,
+                                             p_sub_sense);
 
-        //create a new gloss at new GI encounter
-        start_new_gloss = TRUE;
-      }//end if entl or gloss
-    }//end if gloss sub not empty
+        //create a new sense at new GI encounter
+        start_new_sense = TRUE;
+      }//end if entl or sense
+    }//end if sense sub not empty
 
     //get part of line after next /
-    sub_gloss_str = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
+    sub_sense_str = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
 
     //reverse the prepended data
-    //p_gloss->general_informations = g_slist_reverse(p_gloss->general_informations);
-    p_gloss->sub_gloss = g_slist_reverse(p_gloss->sub_gloss);
-  }while(sub_gloss_str);
+    //p_sense->general_informations = g_slist_reverse(p_sense->general_informations);
+    p_sense->sub_sense = g_slist_reverse(p_sense->sub_sense);
+  }while(sub_sense_str);
 
   //reverse the prepended data
   dicentry->general_informations = g_slist_reverse(dicentry->general_informations);
-  dicentry->gloss = g_slist_reverse(dicentry->gloss);
+  dicentry->sense = g_slist_reverse(dicentry->sense);
 
   ////////
   //read definitions in the first chunk
@@ -193,8 +193,8 @@ GjitenDicentry* parse_line(const gchar* p_line){
 
 GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur){
   GjitenDicentry* dicentry = g_new0 (GjitenDicentry, 1);
-  gloss *p_gloss = g_new0(gloss, 1);
-  dicentry->gloss = g_slist_prepend(dicentry->gloss, p_gloss);
+  sense *p_sense = g_new0(sense, 1);
+  dicentry->sense = g_slist_prepend(dicentry->sense, p_sense);
 
   cur = cur->xmlChildrenNode;
 
@@ -204,22 +204,22 @@ GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur){
 
       while (child){
 	if((!xmlStrcmp(child->name, (const xmlChar *)"gloss"))){
-	  sub_gloss *p_sub_gloss = g_new0(sub_gloss, 1);
-	  p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss, p_sub_gloss);
+	  sub_sense *p_sub_sense = g_new0(sub_sense, 1);
+	  p_sense->sub_sense = g_slist_prepend(p_sense->sub_sense, p_sub_sense);
 
 	  gchar *content = (gchar *)xmlNodeGetContent(child);
-	  p_sub_gloss->content = content;
+	  p_sub_sense->content = content;
 
 	  gchar *lang = (gchar *)xmlGetProp(child, (const xmlChar *)"lang");
 	  if(lang){
-	    strncpy(p_sub_gloss->lang, lang, 3);
+	    strncpy(p_sub_sense->lang, lang, 3);
 	    xmlFree(lang);
 	  }
 	}
 	else if((!xmlStrcmp(child->name, (const xmlChar *)"pos")) ||
 		(!xmlStrcmp(child->name, (const xmlChar *)"misc"))){
 	  gchar *content = (gchar *)xmlNodeGetContent(child);
-	  p_gloss->general_informations = g_slist_prepend(p_gloss->general_informations, content);
+	  p_sense->general_informations = g_slist_prepend(p_sense->general_informations, content);
 	}
 
 	child = child->next;
@@ -256,8 +256,8 @@ GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur){
 
 
 void dicentry_free(GjitenDicentry* dicentry){
-  g_slist_free_full(dicentry->gloss, (GDestroyNotify)gloss_free);
-  dicentry->gloss = NULL;
+  g_slist_free_full(dicentry->sense, (GDestroyNotify)sense_free);
+  dicentry->sense = NULL;
 
   g_slist_free_full(dicentry->jap_definition, g_free);
   dicentry->jap_definition = NULL;

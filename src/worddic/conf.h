@@ -32,7 +32,7 @@ typedef enum worddic_save_enum{
   WSE_DICFILE             = 1 << 2,
   WSE_JAPANESE_DEFINITION = 1 << 3,
   WSE_JAPANESE_READING    = 1 << 4,
-  WSE_GLOSS               = 1 << 5,
+  WSE_SENSE               = 1 << 5,
   WSE_NOTES               = 1 << 6,
   WSE_HISTORY             = 1 << 7,
   WSE_DARK_THEME          = 1 << 8,
@@ -55,8 +55,8 @@ typedef struct _WorddicConfig {
   ////japanese definition
   unit_style jap_def;
   unit_style jap_reading;
-  unit_style gloss;
-  unit_style subgloss;
+  unit_style sense;
+  unit_style subsense;
   unit_style notes;
 
   //dark theme

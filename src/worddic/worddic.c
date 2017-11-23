@@ -82,25 +82,25 @@ void worddic_init (worddic *p_worddic){
                                                             NULL);
   p_worddic->conf->jap_reading.tag = jap_reading_tag;
 
-  //gloss
-  GtkTextTag *gloss_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
-                                                      "gloss",
+  //sense
+  GtkTextTag *sense_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
+                                                      "sense",
                                                       "foreground-rgba",
-                                                      p_worddic->conf->gloss.color,
+                                                      p_worddic->conf->sense.color,
                                                       "font",
-                                                      p_worddic->conf->gloss.font,
+                                                      p_worddic->conf->sense.font,
                                                       NULL);
-  p_worddic->conf->gloss.tag = gloss_tag;
+  p_worddic->conf->sense.tag = sense_tag;
 
-  //subgloss
-  GtkTextTag *subgloss_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
-                                                         "subgloss",
+  //subsense
+  GtkTextTag *subsense_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
+                                                         "subsense",
                                                          "foreground-rgba",
-                                                         p_worddic->conf->subgloss.color,
+                                                         p_worddic->conf->subsense.color,
                                                          "font",
-                                                         p_worddic->conf->subgloss.font,
+                                                         p_worddic->conf->subsense.font,
                                                          NULL);
-  p_worddic->conf->subgloss.tag = subgloss_tag;
+  p_worddic->conf->subsense.tag = subsense_tag;
 
   //notes
   GtkTextTag *notes_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
@@ -403,35 +403,35 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
     //comment
     if(comment)print_unit(textbuffer, comment, &p_worddic->conf->notes);
 
-    //gloss
-    for(unit = entry->gloss;unit != NULL;unit = unit->next){
+    //sense
+    for(unit = entry->sense;unit != NULL;unit = unit->next){
 
-      gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->gloss.start,
-                                       strlen(p_worddic->conf->gloss.start));
+      gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.start,
+                                       strlen(p_worddic->conf->sense.start));
 
-      gloss *p_gloss = unit->data;
+      sense *p_sense = unit->data;
 
       ////General Informations
       GSList *GI = NULL;
-      for(GI = p_gloss->general_informations;
+      for(GI = p_sense->general_informations;
           GI != NULL;
           GI = GI->next){
         text = (gchar*)GI->data;
         print_unit(textbuffer, text, &p_worddic->conf->notes);
       }
 
-      GSList *sub_gloss_list = NULL;
-      ////sub gloss
-      for(sub_gloss_list = p_gloss->sub_gloss;
-          sub_gloss_list != NULL;
-          sub_gloss_list = sub_gloss_list->next){
-	sub_gloss *p_sub_gloss = (sub_gloss*)sub_gloss_list->data;
-        text = (gchar*)p_sub_gloss->content;
-        print_unit(textbuffer, text, &p_worddic->conf->subgloss);
+      GSList *sub_sense_list = NULL;
+      ////sub sense
+      for(sub_sense_list = p_sense->sub_sense;
+          sub_sense_list != NULL;
+          sub_sense_list = sub_sense_list->next){
+	sub_sense *p_sub_sense = (sub_sense*)sub_sense_list->data;
+        text = (gchar*)p_sub_sense->content;
+        print_unit(textbuffer, text, &p_worddic->conf->subsense);
       }
 
-      gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->gloss.end,
-                                       strlen(p_worddic->conf->gloss.end));
+      gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.end,
+                                       strlen(p_worddic->conf->sense.end));
     }
 
     gtk_text_buffer_insert_at_cursor(textbuffer, "\n", strlen("\n"));

@@ -1,21 +1,21 @@
-#ifndef GLOSS_H
-#define GLOSS_H
+#ifndef SENSE_H
+#define SENSE_H
 
 #include <glib.h>
 
-//todo rename to gloss
-typedef struct sub_gloss_t{
+//todo rename to sense
+typedef struct sub_sense_t{
   gchar lang[3];   // ISO 639-2 defaults to eng
   gchar *content;
-}sub_gloss;
+}sub_sense;
 
 //todo rename to sense
-typedef struct gloss_t{
-  GSList *sub_gloss;             //sub gloss
+typedef struct sense_t{
+  GSList *sub_sense;             //sub sense
   GSList *general_informations;  //General Infor in plain text (to display)
   gint GI:3;                     //in a bits field (to search)
-}gloss;
+}sense;
 
-void gloss_free(gloss *p_gloss);
+void sense_free(sense *p_sense);
 
 #endif

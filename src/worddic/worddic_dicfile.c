@@ -315,7 +315,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
     } //for all dictionary entries
   }
   else{
-    //if there are no japanese characters, search matches in the glosses
+    //if there are no japanese characters, search matches in the sensees
     //(latin characters search)
     GSList* list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;
@@ -328,27 +328,27 @@ GList *dicfile_search(WorddicDicfile *dicfile,
       //check if the type match what we are searching
       if(!(dicentry->GI & itype))continue;
 
-      GSList *gloss_list = dicentry->gloss;
-      //search in the gloss list
-      while(gloss_list && !has_matched){
-        gloss *gloss = gloss_list->data;
-        GSList *sub_gloss_list = gloss->sub_gloss;
-        //search in the sub glosses
-        while(sub_gloss_list && !has_matched){
-	  sub_gloss *p_sub_gloss = (sub_gloss*)sub_gloss_list->data;
-          has_matched = g_regex_match (regex, p_sub_gloss->content, 0, &match_info);
+      GSList *sense_list = dicentry->sense;
+      //search in the sense list
+      while(sense_list && !has_matched){
+        sense *sense = sense_list->data;
+        GSList *sub_sense_list = sense->sub_sense;
+        //search in the sub sensees
+        while(sub_sense_list && !has_matched){
+	  sub_sense *p_sub_sense = (sub_sense*)sub_sense_list->data;
+          has_matched = g_regex_match (regex, p_sub_sense->content, 0, &match_info);
 
           if(has_matched){
             results = add_match(match_info, comment, dicentry, results);
           }
           else {
-            sub_gloss_list = sub_gloss_list->next;
+            sub_sense_list = sub_sense_list->next;
           }
 
           g_match_info_unref(match_info);
         }
 
-        gloss_list = gloss_list->next;
+        sense_list = sense_list->next;
       }
     }
   }

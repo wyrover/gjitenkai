@@ -11,7 +11,7 @@
 
 #include "dicentry.h"
 #include "dicresult.h"
-#include "gloss.h"
+#include "sense.h"
 
 #include "../common/dicfile.h"
 
@@ -114,7 +114,7 @@ void dicfile_parse_jmdict(WorddicDicfile *dicfile);
 /**
    @param dicfile dictionary file to search to
    @param is_jp
-   0 search in glosses
+   0 search in sensees
    1 search in japanese definition and reading
    -1 auto detect
 */

@@ -194,7 +194,7 @@
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="xpad">5</property>
-                <property name="label" translatable="yes">Gloss / Sub Gloss</property>
+                <property name="label" translatable="yes">Sense / Sub Sense</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -340,11 +340,11 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkEntry" id="entry_gloss_start">
+                  <object class="GtkEntry" id="entry_sense_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="width_chars">5</property>
-                    <signal name="changed" handler="on_entry_gloss_start_changed" swapped="no"/>
+                    <signal name="changed" handler="on_entry_sense_start_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -353,11 +353,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="entry_subgloss_start">
+                  <object class="GtkEntry" id="entry_subsense_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="width_chars">5</property>
-                    <signal name="changed" handler="on_entry_subgloss_start_changed" swapped="no"/>
+                    <signal name="changed" handler="on_entry_subsense_start_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -366,13 +366,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkFontButton" id="fontbutton_subgloss">
+                  <object class="GtkFontButton" id="fontbutton_subsense">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="font">Sans 12</property>
                     <property name="preview_text"/>
-                    <signal name="font-set" handler="on_fontbutton_subgloss_font_set" swapped="no"/>
+                    <signal name="font-set" handler="on_fontbutton_subsense_font_set" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -381,11 +381,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkColorButton" id="colorbutton_subgloss">
+                  <object class="GtkColorButton" id="colorbutton_subsense">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="color-set" handler="on_colorbutton_subgloss_color_set" swapped="no"/>
+                    <signal name="color-set" handler="on_colorbutton_subsense_color_set" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -394,12 +394,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="entry_subgloss_end">
+                  <object class="GtkEntry" id="entry_subsense_end">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="width_chars">5</property>
                     <property name="max_width_chars">5</property>
-                    <signal name="changed" handler="on_entry_subgloss_end_changed" swapped="no"/>
+                    <signal name="changed" handler="on_entry_subsense_end_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -408,12 +408,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="entry_gloss_end">
+                  <object class="GtkEntry" id="entry_sense_end">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="width_chars">5</property>
                     <property name="max_width_chars">5</property>
-                    <signal name="changed" handler="on_entry_gloss_end_changed" swapped="no"/>
+                    <signal name="changed" handler="on_entry_sense_end_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>

@@ -12,7 +12,7 @@
 #include "../common/dicutil.h"
 #endif
 
-#include "gloss.h"
+#include "sense.h"
 
 /**
 entry in an EDICT dictonary file
@@ -30,7 +30,7 @@ enum entry_GI{
 struct _GjitenDicentry {
   GSList *jap_definition; //kanji (gchar*)
   GSList *jap_reading;    //kana  (gchar*)
-  GSList *gloss;          //gloss (struct gloss)
+  GSList *sense;          //sense (struct sense)
   gchar *ent_seq;         //EntLnnnnnnnnX (gchar*)
 
   GSList *general_informations;  //General Info in plain text (to display)
