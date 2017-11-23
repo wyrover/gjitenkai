@@ -420,12 +420,13 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
         print_unit(textbuffer, text, &p_worddic->conf->notes);
       }
 
-      GSList *sub_gloss = NULL;
+      GSList *sub_gloss_list = NULL;
       ////sub gloss
-      for(sub_gloss = p_gloss->sub_gloss;
-          sub_gloss != NULL;
-          sub_gloss = sub_gloss->next){
-        text = (gchar*)sub_gloss->data;
+      for(sub_gloss_list = p_gloss->sub_gloss;
+          sub_gloss_list != NULL;
+          sub_gloss_list = sub_gloss_list->next){
+	sub_gloss *p_sub_gloss = (sub_gloss*)sub_gloss_list->data;
+        text = (gchar*)p_sub_gloss->content;
         print_unit(textbuffer, text, &p_worddic->conf->subgloss);
       }
 
