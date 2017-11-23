@@ -32,7 +32,7 @@ typedef struct dic_state_ui_t{
 }dic_state_ui;
 
 /**
-   preference window related functions: 
+   preference window related functions:
    initialisation and callbacks
  */
 

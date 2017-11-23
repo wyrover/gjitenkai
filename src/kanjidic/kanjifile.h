@@ -1,7 +1,7 @@
 #ifndef KANJI_FILE
 #define KANJI_FILE
 
-#include <gtk/gtk.h>
+#include <glib.h>
 
 #include "../common/dicfile.h"
 

@@ -1,7 +1,7 @@
 #ifndef INFLECTION_H
 #define INFLECTION_H
 
-#include <gtk/gtk.h>
+#include <glib.h>
 #include <glib/gi18n.h>
 #include <stdlib.h>
 #include <gdk/gdkkeysyms.h>
@@ -20,8 +20,8 @@
 #define VINFL_FILENAME "vconj.utf8"
 
 /**
-use a text file (vconj.utf8) which maps the dictionary form of a verb with 
-diffent forms (which is called inflection). 
+use a text file (vconj.utf8) which maps the dictionary form of a verb with
+diffent forms (which is called inflection).
 */
 
 //map the vconj types

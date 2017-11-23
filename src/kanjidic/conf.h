@@ -3,7 +3,7 @@
 
 #include <gio/gio.h>
 #include <pango/pango-font.h>
-#include <gtk/gtk.h>
+#include <glib.h>
 
 #include <stdio.h>
 #include <string.h>

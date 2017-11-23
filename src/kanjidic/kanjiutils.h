@@ -1,7 +1,7 @@
 #ifndef KANJIUTILS_H
 #define KANJIUTILS_H
 
-#include <gtk/gtk.h>
+#include <glib.h>
 #include <glib/gprintf.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -39,20 +39,20 @@ typedef struct _KanjiInfo {
 /**
    load the radicals kanji informations from the radkfile
    The radkfile map radicals with a stroke count and a list of kanji.
-   The content of this file is loaded into two hashs: 
+   The content of this file is loaded into two hashs:
    *rad_info_hash : map a radical as a key and a list of KanjiInfo as value
    *kanji_info_hash : map a kanji as a key and a list of RadInfo as value
 
    With these two hashs, search can be performed on to search a kanji from a radical
    or to get all radical from a kanji.
  */
-GSList* load_radkfile(GHashTable **pp_rad_info_hash, 
+GSList* load_radkfile(GHashTable **pp_rad_info_hash,
                    GHashTable **pp_kanji_info_hash,
                    GSList      *rad_info_list
                    );
 
 /**
-   get the radical from a given kanji by looking into the kanji_info_hash 
+   get the radical from a given kanji by looking into the kanji_info_hash
  */
 GSList* get_radical_of_kanji(gunichar kanji, GHashTable *kanji_info_hash);
 
@@ -70,12 +70,12 @@ GSList* get_kanji_by_key(const gchar *srchkey, GSList *list, GjitenDicfile *dicf
 GSList* get_kanji_by_stroke(int stroke, int plusmin, GSList *list, GjitenDicfile *dicfile);
 
 /**
-   get kanji from radicals by looking into the rad_info_hash 
+   get kanji from radicals by looking into the rad_info_hash
  */
 GSList* get_kanji_by_radical(const gchar *radstrg, GHashTable *rad_info_hash);
 
 /**
-   Merge two list of kanji. 
+   Merge two list of kanji.
    Returns a list that matchs list_a and list_b
  */
 GSList* list_merge(GSList *list_a, GSList *list_b);

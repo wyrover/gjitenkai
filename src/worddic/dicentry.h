@@ -1,7 +1,7 @@
 #ifndef DICENTRY_H
 #define DICENTRY_H
 
-#include <gtk/gtk.h>
+#include <glib.h>
 
 #ifndef MINGW
 #include <string.h>
@@ -29,7 +29,7 @@ struct _GjitenDicentry {
   GSList *jap_reading;    //kana  (gchar*)
   GSList *gloss;          //gloss (struct gloss)
   gchar *ent_seq;         //EntLnnnnnnnnX (gchar*)
-  
+
   //general informations
   //in plain text (to display)
   GSList *general_informations;

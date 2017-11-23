@@ -1,7 +1,7 @@
 #ifndef WORDDIC_DICFILE_H
 #define WORDDIC_DICFILE_H
 
-#include <gtk/gtk.h>
+#include <glib.h>
 #include <zlib.h>
 
 #include "dicentry.h"

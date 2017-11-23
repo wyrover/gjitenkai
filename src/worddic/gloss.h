@@ -1,7 +1,7 @@
 #ifndef GLOSS_H
 #define GLOSS_H
 
-#include <gtk/gtk.h>
+#include <glib.h>
 
 //todo rename to gloss
 typedef struct sub_gloss_t{
