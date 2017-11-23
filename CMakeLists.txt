@@ -99,7 +99,7 @@ add_executable(
   )
 
 # Link the target to the GTK+ libraries
-target_link_libraries(${PROJECT_NAME} ${GTK3_LIBRARIES} ${LIBSOUP_LIBRARIES} -lz)
+target_link_libraries(${PROJECT_NAME} ${GTK3_LIBRARIES} ${LIBSOUP_LIBRARIES} -lz -lxml2)
 
 # Compiler flag needed to reach callback functions
 set(GCC_COVERAGE_COMPILE_FLAGS "-rdynamic")

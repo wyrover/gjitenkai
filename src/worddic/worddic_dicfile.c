@@ -1,7 +1,6 @@
 #include "worddic_dicfile.h"
 
 gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
-
   if(g_str_has_suffix(dicfile->path, ".gz")){
     dicfile->is_gz = TRUE;
   }
@@ -133,6 +132,38 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
 
   return TRUE;
 }
+
+
+void dicfile_parse_jmdict(WorddicDicfile *dicfile){
+  xmlDocPtr doc;
+  xmlNodePtr cur;
+  doc = xmlParseFile(dicfile->path);
+
+  if (doc == NULL ) {
+    fprintf(stderr,"Document not parsed successfully. \n");
+    return;
+  }
+  cur = xmlDocGetRootElement(doc);
+
+  if (xmlStrcmp(cur->name, (const xmlChar *) "JMdict")) {
+    fprintf(stderr,"document of the wrong type, root node != JMdict");
+    xmlFreeDoc(doc);
+    return;
+  }
+
+  cur = cur->xmlChildrenNode;
+  while (cur != NULL) {
+    if ((!xmlStrcmp(cur->name, (const xmlChar *)"entry"))){
+      GjitenDicentry *dicentry = parse_entry_jmdict(cur);
+      dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
+    }
+
+    cur = cur->next;
+  }
+
+  xmlFreeDoc(doc);
+}
+
 
 GList *dicfile_search(WorddicDicfile *dicfile,
                       search_expression *p_search_expression,

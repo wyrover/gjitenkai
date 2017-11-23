@@ -4,6 +4,9 @@
 #include <glib.h>
 #include <zlib.h>
 
+#include <libxml/tree.h>
+#include <libxml/parser.h>
+
 #include "dicentry.h"
 #include "dicresult.h"
 #include "gloss.h"
@@ -103,6 +106,7 @@ static inline GList *add_match(GMatchInfo *match_info,
   return results;
 }
 
+void dicfile_parse_jmdict(WorddicDicfile *dicfile);
 
 /**
    @param dicfile dictionary file to search to

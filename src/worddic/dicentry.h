@@ -3,6 +3,9 @@
 
 #include <glib.h>
 
+#include <libxml/tree.h>
+#include <libxml/parser.h>
+
 #ifndef MINGW
 #include <string.h>
 #else
@@ -42,6 +45,13 @@ struct _GjitenDicentry {
 typedef struct _GjitenDicentry GjitenDicentry;
 
 GjitenDicentry* parse_line(const gchar* p_line);
+
+/**
+   return a GjitenDicEntry from an entry in a JMdict
+   cur must point to an entry
+*/
+GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur);
+
 void dicentry_free(GjitenDicentry* dicentry);
 
 #endif

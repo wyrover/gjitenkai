@@ -9,8 +9,6 @@
 #include "../src/worddic/dicentry.h"
 #include "../src/worddic/gloss.h"
 
-WorddicDicfile *dicfile;
-
 /**
    return a GjitenDicEntry from an entry in a JMdict
    cur must point to an entry
@@ -78,36 +76,6 @@ GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur){
   return dicentry;
 }
 
-void dicfile_parse_jmdict(char *filepath){
-  xmlDocPtr doc;
-  xmlNodePtr cur;
-  doc = xmlParseFile(filepath);
-
-  if (doc == NULL ) {
-    fprintf(stderr,"Document not parsed successfully. \n");
-    return;
-  }
-  cur = xmlDocGetRootElement(doc);
-
-  if (xmlStrcmp(cur->name, (const xmlChar *) "JMdict")) {
-    fprintf(stderr,"document of the wrong type, root node != JMdict");
-    xmlFreeDoc(doc);
-    return;
-  }
-
-  cur = cur->xmlChildrenNode;
-  while (cur != NULL) {
-    if ((!xmlStrcmp(cur->name, (const xmlChar *)"entry"))){
-      GjitenDicentry *dicentry = parse_entry_jmdict(cur);
-      dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
-    }
-
-    cur = cur->next;
-  }
-
-  xmlFreeDoc(doc);
-}
-
 int main( int argc, char **argv ){
   g_printf("load a jmdict dictionary XML file.\n parameters are:\n\
 'Dicionary path'\n\
@@ -120,10 +88,10 @@ int main( int argc, char **argv ){
   dicfile = g_new0(WorddicDicfile, 1);
   dicfile_parse_jmdict(path);
 
-  /*WorddicDicfile *dicfile = g_new0(WorddicDicfile, 1);
+  WorddicDicfile *dicfile = g_new0(WorddicDicfile, 1);
   dicfile->path = g_strdup(path);
   worddic_dicfile_open(dicfile);
-  worddic_dicfile_parse_all(dicfile);*/
+  worddic_dicfile_parse_all(dicfile);
 
   if(print_all){
     //print all entries
@@ -135,7 +103,7 @@ int main( int argc, char **argv ){
     }
   }
 
-  //worddic_dicfile_close(dicfile);
-  //worddic_dicfile_free(dicfile);
+  worddic_dicfile_close(dicfile);
+  worddic_dicfile_free(dicfile);
   return 1;
 }
