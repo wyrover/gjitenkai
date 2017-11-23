@@ -162,6 +162,8 @@ void radical_buttons_update(kanjidic *kanjidic){
 	gtk_widget_set_tooltip_markup (GTK_WIDGET(button),
 				       str_tooltip_markup);
 	g_free(str_tooltip_markup);
+      }else{
+	gtk_widget_set_has_tooltip(GTK_WIDGET(button), FALSE);
       }
 
       //set the sensitivity
