@@ -386,5 +386,5 @@ void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile){
   }
   else dicfile->is_loaded = FALSE;
 
-  worddic_dicfile_close(dicfile);
+  if(!dicfile->is_jmdict) worddic_dicfile_close(dicfile);
 }

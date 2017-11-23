@@ -222,7 +222,6 @@ GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur){
 	  p_gloss->general_informations = g_slist_prepend(p_gloss->general_informations, content);
 	}
 
-
 	child = child->next;
       }
     }
@@ -251,6 +250,7 @@ GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur){
 
     cur = cur->next;
   }
+  dicentry->GI = GIALL;   //TODO
   return dicentry;
 }
 

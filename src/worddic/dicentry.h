@@ -33,11 +33,8 @@ struct _GjitenDicentry {
   GSList *gloss;          //gloss (struct gloss)
   gchar *ent_seq;         //EntLnnnnnnnnX (gchar*)
 
-  //general informations
-  //in plain text (to display)
-  GSList *general_informations;
-  //in a bits field (to search)
-  enum entry_GI GI;
+  GSList *general_informations;  //General Info in plain text (to display)
+  enum entry_GI GI;    //Generak Info in a bits field (to speed up search)
 
   gboolean priority;
 };
