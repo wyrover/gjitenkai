@@ -3,7 +3,7 @@
 void print_entry(GjitenDicentry* entry){
   GSList *unit = NULL;
 
-  g_printf("Definition\n");
+  g_print("Definition\n");
   for(unit = entry->jap_definition;
       unit != NULL;
       unit = unit->next){
@@ -41,19 +41,20 @@ void print_entry(GjitenDicentry* entry){
       g_printf("\t\t(%s)\n", text);
     }
 
-    if(p_gloss->lang){
-      g_printf("Lang is %s\n", p_gloss->lang);
-    }
-    else{
-      g_printf("No lang specified (defaults to eng)\n");
-    }
-
     g_printf("\tSub gloss: \n");
-    GSList * sub_gloss =  NULL;
-    for(sub_gloss = p_gloss->sub_gloss;
-        sub_gloss != NULL;
-        sub_gloss = sub_gloss->next){
-      g_printf("\t\t%s\n", sub_gloss->data);
+    GSList * p_sub_gloss_list =  NULL;
+    for(p_sub_gloss_list = p_gloss->sub_gloss;
+        p_sub_gloss_list != NULL;
+        p_sub_gloss_list = p_sub_gloss_list->next){
+      sub_gloss *p_sub_gloss = p_sub_gloss_list->data;
+      g_printf("\t\t%s", p_sub_gloss->content);
+      if(p_sub_gloss->lang[0] != '\0'){
+	g_printf(" (lang '%s')\n", p_sub_gloss->lang);
+      }
+      else{
+	g_printf(" | No lang specified (defaults to eng)\n");
+      }
+
     }
   }
 }

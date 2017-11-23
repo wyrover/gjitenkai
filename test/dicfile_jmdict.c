@@ -27,8 +27,18 @@ GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur){
 
       while (child){
 	if((!xmlStrcmp(child->name, (const xmlChar *)"gloss"))){
+	  sub_gloss *p_sub_gloss = g_new0(sub_gloss, 1);
+	  p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss, p_sub_gloss);
+
 	  gchar *content = xmlNodeGetContent(child);
-	  p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss, content);
+	  p_sub_gloss->content = content;
+	  g_printf("Content is %s\n", p_sub_gloss->content);
+
+	  gchar *lang = xmlGetProp(child, "lang");
+	  if(lang){
+	    strncpy(p_sub_gloss->lang, lang, 3);
+	    xmlFree(lang);
+	  }
 	}
 	else if((!xmlStrcmp(child->name, (const xmlChar *)"pos")) ||
 		(!xmlStrcmp(child->name, (const xmlChar *)"misc"))){
@@ -95,6 +105,7 @@ void dicfile_parse_jmdict(char *filepath){
     cur = cur->next;
   }
 
+  xmlFreeDoc(doc);
 }
 
 int main( int argc, char **argv ){
