@@ -76,10 +76,7 @@ void radical_buttons_update(kanjidic *kanjidic){
          l != NULL;
          l = g_slist_next(l)) {
       gtk_widget_set_sensitive(GTK_WIDGET(l->data), TRUE);
-      //GtkStyleContext *context;
-      //context = gtk_widget_get_style_context(l->data);
-      //gtk_style_context_add_class(context,"radical");
-      gtk_widget_set_name(l->data, "radical_active");
+      gtk_widget_set_name(l->data, "radical");
     }
   }
   else{
@@ -117,7 +114,6 @@ void radical_buttons_update(kanjidic *kanjidic){
       gunichar radical_clicked = g_utf8_get_char(cur_radical);
       while ((radical_in_searchentry = g_utf8_get_char(kptr))){
 	if(radical_clicked == radical_in_searchentry){
-	  //gtk_style_context_add_class(context,"radical_active");
 	  gtk_widget_set_name(button, "radical_active");
 	  break;
 	}
