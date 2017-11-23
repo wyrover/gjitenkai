@@ -1,20 +1,6 @@
 #include "worddic_dicfile.h"
 
-gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
-  if(g_str_has_suffix(dicfile->path, ".gz")){
-    dicfile->is_gz = TRUE;
-  }
-  else{
-    dicfile->is_gz = FALSE;
-  }
-
-  if(dicfile->is_gz){
-    dicfile->fp = (FILE*)gzopen(dicfile->path, "r");
-  }
-  else{
-    dicfile->fp = fopen(dicfile->path, "r");
-  }
-
+void worddic_dicfile_open_edict(WorddicDicfile *dicfile){
   //first line is informations (date, author, copyright, ...)
   //It will also be used to check encoding
   gchar *informations = NULL;
@@ -69,7 +55,43 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
   dicfile->copyright = information_v[2];
   dicfile->creation_date = information_v[3];
   dicfile->is_valid = TRUE;
+}
 
+gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
+  //Use GFile to get mime type, to actually get the content of the file we will
+  //use the dicfile's FILE pointer
+  GError *error;
+  GFile *gf = g_file_new_for_path (dicfile->path);
+  GFileInfo *file_info = g_file_query_info (gf,
+					    "standard::*",
+					    0,
+					    NULL,
+					    &error);
+
+  const char *content_type = g_file_info_get_content_type (file_info);
+
+  //'text/plain' > EDICT or EDICT2
+  //application/xml > JMDict
+  //application/gzip > ZIPPED EDICT OR ZIPPED JMDICT
+
+  if(!(strcmp("application/gzip", content_type))){
+    dicfile->is_gz = TRUE;
+    dicfile->is_jmdict = FALSE;     //TODO read gzipped jmdict file
+    dicfile->fp = (FILE*)gzopen(dicfile->path, "r");
+    worddic_dicfile_open_edict(dicfile);
+  }
+  else{
+    dicfile->is_gz = FALSE;
+    if(!(strcmp("application/xml", content_type))){
+      dicfile->is_jmdict = TRUE;
+    }else if(!(strcmp("text/plain", content_type))){
+      dicfile->fp = fopen(dicfile->path, "r");
+      dicfile->is_jmdict = FALSE;
+      worddic_dicfile_open_edict(dicfile);
+    }
+  }
+
+  g_free (content_type);
   return TRUE;
 }
 
@@ -79,11 +101,16 @@ void worddic_dicfile_close(WorddicDicfile *dicfile){
 }
 
 void worddic_dicfile_parse_all(WorddicDicfile *dicfile){
-  gboolean has_line=TRUE;
-  while(has_line){
-    has_line = worddic_dicfile_parse_next_line(dicfile);
+  if(dicfile->is_jmdict){
+    dicfile_parse_jmdict(dicfile);
   }
-  dicfile->entries = g_slist_reverse(dicfile->entries);
+  else{
+    gboolean has_line=TRUE;
+    while(has_line){
+      has_line = worddic_dicfile_parse_next_line(dicfile);
+    }
+    dicfile->entries = g_slist_reverse(dicfile->entries);
+  }
 }
 
 gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
@@ -135,9 +162,8 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
 
 
 void dicfile_parse_jmdict(WorddicDicfile *dicfile){
-  xmlDocPtr doc;
+  xmlDocPtr doc = xmlParseFile(dicfile->path);
   xmlNodePtr cur;
-  doc = xmlParseFile(dicfile->path);
 
   if (doc == NULL ) {
     fprintf(stderr,"Document not parsed successfully. \n");

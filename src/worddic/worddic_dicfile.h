@@ -3,6 +3,8 @@
 
 #include <glib.h>
 #include <zlib.h>
+#include <gio/gio.h>
+#include <stdio.h>
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>
@@ -49,7 +51,7 @@ typedef struct _WorddicDicfile {
   gboolean is_valid;
 
   //file pointer to read the dictionary file
-  FILE * fp;
+  FILE *fp;
 
   //tells if the dictionary file is utf8 encoded
   gboolean utf8;

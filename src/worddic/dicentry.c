@@ -14,7 +14,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
 
   ////////
   //read glosses (sub gloss) in the second chunk (one sub gloss per /)
-  gchar *sub_gloss = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
+  gchar *sub_gloss_str = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
 
   //is it the first parenthese (among all of the glosses)
   gboolean first_parentheses = TRUE;
@@ -27,24 +27,24 @@ GjitenDicentry* parse_line(const gchar* p_line){
 
   do{
 
-    if(sub_gloss && strcmp(sub_gloss, "\n") && strcmp(sub_gloss, " ")){
-      //check if this is an edict2 EntL sequance or a sub_gloss
-      if(g_str_has_prefix(sub_gloss, "EntL")){
-        dicentry->ent_seq = g_strdup(sub_gloss);
+    if(sub_gloss_str && strcmp(sub_gloss_str, "\n") && strcmp(sub_gloss_str, " ")){
+      //check if this is an edict2 EntL sequance or a sub_gloss_str
+      if(g_str_has_prefix(sub_gloss_str, "EntL")){
+        dicentry->ent_seq = g_strdup(sub_gloss_str);
       }
       else{
-        char *start = sub_gloss;
-        char *end = sub_gloss;
+        char *start = sub_gloss_str;
+        char *end = sub_gloss_str;
         gboolean in_token = FALSE;
-        while(in_token || *sub_gloss == '(' || *sub_gloss == ' '){
+        while(in_token || *sub_gloss_str == '(' || *sub_gloss_str == ' '){
 
-          if(*sub_gloss == '('){
+          if(*sub_gloss_str == '('){
             in_token = TRUE;
-            start = sub_gloss;
+            start = sub_gloss_str;
           }
-          else if(*sub_gloss == ')'){
+          else if(*sub_gloss_str == ')'){
             in_token = FALSE;
-            end = sub_gloss;
+            end = sub_gloss_str;
           }
 
           if(start < end && *start) {
@@ -58,7 +58,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
                 dicentry->gloss = g_slist_prepend(dicentry->gloss, p_gloss);
               }
 
-              //Sub_Gloss' General Informations: one per pair of parentheses
+              //Sub_Gloss_Str' General Informations: one per pair of parentheses
               //add this GI in the gloss
               p_gloss->general_informations = g_slist_append(p_gloss->general_informations,
                                                              g_strdup(GI));
@@ -99,9 +99,9 @@ GjitenDicentry* parse_line(const gchar* p_line){
               first_parentheses = FALSE;
             }
 
-            start = sub_gloss = end;
+            start = sub_gloss_str = end;
           }
-          sub_gloss++;
+          sub_gloss_str++;
         } //end () token
 
         //in case there was no GI for this gloss
@@ -110,10 +110,12 @@ GjitenDicentry* parse_line(const gchar* p_line){
           dicentry->gloss = g_slist_prepend(dicentry->gloss, p_gloss);
         }
 
-        //the rest of the string is the sub gloss (sub_gloss point at the end
+        //the rest of the string is the sub gloss (sub_gloss_str point at the end
         //of the last pair of parentheses of this sub gloss)
+	sub_gloss *p_sub_gloss = g_new0 (sub_gloss, 1);
+	p_sub_gloss->content = g_strdup(sub_gloss_str);
         p_gloss->sub_gloss = g_slist_prepend(p_gloss->sub_gloss,
-                                             g_strdup(sub_gloss));
+                                             p_sub_gloss);
 
         //create a new gloss at new GI encounter
         start_new_gloss = TRUE;
@@ -121,12 +123,12 @@ GjitenDicentry* parse_line(const gchar* p_line){
     }//end if gloss sub not empty
 
     //get part of line after next /
-    sub_gloss = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
+    sub_gloss_str = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
 
     //reverse the prepended data
     //p_gloss->general_informations = g_slist_reverse(p_gloss->general_informations);
     p_gloss->sub_gloss = g_slist_reverse(p_gloss->sub_gloss);
-  }while(sub_gloss);
+  }while(sub_gloss_str);
 
   //reverse the prepended data
   dicentry->general_informations = g_slist_reverse(dicentry->general_informations);
