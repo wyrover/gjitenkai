@@ -15,10 +15,6 @@ void radical_list_init(kanjidic *kanjidic){
 
   gint last_strockes_count=0;
 
-  PangoFontDescription *df;
-  df = pango_font_description_from_string("Monospace");
-  pango_font_description_set_size(df, 15 * PANGO_SCALE);
-
   for (;
        radical_list != NULL;
        radical_list = g_slist_next(radical_list)) {
@@ -48,7 +44,6 @@ void radical_list_init(kanjidic *kanjidic){
 
     //add the button
     GtkButton *button_radical = (GtkButton*)gtk_button_new_with_label(radical);
-    gtk_widget_override_font(GTK_WIDGET(button_radical), df);
 
     g_signal_connect(button_radical,
                      "clicked",
@@ -63,9 +58,6 @@ void radical_list_init(kanjidic *kanjidic){
     if(i % RADICAL_PER_ROW == 0){j++;i=0;}
 
   }
-
-  pango_font_description_free(df);
-
 }
 
 void radical_buttons_update(kanjidic *kanjidic){
