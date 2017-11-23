@@ -48,7 +48,7 @@ void radical_list_init(kanjidic *kanjidic){
 
     //add the button
     GtkButton *button_radical = (GtkButton*)gtk_button_new_with_label(radical);
-    gtk_widget_set_name(GTK_WIDGET(button_radical), "bushu");
+    gtk_widget_override_font(GTK_WIDGET(button_radical), df);
 
     g_signal_connect(button_radical,
                      "clicked",
@@ -87,11 +87,12 @@ void radical_buttons_update(kanjidic *kanjidic){
     }
   }
   else{
-    //for every radicals buttons
+    //for every radicals, ckeck if there at least a match with the current
+    //entered radicals and the kanji button
     do{
       //get the current button and it's kanji
-      GtkButton *button_radical = (GtkButton*)l->data;
-      const gchar *cur_radical = gtk_button_get_label(button_radical);
+      GtkButton* button = (GtkButton*)l->data;
+      const gchar* cur_radical = gtk_button_get_label(button);
 
       //append the current radical to the filter entry radicals text
       gchar* srch = g_new0(gchar, strlen(radicals) + strlen(cur_radical) + 1);
@@ -107,24 +108,6 @@ void radical_buttons_update(kanjidic *kanjidic){
       //get the kanji list for the entered radical and the radical of the button
       GSList *kanji_match_list = get_kanji_by_radical(srch,
 						      kanjidic->rad_info_hash);
-
-
-      /////////////////////////////////////////
-      const gchar *kptr=radicals;
-      gunichar radical_in_searchentry;
-      gunichar radical_clicked = g_utf8_get_char(cur_radical);
-      while ((radical_in_searchentry = g_utf8_get_char(kptr))){
-	if(radical_clicked == radical_in_searchentry){
-	  sensitivity = FALSE;
-	  gtk_widget_set_name(GTK_WIDGET(button_radical), "bushu_inlist");
-	  break;
-	}
-	kptr = g_utf8_next_char(kptr);
-      }
-      //////////////////////////////////////////
-
-
-
 
       if(kanji_match_list == NULL){
         sensitivity = FALSE;
@@ -142,7 +125,6 @@ void radical_buttons_update(kanjidic *kanjidic){
         while ((radical_in_searchentry = g_utf8_get_char(kptr))){
           if(radical_clicked == radical_in_searchentry){
             sensitivity = FALSE;
-	    //gtk_widget_set_name(GTK_WIDGET(button_radical), "bushu_inlist");
             break;
           }
           kptr = g_utf8_next_char(kptr);
@@ -157,21 +139,22 @@ void radical_buttons_update(kanjidic *kanjidic){
         }
       }
 
-      if(kanji_match->str){
+      if(strlen(kanji_match->str) > 0){
 	//set the tootlip with the matching radical list
 	char *str_tooltip_markup = g_strdup_printf("<span size='xx-large'>%s</span>",
 						   kanji_match->str);
-	gtk_widget_set_tooltip_markup (GTK_WIDGET(button_radical),
+	gtk_widget_set_tooltip_markup (GTK_WIDGET(button),
 				       str_tooltip_markup);
 	g_free(str_tooltip_markup);
       }
 
       //set the sensitivity
-      gtk_widget_set_sensitive(GTK_WIDGET(button_radical), sensitivity);
+      gtk_widget_set_sensitive(GTK_WIDGET(button), sensitivity);
 
       //free memory
       g_string_free(kanji_match, TRUE);
       g_free(srch);
+
     }while((l = g_slist_next(l)));
   }
 }
