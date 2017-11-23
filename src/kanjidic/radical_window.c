@@ -84,6 +84,9 @@ void radical_buttons_update(kanjidic *kanjidic){
          l != NULL;
          l = g_slist_next(l)) {
       gtk_widget_set_sensitive(GTK_WIDGET(l->data), TRUE);
+      GtkStyleContext *context;
+      context = gtk_widget_get_style_context(l->data);
+      gtk_style_context_add_class(context,"radical");
     }
   }
   else{
@@ -93,6 +96,10 @@ void radical_buttons_update(kanjidic *kanjidic){
       //get the current button and it's kanji
       GtkButton* button = (GtkButton*)l->data;
       const gchar* cur_radical = gtk_button_get_label(button);
+
+      GtkStyleContext *context;
+      context = gtk_widget_get_style_context(button);
+      gtk_style_context_add_class(context,"radical");
 
       //append the current radical to the filter entry radicals text
       gchar* srch = g_new0(gchar, strlen(radicals) + strlen(cur_radical) + 1);

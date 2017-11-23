@@ -1,15 +1,17 @@
-#bushu {
-    color: green;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    border-radius: 5px;
+.radical{
+    color: black;
+    background: grey;
+    font-size: 25px;
+    text-shadow: 1px 1px 5px black;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px black;
 }
 
-#bushu_inlist {
+.radical_active{
     color: red;
-    background-color: yellow;
-    font-weight: bold;
+    background: grey;
     font-size: 25px;
-    border-radius: 5px;
+    text-shadow: 1px 1px 5px black;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px black;
 }
