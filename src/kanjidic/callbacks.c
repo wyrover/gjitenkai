@@ -221,17 +221,18 @@ G_MODULE_EXPORT void on_radical_button_clicked(GtkButton *button, kanjidic *kanj
   const gchar *kptr=radicals;
   gunichar radical_in_searchentry;
   gunichar radical_clicked = g_utf8_get_char(radical);
+  gint pos = 0;
   while ((radical_in_searchentry = g_utf8_get_char(kptr))){
     if(radical_clicked == radical_in_searchentry){
       alderly_present = TRUE;
       break;
     }
+    pos++;
     kptr = g_utf8_next_char(kptr);
   }
 
-
   if(alderly_present){
-    g_printf("TODO DELETE FROM ENTRY\n");
+    gtk_editable_delete_text(editable, pos, pos + 1);
   }
   else{
     gtk_editable_insert_text(editable,
