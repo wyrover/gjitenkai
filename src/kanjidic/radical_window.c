@@ -129,19 +129,6 @@ void radical_buttons_update(kanjidic *kanjidic){
 
         sensitivity = TRUE;
 
-        //if this kanji button is alderly in the search list,
-	//set it's style to reclect that and set it to unsensitive
-        const gchar *kptr=radicals;
-        gunichar radical_in_searchentry;
-        gunichar radical_clicked = g_utf8_get_char(cur_radical);
-        while ((radical_in_searchentry = g_utf8_get_char(kptr))){
-          if(radical_clicked == radical_in_searchentry){
-            sensitivity = FALSE;
-            break;
-          }
-          kptr = g_utf8_next_char(kptr);
-        }
-
         //list of matching kanji in a  tooltip
         for(kanji_list_browser=kanji_match_list;
             kanji_list_browser != NULL;

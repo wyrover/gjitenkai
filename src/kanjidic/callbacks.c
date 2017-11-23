@@ -215,10 +215,30 @@ G_MODULE_EXPORT void on_radical_button_clicked(GtkButton *button, kanjidic *kanj
 
   gint position = 1;
 
-  gtk_editable_insert_text(editable,
-                           radical,
-                           strlen(radical),
-                           &position);
+  //Check if the clicked radical is alderly present in the radical list
+  gboolean alderly_present = FALSE;
+  const gchar *radicals = gtk_entry_get_text(entry_filter_radical);
+  const gchar *kptr=radicals;
+  gunichar radical_in_searchentry;
+  gunichar radical_clicked = g_utf8_get_char(radical);
+  while ((radical_in_searchentry = g_utf8_get_char(kptr))){
+    if(radical_clicked == radical_in_searchentry){
+      alderly_present = TRUE;
+      break;
+    }
+    kptr = g_utf8_next_char(kptr);
+  }
+
+
+  if(alderly_present){
+    g_printf("TODO DELETE FROM ENTRY\n");
+  }
+  else{
+    gtk_editable_insert_text(editable,
+			     radical,
+			     strlen(radical),
+			     &position);
+  }
 
   //update the radical list window button
   radical_buttons_update(kanjidic);
