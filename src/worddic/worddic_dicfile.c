@@ -97,8 +97,10 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
 }
 
 void worddic_dicfile_close(WorddicDicfile *dicfile){
-  if(dicfile->is_gz)gzclose((gzFile)dicfile->fp);
-  else fclose(dicfile->fp);
+  if(!dicfile->is_jmdict){
+    if(dicfile->is_gz)gzclose((gzFile)dicfile->fp);
+    else fclose(dicfile->fp);
+  }
 }
 
 void worddic_dicfile_parse_all(WorddicDicfile *dicfile){
