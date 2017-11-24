@@ -164,10 +164,12 @@ void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* s
 static void on_dictionary_download_finished_callback (SoupSession *session,
 						      SoupMessage *msg,
 						      void *param){
-   worddic *p_worddic = (worddic*)param;
+  GtkButton *button = (worddic*)param;
   if(SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)){
     //file path where to save the dictionary
-    gchar *destination = g_strdup_printf("%s/%s", g_get_home_dir(), "edict2u.gz");
+    gchar *url = (gchar*)g_object_get_data(G_OBJECT(button), "url");
+    gchar *basename = g_path_get_basename(url);
+    gchar *destination = g_strdup_printf("%s/%s", g_get_home_dir(), basename);
 
     //write to a file
     g_file_set_contents(destination,
@@ -175,6 +177,10 @@ static void on_dictionary_download_finished_callback (SoupSession *session,
 			msg->response_body->length,
 			NULL);
 
+    g_free(basename);
+    g_free(destination);
+
+    /*
     // search if a dictionary nammed `dic_name` exist in the dictionary list
     gchar *dic_name = "edict2u from Monash";
     GSList *dicfile_node = p_worddic->conf->dicfile_list;
@@ -209,11 +215,10 @@ static void on_dictionary_download_finished_callback (SoupSession *session,
 			  -1);
 
       worddic_conf_save(p_worddic->settings, p_worddic->conf, WSE_DICFILE);
+      }*/
     }
-  }
 
   //re enable the button in case the user wants to download dictionary again
-  GtkButton *button = (GtkButton*)gtk_builder_get_object(p_worddic->definitions, "button_download_dic");
   gtk_widget_set_sensitive(GTK_WIDGET(button), TRUE);
   gtk_button_set_label(button, "Download");
 }
@@ -235,7 +240,7 @@ G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_wo
   gchar *url = (gchar*)g_object_get_data(G_OBJECT(button), "url");
   SoupSession *session = soup_session_new();
   SoupMessage *msg = soup_message_new ("GET", url);
-  soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, p_worddic);
+  soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, button);
 
   g_object_connect (msg,
 		    "signal::got-chunk", got_chunk, p_worddic,
