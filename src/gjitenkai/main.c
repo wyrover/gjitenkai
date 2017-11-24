@@ -13,6 +13,8 @@ extern void on_search_expression_activate(GtkEntry *entry,
 extern void on_gjitenkai_search_expression_activate(GtkEntry *entry,
                                                      gjitenkai *gjitenkai);
 
+extern void on_button_download_clicked(GtkButton* button, worddic *p_worddic);
+
 
 const gchar* home = "style.css";
 
@@ -223,6 +225,47 @@ int main( int argc, char **argv)
   GError *error = 0;
   gtk_css_provider_load_from_file(provider, g_file_new_for_path(home), &error);
 
+  // Initialisation of dictionary available to downlaod url
+  rest = g_strjoin(G_DIR_SEPARATOR_S,
+		   PROJECT_NAME,
+		   "url",
+		   NULL);
+  gchar *filename = get_file(dirs, rest);
+  g_free(rest);
+
+  if(filename){
+    FILE *fp = fopen(filename, "r");
+    gchar desc[1024];
+    gchar url[1024];
+    int count;
+
+    GtkBox *box_download = (GtkBox*)gtk_builder_get_object(gjitenkai.worddic->definitions, "box_download");
+
+    while(!feof(fp)){
+      count = fscanf(fp, "\"%[^\"]\" %s", desc, url);
+      fgetc(fp);
+      if(count == 2){
+	GtkBox *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+
+	GtkWidget *button_download = gtk_button_new_with_label("Download");
+	g_signal_connect(button_download,
+			 "clicked",
+			 G_CALLBACK(on_button_download_clicked),
+			 gjitenkai.worddic);
+
+	gchar *data = g_strdup(url);       //TODO free
+	g_object_set_data(button_download, "url", data);
+	GtkWidget *label_desc = gtk_label_new(desc);
+
+	gtk_box_pack_start(box, label_desc, TRUE, TRUE, 0);
+	gtk_box_pack_start(box, button_download, FALSE, FALSE, 0);
+	gtk_box_pack_start(box_download, box, TRUE, TRUE, 0);
+      }
+    }
+
+    fclose(fp);
+  }
+
 
   //show and main loop
   gtk_widget_show_all ((GtkWidget*)window);
@@ -232,7 +275,6 @@ int main( int argc, char **argv)
   worddic_conf_save(gjitenkai.worddic->settings,
                     gjitenkai.worddic->conf,
                     WSE_HISTORY);
-
 
   return 1;
 }

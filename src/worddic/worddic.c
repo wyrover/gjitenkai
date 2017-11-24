@@ -142,8 +142,7 @@ void worddic_init (worddic *p_worddic){
 
 }
 
-void init_search_menu(worddic *p_worddic)
-{
+void init_search_menu(worddic *p_worddic){
   //get the search options
   gint match_criteria_jp = p_worddic->match_criteria_jp;
   gint match_criteria_lat = p_worddic->match_criteria_lat;

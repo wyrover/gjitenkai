@@ -164,7 +164,7 @@ void G_MODULE_EXPORT on_worddic_search_results_edge_reached(GtkScrolledWindow* s
 static void on_dictionary_download_finished_callback (SoupSession *session,
 						      SoupMessage *msg,
 						      void *param){
-  worddic *p_worddic = (worddic*)param;
+   worddic *p_worddic = (worddic*)param;
   if(SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)){
     //file path where to save the dictionary
     gchar *destination = g_strdup_printf("%s/%s", g_get_home_dir(), "edict2u.gz");
@@ -221,33 +221,23 @@ static void on_dictionary_download_finished_callback (SoupSession *session,
 static void got_chunk (SoupMessage *msg, SoupBuffer *chunk, worddic *p_worddic){
   SoupMessageHeaders *response_headers = msg->response_headers;
   gdouble resp_len = soup_message_headers_get_content_length(response_headers);
-  GtkProgressBar *pbar = (GtkProgressBar*) gtk_builder_get_object(p_worddic->definitions,
-								  "progressbar_download_dic");
+  GtkProgressBar *pbar = (GtkProgressBar*)
+  gtk_builder_get_object(p_worddic->definitions,
+  "progressbar_download_dic");
   gtk_progress_bar_set_fraction(pbar, ((gdouble)msg->response_body->length / (gdouble)resp_len));
 }
-/*
-static void got_headers (SoupMessage *msg, worddic *p_worddic){
-  SoupMessageHeaders *response_headers = msg->response_headers;
-  soup_message_headers_get_encoding(response_headers);
-  gdouble resp_len = soup_message_headers_get_content_length(response_headers);
-}
-*/
 
 G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_worddic){
   //disable the button to prevent multiple click
   gtk_widget_set_sensitive(GTK_WIDGET(button), FALSE);
   gtk_button_set_label(button, "Downloading ...");
 
-  //the remote dictionary location is hard coded. TODO put dictionary location in a file or
-  //in a GSettings variable and create UI of a true download manager with several possible
-  //locations
-  const char *download_url = "http://ftp.monash.edu/pub/nihongo/edict2u.gz";
+  gchar *url = (gchar*)g_object_get_data(G_OBJECT(button), "url");
   SoupSession *session = soup_session_new();
-  SoupMessage *msg = soup_message_new ("GET", download_url);
+  SoupMessage *msg = soup_message_new ("GET", url);
   soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, p_worddic);
 
   g_object_connect (msg,
-		    //"signal::got-headers", got_headers, p_worddic,
 		    "signal::got-chunk", got_chunk, p_worddic,
 		    NULL);
 }

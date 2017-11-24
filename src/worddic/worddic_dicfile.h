@@ -50,7 +50,7 @@ typedef struct _WorddicDicfile {
   //set to false if magic sequance is not found at the beginning of the file
   gboolean is_valid;
 
-  //file pointer to read the dictionary file
+  //file pointer to read the edict dictionary file
   FILE *fp;
 
   //tells if the dictionary file is utf8 encoded
