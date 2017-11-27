@@ -179,49 +179,7 @@ static void on_dictionary_download_finished_callback (SoupSession *session,
 
     g_free(basename);
     g_free(destination);
-
-    /*
-    // search if a dictionary nammed `dic_name` exist in the dictionary list
-    gchar *dic_name = "edict2u from Monash";
-    GSList *dicfile_node = p_worddic->conf->dicfile_list;
-    while (dicfile_node != NULL){
-      WorddicDicfile *dicfile = dicfile_node->data;
-      if(!g_strcmp0(dicfile->name, dic_name)){
-	break;
-      }
-      dicfile_node = g_slist_next(dicfile_node);
     }
-
-    //if not, create a new worddic dictionary
-    if(!dicfile_node){
-      WorddicDicfile * dicfile = g_new0(WorddicDicfile, 1);
-      dicfile->name = g_strdup(dic_name);
-      dicfile->path = destination;
-      dicfile->is_loaded = FALSE;
-      dicfile->is_active = TRUE;
-      p_worddic->conf->dicfile_list = g_slist_append(p_worddic->conf->dicfile_list, dicfile);
-
-      //update the model
-      GtkTreeIter iter;
-      GtkListStore *store = (GtkListStore*)gtk_builder_get_object(p_worddic->definitions,
-								  "liststore_dic");
-      //insert a new row in the model
-      gtk_list_store_insert (store, &iter, -1);
-      gtk_list_store_set (store, &iter,
-			  COL_NAME, dicfile->name,
-			  COL_PATH, dicfile->path,
-			  COL_ACTIVE, dicfile->is_active,
-			  COL_LOADED, dicfile->is_loaded,
-			  -1);
-
-      worddic_conf_save(p_worddic->settings, p_worddic->conf, WSE_DICFILE);
-      }*/
-    }
-
-  //re enable the button in case the user wants to download dictionary again
-  gtk_widget_set_sensitive(GTK_WIDGET(button), TRUE);
-  gtk_button_set_label(button, "Download");
-  //gtk_widget_hide(pbar);
 }
 
 static void got_chunk (SoupMessage *msg, SoupBuffer *chunk, GtkProgressBar *pbar){
@@ -235,15 +193,28 @@ static void got_chunk (SoupMessage *msg, SoupBuffer *chunk, GtkProgressBar *pbar
    to the box, so user can monitor downloading progress
  */
 G_MODULE_EXPORT void on_button_download_clicked(GtkButton *button, GtkProgressBar *pbar){
-  //disable the button to prevent multiple click
-  gtk_widget_set_sensitive(GTK_WIDGET(button), FALSE);
-  gtk_button_set_label(button, "Downloading ...");
-  //gtk_widget_show(pbar);
-  gchar *url = (gchar*)g_object_get_data(G_OBJECT(button), "url");
-  SoupSession *session = soup_session_new();
-  SoupMessage *msg = soup_message_new ("GET", url);
-  soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, button);
-  g_object_connect (msg, "signal::got-chunk", got_chunk, pbar, NULL);
+  if(!session)session = soup_session_new();
+
+  if(!strcmp(gtk_button_get_label(button), "Cancel")){
+    gtk_button_set_label(button, "Download");
+    SoupMessage *msg = (SoupMessage*)g_object_get_data(G_OBJECT(button), "msg");
+    soup_session_cancel_message(session, msg, SOUP_STATUS_CANCELLED);
+    g_object_set_data(G_OBJECT(button), "msg", NULL);
+    gtk_progress_bar_set_fraction(pbar, 0);
+  }
+  else{
+    //gtk_widget_set_sensitive(GTK_WIDGET(button), FALSE);
+    gtk_button_set_label(button, "Cancel");
+
+    //gtk_widget_show(pbar);
+    gchar *url = (gchar*)g_object_get_data(G_OBJECT(button), "url");
+    SoupMessage *msg = soup_message_new ("GET", url);
+    //assign the msg to the button data so user can eventually cancel
+    g_object_set_data(G_OBJECT(button), "msg", msg);
+    soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, button);
+    g_object_connect (msg, "signal::got-chunk", got_chunk, pbar, NULL);
+  }
+
 }
 
 G_MODULE_EXPORT void on_button_welcome_clicked(GtkButton *button, worddic *p_worddic){

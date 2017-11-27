@@ -5,6 +5,7 @@
 
 #include <locale.h>
 #include <libintl.h>
+#include <libsoup/soup.h>
 
 #include "conf.h"
 #include "inflection.h"
@@ -19,8 +20,9 @@
 GdkCursor *cursor_selection;
 GdkCursor *cursor_default;
 
-typedef struct worddic_t
-{
+SoupSession *session;
+
+typedef struct worddic_t{
   GtkBuilder *definitions;
   GSettings *settings;
   struct _WorddicConfig *conf;

@@ -20,8 +20,7 @@ const gchar* home = "style.css";
 
 GError *error = 0;
 
-int main( int argc, char **argv)
-{
+int main( int argc, char **argv){
   const gchar * const * dirs = g_get_system_data_dirs();
   gchar *rest = g_strjoin(G_DIR_SEPARATOR_S, "locale", NULL);
   gchar* localdir = get_file(dirs, rest);
@@ -44,6 +43,8 @@ int main( int argc, char **argv)
 
   //init gtk
   gtk_init (&argc, &argv);
+
+  session = NULL;
 
   GtkCssProvider *provider;
   GdkDisplay *display;
@@ -246,11 +247,12 @@ int main( int argc, char **argv)
       fgetc(fp);
       if(count == 2){
 	GtkBox *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
+	GtkBox *box_btn_progess = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	GtkWidget *button_download = gtk_button_new_with_label("Download");
 	GtkProgressBar *pbar = gtk_progress_bar_new();
+
 	gtk_progress_bar_set_show_text(pbar, TRUE);
-	//gtk_widget_hide(pbar);
+
 	g_signal_connect(button_download,
 			 "clicked",
 			 G_CALLBACK(on_button_download_clicked),
