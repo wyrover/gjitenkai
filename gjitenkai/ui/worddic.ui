@@ -2,42 +2,80 @@
 <!-- Generated with glade 3.20.1 -->
 <interface domain="worddic">
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkAboutDialog" id="aboutdialog">
+  <object class="GtkDialog" id="dialog_welcome">
     <property name="can_focus">False</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
-    <property name="program_name">Gjiten Kai グジテン改 - worddic</property>
-    <property name="version">0.1</property>
-    <property name="authors">Original Gjiten developer (1999 - 2005) Botond Botyanszki
-
-    Gjiten Kai developer (2015 - ...) Olivier Drevet
-    </property>
-    <property name="logo">../kai.png</property>
-    <property name="license_type">gpl-3-0</property>
+    <property name="urgency_hint">True</property>
     <child internal-child="vbox">
-      <object class="GtkBox" id="aboutdialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox3">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkButtonBox" id="aboutdialog-action_area1">
+          <object class="GtkButtonBox" id="dialog-action_area3">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_welcome">
+                    <property name="label" translatable="yes">Ok</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_button_welcome_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
+            <property name="fill">False</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkLabel" id="label8">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">&lt;b&gt;Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'&lt;/b&gt;
+
+To start seaching you need an &lt;b&gt;EDICT dictionary file &lt;/b&gt;.
+
+You can download one at the &lt;a href="http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil"&gt;Official EDICT website&lt;/a&gt;
+
+Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt;
+&lt;b&gt;Worddic - Dictionaries - Add&lt;/b&gt;
+
+You can also download an EDICT dictionary from the Help Menu.
+
+</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
     </child>
@@ -760,339 +798,9 @@
       </packing>
     </child>
   </object>
-  <object class="GtkRadioMenuItem" id="radiomenuitem_search_japanese">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="draw_as_radio">True</property>
-  </object>
-  <object class="GtkRadioMenuItem" id="radiomenuitem_search_latin">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="draw_as_radio">True</property>
-  </object>
-  <object class="GtkWindow" id="worddic">
-    <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Gjiten Kai グジテン改 - Worddic</property>
-    <signal name="destroy" handler="gtk_main_quit" swapped="no"/>
-    <child>
-      <object class="GtkBox" id="box_top">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkMenuBar" id="menubar">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkMenuItem" id="menuitem_file">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_File</property>
-                <property name="use_underline">True</property>
-                <child type="submenu">
-                  <object class="GtkMenu" id="menu1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkImageMenuItem" id="menuitem_file_quit">
-                        <property name="label">gtk-quit</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
-                        <signal name="activate" handler="gtk_main_quit" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="menuitem_edit">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Edit</property>
-                <property name="use_underline">True</property>
-                <child type="submenu">
-                  <object class="GtkMenu" id="menu2">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkMenuItem" id="menuitem_prefs">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Preferences</property>
-                        <property name="use_underline">True</property>
-                        <signal name="activate" handler="on_menuitem_prefs_activate" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="menuitem_search">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Search</property>
-                <property name="use_underline">True</property>
-                <child type="submenu">
-                  <object class="GtkMenu" id="menu4">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkMenuItem" id="menuitem_search_japanese">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Japanese</property>
-                        <property name="use_underline">True</property>
-                        <child type="submenu">
-                          <object class="GtkMenu" id="menu5">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkRadioMenuItem" id="menuitem_search_japanese_exact">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Exact Match</property>
-                                <property name="active">True</property>
-                                <property name="draw_as_radio">True</property>
-                                <property name="group">radiomenuitem_search_japanese</property>
-                                <signal name="activate" handler="on_menuitem_search_japanese_exact_activate" swapped="no"/>
-                                <accelerator key="x" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkRadioMenuItem" id="menuitem_search_japanese_any">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Any Matches</property>
-                                <property name="draw_as_radio">True</property>
-                                <property name="group">radiomenuitem_search_japanese</property>
-                                <signal name="activate" handler="on_menuitem_search_japanese_any_activate" swapped="no"/>
-                                <accelerator key="y" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkRadioMenuItem" id="menuitem_search_japanese_start">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Start With Expression</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_as_radio">True</property>
-                                <property name="group">radiomenuitem_search_japanese</property>
-                                <signal name="activate" handler="on_menuitem_search_japanese_start_activate" swapped="no"/>
-                                <accelerator key="s" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkRadioMenuItem" id="menuitem_search_japanese_end">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">End With Expression</property>
-                                <property name="draw_as_radio">True</property>
-                                <property name="group">radiomenuitem_search_japanese</property>
-                                <signal name="activate" handler="on_menuitem_search_japanese_end_activate" swapped="no"/>
-                                <accelerator key="e" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkMenuItem" id="menuitem_search_latin">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Latin</property>
-                        <property name="use_underline">True</property>
-                        <child type="submenu">
-                          <object class="GtkMenu" id="menu6">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkRadioMenuItem" id="menuitem_search_latin_whole_expressions">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Whole Expression</property>
-                                <property name="use_underline">True</property>
-                                <property name="active">True</property>
-                                <property name="draw_as_radio">True</property>
-                                <property name="group">radiomenuitem_search_latin</property>
-                                <signal name="activate" handler="on_menuitem_search_latin_whole_expressions_activate" swapped="no"/>
-                                <accelerator key="e" signal="activate" modifiers="GDK_CONTROL_MASK | GDK_MOD1_MASK"/>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkRadioMenuItem" id="menuitem_search_latin_whole_words">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Whole Words</property>
-                                <property name="use_underline">True</property>
-                                <property name="group">radiomenuitem_search_latin</property>
-                                <signal name="activate" handler="on_menuitem_search_latin_whole_words_activate" swapped="no"/>
-                                <accelerator key="w" signal="activate" modifiers="GDK_CONTROL_MASK | GDK_MOD1_MASK"/>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkRadioMenuItem" id="menuitem_search_latin_any">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Any Matches</property>
-                                <property name="use_underline">True</property>
-                                <property name="group">radiomenuitem_search_latin</property>
-                                <signal name="activate" handler="on_menuitem_search_latin_any_matches_activate" swapped="no"/>
-                                <accelerator key="y" signal="activate" modifiers="GDK_CONTROL_MASK | GDK_MOD1_MASK"/>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="menuitem_history">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">History</property>
-                <property name="use_underline">True</property>
-                <child type="submenu">
-                  <object class="GtkMenu" id="menu_history">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="menuitem_help">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Help</property>
-                <property name="use_underline">True</property>
-                <child type="submenu">
-                  <object class="GtkMenu" id="menuitem_help_about">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem_help_about">
-                        <property name="label">gtk-about</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
-                        <signal name="activate" handler="on_menuitem_help_about_activate" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-    </child>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
-  </object>
-  <object class="GtkDialog" id="dialog_welcome">
-    <property name="can_focus">False</property>
-    <property name="resizable">False</property>
-    <property name="modal">True</property>
-    <property name="destroy_with_parent">True</property>
-    <property name="type_hint">dialog</property>
-    <property name="urgency_hint">True</property>
-    <property name="transient_for">worddic</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox3">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area3">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button_welcome">
-                    <property name="label" translatable="yes">Ok</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_button_welcome_clicked" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label8">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">&lt;b&gt;Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'&lt;/b&gt;
-
-To start seaching you need an &lt;b&gt;EDICT dictionary file &lt;/b&gt;.
-
-You can download one at the &lt;a href="http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil"&gt;Official EDICT website&lt;/a&gt;
-
-Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt;
-&lt;b&gt;Worddic - Dictionaries - Add&lt;/b&gt;
-
-You can also download an EDICT dictionary from the Help Menu.
-
-</property>
-            <property name="use_markup">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
   <object class="GtkDialog" id="prefs">
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
-    <property name="transient_for">worddic</property>
     <signal name="delete-event" handler="on_prefs_delete_event" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox_prefs">
@@ -1235,6 +943,16 @@ You can also download an EDICT dictionary from the Help Menu.
     <child>
       <placeholder/>
     </child>
+  </object>
+  <object class="GtkRadioMenuItem" id="radiomenuitem_search_japanese">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="draw_as_radio">True</property>
+  </object>
+  <object class="GtkRadioMenuItem" id="radiomenuitem_search_latin">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="draw_as_radio">True</property>
   </object>
   <object class="GtkTextBuffer" id="textbuffer_search_results"/>
   <object class="GtkBox" id="box_toplevel">
