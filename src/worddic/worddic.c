@@ -391,12 +391,13 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
     }
 
     //Entry General Informations
-    for(unit = entry->general_informations;
+    //TODO_GI
+    /*for(unit = entry->general_informations;
         unit != NULL;
         unit = unit->next){
       text = (gchar*)unit->data;
       print_unit(textbuffer, text, &p_worddic->conf->notes);
-    }
+      }*/
 
     //comment
     if(comment)print_unit(textbuffer, comment, &p_worddic->conf->notes);

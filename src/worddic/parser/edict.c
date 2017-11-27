@@ -77,11 +77,12 @@ GjitenDicentry* parse_line(const gchar* p_line){
               gchar *saveptr_entry_GI=NULL;
               gchar *entry_GI = (gchar*)strtok_r(GI, ",", &saveptr_entry_GI);
 
+	      //TODO_GI moved to sense
               //for all entries, set the GENERAL information text code
-              do{
+              /*do{
 		dicentry->general_informations = g_slist_prepend(dicentry->general_informations, g_strdup(entry_GI));
                 entry_GI = (gchar*)strtok_r(NULL, ",", &saveptr_entry_GI);
-              }while(entry_GI);
+		}while(entry_GI);*/
 
 	      //use text code to set GI bit flags
 	      dicentry_set_GI_flags_from_code(dicentry);
@@ -121,7 +122,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
   }while(sub_sense_str);
 
   //reverse the prepended data
-  dicentry->general_informations = g_slist_reverse(dicentry->general_informations);
+  //dicentry->general_informations = g_slist_reverse(dicentry->general_informations);  //moved to sense TODO_GI
   dicentry->sense = g_slist_reverse(dicentry->sense);
 
   ////////

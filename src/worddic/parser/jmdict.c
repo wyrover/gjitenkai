@@ -60,7 +60,8 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
 
     cur = cur->next;
   }
-  dicentry->GI = GIALL;   //TODO
+
+  //dicentry->GI = GIALL;   //TODO_GI moved to sense
   //dicentry_set_GI_flags_from_code(dicentry);
 
   return dicentry;

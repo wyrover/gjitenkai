@@ -1,7 +1,9 @@
 #include "dicentry.h"
 
 void dicentry_set_GI_flags_from_code(GjitenDicentry* dicentry){
-  dicentry->GI = GINONE;  //set all GI Flags to 0
+  //TODO_GI moved to sense
+  /*
+dicentry->GI = GINONE;  //set all GI Flags to 0
 
   GSList *unit = NULL;
 
@@ -23,6 +25,7 @@ void dicentry_set_GI_flags_from_code(GjitenDicentry* dicentry){
       dicentry->GI = ADJI;
     }
   }
+  */
 }
 
 void dicentry_free(GjitenDicentry* dicentry){
@@ -35,8 +38,9 @@ void dicentry_free(GjitenDicentry* dicentry){
   g_slist_free_full(dicentry->jap_reading, g_free);
   dicentry->jap_reading = NULL;
 
-  g_slist_free_full(dicentry->general_informations, g_free);
-  dicentry->general_informations = NULL;
+  //TODO_GI moved to sense
+  //g_slist_free_full(dicentry->general_informations, g_free);
+  //dicentry->general_informations = NULL;
 
   g_free(dicentry->ent_seq);
   dicentry->ent_seq = NULL;

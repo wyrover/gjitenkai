@@ -33,8 +33,8 @@ typedef struct _GjitenDicentry {
 
 
   //TODO Move to sense
-  GSList *general_informations;  //General Info in plain text (to display)
-  enum entry_GI GI;    //Generak Info in a bits field (to speed up search)
+  //GSList *general_informations;  //General Info in plain text (to display)
+  //enum entry_GI GI;    //Generak Info in a bits field (to speed up search)
 
   gboolean priority;
 }GjitenDicentry;
