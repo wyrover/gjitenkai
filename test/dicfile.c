@@ -1,4 +1,4 @@
-//gcc -g  dicfile_jmdict.c print_entry.c ../src/worddic/worddic_dicfile.c ../src/worddic/dicentry.c ../src/common/dicutil.c ../src/worddic/gloss.c $(pkg-config --cflags --libs gtk+-3.0 libxml-2.0) -lz -I../src/worddic/ -o dicfile
+//gcc -g  dicfile.c print_entry.c ../src/worddic/worddic_dicfile.c ../src/worddic/dicentry.c ../src/worddic/parser/jmdict.c  ../src/worddic/parser/edict.c ../src/gjitenkai/dicutil.c ../src/worddic/sense.c $(pkg-config --cflags --libs gtk+-3.0 libxml-2.0) -lz -I../src/worddic/ -o dicfile
 
 #include <gtk/gtk.h>
 
@@ -6,8 +6,7 @@
 #include "../src/worddic/worddic_dicfile.h"
 #include "../src/worddic/dicentry.h"
 
-int main( int argc, char **argv )
-{
+int main( int argc, char **argv ){
   g_printf("load an edict dictionary.\n parameters are:\n\
 'Dicionary path'\n\
 'whatever second argument to print all entries'\n");

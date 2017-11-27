@@ -112,8 +112,7 @@ install(
   ${PROJECT_NAME}/ui/worddic.ui
   ${PROJECT_NAME}/ui/kanjidic.ui
   DESTINATION
-  ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/ui/
-  )
+  ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/ui/)
 
 ## Install locales
 ###Français
@@ -132,19 +131,16 @@ install(
   po/ja/kanjidic.mo
   DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/ja/LC_MESSAGES/)
 
-## Install kanjidic
-install(
-  FILES ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/kanjidic.utf8
-  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
-  )
-
-## Install radicals and inflection rules in the data dir
 install(
   FILES
-  ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/radkfile.utf8
-  ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/vconj.utf8
-  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
-  )
+  ${PROJECT_NAME}/kanjidic.utf8
+  ${PROJECT_NAME}/radkfile.utf8
+  ${PROJECT_NAME}/vconj.utf8
+  ${PROJECT_NAME}/style.css
+  ${PROJECT_NAME}/url
+  ${PROJECT_NAME}/country_codes
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
+
 
 ## Install icon
 install(

@@ -2,17 +2,6 @@
 #define DICFILE_H
 
 #include <glib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <string.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdio.h>
-#include <glib/gi18n.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
 #include "conf.h"
 #include "error.h"

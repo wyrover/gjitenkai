@@ -6,9 +6,6 @@
 #include <gio/gio.h>
 #include <stdio.h>
 
-#include <libxml/tree.h>
-#include <libxml/parser.h>
-
 #include "sense.h"
 #include "dicresult.h"
 #include "dicentry.h"
