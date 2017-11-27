@@ -13,6 +13,6 @@
    cur must point to an entry
 */
 
-GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur);
+GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur);
 
 #endif

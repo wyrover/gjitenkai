@@ -163,7 +163,6 @@ gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
   return TRUE;
 }
 
-
 void dicfile_parse_jmdict(WorddicDicfile *dicfile){
   xmlDocPtr doc = xmlParseFile(dicfile->path);
   xmlNodePtr cur;
@@ -183,7 +182,7 @@ void dicfile_parse_jmdict(WorddicDicfile *dicfile){
   cur = cur->xmlChildrenNode;
   while (cur != NULL) {
     if ((!xmlStrcmp(cur->name, (const xmlChar *)"entry"))){
-      GjitenDicentry *dicentry = parse_entry_jmdict(cur);
+      GjitenDicentry *dicentry = parse_entry_jmdict(doc, cur);
       dicfile->entries = g_slist_prepend(dicfile->entries, dicentry);
     }
 
@@ -192,7 +191,6 @@ void dicfile_parse_jmdict(WorddicDicfile *dicfile){
 
   xmlFreeDoc(doc);
 }
-
 
 GList *dicfile_search(WorddicDicfile *dicfile,
                       search_expression *p_search_expression,
