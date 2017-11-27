@@ -221,33 +221,32 @@ static void on_dictionary_download_finished_callback (SoupSession *session,
   //re enable the button in case the user wants to download dictionary again
   gtk_widget_set_sensitive(GTK_WIDGET(button), TRUE);
   gtk_button_set_label(button, "Download");
+  //gtk_widget_hide(pbar);
 }
 
-static void got_chunk (SoupMessage *msg, SoupBuffer *chunk, worddic *p_worddic){
+static void got_chunk (SoupMessage *msg, SoupBuffer *chunk, GtkProgressBar *pbar){
   SoupMessageHeaders *response_headers = msg->response_headers;
   gdouble resp_len = soup_message_headers_get_content_length(response_headers);
-  GtkProgressBar *pbar = (GtkProgressBar*)
-  gtk_builder_get_object(p_worddic->definitions,
-  "progressbar_download_dic");
   gtk_progress_bar_set_fraction(pbar, ((gdouble)msg->response_body->length / (gdouble)resp_len));
 }
 
-G_MODULE_EXPORT void on_button_download_clicked(GtkButton* button, worddic *p_worddic){
+/**
+   The box is the container that hold the clicked button, a progress bar will be created and added
+   to the box, so user can monitor downloading progress
+ */
+G_MODULE_EXPORT void on_button_download_clicked(GtkButton *button, GtkProgressBar *pbar){
   //disable the button to prevent multiple click
   gtk_widget_set_sensitive(GTK_WIDGET(button), FALSE);
   gtk_button_set_label(button, "Downloading ...");
-
+  //gtk_widget_show(pbar);
   gchar *url = (gchar*)g_object_get_data(G_OBJECT(button), "url");
   SoupSession *session = soup_session_new();
   SoupMessage *msg = soup_message_new ("GET", url);
   soup_session_queue_message (session, msg, on_dictionary_download_finished_callback, button);
-
-  g_object_connect (msg,
-		    "signal::got-chunk", got_chunk, p_worddic,
-		    NULL);
+  g_object_connect (msg, "signal::got-chunk", got_chunk, pbar, NULL);
 }
 
-G_MODULE_EXPORT void on_button_welcome_clicked(GtkButton* button, worddic *p_worddic){
+G_MODULE_EXPORT void on_button_welcome_clicked(GtkButton *button, worddic *p_worddic){
   GtkDialog *dialog = (GtkDialog*)gtk_builder_get_object(p_worddic->definitions,
                                                          "dialog_welcome");
   gtk_widget_hide (GTK_WIDGET(dialog));
