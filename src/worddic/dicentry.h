@@ -3,15 +3,6 @@
 
 #include <glib.h>
 
-#include <libxml/tree.h>
-#include <libxml/parser.h>
-
-#ifndef MINGW
-#include <string.h>
-#else
-#include "../gjitenkai/dicutil.h"
-#endif
-
 #include "sense.h"
 
 /**
@@ -27,7 +18,7 @@ enum entry_GI{
   GIALL  =  0b1111
 };
 
-struct _GjitenDicentry {
+typedef struct _GjitenDicentry {
   GSList *jap_definition; //kanji (gchar*)
   GSList *jap_reading;    //kana  (gchar*)
   GSList *sense;          //sense (struct sense)
@@ -37,17 +28,7 @@ struct _GjitenDicentry {
   enum entry_GI GI;    //Generak Info in a bits field (to speed up search)
 
   gboolean priority;
-};
-
-typedef struct _GjitenDicentry GjitenDicentry;
-
-GjitenDicentry* parse_line(const gchar* p_line);
-
-/**
-   return a GjitenDicEntry from an entry in a JMdict
-   cur must point to an entry
-*/
-GjitenDicentry* parse_entry_jmdict(xmlNodePtr cur);
+}GjitenDicentry;
 
 void dicentry_free(GjitenDicentry* dicentry);
 

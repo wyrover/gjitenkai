@@ -83,6 +83,8 @@ add_executable(
   src/worddic/inflection.c
   src/worddic/callbacks.c
   src/worddic/dicentry.c
+  src/worddic/parser/jmdict.c
+  src/worddic/parser/edict.c
   src/worddic/worddic_dicfile.c
   src/worddic/dicresult.c
   src/worddic/sense.c

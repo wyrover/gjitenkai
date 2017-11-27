@@ -9,10 +9,11 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 
-#include "dicentry.h"
-#include "dicresult.h"
 #include "sense.h"
-
+#include "dicresult.h"
+#include "dicentry.h"
+#include "parser/edict.h"
+#include "parser/jmdict.h"
 #include "../gjitenkai/dicfile.h"
 
 #define GZLEN 1600
