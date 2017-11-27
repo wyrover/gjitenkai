@@ -201,12 +201,11 @@ G_MODULE_EXPORT void on_button_download_clicked(GtkButton *button, GtkProgressBa
     soup_session_cancel_message(session, msg, SOUP_STATUS_CANCELLED);
     g_object_set_data(G_OBJECT(button), "msg", NULL);
     gtk_progress_bar_set_fraction(pbar, 0);
+    gtk_progress_bar_set_show_text(pbar, FALSE);
   }
   else{
-    //gtk_widget_set_sensitive(GTK_WIDGET(button), FALSE);
     gtk_button_set_label(button, "Cancel");
-
-    //gtk_widget_show(pbar);
+    gtk_progress_bar_set_show_text(pbar, TRUE);
     gchar *url = (gchar*)g_object_get_data(G_OBJECT(button), "url");
     SoupMessage *msg = soup_message_new ("GET", url);
     //assign the msg to the button data so user can eventually cancel

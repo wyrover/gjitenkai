@@ -246,25 +246,26 @@ int main( int argc, char **argv){
       count = fscanf(fp, "\"%[^\"]\" %s", desc, url);
       fgetc(fp);
       if(count == 2){
-	GtkBox *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	GtkBox *box_btn_progess = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	GtkWidget *button_download = gtk_button_new_with_label("Download");
 	GtkProgressBar *pbar = gtk_progress_bar_new();
 
-	gtk_progress_bar_set_show_text(pbar, TRUE);
-
+	GtkWidget *button_download = gtk_button_new_with_label("Download");
+	gchar *data = g_strdup(url);       //TODO free
+	g_object_set_data(button_download, "url", data);
 	g_signal_connect(button_download,
 			 "clicked",
 			 G_CALLBACK(on_button_download_clicked),
 			 pbar);
 
-	gchar *data = g_strdup(url);       //TODO free
-	g_object_set_data(button_download, "url", data);
+	//contains the download button and the progressbar
+	GtkBox *box_btn_progess = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_pack_start(box_btn_progess, pbar, FALSE, TRUE, 0);
+	gtk_box_pack_start(box_btn_progess, button_download, FALSE, TRUE, 0);
+
 	GtkWidget *label_desc = gtk_label_new(desc);
 
+	GtkBox *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(box, label_desc, TRUE, TRUE, 0);
-	gtk_box_pack_start(box, button_download, FALSE, FALSE, 0);
-	gtk_box_pack_start(box, pbar, FALSE, TRUE, 0);
+	gtk_box_pack_start(box, box_btn_progess, FALSE, TRUE, 0);
 	gtk_box_pack_start(box_download, box, TRUE, TRUE, 0);
       }
     }
