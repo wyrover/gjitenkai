@@ -10,8 +10,8 @@
 #include "conf.h"
 #include "inflection.h"
 #include "unit_style.h"
-#include "../common/conf.h"
-#include "../common/dicfile.h"
+#include "../gjitenkai/conf.h"
+#include "../gjitenkai/dicfile.h"
 
 #define SETTINGS_WORDDIC "gjitenkai.worddic"
 

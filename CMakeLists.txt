@@ -73,6 +73,10 @@ add_executable(
   src/${PROJECT_NAME}/main.c
   src/${PROJECT_NAME}/${PROJECT_NAME}.c
   src/${PROJECT_NAME}/callbacks.c
+  src/${PROJECT_NAME}/conf.c
+  src/${PROJECT_NAME}/dicfile.c
+  src/${PROJECT_NAME}/dicutil.c
+  src/${PROJECT_NAME}/error.c
   src/worddic/conf.c
   src/worddic/worddic.c
   src/worddic/preferences.c
@@ -90,11 +94,6 @@ add_executable(
   src/kanjidic/radical_window.c
   src/kanjidic/preferences.c
   src/kanjidic/kanji_item.c
-  src/common/conf.c
-  src/common/dicfile.c
-  src/common/dicutil.c
-  src/common/callbacks.c
-  src/common/error.c
   ${RES_FILES}   #resouces file for icon
   )
 

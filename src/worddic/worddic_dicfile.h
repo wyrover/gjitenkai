@@ -13,7 +13,7 @@
 #include "dicresult.h"
 #include "sense.h"
 
-#include "../common/dicfile.h"
+#include "../gjitenkai/dicfile.h"
 
 #define GZLEN 1600
 

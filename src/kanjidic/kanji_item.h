@@ -2,7 +2,7 @@
 #define KANJI_ITEM_H
 
 #include <gtk/gtk.h>
-#include "../common/constants.h"
+#include "../gjitenkai/constants.h"
 
 /**
    define a property of a kanji (bushuu, stroke count, grade)

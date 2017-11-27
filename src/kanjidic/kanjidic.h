@@ -3,13 +3,13 @@
 
 #include <gtk/gtk.h>
 
-#include "../common/conf.h"
+#include "../gjitenkai/conf.h"
 
 #include "conf.h"
 #include "constants.h"
 #include "kanjiutils.h"
 #include "kanji_item.h"
-#include "../common/dicfile.h"
+#include "../gjitenkai/dicfile.h"
 
 #define UI_DEFINITIONS_FILE_KANJIDIC "kanjidic.ui"
 

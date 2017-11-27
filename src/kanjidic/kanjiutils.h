@@ -11,8 +11,8 @@
 
 #include "constants.h"
 #include "kanjifile.h"
-#include "../common/dicutil.h"
-#include "../common/dicfile.h"
+#include "../gjitenkai/dicutil.h"
+#include "../gjitenkai/dicfile.h"
 
 /**
    Info on a radical

@@ -3,7 +3,7 @@
 
 #include <glib.h>
 
-#include "../common/dicfile.h"
+#include "../gjitenkai/dicfile.h"
 
 #define KBUFSIZE 500
 

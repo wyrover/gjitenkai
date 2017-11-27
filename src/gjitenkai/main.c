@@ -2,7 +2,7 @@
 #include <libintl.h>
 
 #include "gjitenkai.h"
-#include "../common/dicutil.h"
+#include "../gjitenkai/dicutil.h"
 
 extern gboolean on_gjitenkai_search_results_button_release_event(GtkWidget *text_view,
                                                                  GdkEventButton *event,

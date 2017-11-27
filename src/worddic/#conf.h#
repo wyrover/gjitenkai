@@ -20,7 +20,7 @@
 #include "../gjitenkai/conf.h"
 #include "../gjitenkai/constants.h"
 #include "../gjitenkai/dicfile.h"
-#include "../gjitenkai/dicutil.h"
+#include "../qgjitenkai/dicutil.h"
 
 /**
    When saving the configuration

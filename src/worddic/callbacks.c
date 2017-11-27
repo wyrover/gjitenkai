@@ -5,7 +5,7 @@
 #include "worddic.h"
 #include "worddic_dicfile.h"
 #include "preferences.h"
-#include "../common/dicfile.h"
+#include "../gjitenkai/dicfile.h"
 
 /*
  * Update the cursor image if the pointer is above a kanji.

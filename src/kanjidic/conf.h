@@ -14,10 +14,10 @@
 
 #include "kanjidic.h"
 
-#include "../common/error.h"
-#include "../common/constants.h"
-#include "../common/dicfile.h"
-#include "../common/dicutil.h"
+#include "../gjitenkai/error.h"
+#include "../gjitenkai/constants.h"
+#include "../gjitenkai/dicfile.h"
+#include "../gjitenkai/dicutil.h"
 
 struct _KanjidicConfig {
   struct _GjitenDicfile *kanjidic;

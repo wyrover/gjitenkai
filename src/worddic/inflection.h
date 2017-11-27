@@ -13,9 +13,9 @@
 #include "worddic_dicfile.h"
 #include "dicentry.h"
 
-#include "../common/constants.h"
-#include "../common/dicfile.h"
-#include "../common/dicutil.h"
+#include "../gjitenkai/constants.h"
+#include "../gjitenkai/dicfile.h"
+#include "../gjitenkai/dicutil.h"
 
 #define VINFL_FILENAME "vconj.utf8"
 

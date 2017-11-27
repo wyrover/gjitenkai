@@ -7,7 +7,7 @@
 
 #include "worddic.h"
 #include "conf.h"
-#include "../common/dicfile.h"
+#include "../gjitenkai/dicfile.h"
 
 /**
    Identify the Headers of the dictionary list

@@ -9,7 +9,7 @@
 #ifndef MINGW
 #include <string.h>
 #else
-#include "../common/dicutil.h"
+#include "../gjitenkai/dicutil.h"
 #endif
 
 #include "sense.h"
