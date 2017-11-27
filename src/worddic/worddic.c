@@ -280,8 +280,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
                                                         &search_expr,
                                                         "from katakana",
                                                         GIALL,
-                                                        1)
-                                );
+                                                        1));
         g_free(hiragana);  //free memory
       }
 

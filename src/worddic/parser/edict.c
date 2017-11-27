@@ -25,7 +25,6 @@ GjitenDicentry* parse_line(const gchar* p_line){
   sense *p_sense = NULL;
 
   do{
-
     if(sub_sense_str && strcmp(sub_sense_str, "\n") && strcmp(sub_sense_str, " ")){
       //check if this is an edict2 EntL sequance or a sub_sense_str
       if(g_str_has_prefix(sub_sense_str, "EntL")){
@@ -71,30 +70,22 @@ GjitenDicentry* parse_line(const gchar* p_line){
             else{
               //if in first parentheses: General Informations of the whole entry
               //add this GI in the entry
-              dicentry->general_informations = g_slist_prepend(dicentry->general_informations,
-                                                               g_strdup(GI));
+              //dicentry->general_informations = g_slist_prepend(dicentry->general_informations, g_strdup(GI));
 
               //Entry General Information: list separated by comma in the first
               //pair of parentheses
               gchar *saveptr_entry_GI=NULL;
               gchar *entry_GI = (gchar*)strtok_r(GI, ",", &saveptr_entry_GI);
 
-              //by default, set the entry as a noun
-              dicentry->GI = NOUN;
-
-              //for all entries, set the GENERAL information
+              //for all entries, set the GENERAL information text code
               do{
-                if(!strcmp(entry_GI, "v1")){
-                  dicentry->GI = V1;
-                }
-                else if(g_str_has_prefix(entry_GI, "v5")){
-                    dicentry->GI = V5;
-                }
-                else if(!strcmp(entry_GI, "adj-i")){
-                  dicentry->GI = ADJI;
-                }
+		dicentry->general_informations = g_slist_prepend(dicentry->general_informations, g_strdup(entry_GI));
                 entry_GI = (gchar*)strtok_r(NULL, ",", &saveptr_entry_GI);
               }while(entry_GI);
+
+	      //use text code to set GI bit flags
+	      dicentry_set_GI_flags_from_code(dicentry);
+
               first_parentheses = FALSE;
             }
 

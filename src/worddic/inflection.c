@@ -155,7 +155,6 @@ GList* search_inflections(WorddicDicfile *dicfile,
     if(tmp_vinfl_struct->itype == ADJ_TO_ADVERB ||
        tmp_vinfl_struct->itype == ADJ_PAST ||
        tmp_vinfl_struct->itype == ADJ_NEGATIVE_PAST ||
-       tmp_vinfl_struct->itype == ADJ_NEGATIVE_PAST ||
        tmp_vinfl_struct->itype == ADJ_PAST_KATTA){
       entry_type = ADJI;
     }

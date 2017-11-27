@@ -31,11 +31,7 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
 	  //get the content without entity subtitution
 	  gchar *content = xmlNodeListGetRawString(doc, child->xmlChildrenNode, 0);
 	  p_sense->general_informations = g_slist_prepend(p_sense->general_informations, content);
-
-	  //gchar *content = (gchar *)xmlNodeGetContent(child);
-	  //p_sense->general_informations = g_slist_prepend(p_sense->general_informations, content);
 	}
-
 	child = child->next;
       }
     }
@@ -65,5 +61,7 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
     cur = cur->next;
   }
   dicentry->GI = GIALL;   //TODO
+  //dicentry_set_GI_flags_from_code(dicentry);
+
   return dicentry;
 }
