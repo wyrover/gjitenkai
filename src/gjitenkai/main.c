@@ -136,6 +136,7 @@ int main( int argc, char **argv){
                         GTK_WIDGET(menu_item_search),
                         3);
 
+  /*
   //recreate the accelerators
   GtkAccelGroup *accel_group = gtk_accel_group_new();
   gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
@@ -190,7 +191,7 @@ int main( int argc, char **argv){
 
   gtk_widget_add_accelerator(GTK_WIDGET(radio_item), "activate", accel_group,
   'y', GDK_CONTROL_MASK | GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
-
+  */
   //////
   //Callbacks that needs connunication between worddic and kanjidic
   //callback when the worrdic search result is clicked, get the clicked

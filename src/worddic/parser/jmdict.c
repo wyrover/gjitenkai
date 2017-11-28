@@ -25,15 +25,18 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
 	    xmlFree(lang);
 	  }
 	}
-	else if((!xmlStrcmp(child->name, (const xmlChar *)"pos"))
-		// || (!xmlStrcmp(child->name, (const xmlChar *)"misc"))
-		){
+	else if((!xmlStrcmp(child->name, (const xmlChar *)"pos"))){
 	  //get the content without entity subtitution
-	  gchar *content = xmlNodeListGetRawString(doc, child->xmlChildrenNode, 0);
-	  p_sense->general_informations = g_slist_prepend(p_sense->general_informations, content);
+	  gchar *raw = xmlNodeListGetRawString(doc, child->xmlChildrenNode, 0);
+	  //remove first and last character of the Entity macro
+	  size_t len = strlen(raw);
+	  memmove(raw, raw+1, len-2);
+	  raw[len-2] = 0;
+	  p_sense->general_informations = g_slist_prepend(p_sense->general_informations, raw);
 	}
 	child = child->next;
       }
+      sense_set_GI_flags_from_code(p_sense);
     }
     else if ((!xmlStrcmp(cur->name, (const xmlChar *)"k_ele"))){
       xmlNodePtr child = cur->xmlChildrenNode;
@@ -60,9 +63,6 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
 
     cur = cur->next;
   }
-
-  //dicentry->GI = GIALL;   //TODO_GI moved to sense
-  //dicentry_set_GI_flags_from_code(dicentry);
 
   return dicentry;
 }

@@ -85,7 +85,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
 		}while(entry_GI);*/
 
 	      //use text code to set GI bit flags
-	      dicentry_set_GI_flags_from_code(dicentry);
+	      sense_set_GI_flags_from_code(dicentry);
 
               first_parentheses = FALSE;
             }

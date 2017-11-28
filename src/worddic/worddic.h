@@ -10,16 +10,15 @@
 #include "conf.h"
 #include "inflection.h"
 #include "unit_style.h"
+#include "sense.h"
 #include "../gjitenkai/conf.h"
 #include "../gjitenkai/dicfile.h"
 
 #define SETTINGS_WORDDIC "gjitenkai.worddic"
-
 #define UI_DEFINITIONS_FILE_WORDDIC "worddic.ui"
 
 GdkCursor *cursor_selection;
 GdkCursor *cursor_default;
-
 SoupSession *session;
 
 typedef struct worddic_t{
