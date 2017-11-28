@@ -112,6 +112,12 @@
     <key name="history" type="a(s)">
       <default>[]</default>
     </key>
+    <key name="lang" type="a(ssb)">
+      <default>[["Eng", "English", true], ["Fre", "French", false]]</default>
+      <description>
+	List of language code and Name, boolean to enable / disable search
+      </description>
+    </key>
   </schema>
   <schema id="gjitenkai.kanjidic" path="/gjitenkai/kanjidic/">
     <key name="translation" type="b">
