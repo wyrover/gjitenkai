@@ -419,13 +419,13 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
         print_unit(textbuffer, text, &p_worddic->conf->notes);
       }
 
-      GSList *sub_sense_list = NULL;
+      GSList *gloss_list = NULL;
       ////sub sense
-      for(sub_sense_list = p_sense->sub_sense;
-          sub_sense_list != NULL;
-          sub_sense_list = sub_sense_list->next){
-	sub_sense *p_sub_sense = (sub_sense*)sub_sense_list->data;
-        text = (gchar*)p_sub_sense->content;
+      for(gloss_list = p_sense->gloss;
+          gloss_list != NULL;
+          gloss_list = gloss_list->next){
+	gloss *p_gloss = (gloss*)gloss_list->data;
+        text = (gchar*)p_gloss->content;
         print_unit(textbuffer, text, &p_worddic->conf->subsense);
       }
 

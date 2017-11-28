@@ -334,17 +334,17 @@ GList *dicfile_search(WorddicDicfile *dicfile,
       //search in the sense list
       while(sense_list && !has_matched){
         sense *sense = sense_list->data;
-        GSList *sub_sense_list = sense->sub_sense;
+        GSList *gloss_list = sense->gloss;
         //search in the sub sensees
-        while(sub_sense_list && !has_matched){
-	  sub_sense *p_sub_sense = (sub_sense*)sub_sense_list->data;
-          has_matched = g_regex_match (regex, p_sub_sense->content, 0, &match_info);
+        while(gloss_list && !has_matched){
+	  gloss *p_gloss = (gloss*)gloss_list->data;
+          has_matched = g_regex_match (regex, p_gloss->content, 0, &match_info);
 
           if(has_matched){
             results = add_match(match_info, comment, dicentry, results);
           }
           else {
-            sub_sense_list = sub_sense_list->next;
+            gloss_list = gloss_list->next;
           }
 
           g_match_info_unref(match_info);

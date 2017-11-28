@@ -13,15 +13,15 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
 
       while (child){
 	if((!xmlStrcmp(child->name, (const xmlChar *)"gloss"))){
-	  sub_sense *p_sub_sense = g_new0(sub_sense, 1);
-	  p_sense->sub_sense = g_slist_prepend(p_sense->sub_sense, p_sub_sense);
+	  gloss *p_gloss = g_new0(gloss, 1);
+	  p_sense->gloss = g_slist_prepend(p_sense->gloss, p_gloss);
 
 	  gchar *content = (gchar *)xmlNodeGetContent(child);
-	  p_sub_sense->content = content;
+	  p_gloss->content = content;
 
 	  gchar *lang = (gchar *)xmlGetProp(child, (const xmlChar *)"lang");
 	  if(lang){
-	    strncpy(p_sub_sense->lang, lang, 3);
+	    strncpy(p_gloss->lang, lang, 3);
 	    xmlFree(lang);
 	  }
 	}

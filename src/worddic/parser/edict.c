@@ -13,7 +13,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
 
   ////////
   //read sensees (sub sense) in the second chunk (one sub sense per /)
-  gchar *sub_sense_str = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
+  gchar *gloss_str = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
 
   //is it the first parenthese (among all of the sensees)
   gboolean first_parentheses = TRUE;
@@ -25,24 +25,24 @@ GjitenDicentry* parse_line(const gchar* p_line){
   sense *p_sense = NULL;
 
   do{
-    if(sub_sense_str && strcmp(sub_sense_str, "\n") && strcmp(sub_sense_str, " ")){
-      //check if this is an edict2 EntL sequance or a sub_sense_str
-      if(g_str_has_prefix(sub_sense_str, "EntL")){
-        dicentry->ent_seq = g_strdup(sub_sense_str);
+    if(gloss_str && strcmp(gloss_str, "\n") && strcmp(gloss_str, " ")){
+      //check if this is an edict2 EntL sequance or a gloss_str
+      if(g_str_has_prefix(gloss_str, "EntL")){
+        dicentry->ent_seq = g_strdup(gloss_str);
       }
       else{
-        char *start = sub_sense_str;
-        char *end = sub_sense_str;
+        char *start = gloss_str;
+        char *end = gloss_str;
         gboolean in_token = FALSE;
-        while(in_token || *sub_sense_str == '(' || *sub_sense_str == ' '){
+        while(in_token || *gloss_str == '(' || *gloss_str == ' '){
 
-          if(*sub_sense_str == '('){
+          if(*gloss_str == '('){
             in_token = TRUE;
-            start = sub_sense_str;
+            start = gloss_str;
           }
-          else if(*sub_sense_str == ')'){
+          else if(*gloss_str == ')'){
             in_token = FALSE;
-            end = sub_sense_str;
+            end = gloss_str;
           }
 
           if(start < end && *start) {
@@ -56,7 +56,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
                 dicentry->sense = g_slist_prepend(dicentry->sense, p_sense);
               }
 
-              //Sub_Sense_Str' General Informations: one per pair of parentheses
+              //Gloss_Str' General Informations: one per pair of parentheses
               //add this GI in the sense
               p_sense->general_informations = g_slist_append(p_sense->general_informations,
                                                              g_strdup(GI));
@@ -90,9 +90,9 @@ GjitenDicentry* parse_line(const gchar* p_line){
               first_parentheses = FALSE;
             }
 
-            start = sub_sense_str = end;
+            start = gloss_str = end;
           }
-          sub_sense_str++;
+          gloss_str++;
         } //end () token
 
         //in case there was no GI for this sense
@@ -101,12 +101,12 @@ GjitenDicentry* parse_line(const gchar* p_line){
           dicentry->sense = g_slist_prepend(dicentry->sense, p_sense);
         }
 
-        //the rest of the string is the sub sense (sub_sense_str point at the end
+        //the rest of the string is the sub sense (gloss_str point at the end
         //of the last pair of parentheses of this sub sense)
-	sub_sense *p_sub_sense = g_new0 (sub_sense, 1);
-	p_sub_sense->content = g_strdup(sub_sense_str);
-        p_sense->sub_sense = g_slist_prepend(p_sense->sub_sense,
-                                             p_sub_sense);
+	gloss *p_gloss = g_new0 (gloss, 1);
+	p_gloss->content = g_strdup(gloss_str);
+        p_sense->gloss = g_slist_prepend(p_sense->gloss,
+                                             p_gloss);
 
         //create a new sense at new GI encounter
         start_new_sense = TRUE;
@@ -114,12 +114,12 @@ GjitenDicentry* parse_line(const gchar* p_line){
     }//end if sense sub not empty
 
     //get part of line after next /
-    sub_sense_str = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
+    gloss_str = (gchar*)strtok_r(NULL, "/", &saveptr_chunk);
 
     //reverse the prepended data
     //p_sense->general_informations = g_slist_reverse(p_sense->general_informations);
-    p_sense->sub_sense = g_slist_reverse(p_sense->sub_sense);
-  }while(sub_sense_str);
+    p_sense->gloss = g_slist_reverse(p_sense->gloss);
+  }while(gloss_str);
 
   //reverse the prepended data
   //dicentry->general_informations = g_slist_reverse(dicentry->general_informations);  //moved to sense TODO_GI
