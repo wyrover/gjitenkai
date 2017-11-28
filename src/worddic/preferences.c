@@ -241,29 +241,29 @@ void init_prefs_window(worddic *worddic){
                            "entry_gloss_end");
   gtk_entry_set_text(entry_sense_end, worddic->conf->sense.end);
 
-  //subsense
-  GtkFontButton *font_button_subsense = (GtkFontButton*)
-    gtk_builder_get_object(worddic->definitions, "fontbutton_subsense");
-  gtk_font_button_set_font_name (font_button_subsense, worddic->conf->subsense.font);
+  //gloss
+  GtkFontButton *font_button_gloss = (GtkFontButton*)
+    gtk_builder_get_object(worddic->definitions, "fontbutton_gloss");
+  gtk_font_button_set_font_name (font_button_gloss, worddic->conf->gloss.font);
 
   //set the color of the color chooser button
-  GtkColorChooser *color_chooser_subsense = (GtkColorChooser*)
+  GtkColorChooser *color_chooser_gloss = (GtkColorChooser*)
     gtk_builder_get_object(worddic->definitions,
-                           "colorbutton_subsense");
+                           "colorbutton_gloss");
 
-  gtk_color_chooser_set_rgba(color_chooser_subsense,
-                             worddic->conf->subsense.color);
+  gtk_color_chooser_set_rgba(color_chooser_gloss,
+                             worddic->conf->gloss.color);
 
   //start and end entries
-  GtkEntry *entry_subsense_start = (GtkEntry*)
+  GtkEntry *entry_gloss_start = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
                            "entry_subgloss_start");
-  gtk_entry_set_text(entry_subsense_start, worddic->conf->subsense.start);
+  gtk_entry_set_text(entry_gloss_start, worddic->conf->gloss.start);
 
-  GtkEntry *entry_subsense_end = (GtkEntry*)
+  GtkEntry *entry_gloss_end = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
                            "entry_subgloss_end");
-  gtk_entry_set_text(entry_subsense_end, worddic->conf->subsense.end);
+  gtk_entry_set_text(entry_gloss_end, worddic->conf->gloss.end);
 
   //notes
   GtkFontButton *font_button_notes = (GtkFontButton*)
@@ -443,40 +443,40 @@ G_MODULE_EXPORT void on_entry_sense_end_changed(GtkEntry *entry,
 
 
 //sub sense
-G_MODULE_EXPORT void on_fontbutton_subsense_font_set(GtkFontButton *font_button,
+G_MODULE_EXPORT void on_fontbutton_gloss_font_set(GtkFontButton *font_button,
                                                      worddic *worddic){
   const gchar *font_name= gtk_font_button_get_font_name (font_button);
 
-  worddic->conf->subsense.font = font_name;
+  worddic->conf->gloss.font = font_name;
 
-  g_object_set(worddic->conf->subsense.tag, "font",
-               worddic->conf->subsense.font, NULL);
+  g_object_set(worddic->conf->gloss.tag, "font",
+               worddic->conf->gloss.font, NULL);
 
   worddic_conf_save(worddic->settings, worddic->conf, WSE_SENSE);
 }
 
-G_MODULE_EXPORT void on_colorbutton_subsense_color_set(GtkColorChooser *color_chooser,
+G_MODULE_EXPORT void on_colorbutton_gloss_color_set(GtkColorChooser *color_chooser,
                                                        worddic *worddic){
 
   gtk_color_chooser_get_rgba(color_chooser,
-                             worddic->conf->subsense.color);
+                             worddic->conf->gloss.color);
 
-  g_object_set(worddic->conf->subsense.tag, "foreground-rgba",
-               worddic->conf->subsense.color, NULL);
+  g_object_set(worddic->conf->gloss.tag, "foreground-rgba",
+               worddic->conf->gloss.color, NULL);
 
   worddic_conf_save(worddic->settings, worddic->conf, WSE_SENSE);
 }
 
-G_MODULE_EXPORT void on_entry_subsense_start_changed(GtkEntry *entry,
+G_MODULE_EXPORT void on_entry_gloss_start_changed(GtkEntry *entry,
                                                      worddic *worddic){
-  worddic->conf->subsense.start = gtk_entry_get_text(entry);
+  worddic->conf->gloss.start = gtk_entry_get_text(entry);
   worddic_conf_save(worddic->settings, worddic->conf, WSE_SENSE);
 
 }
 
-G_MODULE_EXPORT void on_entry_subsense_end_changed(GtkEntry *entry,
+G_MODULE_EXPORT void on_entry_gloss_end_changed(GtkEntry *entry,
                                                    worddic *worddic){
-  worddic->conf->subsense.end = gtk_entry_get_text(entry);
+  worddic->conf->gloss.end = gtk_entry_get_text(entry);
   worddic_conf_save(worddic->settings, worddic->conf, WSE_SENSE);
 }
 

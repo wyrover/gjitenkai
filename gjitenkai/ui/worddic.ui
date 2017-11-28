@@ -152,7 +152,7 @@ You can also download an EDICT dictionary from the Help Menu.
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="xpad">5</property>
-                <property name="label" translatable="yes">Sense / Sub Sense</property>
+                <property name="label" translatable="yes">Sense / Gloss</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>

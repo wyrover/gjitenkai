@@ -56,7 +56,7 @@ typedef struct _WorddicConfig {
   unit_style jap_def;
   unit_style jap_reading;
   unit_style sense;
-  unit_style subsense;
+  unit_style gloss;
   unit_style notes;
 
   //dark theme

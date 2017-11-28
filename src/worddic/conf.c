@@ -43,9 +43,9 @@ void worddic_conf_save_unit_style(GSettings *settings,
   g_free(key);key=NULL;
 
   key = g_strconcat(name, "-color", NULL);
-  char *str_subsense_color = gdk_rgba_to_string(us->color);
-  g_settings_set_string(settings, key, str_subsense_color);
-  g_free(str_subsense_color);
+  char *str_gloss_color = gdk_rgba_to_string(us->color);
+  g_settings_set_string(settings, key, str_gloss_color);
+  g_free(str_gloss_color);
   g_free(key);key=NULL;
 }
 
@@ -65,7 +65,7 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   worddic_conf_load_unit_style(settings, &conf->jap_def, "japanese-definition");
   worddic_conf_load_unit_style(settings, &conf->jap_reading, "japanese-reading");
   worddic_conf_load_unit_style(settings, &conf->sense, "sense");
-  worddic_conf_load_unit_style(settings, &conf->subsense, "subsense");
+  worddic_conf_load_unit_style(settings, &conf->gloss, "gloss");
   worddic_conf_load_unit_style(settings, &conf->notes, "notes");
 
   //dark theme
@@ -186,7 +186,7 @@ void worddic_conf_save(GSettings *settings,
 
   if(fields & WSE_SENSE){
     worddic_conf_save_unit_style(settings, &conf->sense, "sense");
-    worddic_conf_save_unit_style(settings, &conf->subsense, "subsense");
+    worddic_conf_save_unit_style(settings, &conf->gloss, "gloss");
   }
 
   if(fields & WSE_NOTES){

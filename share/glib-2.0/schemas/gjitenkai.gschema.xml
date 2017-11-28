@@ -66,16 +66,16 @@
     <key name="sense-end" type="s">
       <default>''</default>
     </key>
-    <key name="subsense-font" type="s">
+    <key name="gloss-font" type="s">
       <default>'Sans Regular 12'</default>
     </key>
-    <key name="subsense-color" type="s">
+    <key name="gloss-color" type="s">
       <default>'rgb(252,233,79)'</default>
     </key>
-    <key name="subsense-start" type="s">
+    <key name="gloss-start" type="s">
       <default>''</default>
     </key>
-    <key name="subsense-end" type="s">
+    <key name="gloss-end" type="s">
       <default>';'</default>
     </key>
     <key name="notes-font" type="s">

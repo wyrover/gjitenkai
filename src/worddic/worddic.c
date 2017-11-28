@@ -92,15 +92,15 @@ void worddic_init (worddic *p_worddic){
                                                       NULL);
   p_worddic->conf->sense.tag = sense_tag;
 
-  //subsense
-  GtkTextTag *subsense_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
-                                                         "subsense",
+  //gloss
+  GtkTextTag *gloss_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
+                                                         "gloss",
                                                          "foreground-rgba",
-                                                         p_worddic->conf->subsense.color,
+                                                         p_worddic->conf->gloss.color,
                                                          "font",
-                                                         p_worddic->conf->subsense.font,
+                                                         p_worddic->conf->gloss.font,
                                                          NULL);
-  p_worddic->conf->subsense.tag = subsense_tag;
+  p_worddic->conf->gloss.tag = gloss_tag;
 
   //notes
   GtkTextTag *notes_tag = gtk_text_buffer_create_tag (textbuffer_search_results,
@@ -426,7 +426,7 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
           gloss_list = gloss_list->next){
 	gloss *p_gloss = (gloss*)gloss_list->data;
         text = (gchar*)p_gloss->content;
-        print_unit(textbuffer, text, &p_worddic->conf->subsense);
+        print_unit(textbuffer, text, &p_worddic->conf->gloss);
       }
 
       gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.end,
