@@ -18,13 +18,14 @@ void print_entry(GjitenDicentry* entry){
     g_printf("\t%s\n", unit->data);
   }
 
-  g_printf("Entry General Informations: \n");
+  /*  g_printf("Entry General Informations: \n");
   for(unit = entry->general_informations;
       unit != NULL;
       unit = unit->next){
     g_printf("\t%s\n", unit->data);
-  }
-  g_printf("General Information ENUM TYPE :\n\t%d\n", entry->GI);
+    }*/
+
+  //g_printf("General Information ENUM TYPE :\n\t%d\n", entry->GI);
 
   for(unit = entry->sense;
       unit != NULL;
@@ -38,23 +39,22 @@ void print_entry(GjitenDicentry* entry){
         GI  != NULL;
         GI  = GI->next){
       gchar *text = GI->data;
-      g_printf("\t\t(%s)\n", text);
+      g_printf("\t\t%s\n", text);
     }
 
     g_printf("\tSub sense: \n");
-    GSList * p_sub_sense_list =  NULL;
-    for(p_sub_sense_list = p_sense->sub_sense;
-        p_sub_sense_list != NULL;
-        p_sub_sense_list = p_sub_sense_list->next){
-      sub_sense *p_sub_sense = p_sub_sense_list->data;
-      g_printf("\t\t%s", p_sub_sense->content);
-      if(p_sub_sense->lang[0] != '\0'){
-	g_printf(" (lang '%s')\n", p_sub_sense->lang);
+    GSList * p_gloss_list =  NULL;
+    for(p_gloss_list = p_sense->gloss;
+        p_gloss_list != NULL;
+        p_gloss_list = p_gloss_list->next){
+      gloss *p_gloss = p_gloss_list->data;
+      g_printf("\t\t%s", p_gloss->content);
+      if(p_gloss->lang[0] != '\0'){
+	g_printf(" (lang '%s')\n", p_gloss->lang);
       }
       else{
 	g_printf(" | No lang specified (defaults to eng)\n");
       }
-
     }
   }
 }

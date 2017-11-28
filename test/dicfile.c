@@ -22,7 +22,7 @@ int main( int argc, char **argv ){
 
   if(print_all){
     //print all entries
-    GSList* list_dicentry = NULL;
+    GSList *list_dicentry = NULL;
     for(list_dicentry = dicfile->entries;
 	list_dicentry != NULL;
 	list_dicentry = list_dicentry->next){
