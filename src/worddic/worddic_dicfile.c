@@ -324,7 +324,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
         list_dicentry = list_dicentry->next){
 
       has_matched = FALSE;
-      GjitenDicentry* dicentry = list_dicentry->data;
+      GjitenDicentry *dicentry = list_dicentry->data;
 
       //check if the type match what we are searching
       //TODO_GI moved to sense

@@ -262,7 +262,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
       gtk_tree_path_free (path);
     }
 
-    //search that are performed only on japanese text
+    //search only on japanese text
     if(is_jp){
       //search for deinflections
       if(worddic->conf->verb_deinflection){
@@ -294,8 +294,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
                                                         &search_expr,
                                                         "from hiragana",
                                                         GIALL,
-                                                        1)
-                                );
+                                                        1));
         g_free(katakana); //free memory
       }
     }
@@ -306,8 +305,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
                                                     &search_expr,
                                                     NULL,
                                                     GIALL,
-                                                    is_jp)
-                            );
+                                                    is_jp));
 
     //get the next node in the dic list
     dicfile_node = g_slist_next(dicfile_node);
@@ -360,6 +358,7 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
     dicresult *p_dicresult = p_worddic->results->data;
 
     GjitenDicentry *entry = p_dicresult->entry;
+
     gchar *match = p_dicresult->match;
     gchar *comment = p_dicresult->comment;
 
@@ -403,7 +402,7 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
     if(comment)print_unit(textbuffer, comment, &p_worddic->conf->notes);
 
     //sense
-    for(unit = entry->sense;unit != NULL;unit = unit->next){
+    for(unit = entry->sense; unit != NULL; unit = unit->next){
 
       gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.start,
                                        strlen(p_worddic->conf->sense.start));
@@ -420,7 +419,7 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
       }
 
       GSList *gloss_list = NULL;
-      ////sub sense
+      ////Gloss
       for(gloss_list = p_sense->gloss;
           gloss_list != NULL;
           gloss_list = gloss_list->next){
