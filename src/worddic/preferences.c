@@ -337,6 +337,55 @@ void init_prefs_window(worddic *worddic){
   check_button = (GtkToggleButton*)gtk_builder_get_object(worddic->definitions,
                                                           "checkbutton_record_history");
   gtk_toggle_button_set_active(check_button, worddic->conf->record_history);
+
+  //Create and add the lang checkbuttons
+  GtkBox *box_lang = (GtkBox*)gtk_builder_get_object(worddic->definitions, "box_lang");
+  GSList *langs_node = worddic->conf->langs;
+  while (langs_node != NULL) {
+    lang *p_lang = langs_node->data;
+
+    GtkCheckButton *cb_lang = gtk_check_button_new_with_label(p_lang->name);
+    g_object_set_data(cb_lang, "lang", p_lang->code);
+    gtk_toggle_button_set_active(cb_lang, p_lang->active);
+    gtk_box_pack_start(box_lang, cb_lang, TRUE, TRUE, 0);
+
+    langs_node = g_slist_next(langs_node);
+  }
+
+  /*
+    rest = g_strjoin(G_DIR_SEPARATOR_S,
+    PROJECT_NAME,
+    "country_codes",
+    NULL);
+    gchar *filename_country_codes = get_file(dirs, rest);
+    g_free(rest);
+
+    if(filename_country_codes){
+    FILE *fp = fopen(filename_country_codes, "r");
+    gchar country_name[256];
+    gchar country_code[3];
+    int count;
+
+    GtkBox *box_lang = (GtkBox*)gtk_builder_get_object(gjitenkai.worddic->definitions, "box_lang");
+
+    while(!feof(fp)){
+    count = fscanf(fp, "%s %s", country_name, country_code);
+    fgetc(fp);
+    if(count == 2){
+    GtkCheckButton *cb_lang = gtk_check_button_new_with_label (country_name);
+    gchar *data = g_strdup(country_code);       //TODO free
+    g_object_set_data(cb_lang, "lang", data);
+    //g_signal_connect(cb_lang, "clicked", G_CALLBACK(on_cb_lang_toggle), gjitenkai.worddic);
+
+    gtk_box_pack_start(box_lang, cb_lang, TRUE, TRUE, 0);
+    }
+    }
+
+    fclose(fp);
+    }
+  */
+
+
 }
 
 
@@ -594,9 +643,7 @@ G_MODULE_EXPORT  void on_cellrenderertoggle_active_toggled(GtkCellRendererToggle
   worddic_conf_save(worddic->settings, worddic->conf, WSE_DICFILE);
 }
 
-static gboolean cb_load_dic_timeout( dic_state_ui *ui )
-{
-
+static gboolean cb_load_dic_timeout( dic_state_ui *ui ){
   if(!ui->dicfile->is_valid){
     GtkCellRendererToggle *cell = ui->cell;
     GtkTreeView *tree = ui->treeview;

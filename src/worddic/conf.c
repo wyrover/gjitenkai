@@ -98,11 +98,32 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   }
   g_variant_unref(dictionaries);
 
+
+  //country code and name
+  GVariant *lang_variant = g_settings_get_value(settings, "lang");
+  g_variant_iter_init(&iter, lang_variant);
+
+  gchar *lang_code, *lang_name;
+  gboolean lang_active;
+  conf->langs = NULL;
+
+  while (g_variant_iter_next (&iter, "(&s&sb)", &lang_name, &lang_code, &lang_active)) {
+    lang *p_lang = g_new0(lang, 1);
+    strcpy(p_lang->code, lang_code);
+    p_lang->name = strdup(lang_name);
+    p_lang->active = lang_active;
+    conf->langs = g_slist_append(conf->langs, p_lang);
+  }
+  g_variant_unref(lang_variant);
+
+
+
+
   //load the search options
   conf->search_kata_on_hira = g_settings_get_boolean(settings, "search-kata-on-hira");
   conf->search_hira_on_kata = g_settings_get_boolean(settings, "search-hira-on-kata");
   conf->verb_deinflection   = g_settings_get_boolean(settings, "deinflection-enabled");
-  conf->record_history      = TRUE;//g_settings_get_boolean(settings, "record-history");
+  conf->record_history      = g_settings_get_boolean(settings, "record-history");
 
   //load the history
   GVariantIter history_iter;
@@ -151,8 +172,8 @@ void worddic_conf_save(GSettings *settings,
                            conf->search_hira_on_kata);
     g_settings_set_boolean(settings, "deinflection-enabled",
                            conf->verb_deinflection);
-    /*g_settings_set_boolean(settings, "record-history",
-      conf->record_history);    */
+    g_settings_set_boolean(settings, "record-history",
+			   conf->record_history);
   }
 
   if(fields & WSE_DICFILE){

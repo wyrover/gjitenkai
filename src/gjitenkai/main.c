@@ -279,39 +279,6 @@ int main( int argc, char **argv){
     fclose(fp);
   }
 
-  //country code and name
-  rest = g_strjoin(G_DIR_SEPARATOR_S,
-		   PROJECT_NAME,
-		   "country_codes",
-		   NULL);
-  gchar *filename_country_codes = get_file(dirs, rest);
-  g_free(rest);
-
-  if(filename_country_codes){
-    FILE *fp = fopen(filename_country_codes, "r");
-    gchar country_name[256];
-    gchar country_code[3];
-    int count;
-
-    GtkBox *box_lang = (GtkBox*)gtk_builder_get_object(gjitenkai.worddic->definitions, "box_lang");
-
-    while(!feof(fp)){
-      count = fscanf(fp, "%s %s", country_name, country_code);
-      fgetc(fp);
-      if(count == 2){
-	GtkCheckButton *cb_lang = gtk_check_button_new_with_label (country_name);
-	gchar *data = g_strdup(country_code);       //TODO free
-	g_object_set_data(cb_lang, "lang", data);
-	//g_signal_connect(cb_lang, "clicked", G_CALLBACK(on_cb_lang_toggle), gjitenkai.worddic);
-
-	gtk_box_pack_start(box_lang, cb_lang, TRUE, TRUE, 0);
-      }
-    }
-
-    fclose(fp);
-  }
-
-
   //show and main loop
   gtk_widget_show_all ((GtkWidget*)window);
   gtk_main ();

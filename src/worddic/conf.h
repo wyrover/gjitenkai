@@ -39,6 +39,12 @@ typedef enum worddic_save_enum{
   WSE_ALL                 = 11111111
 }worddic_save;
 
+typedef struct _lang{
+  gchar code[3];
+  gchar *name;
+  gboolean active;
+}lang;
+
 typedef struct _WorddicConfig {
   gchar *version;
   GSList *dicfile_list;
@@ -70,6 +76,10 @@ typedef struct _WorddicConfig {
 
   //search history is a list of search_expression
   GSList *history;
+
+  //List of lang, to be listed in the preference pane.
+  //If active, search gloss with the lang code
+  GSList *langs;
 }WorddicConfig;
 
 void worddic_conf_load_unit_style(GSettings *settings,
