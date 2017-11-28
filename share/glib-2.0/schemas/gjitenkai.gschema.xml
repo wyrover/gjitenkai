@@ -53,29 +53,29 @@
     <key name="japanese-reading-end" type="s">
       <default>')'</default>
     </key>
-    <key name="gloss-font" type="s">
+    <key name="sense-font" type="s">
       <default>'Sans Regular 12'</default>
     </key>
-    <key name="gloss-color" type="s">
+    <key name="sense-color" type="s">
       <default>'rgb(80,80,0)'</default>
     </key>
-    <key name="gloss-start" type="s">
+    <key name="sense-start" type="s">
       <default>'
           '</default>
     </key>
-    <key name="gloss-end" type="s">
+    <key name="sense-end" type="s">
       <default>''</default>
     </key>
-    <key name="subgloss-font" type="s">
+    <key name="subsense-font" type="s">
       <default>'Sans Regular 12'</default>
     </key>
-    <key name="subgloss-color" type="s">
+    <key name="subsense-color" type="s">
       <default>'rgb(252,233,79)'</default>
     </key>
-    <key name="subgloss-start" type="s">
+    <key name="subsense-start" type="s">
       <default>''</default>
     </key>
-    <key name="subgloss-end" type="s">
+    <key name="subsense-end" type="s">
       <default>';'</default>
     </key>
     <key name="notes-font" type="s">

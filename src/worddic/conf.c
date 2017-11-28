@@ -64,8 +64,8 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
   //load the dictionary entries units styles
   worddic_conf_load_unit_style(settings, &conf->jap_def, "japanese-definition");
   worddic_conf_load_unit_style(settings, &conf->jap_reading, "japanese-reading");
-  worddic_conf_load_unit_style(settings, &conf->sense, "gloss");
-  worddic_conf_load_unit_style(settings, &conf->subsense, "subgloss");
+  worddic_conf_load_unit_style(settings, &conf->sense, "sense");
+  worddic_conf_load_unit_style(settings, &conf->subsense, "subsense");
   worddic_conf_load_unit_style(settings, &conf->notes, "notes");
 
   //dark theme
