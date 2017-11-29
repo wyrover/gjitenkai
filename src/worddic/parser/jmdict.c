@@ -45,7 +45,7 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
       while (child){
 	if((!xmlStrcmp(child->name, (const xmlChar *)"keb"))){
 	  gchar *content = (gchar *)xmlNodeGetContent(child);
-	  dicentry->jap_reading = g_slist_prepend(dicentry->jap_reading, content);
+	  dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition, content);
 	}
 	child = child->next;
       }
@@ -56,7 +56,7 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
       while (child){
 	if((!xmlStrcmp(child->name, (const xmlChar *)"reb"))){
 	  gchar *content = (gchar *)xmlNodeGetContent(child);
-	  dicentry->jap_definition = g_slist_prepend(dicentry->jap_definition, content);
+	  dicentry->jap_reading = g_slist_prepend(dicentry->jap_reading, content);
 	}
 	child = child->next;
       }
