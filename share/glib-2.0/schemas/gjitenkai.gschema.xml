@@ -60,8 +60,7 @@
       <default>'rgb(80,80,0)'</default>
     </key>
     <key name="sense-start" type="s">
-      <default>'
-          '</default>
+      <default>''</default>
     </key>
     <key name="sense-end" type="s">
       <default>''</default>
@@ -116,7 +115,9 @@
       <default>
 	[
 	('English', 'Eng', true),
-	('French', 'Fre', false)
+	('French', 'Fre', false),
+	('German', 'Ger', false),
+	('Russian', 'Rus', false)
 	]
 
 </default>
