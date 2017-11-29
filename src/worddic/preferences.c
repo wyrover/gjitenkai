@@ -169,6 +169,28 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
   return TRUE;
 }
 
+
+void toggle_button_callback (GtkWidget *widget, gpointer data)
+{
+
+}
+
+void on_checkbutton_lang_toggled(GtkCheckButton* cb_lang,
+				 worddic *worddic){
+  gchar *code = (gchar*)g_object_get_data(cb_lang, "lang");
+  GSList *langs_node = worddic->conf->langs;
+  while (langs_node != NULL) {
+    lang *p_lang = langs_node->data;
+    if(!strcmp(p_lang->code, code)){
+      p_lang->active = gtk_toggle_button_get_active((GtkToggleButton*)cb_lang);
+      break;
+    }
+    langs_node = g_slist_next(langs_node);
+  }
+
+  //todo save conf
+}
+
 void init_prefs_window(worddic *worddic){
   ////appearance tab
 
@@ -347,6 +369,7 @@ void init_prefs_window(worddic *worddic){
     GtkCheckButton *cb_lang = gtk_check_button_new_with_label(p_lang->name);
     g_object_set_data(cb_lang, "lang", p_lang->code);
     gtk_toggle_button_set_active(cb_lang, p_lang->active);
+    g_signal_connect(cb_lang, "toggled", G_CALLBACK(on_checkbutton_lang_toggled), worddic);
     gtk_box_pack_start(box_lang, cb_lang, TRUE, TRUE, 0);
 
     langs_node = g_slist_next(langs_node);
