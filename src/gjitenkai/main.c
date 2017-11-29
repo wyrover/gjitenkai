@@ -62,7 +62,7 @@ int main( int argc, char **argv){
 
   GtkWindow *window = (GtkWindow*)gtk_builder_get_object(gjitenkai.definitions,
                                                          "gjiten");
-  gtk_window_set_default_size(GTK_WINDOW(window), 800, 400);
+  gtk_window_set_default_size(GTK_WINDOW(window), 900, 440);
 
   //get the top level box of worddic and kanjidic
   GtkWidget *box_worddic = (GtkWidget*)gtk_builder_get_object(gjitenkai.worddic->definitions,
