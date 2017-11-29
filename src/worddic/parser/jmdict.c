@@ -2,14 +2,13 @@
 
 GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
   GjitenDicentry* dicentry = g_new0 (GjitenDicentry, 1);
-  sense *p_sense = g_new0(sense, 1);
-  dicentry->sense = g_slist_prepend(dicentry->sense, p_sense);
-
   cur = cur->xmlChildrenNode;
 
   while (cur) {
     if ((!xmlStrcmp(cur->name, (const xmlChar *)"sense"))){
       xmlNodePtr child = cur->xmlChildrenNode;
+      sense *p_sense = g_new0(sense, 1);
+      dicentry->sense = g_slist_prepend(dicentry->sense, p_sense);
 
       while (child){
 	if((!xmlStrcmp(child->name, (const xmlChar *)"gloss"))){
