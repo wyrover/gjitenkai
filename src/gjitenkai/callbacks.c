@@ -273,8 +273,7 @@ G_MODULE_EXPORT void on_text_insert_detect_unicode (GtkEntry    *entry,
 						    const gchar *text,
 						    gint         length,
 						    gint        *position,
-						    gpointer     data)
-{
+						    gpointer     data){
   GtkEditable *editable = GTK_EDITABLE(entry);
 
   //unicode representation of special characters

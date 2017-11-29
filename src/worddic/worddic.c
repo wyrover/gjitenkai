@@ -375,6 +375,8 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
     GtkTextMark *start_mark =
       gtk_text_buffer_create_mark (textbuffer, NULL, &iter_from, TRUE);
 
+    gtk_text_buffer_insert_at_cursor(textbuffer, "\n", strlen("\n"));
+
     //Japanese definition
     for(unit = entry->jap_definition; unit != NULL; unit = unit->next){
       text = (gchar*)unit->data;
@@ -429,19 +431,19 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
 	  gloss *p_gloss = (gloss*)gloss_list->data;
 	  //print the gloss of the activated languages only
 	  if(!strcmp(p_gloss->lang, "Eng")){
-	    gtk_text_buffer_insert_at_cursor(textbuffer,
+	    /*gtk_text_buffer_insert_at_cursor(textbuffer,
 					     p_gloss->lang,
-					     strlen(p_gloss->lang));
+					     strlen(p_gloss->lang));*/
 	    print_unit(textbuffer, p_gloss->content, &p_worddic->conf->gloss);
 	  }
 	}
-
 	gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.end,
 					 strlen(p_worddic->conf->sense.end));
+
       }
     }
 
-    gtk_text_buffer_insert_at_cursor(textbuffer, "\n", strlen("\n"));
+
 
     //set the iter from where to search text to highlight from the start mark
     gtk_text_buffer_get_iter_at_mark(textbuffer, &iter_from, start_mark);
