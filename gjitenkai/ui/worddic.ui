@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.1 -->
+<!-- Generated with glade 3.20.2 -->
 <interface domain="worddic">
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkDialog" id="dialog_welcome">
@@ -311,11 +311,11 @@ You can also download an EDICT dictionary from the Help Menu.
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="entry_subsense_start">
+                  <object class="GtkEntry" id="entry_gloss_start">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="width_chars">5</property>
-                    <signal name="changed" handler="on_entry_subsense_start_changed" swapped="no"/>
+                    <signal name="changed" handler="on_entry_gloss_start_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -324,13 +324,13 @@ You can also download an EDICT dictionary from the Help Menu.
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkFontButton" id="fontbutton_subsense">
+                  <object class="GtkFontButton" id="fontbutton_gloss">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="font">Sans 12</property>
                     <property name="preview_text"/>
-                    <signal name="font-set" handler="on_fontbutton_subsense_font_set" swapped="no"/>
+                    <signal name="font-set" handler="on_fontbutton_gloss_font_set" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -339,11 +339,11 @@ You can also download an EDICT dictionary from the Help Menu.
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkColorButton" id="colorbutton_subsense">
+                  <object class="GtkColorButton" id="colorbutton_gloss">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="color-set" handler="on_colorbutton_subsense_color_set" swapped="no"/>
+                    <signal name="color-set" handler="on_colorbutton_gloss_color_set" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -352,12 +352,12 @@ You can also download an EDICT dictionary from the Help Menu.
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="entry_subsense_end">
+                  <object class="GtkEntry" id="entry_gloss_end">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="width_chars">5</property>
                     <property name="max_width_chars">5</property>
-                    <signal name="changed" handler="on_entry_subsense_end_changed" swapped="no"/>
+                    <signal name="changed" handler="on_entry_gloss_end_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
