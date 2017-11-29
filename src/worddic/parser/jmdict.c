@@ -12,17 +12,19 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
 
       while (child){
 	if((!xmlStrcmp(child->name, (const xmlChar *)"gloss"))){
+	  gchar *lang = (gchar *)xmlGetProp(child, (const xmlChar *)"lang");
 	  gloss *p_gloss = g_new0(gloss, 1);
+	  if(lang){
+	    strncpy(p_gloss->lang, lang, 3);
+	    xmlFree(lang);
+	  }
+	  else strncpy(p_gloss->lang, "Eng", 3);
+
 	  p_sense->gloss = g_slist_prepend(p_sense->gloss, p_gloss);
 
 	  gchar *content = (gchar *)xmlNodeGetContent(child);
 	  p_gloss->content = content;
 
-	  gchar *lang = (gchar *)xmlGetProp(child, (const xmlChar *)"lang");
-	  if(lang){
-	    strncpy(p_gloss->lang, lang, 3);
-	    xmlFree(lang);
-	  }
 	}
 	else if((!xmlStrcmp(child->name, (const xmlChar *)"pos"))){
 	  //get the content without entity subtitution

@@ -331,11 +331,11 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
 void print_unit(GtkTextBuffer *textbuffer,
                 gchar *text,
                 unit_style *style){
-  GtkTextIter iter;
   gtk_text_buffer_insert_at_cursor(textbuffer,
                                    style->start,
                                    strlen(style->start));
 
+  GtkTextIter iter;
   gtk_text_buffer_get_end_iter (textbuffer, &iter);
   gtk_text_buffer_insert_with_tags(textbuffer,
                                    &iter,
@@ -389,47 +389,56 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
       }
     }
 
-    //Entry General Informations
-    //TODO_GI
-    /*for(unit = entry->general_informations;
-        unit != NULL;
-        unit = unit->next){
-      text = (gchar*)unit->data;
-      print_unit(textbuffer, text, &p_worddic->conf->notes);
-      }*/
-
     //comment
     if(comment)print_unit(textbuffer, comment, &p_worddic->conf->notes);
 
     //sense
     for(unit = entry->sense; unit != NULL; unit = unit->next){
-
-      gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.start,
-                                       strlen(p_worddic->conf->sense.start));
-
-      sense *p_sense = unit->data;
-
-      ////General Informations
-      GSList *GI = NULL;
-      for(GI = p_sense->general_informations;
-          GI != NULL;
-          GI = GI->next){
-        text = (gchar*)GI->data;
-        print_unit(textbuffer, text, &p_worddic->conf->notes);
-      }
-
+      GSList *glosses_to_print = NULL;
       GSList *gloss_list = NULL;
-      ////Gloss
+      sense *p_sense = unit->data;
       for(gloss_list = p_sense->gloss;
           gloss_list != NULL;
           gloss_list = gloss_list->next){
 	gloss *p_gloss = (gloss*)gloss_list->data;
-        text = (gchar*)p_gloss->content;
-        print_unit(textbuffer, text, &p_worddic->conf->gloss);
+	//print the gloss of the activated languages only TODO Check other languages
+	if(!strcmp(p_gloss->lang, "Eng")){
+	  glosses_to_print = g_slist_prepend(glosses_to_print, p_gloss);
+	}
       }
 
-      gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.end,
-                                       strlen(p_worddic->conf->sense.end));
+      //only print sense that has glosses to print
+      if(glosses_to_print){
+	gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.start,
+					 strlen(p_worddic->conf->sense.start));
+
+	////General Informations
+	GSList *GI = NULL;
+	for(GI = p_sense->general_informations;
+	    GI != NULL;
+	    GI = GI->next){
+	  text = (gchar*)GI->data;
+	  print_unit(textbuffer, text, &p_worddic->conf->notes);
+	}
+
+	////Gloss
+	GSList *gloss_list = NULL;
+	for(gloss_list = p_sense->gloss;
+	    gloss_list != NULL;
+	    gloss_list = gloss_list->next){
+	  gloss *p_gloss = (gloss*)gloss_list->data;
+	  //print the gloss of the activated languages only
+	  if(!strcmp(p_gloss->lang, "Eng")){
+	    gtk_text_buffer_insert_at_cursor(textbuffer,
+					     p_gloss->lang,
+					     strlen(p_gloss->lang));
+	    print_unit(textbuffer, p_gloss->content, &p_worddic->conf->gloss);
+	  }
+	}
+
+	gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.end,
+					 strlen(p_worddic->conf->sense.end));
+      }
     }
 
     gtk_text_buffer_insert_at_cursor(textbuffer, "\n", strlen("\n"));

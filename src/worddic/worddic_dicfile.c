@@ -338,17 +338,24 @@ GList *dicfile_search(WorddicDicfile *dicfile,
         //search in the sub sensees
         while(gloss_list && !has_matched){
 	  gloss *p_gloss = (gloss*)gloss_list->data;
-          has_matched = g_regex_match (regex, p_gloss->content, 0, &match_info);
 
-          if(has_matched){
-            results = add_match(match_info, comment, dicentry, results);
-          }
-          else {
-            gloss_list = gloss_list->next;
-          }
+	  //if the gloss lang is set as activated in search option, performe the search
+	  //TODO check in other langs
+	  if(!strcmp(p_gloss->lang, "Eng")){
+	      has_matched = g_regex_match (regex, p_gloss->content, 0, &match_info);
+	      if(has_matched){
+		results = add_match(match_info, comment, dicentry, results);
+	      }
+	      else {
+		gloss_list = gloss_list->next;
+	      }
 
-          g_match_info_unref(match_info);
-        }
+	      g_match_info_unref(match_info);
+	    }
+	  else {
+	    gloss_list = gloss_list->next;
+	  }
+	}
 
         sense_list = sense_list->next;
       }
