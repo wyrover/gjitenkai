@@ -255,12 +255,12 @@ void init_prefs_window(worddic *worddic){
   //start and end entries
   GtkEntry *entry_sense_start = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
-                           "entry_gloss_start");
+                           "entry_sense_start");
   gtk_entry_set_text(entry_sense_start, worddic->conf->sense.start);
 
   GtkEntry *entry_sense_end = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
-                           "entry_gloss_end");
+                           "entry_sense_end");
   gtk_entry_set_text(entry_sense_end, worddic->conf->sense.end);
 
   //gloss
@@ -279,12 +279,12 @@ void init_prefs_window(worddic *worddic){
   //start and end entries
   GtkEntry *entry_gloss_start = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
-                           "entry_subgloss_start");
+                           "entry_gloss_start");
   gtk_entry_set_text(entry_gloss_start, worddic->conf->gloss.start);
 
   GtkEntry *entry_gloss_end = (GtkEntry*)
     gtk_builder_get_object(worddic->definitions,
-                           "entry_subgloss_end");
+                           "entry_gloss_end");
   gtk_entry_set_text(entry_gloss_end, worddic->conf->gloss.end);
 
   //notes
@@ -477,7 +477,6 @@ G_MODULE_EXPORT void on_entry_sense_end_changed(GtkEntry *entry,
   worddic->conf->sense.end = gtk_entry_get_text(entry);
   worddic_conf_save(worddic->settings, worddic->conf, WSE_SENSE);
 }
-
 
 //sub sense
 G_MODULE_EXPORT void on_fontbutton_gloss_font_set(GtkFontButton *font_button,

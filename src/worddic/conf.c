@@ -7,6 +7,7 @@ void worddic_conf_load_unit_style(GSettings *settings,
 
   key = g_strconcat(name, "-start", NULL);
   us->start = g_settings_get_string(settings, key);
+
   g_free(key);key=NULL;
 
   key = g_strconcat(name, "-end", NULL);
@@ -18,11 +19,11 @@ void worddic_conf_load_unit_style(GSettings *settings,
   g_free(key);key=NULL;
 
   key = g_strconcat(name, "-color", NULL);
-  gchar *jap_def_color_str = g_settings_get_string(settings, key);
+  gchar *color_str = g_settings_get_string(settings, key);
   g_free(key);key=NULL;
 
   us->color = g_new0(GdkRGBA, 1);
-  gdk_rgba_parse(us->color, jap_def_color_str);
+  gdk_rgba_parse(us->color, color_str);
 }
 
 void worddic_conf_save_unit_style(GSettings *settings,
@@ -115,9 +116,6 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
     conf->langs = g_slist_append(conf->langs, p_lang);
   }
   g_variant_unref(lang_variant);
-
-
-
 
   //load the search options
   conf->search_kata_on_hira = g_settings_get_boolean(settings, "search-kata-on-hira");
