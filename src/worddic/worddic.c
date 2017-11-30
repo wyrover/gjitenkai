@@ -406,9 +406,6 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
 	gloss *p_gloss = (gloss*)gloss_list->data;
 	GSList *p_lang_node =  p_worddic->conf->langs;
 
-	/*gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.start,
-	  strlen(p_worddic->conf->sense.start));*/
-
 	gboolean lang_activated = FALSE;
 	while(p_lang_node && lang_activated == FALSE){
 	  lang *p_lang = p_lang_node->data;
@@ -423,6 +420,8 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
       }
 
       if(gloss_to_print){
+	gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.start,
+					 strlen(p_worddic->conf->sense.start));
 	////General Informations
 	GSList *GI = NULL;
 	for(GI = p_sense->general_informations;
@@ -439,6 +438,10 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
 	  gloss *p_gloss = gloss_to_print_node->data;
 	  print_unit(textbuffer, p_gloss->content, &p_worddic->conf->gloss);
 	}
+
+	gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.end,
+					 strlen(p_worddic->conf->sense.end));
+
       }
     }
 
