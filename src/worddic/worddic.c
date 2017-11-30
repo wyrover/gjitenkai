@@ -441,7 +441,6 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
 
 	gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.end,
 					 strlen(p_worddic->conf->sense.end));
-
       }
     }
 

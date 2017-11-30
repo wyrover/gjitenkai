@@ -5,8 +5,10 @@
 #include <zlib.h>
 #include <gio/gio.h>
 #include <stdio.h>
+#include <string.h>
+#include <assert.h>
+#include <errno.h>
 
-//#include "conf.h"
 #include "sense.h"
 #include "dicresult.h"
 #include "dicentry.h"

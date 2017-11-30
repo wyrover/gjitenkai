@@ -65,7 +65,6 @@ gboolean dicfile_init(GjitenDicfile *dicfile) {
 }
 
 void dicfile_close(GjitenDicfile *dicfile) {
-
   if (dicfile->file > 0) {
     close(dicfile->file);
   }

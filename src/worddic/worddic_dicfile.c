@@ -59,6 +59,12 @@ gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile){
   return TRUE;
 }
 
+/* CHUNK is the size of the memory chunk used by the zlib routines. */
+
+#define CHUNK 0x4000
+#define windowBits 15
+#define ENABLE_ZLIB_GZIP 32
+
 gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
   //Use GFile to get mime type, to actually get the content of the file we will
   //use the dicfile's FILE pointer
@@ -70,17 +76,69 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
 					    NULL,
 					    &error);
 
-  const char *content_type = g_file_info_get_content_type (file_info);
-
-  //'text/plain' > EDICT or EDICT2
-  //application/xml > JMDict
-  //application/gzip > ZIPPED EDICT OR ZIPPED JMDICT
+  const char *content_type = g_file_info_get_content_type(file_info);
 
   if(!(strcmp("application/gzip", content_type))){
-    dicfile->is_gz = TRUE;
-    dicfile->is_jmdict = FALSE;     //TODO read gzipped jmdict file
-    dicfile->fp = (FILE*)gzopen(dicfile->path, "r");
-    worddic_dicfile_open_edict(dicfile);
+    const char * file_name = dicfile->path;
+    FILE * file;
+    z_stream strm = {0};
+    unsigned char in[CHUNK];
+    unsigned char out[CHUNK];
+    FILE *outfile = g_mkstemp("DICT_XXXXXX");
+
+    strm.zalloc = Z_NULL;
+    strm.zfree = Z_NULL;
+    strm.opaque = Z_NULL;
+    strm.next_in = in;
+    strm.avail_in = 0;
+
+    int status;
+    status = inflateInit2 (& strm, windowBits | ENABLE_ZLIB_GZIP);
+    if (status < 0) {
+      exit (EXIT_FAILURE);
+    }
+
+    file = fopen (file_name, "rb");
+
+    while (1) {
+      int bytes_read;
+      int zlib_status;
+
+      bytes_read = fread (in, sizeof (char), sizeof (in), file);
+
+      strm.avail_in = bytes_read;
+      strm.next_in = in;
+      do {
+	unsigned have;
+	strm.avail_out = CHUNK;
+	strm.next_out = out;
+	zlib_status = inflate (& strm, Z_NO_FLUSH);
+	switch (zlib_status) {
+	case Z_OK:
+	case Z_STREAM_END:
+	case Z_BUF_ERROR:
+	  break;
+
+	default:
+	  inflateEnd (& strm);
+	  fprintf (stderr, "Gzip error %d in '%s'.\n",
+		   zlib_status, file_name);
+	  return -1;
+	}
+	have = CHUNK - strm.avail_out;
+	fwrite (out, sizeof (unsigned char), have, outfile);
+      }
+      while (strm.avail_out == 0);
+      if (feof (file)) {
+	inflateEnd (& strm);
+	break;
+      }
+    }
+    fclose(outfile);
+
+    //TODO open the tmp file
+
+
   }
   else{
     dicfile->is_gz = FALSE;
@@ -328,7 +386,7 @@ GList *dicfile_search(WorddicDicfile *dicfile,
         sense *sense = sense_list->data;
 
 	//check if the type match what we are searching
-	//if(!(sense->GI & itype))continue;
+	//if(!(sense->GI & itype))break;
 
         GSList *gloss_list = sense->gloss;
         //search in the sub sensees
