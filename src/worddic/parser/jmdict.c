@@ -18,7 +18,7 @@ GjitenDicentry* parse_entry_jmdict(xmlDocPtr doc, xmlNodePtr cur){
 	    strncpy(p_gloss->lang, lang, 3);
 	    xmlFree(lang);
 	  }
-	  else strncpy(p_gloss->lang, "Eng", 3);
+	  else strncpy(p_gloss->lang, "eng", 3);
 
 	  p_sense->gloss = g_slist_prepend(p_sense->gloss, p_gloss);
 

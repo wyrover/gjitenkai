@@ -6,6 +6,7 @@
 #include <gio/gio.h>
 #include <stdio.h>
 
+//#include "conf.h"
 #include "sense.h"
 #include "dicresult.h"
 #include "dicentry.h"
@@ -27,6 +28,7 @@ typedef struct search_expression_t{
   const gchar *search_text;
   enum  dicfile_search_criteria search_criteria_jp;
   enum  dicfile_search_criteria search_criteria_lat;
+  GSList *langs;       //will metch only for given lang code
 }search_expression;
 
 typedef struct _WorddicDicfile {

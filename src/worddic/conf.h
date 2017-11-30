@@ -39,12 +39,6 @@ typedef enum worddic_save_enum{
   WSE_ALL                 = 11111111
 }worddic_save;
 
-typedef struct _lang{
-  gchar code[3];
-  gchar *name;
-  gboolean active;
-}lang;
-
 typedef struct _WorddicConfig {
   gchar *version;
   GSList *dicfile_list;

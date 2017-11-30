@@ -114,10 +114,10 @@
     <key name="lang" type="a(ssb)">
       <default>
 	[
-	('English', 'Eng', true),
-	('French', 'Fre', false),
-	('German', 'Ger', false),
-	('Russian', 'Rus', false)
+	('English', 'eng', true),
+	('French', 'fre', false),
+	('German', 'ger', false),
+	('Russian', 'rus', false)
 	]
 
 </default>

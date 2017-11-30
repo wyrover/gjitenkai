@@ -138,7 +138,6 @@ install(
   ${PROJECT_NAME}/vconj.utf8
   ${PROJECT_NAME}/style.css
   ${PROJECT_NAME}/url
-  ${PROJECT_NAME}/country_codes
   DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
 
 

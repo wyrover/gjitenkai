@@ -235,7 +235,6 @@ GList *dicfile_search(WorddicDicfile *dicfile,
       entry_string = g_string_append(entry_string, "\\b");
     }
   }
-  ////////
 
   //regex variables
   GError *error = NULL;
@@ -309,10 +308,8 @@ GList *dicfile_search(WorddicDicfile *dicfile,
           }
 
           g_match_info_unref(match_info);
-
         }
       }
-
     } //for all dictionary entries
   }
   else{
@@ -325,38 +322,46 @@ GList *dicfile_search(WorddicDicfile *dicfile,
 
       has_matched = FALSE;
       GjitenDicentry *dicentry = list_dicentry->data;
-
-      //check if the type match what we are searching
-      //TODO_GI moved to sense
-      //if(!(dicentry->GI & itype))continue;
-
       GSList *sense_list = dicentry->sense;
       //search in the sense list
       while(sense_list && !has_matched){
         sense *sense = sense_list->data;
+
+	//check if the type match what we are searching
+	//if(!(sense->GI & itype))continue;
+
         GSList *gloss_list = sense->gloss;
         //search in the sub sensees
         while(gloss_list && !has_matched){
 	  gloss *p_gloss = (gloss*)gloss_list->data;
-
 	  //if the gloss lang is set as activated in search option, performe the search
 	  //TODO check in other langs
-	  if(!strcmp(p_gloss->lang, "Eng")){
-	      has_matched = g_regex_match (regex, p_gloss->content, 0, &match_info);
-	      if(has_matched){
-		results = add_match(match_info, comment, dicentry, results);
-	      }
-	      else {
-		gloss_list = gloss_list->next;
-	      }
-
-	      g_match_info_unref(match_info);
+	  GSList *p_lang_node =  p_search_expression->langs;
+	  gboolean lang_activated = FALSE;
+	  while(p_lang_node && lang_activated == FALSE){
+	    lang *p_lang = p_lang_node->data;
+	    if(!strcmp(p_gloss->lang, p_lang->code) && p_lang->active){
+	      lang_activated = TRUE;
+	      break;
 	    }
+	    p_lang_node = p_lang_node->next;
+	    }
+
+	  if(lang_activated){
+	    has_matched = g_regex_match (regex, p_gloss->content, 0, &match_info);
+	    if(has_matched){
+	      results = add_match(match_info, comment, dicentry, results);
+	    }
+	    else {
+	      gloss_list = gloss_list->next;
+	    }
+
+	    g_match_info_unref(match_info);
+	  }
 	  else {
 	    gloss_list = gloss_list->next;
 	  }
 	}
-
         sense_list = sense_list->next;
       }
     }

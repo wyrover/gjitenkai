@@ -13,9 +13,15 @@ enum entry_GI{
   GINONE  =  0b0000
 };
 
+typedef struct _lang{
+  gchar code[3];
+  gchar *name;
+  gboolean active;
+}lang;
+
 //TODO rename to gloss
 typedef struct gloss_t{
-  gchar lang[3];   // ISO 639-2 defaults to eng
+  gchar lang[3];   // ISO 639-2
   gchar *content;
 }gloss;
 

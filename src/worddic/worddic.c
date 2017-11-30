@@ -201,6 +201,7 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
   search_expression search_expr;
   search_expr.search_criteria_jp = worddic->match_criteria_jp;
   search_expr.search_criteria_lat = worddic->match_criteria_lat;
+  search_expr.langs = worddic->conf->langs;
 
   //clear the last search results
   worddic->results = g_list_first(worddic->results);
@@ -396,54 +397,39 @@ void print_entries(GtkTextBuffer *textbuffer, worddic *p_worddic){
 
     //sense
     for(unit = entry->sense; unit != NULL; unit = unit->next){
-      GSList *glosses_to_print = NULL;
-      GSList *gloss_list = NULL;
       sense *p_sense = unit->data;
+      ////General Informations
+      GSList *GI = NULL;
+      for(GI = p_sense->general_informations;
+	  GI != NULL;
+	  GI = GI->next){
+	text = (gchar*)GI->data;
+	print_unit(textbuffer, text, &p_worddic->conf->notes);
+      }
+
+      GSList *gloss_list = NULL;
       for(gloss_list = p_sense->gloss;
           gloss_list != NULL;
           gloss_list = gloss_list->next){
 	gloss *p_gloss = (gloss*)gloss_list->data;
-	//print the gloss of the activated languages only TODO Check other languages
-	if(!strcmp(p_gloss->lang, "Eng")){
-	  glosses_to_print = g_slist_prepend(glosses_to_print, p_gloss);
-	}
-      }
+	GSList *p_lang_node =  p_worddic->conf->langs;
 
-      //only print sense that has glosses to print
-      if(glosses_to_print){
 	gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.start,
 					 strlen(p_worddic->conf->sense.start));
 
-	////General Informations
-	GSList *GI = NULL;
-	for(GI = p_sense->general_informations;
-	    GI != NULL;
-	    GI = GI->next){
-	  text = (gchar*)GI->data;
-	  print_unit(textbuffer, text, &p_worddic->conf->notes);
-	}
-
-	////Gloss
-	GSList *gloss_list = NULL;
-	for(gloss_list = p_sense->gloss;
-	    gloss_list != NULL;
-	    gloss_list = gloss_list->next){
-	  gloss *p_gloss = (gloss*)gloss_list->data;
-	  //print the gloss of the activated languages only
-	  if(!strcmp(p_gloss->lang, "Eng")){
-	    /*gtk_text_buffer_insert_at_cursor(textbuffer,
-					     p_gloss->lang,
-					     strlen(p_gloss->lang));*/
-	    print_unit(textbuffer, p_gloss->content, &p_worddic->conf->gloss);
+	gboolean lang_activated = FALSE;
+	while(p_lang_node && lang_activated == FALSE){
+	  lang *p_lang = p_lang_node->data;
+	  if(!strcmp(p_gloss->lang, p_lang->code) && p_lang->active){
+	    lang_activated = p_lang->active;
+	    break;
 	  }
+	  p_lang_node = p_lang_node->next;
 	}
-	gtk_text_buffer_insert_at_cursor(textbuffer, p_worddic->conf->sense.end,
-					 strlen(p_worddic->conf->sense.end));
 
+	if(lang_activated)print_unit(textbuffer, p_gloss->content, &p_worddic->conf->gloss);
       }
     }
-
-
 
     //set the iter from where to search text to highlight from the start mark
     gtk_text_buffer_get_iter_at_mark(textbuffer, &iter_from, start_mark);
