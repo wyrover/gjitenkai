@@ -43,9 +43,6 @@ typedef struct _WorddicDicfile {
   //tells if the dictionary file is utf8 encoded
   gboolean utf8;
 
-  //tells if the dictionarry file is jmdict or edict
-  //gboolean is_jmdict;
-
   //first line of the edict dictionary with:
   //magic number / Dictionary type / Copyright / Creation date
   gchar *informations;

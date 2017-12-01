@@ -4,7 +4,6 @@ GjitenDicentry* parse_line(const gchar* p_line){
   gchar *line = g_strdup(p_line);
   //new entry to return
   GjitenDicentry* dicentry = g_new0 (GjitenDicentry, 1);
-  //dicentry->priority = FALSE;
 
   //cut until the first '/', separating definiton,reading in the first chunk and
   //sensees in the second chunk

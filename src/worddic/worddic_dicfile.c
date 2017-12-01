@@ -52,8 +52,6 @@ gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile, FILE *fp){
 gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
   if(!path)path = dicfile->path;
 
-  g_printf("dicfile open %s\n", path);
-
   GError *error;
   GFile *gf = g_file_new_for_path (path);
   GFileInfo *file_info = g_file_query_info (gf,
