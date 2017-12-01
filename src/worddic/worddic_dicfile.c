@@ -1,28 +1,14 @@
 #include "worddic_dicfile.h"
 
-gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile){
+gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile, FILE *fp){
   //first line is informations (date, author, copyright, ...)
   //It will also be used to check encoding
   gchar *informations = NULL;
   size_t len = 0;
   ssize_t read;
 
-  if(!dicfile->is_gz){
-    read = getline(&informations, &len, dicfile->fp);
-  }
-  else{
-    char buffer[GZLEN];
-    gchar *tmpline = gzgets ((gzFile)dicfile->fp, buffer, GZLEN - 1);
-    if(tmpline){
-      informations = strdup(tmpline);
-      read = strlen(informations);
-    }
-    else {
-      read = -1;
-      dicfile->is_valid = FALSE;
-      return FALSE;
-    }
-  }
+  read = getline(&informations, &len, fp);
+
 
   //check if utf8, convert it on the fly if this is not the case
   dicfile->utf8 = g_utf8_validate(informations, read, NULL);
@@ -59,17 +45,14 @@ gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile){
   return TRUE;
 }
 
-/* CHUNK is the size of the memory chunk used by the zlib routines. */
-
 #define CHUNK 0x4000
 #define windowBits 15
 #define ENABLE_ZLIB_GZIP 32
 
 gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
-  //Use GFile to get mime type, to actually get the content of the file we will
-  //use the dicfile's FILE pointer
-
   if(!path)path = dicfile->path;
+
+  g_printf("dicfile open %s\n", path);
 
   GError *error;
   GFile *gf = g_file_new_for_path (path);
@@ -82,8 +65,6 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
   const char *content_type = g_file_info_get_content_type(file_info);
 
   if(!(strcmp("application/gzip", content_type))){
-    dicfile->is_gz = FALSE;
-
     const char * file_name = path;
     FILE * file;
     z_stream strm = {0};
@@ -149,60 +130,32 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
 
   }
   else{
-    dicfile->is_gz = FALSE;
     if(!(strcmp("application/xml", content_type))){
       dicfile->is_jmdict = TRUE;
+      dicfile_parse_jmdict(dicfile);
     }else if(!(strcmp("text/plain", content_type))){
-      dicfile->fp = fopen(path, "r");
+      FILE *fp = fopen(path, "r");
       dicfile->is_jmdict = FALSE;
-      worddic_dicfile_open_edict(dicfile);
+      worddic_dicfile_open_edict(dicfile, fp);
+      gboolean has_line=TRUE;
+      while(has_line){
+	has_line = worddic_dicfile_parse_next_line(dicfile, fp);
+      }
+      dicfile->entries = g_slist_reverse(dicfile->entries);
+      fclose(fp);
     }
   }
 
+  dicfile->is_loaded = TRUE;
   return TRUE;
 }
 
-void worddic_dicfile_close(WorddicDicfile *dicfile){
-  if(!dicfile->is_jmdict){
-    if(dicfile->is_gz)gzclose((gzFile)dicfile->fp);
-    else fclose(dicfile->fp);
-  }
-}
-
-void worddic_dicfile_parse_all(WorddicDicfile *dicfile){
-  if(dicfile->is_jmdict){
-    dicfile_parse_jmdict(dicfile);
-  }
-  else{
-    gboolean has_line=TRUE;
-    while(has_line){
-      has_line = worddic_dicfile_parse_next_line(dicfile);
-    }
-    dicfile->entries = g_slist_reverse(dicfile->entries);
-  }
-}
-
-gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile){
+gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile, FILE *fp){
   size_t len = 0;
   ssize_t read;
 
   gchar *line=NULL;
-  //get a line in the file
-  if(!dicfile->is_gz){
-    read = getline(&line, &len, dicfile->fp);
-  }
-  else{
-    gchar buffer[GZLEN];
-    gchar *tmpline = (gchar*)gzgets ((gzFile)dicfile->fp, buffer, GZLEN - 1);
-
-    if(tmpline){
-      line = strdup(tmpline);
-      read = strlen(line);
-    }
-    else {
-      read = -1;
-    }
-  }
+  read = getline(&line, &len, fp);
 
   //if no more characters to read, return false
   if(read == -1){
@@ -457,14 +410,4 @@ void worddic_dicfile_free(WorddicDicfile *dicfile){
 void worddic_dicfile_free_entries(WorddicDicfile *dicfile){
   g_slist_free_full(dicfile->entries, (GDestroyNotify)dicentry_free);
   dicfile->entries = NULL;
-}
-
-void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile){
-  if(worddic_dicfile_open(dicfile, NULL)){
-    worddic_dicfile_parse_all(dicfile);  //parse all entries
-    dicfile->is_loaded = TRUE;
-  }
-  else dicfile->is_loaded = FALSE;
-
-  if(!dicfile->is_jmdict) worddic_dicfile_close(dicfile);
 }

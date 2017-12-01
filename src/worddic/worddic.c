@@ -246,10 +246,9 @@ gboolean worddic_search(const gchar *search_text, worddic *worddic){
 
     //if this dictionary was not loaded, parse it now
     if(!dicfile->is_loaded && worddic_dicfile_open(dicfile, NULL)){
-      worddic_dicfile_parse_all(dicfile);
+      /*worddic_dicfile_parse_all(dicfile);
       worddic_dicfile_close(dicfile);
-
-      dicfile->is_loaded = TRUE;
+      dicfile->is_loaded = TRUE;*/
 
       //update the UI in the preference pane
       GtkListStore *model = (GtkListStore*)gtk_builder_get_object(worddic->definitions,

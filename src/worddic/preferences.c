@@ -704,7 +704,7 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
                                                                  "treeview_dic");
     //Create new thread
     worddic->thread_load_dic = g_thread_new ("Load dicfile",
-                                             (GThreadFunc)worddic_dicfile_open_parse_all_close,
+                                             (GThreadFunc)worddic_dicfile_open,
                                              dicfile);
 
     //update the UI every N MiliSeconds

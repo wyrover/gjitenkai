@@ -16,8 +16,6 @@
 #include "parser/jmdict.h"
 #include "../gjitenkai/dicfile.h"
 
-#define GZLEN 1600
-
 enum dicfile_search_criteria{
   EXACT_MATCH = 1,   //jp latin (whole expression)
   START_WITH_MATCH,  //jp
@@ -47,19 +45,17 @@ typedef struct _WorddicDicfile {
   gboolean is_active;
 
   //are the entries loaded ?
+  //TODO Remove this booladn and test if entries is NULL
   gboolean is_loaded;
 
   //set to false if magic sequance is not found at the beginning of the file
   gboolean is_valid;
 
   //file pointer to read the edict dictionary file
-  FILE *fp;
+  //FILE *fp;
 
   //tells if the dictionary file is utf8 encoded
   gboolean utf8;
-
-  //tells if the dictionary file is gzipped
-  gboolean is_gz;
 
   //tells if the dictionarry file is jmdict or edict
   gboolean is_jmdict;
@@ -72,15 +68,9 @@ typedef struct _WorddicDicfile {
   gchar *creation_date;
 }WorddicDicfile;
 
-gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile);
+gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile, FILE *fp);
 gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path);
-
-void worddic_dicfile_parse_all(WorddicDicfile *dicfile);
-gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile);
-
-void worddic_dicfile_close(WorddicDicfile *dicfile);
-
-void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile);
+gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile, FILE *fp);
 
 /**
    Create a dicresult from a GMatchInfo, a comment and an entry and
