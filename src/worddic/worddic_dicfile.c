@@ -65,11 +65,14 @@ gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile){
 #define windowBits 15
 #define ENABLE_ZLIB_GZIP 32
 
-gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
+gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
   //Use GFile to get mime type, to actually get the content of the file we will
   //use the dicfile's FILE pointer
+
+  if(!path)path = dicfile->path;
+
   GError *error;
-  GFile *gf = g_file_new_for_path (dicfile->path);
+  GFile *gf = g_file_new_for_path (path);
   GFileInfo *file_info = g_file_query_info (gf,
 					    "standard::*",
 					    0,
@@ -79,12 +82,17 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
   const char *content_type = g_file_info_get_content_type(file_info);
 
   if(!(strcmp("application/gzip", content_type))){
-    const char * file_name = dicfile->path;
+    dicfile->is_gz = FALSE;
+
+    const char * file_name = path;
     FILE * file;
     z_stream strm = {0};
     unsigned char in[CHUNK];
     unsigned char out[CHUNK];
-    FILE *outfile = g_mkstemp("DICT_XXXXXX");
+
+    FILE *outfile = fopen("DIC_TMP", "wb");
+    //gchar *outpath = g_strdup("DICT_XXXXXX");
+    //FILE *outfile = mkstemp(outpath);
 
     strm.zalloc = Z_NULL;
     strm.zfree = Z_NULL;
@@ -93,7 +101,7 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
     strm.avail_in = 0;
 
     int status;
-    status = inflateInit2 (& strm, windowBits | ENABLE_ZLIB_GZIP);
+    status = inflateInit2 (&strm, windowBits | ENABLE_ZLIB_GZIP);
     if (status < 0) {
       exit (EXIT_FAILURE);
     }
@@ -136,8 +144,8 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
     }
     fclose(outfile);
 
-    //TODO open the tmp file
-
+    //open the inflated tmp file
+    worddic_dicfile_open(dicfile, "DIC_TMP");
 
   }
   else{
@@ -145,7 +153,7 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile){
     if(!(strcmp("application/xml", content_type))){
       dicfile->is_jmdict = TRUE;
     }else if(!(strcmp("text/plain", content_type))){
-      dicfile->fp = fopen(dicfile->path, "r");
+      dicfile->fp = fopen(path, "r");
       dicfile->is_jmdict = FALSE;
       worddic_dicfile_open_edict(dicfile);
     }
@@ -452,7 +460,7 @@ void worddic_dicfile_free_entries(WorddicDicfile *dicfile){
 }
 
 void worddic_dicfile_open_parse_all_close(WorddicDicfile *dicfile){
-  if(worddic_dicfile_open(dicfile)){
+  if(worddic_dicfile_open(dicfile, NULL)){
     worddic_dicfile_parse_all(dicfile);  //parse all entries
     dicfile->is_loaded = TRUE;
   }

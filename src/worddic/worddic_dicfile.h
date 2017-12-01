@@ -73,7 +73,7 @@ typedef struct _WorddicDicfile {
 }WorddicDicfile;
 
 gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile);
-gboolean worddic_dicfile_open(WorddicDicfile *dicfile);
+gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path);
 
 void worddic_dicfile_parse_all(WorddicDicfile *dicfile);
 gboolean worddic_dicfile_parse_next_line(WorddicDicfile *dicfile);
