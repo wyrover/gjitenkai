@@ -128,6 +128,7 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
 
     //open the inflated tmp file
     worddic_dicfile_open(dicfile, outpath);
+    g_free(outpath);
 
   }
   else{
