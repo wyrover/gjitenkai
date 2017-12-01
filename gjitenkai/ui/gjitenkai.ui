@@ -232,38 +232,44 @@ Original Gjiten developer Botond Botyanszki </property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
+                              <object class="GtkRadioMenuItem" id="seach_japanese_any">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Any</property>
+                                <property name="use_underline">True</property>
+                                <property name="active">True</property>
+                                <property name="draw_as_radio">True</property>
+                                <property name="group">radiomenuitem_search_japanese</property>
+                              </object>
+                            </child>
+                            <child>
                               <object class="GtkRadioMenuItem" id="search_japanese_exact">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Exact</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_as_radio">True</property>
+                                <property name="group">radiomenuitem_search_japanese</property>
                               </object>
                             </child>
                             <child>
-                              <object class="GtkRadioMenuItem" id="seach_japanese_any">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Any</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_as_radio">True</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkRadioMenuItem">
+                              <object class="GtkRadioMenuItem" id="search_japanese_start">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Start</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_as_radio">True</property>
+                                <property name="group">radiomenuitem_search_japanese</property>
                               </object>
                             </child>
                             <child>
-                              <object class="GtkMenuItem">
+                              <object class="GtkRadioMenuItem" id="search_japanese_end">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">End</property>
                                 <property name="use_underline">True</property>
+                                <property name="draw_as_radio">True</property>
+                                <property name="group">radiomenuitem_search_japanese</property>
                               </object>
                             </child>
                           </object>
@@ -281,30 +287,34 @@ Original Gjiten developer Botond Botyanszki </property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkRadioMenuItem">
+                              <object class="GtkRadioMenuItem" id="search_latin_any">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Any</property>
+                                <property name="use_underline">True</property>
+                                <property name="active">True</property>
+                                <property name="draw_as_radio">True</property>
+                                <property name="group">radiomenuitem_search_latin</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkRadioMenuItem" id="search_latin_whole_expression">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Whole Expression</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_as_radio">True</property>
+                                <property name="group">radiomenuitem_search_latin</property>
                               </object>
                             </child>
                             <child>
-                              <object class="GtkRadioMenuItem">
+                              <object class="GtkRadioMenuItem" id="search_latin_whole_word">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Whole Word</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_as_radio">True</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkRadioMenuItem">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Any</property>
-                                <property name="use_underline">True</property>
-                                <property name="draw_as_radio">True</property>
+                                <property name="group">radiomenuitem_search_latin</property>
                               </object>
                             </child>
                           </object>
