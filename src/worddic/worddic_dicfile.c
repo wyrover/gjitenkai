@@ -69,9 +69,9 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
     unsigned char in[CHUNK];
     unsigned char out[CHUNK];
 
-    FILE *outfile = fopen("DIC_TMP", "wb");
-    //gchar *outpath = g_strdup("DICT_XXXXXX");
-    //FILE *outfile = mkstemp(outpath);
+    //FILE *outfile = fopen("DIC_TMP", "wb");
+    gchar outpath[12] = "DICT_XXXXXX";
+    int fd = mkstemp(outpath);
 
     strm.zalloc = Z_NULL;
     strm.zfree = Z_NULL;
@@ -113,7 +113,8 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
 	  return -1;
 	}
 	have = CHUNK - strm.avail_out;
-	fwrite (out, sizeof (unsigned char), have, outfile);
+	//fwrite (out, sizeof (unsigned char), have, outfile);
+	write(fd, out, strlen(out));
       }
       while (strm.avail_out == 0);
       if (feof (file)) {
@@ -121,10 +122,11 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
 	break;
       }
     }
-    fclose(outfile);
+    //fclose(outfile);
+    close(fd);
 
     //open the inflated tmp file
-    worddic_dicfile_open(dicfile, "DIC_TMP");
+    worddic_dicfile_open(dicfile, outpath);
 
   }
   else{
