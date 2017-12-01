@@ -32,33 +32,19 @@ typedef struct search_expression_t{
 }search_expression;
 
 typedef struct _WorddicDicfile {
-  //path of the dictionary on the coputer
-  gchar *path;
+  gchar *path;         //path of the dictionary file
+  gchar *name;         //user defined name
+  gboolean is_active;  //search will be performed only on active dictionaries
+  GSList *entries;     //list of dicentry
 
-  //user defined name
-  gchar *name;
-
-  //list of dicentry (on entry per line)
-  GSList *entries;
-
-  //search will be performed only on active dictionaries
-  gboolean is_active;
-
-  //are the entries loaded ?
-  //TODO Remove this booladn and test if entries is NULL
-  gboolean is_loaded;
-
-  //set to false if magic sequance is not found at the beginning of the file
+  //set to false if cannot be loaded (magic sequance is not found, XML parse error, ...)
   gboolean is_valid;
-
-  //file pointer to read the edict dictionary file
-  //FILE *fp;
 
   //tells if the dictionary file is utf8 encoded
   gboolean utf8;
 
   //tells if the dictionarry file is jmdict or edict
-  gboolean is_jmdict;
+  //gboolean is_jmdict;
 
   //first line of the edict dictionary with:
   //magic number / Dictionary type / Copyright / Creation date

@@ -91,7 +91,6 @@ WorddicConfig *worddic_conf_load(GSettings *settings){
       dicfile->path = g_strdup(dicpath);
       dicfile->name = g_strdup(dicname);
       dicfile->is_active = dicactive;
-      dicfile->is_loaded = FALSE;     //do not parse the dictionary yet
 
       //add the dictionary to the list
       conf->dicfile_list = g_slist_append(conf->dicfile_list, dicfile);

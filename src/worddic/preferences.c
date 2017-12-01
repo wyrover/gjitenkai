@@ -126,11 +126,10 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
     gchar *name = g_strdup(gtk_entry_get_text(entry_edit_dic_name));
 
     //if the dictionary is loaded, free the memory
-    if(dicfile->is_loaded){
+    if(dicfile->entries){
       if(!strcmp(dicfile->path, path)){
         worddic_dicfile_free_entries(dicfile);
       }
-      dicfile->is_loaded = FALSE;
       dicfile->is_active = TRUE;
     }
 
@@ -143,7 +142,6 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
     dicfile = g_new0(WorddicDicfile, 1);
     dicfile->name = g_strdup(gtk_entry_get_text(entry_edit_dic_name));
     dicfile->path = g_strdup(gtk_file_chooser_get_filename((GtkFileChooser*)fcb_edit_dic_path));
-    dicfile->is_loaded = FALSE;
     dicfile->is_active = TRUE;
     worddic->conf->dicfile_list = g_slist_append(worddic->conf->dicfile_list, dicfile);
 
@@ -157,7 +155,7 @@ G_MODULE_EXPORT gboolean on_button_dic_edit_OK_clicked(GtkWidget *widget, worddi
                       COL_NAME, dicfile->name,
                       COL_PATH, dicfile->path,
                       COL_ACTIVE, dicfile->is_active,
-                      COL_LOADED, dicfile->is_loaded,
+                      COL_LOADED, (gboolean)dicfile->entries,
                       -1);
 
 
@@ -336,7 +334,7 @@ void init_prefs_window(worddic *worddic){
                         COL_NAME, dicfile->name,
                         COL_PATH, dicfile->path,
                         COL_ACTIVE, dicfile->is_active,
-                        COL_LOADED, dicfile->is_loaded,
+                        COL_LOADED, dicfile->entries,
                         -1);
 
     dicfile_node = g_slist_next(dicfile_node);
@@ -643,7 +641,7 @@ static gboolean cb_load_dic_timeout( dic_state_ui *ui ){
     g_free(ui);
     return FALSE;
   }
-  else if(ui->dicfile->is_loaded){
+  else if(ui->dicfile->entries){
     GtkCellRendererToggle *cell = ui->cell;
     GtkTreeView *tree = ui->treeview;
 
@@ -720,7 +718,6 @@ G_MODULE_EXPORT void on_cellrenderertoggle_loaded_toggled(GtkCellRendererToggle 
   }
   else{
     worddic_dicfile_free_entries(dicfile);
-    dicfile->is_loaded = FALSE;
   }
 
   //reverse the loaded state

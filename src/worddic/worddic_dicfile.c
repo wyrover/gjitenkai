@@ -131,11 +131,9 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
   }
   else{
     if(!(strcmp("application/xml", content_type))){
-      dicfile->is_jmdict = TRUE;
       dicfile_parse_jmdict(dicfile);
     }else if(!(strcmp("text/plain", content_type))){
       FILE *fp = fopen(path, "r");
-      dicfile->is_jmdict = FALSE;
       worddic_dicfile_open_edict(dicfile, fp);
       gboolean has_line=TRUE;
       while(has_line){
@@ -146,7 +144,6 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
     }
   }
 
-  dicfile->is_loaded = TRUE;
   return TRUE;
 }
 
