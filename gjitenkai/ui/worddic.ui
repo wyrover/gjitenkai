@@ -2,99 +2,6 @@
 <!-- Generated with glade 3.20.2 -->
 <interface domain="worddic">
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkDialog" id="dialog_welcome">
-    <property name="can_focus">False</property>
-    <property name="resizable">False</property>
-    <property name="modal">True</property>
-    <property name="destroy_with_parent">True</property>
-    <property name="type_hint">dialog</property>
-    <property name="urgency_hint">True</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox3">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area3">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button_welcome">
-                    <property name="label" translatable="yes">Ok</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_button_welcome_clicked" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label8">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">&lt;b&gt;Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'&lt;/b&gt;
-
-To start seaching you need an &lt;b&gt;EDICT dictionary file &lt;/b&gt;.
-
-You can download one at the &lt;a href="http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil"&gt;Official EDICT website&lt;/a&gt;
-
-Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt;
-&lt;b&gt;Worddic - Dictionaries - Add&lt;/b&gt;
-
-You can also download an EDICT dictionary from the Help Menu.
-
-</property>
-            <property name="use_markup">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
-  <object class="GtkListStore" id="liststore_dic">
-    <columns>
-      <!-- column-name Name -->
-      <column type="gchararray"/>
-      <!-- column-name Path -->
-      <column type="gchararray"/>
-      <!-- column-name Active -->
-      <column type="gboolean"/>
-      <!-- column-name Loaded -->
-      <column type="gboolean"/>
-    </columns>
-  </object>
   <object class="GtkBox" id="box_toplevel_prefs">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -521,89 +428,6 @@ You can also download an EDICT dictionary from the Help Menu.
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkTreeView" id="treeview_dic">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="model">liststore_dic</property>
-                <child internal-child="selection">
-                  <object class="GtkTreeSelection" id="treeview-selection1">
-                    <signal name="changed" handler="on_treeview_dicfile_changed" swapped="no"/>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkTreeViewColumn" id="treeviewcolumn_name">
-                    <property name="sizing">autosize</property>
-                    <property name="title" translatable="yes">Name</property>
-                    <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext_name"/>
-                      <attributes>
-                        <attribute name="text">0</attribute>
-                      </attributes>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkTreeViewColumn" id="treeviewcolumn_active">
-                    <property name="sizing">autosize</property>
-                    <property name="title" translatable="yes">Active</property>
-                    <child>
-                      <object class="GtkCellRendererToggle" id="cellrenderertoggle_active">
-                        <signal name="toggled" handler="on_cellrenderertoggle_active_toggled" swapped="no"/>
-                      </object>
-                      <attributes>
-                        <attribute name="active">2</attribute>
-                      </attributes>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkTreeViewColumn" id="treeviewcolumn_loaded">
-                    <property name="sizing">autosize</property>
-                    <property name="title" translatable="yes">Loaded</property>
-                    <child>
-                      <object class="GtkCellRendererToggle" id="cellrenderertoggle_loaded">
-                        <signal name="toggled" handler="on_cellrenderertoggle_loaded_toggled" swapped="no"/>
-                      </object>
-                      <attributes>
-                        <attribute name="active">3</attribute>
-                      </attributes>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkTreeViewColumn" id="treeviewcolumn_path">
-                    <property name="resizable">True</property>
-                    <property name="sizing">autosize</property>
-                    <property name="title" translatable="yes">Path</property>
-                    <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
-                      <attributes>
-                        <attribute name="text">1</attribute>
-                      </attributes>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_dic_info">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="wrap">True</property>
-                <property name="lines">1</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButtonBox" id="buttonbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -654,6 +478,89 @@ You can also download an EDICT dictionary from the Help Menu.
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_dic_info">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="wrap">True</property>
+                <property name="lines">1</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkTreeView" id="treeview_dic">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="model">liststore_dic</property>
+                <property name="search_column">0</property>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection">
+                    <signal name="changed" handler="on_treeview_dicfile_changed" swapped="no"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn_name">
+                    <property name="sizing">autosize</property>
+                    <property name="title" translatable="yes">Name</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cellrenderertext_name"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn_active">
+                    <property name="sizing">autosize</property>
+                    <property name="title" translatable="yes">Active</property>
+                    <child>
+                      <object class="GtkCellRendererToggle" id="cellrenderertoggle_active">
+                        <signal name="toggled" handler="on_cellrenderertoggle_active_toggled" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="active">2</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn_loaded">
+                    <property name="sizing">autosize</property>
+                    <property name="title" translatable="yes">Loaded</property>
+                    <child>
+                      <object class="GtkCellRendererToggle" id="cellrenderertoggle_loaded">
+                        <signal name="toggled" handler="on_cellrenderertoggle_loaded_toggled" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="active">3</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn_path">
+                    <property name="sizing">autosize</property>
+                    <property name="title" translatable="yes">Path</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                      <attributes>
+                        <attribute name="text">1</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
@@ -812,6 +719,99 @@ You can also download an EDICT dictionary from the Help Menu.
         <property name="position">0</property>
       </packing>
     </child>
+  </object>
+  <object class="GtkDialog" id="dialog_welcome">
+    <property name="can_focus">False</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="type_hint">dialog</property>
+    <property name="urgency_hint">True</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="dialog-vbox3">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_area3">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_welcome">
+                    <property name="label" translatable="yes">Ok</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_button_welcome_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label8">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">&lt;b&gt;Welcome to the Gnome Japanese dictionary 'Gjiten Kai グジテン改'&lt;/b&gt;
+
+To start seaching you need an &lt;b&gt;EDICT dictionary file &lt;/b&gt;.
+
+You can download one at the &lt;a href="http://ftp.monash.edu.au/pub/nihongo/00INDEX.html#dic_fil"&gt;Official EDICT website&lt;/a&gt;
+
+Then add it in Gjiten Kai using the &lt;b&gt;Edit/Preferences Menu&lt;/b&gt;
+&lt;b&gt;Worddic - Dictionaries - Add&lt;/b&gt;
+
+You can also download an EDICT dictionary from the Help Menu.
+
+</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkListStore" id="liststore_dic">
+    <columns>
+      <!-- column-name Name -->
+      <column type="gchararray"/>
+      <!-- column-name Path -->
+      <column type="gchararray"/>
+      <!-- column-name Active -->
+      <column type="gboolean"/>
+      <!-- column-name Loaded -->
+      <column type="gboolean"/>
+    </columns>
   </object>
   <object class="GtkDialog" id="prefs">
     <property name="can_focus">False</property>
