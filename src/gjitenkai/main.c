@@ -77,7 +77,7 @@ int main( int argc, char **argv){
   //by default, use the paned widget
   gtk_paned_pack1(gjitenkai.paned, box_worddic, TRUE, FALSE);
   gtk_paned_pack2(gjitenkai.paned, box_kanjidic, TRUE, FALSE);
-  gtk_paned_set_position(gjitenkai.paned, 400);
+  gtk_paned_set_position(gjitenkai.paned, 500);
 
   //create the page where to append the worddic and kanjidic boxes if the
   //selected view changes to notebook
