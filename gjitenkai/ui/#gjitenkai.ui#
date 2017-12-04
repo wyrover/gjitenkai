@@ -321,6 +321,7 @@ Original Gjiten developer Botond Botyanszki </property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_as_radio">True</property>
                                 <property name="group">radiomenuitem_search_latin</property>
+                                <signal name="toggled" handler="on_menuitem_search_latin_whole_word_activate" swapped="no"/>
                               </object>
                             </child>
                           </object>
