@@ -69,11 +69,11 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
     unsigned char in[CHUNK];
     unsigned char out[CHUNK];
 
-    gchar *tmp_dir = g_get_tmp_dir();
+    gchar *tmp_dir = g_strdup(g_get_tmp_dir());
     gchar *outpath = g_strjoin (G_DIR_SEPARATOR_S, tmp_dir, "DICT_XXXXXX", NULL);
     g_free(tmp_dir);
-
     int fd = mkstemp(outpath);
+
     strm.zalloc = Z_NULL;
     strm.zfree = Z_NULL;
     strm.opaque = Z_NULL;
