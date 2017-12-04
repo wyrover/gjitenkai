@@ -308,3 +308,41 @@ G_MODULE_EXPORT void on_text_insert_detect_unicode (GtkEntry    *entry,
     g_signal_emit_by_name(editable, "delete-from-cursor", GTK_DELETE_CHARS, 1);
   }
 }
+
+//Search
+///Japanese
+G_MODULE_EXPORT void on_menuitem_search_japanese_exact_activate (GtkMenuItem *menuitem,
+                                                                 gjitenkai *p_gjitenkai){
+  p_gjitenkai->worddic->match_criteria_jp = EXACT_MATCH;
+}
+
+G_MODULE_EXPORT void on_menuitem_search_japanese_start_activate (GtkMenuItem *menuitem,
+                                                                 gjitenkai *p_gjitenkai){
+  p_gjitenkai->worddic->match_criteria_jp = START_WITH_MATCH;
+}
+
+G_MODULE_EXPORT void on_menuitem_search_japanese_end_activate (GtkMenuItem *menuitem,
+                                                               gjitenkai *p_gjitenkai){
+  p_gjitenkai->worddic->match_criteria_jp = END_WITH_MATCH;
+}
+
+G_MODULE_EXPORT void on_menuitem_search_japanese_any_activate (GtkMenuItem *menuitem,
+                                                               gjitenkai *p_gjitenkai){
+  p_gjitenkai->worddic->match_criteria_jp = ANY_MATCH;
+}
+
+///Latin
+G_MODULE_EXPORT void on_menuitem_search_latin_whole_expressions_activate (GtkMenuItem *menuitem,
+                                                                          gjitenkai *p_gjitenkai){
+  p_gjitenkai->worddic->match_criteria_lat = EXACT_MATCH;
+}
+
+G_MODULE_EXPORT void on_menuitem_search_latin_whole_words_activate (GtkMenuItem *menuitem,
+                                                                    gjitenkai *p_gjitenkai){
+  p_gjitenkai->worddic->match_criteria_lat = WORD_MATCH;
+}
+
+G_MODULE_EXPORT void on_menuitem_search_latin_any_matches_activate (GtkMenuItem *menuitem,
+                                                                    gjitenkai *p_gjitenkai){
+  p_gjitenkai->worddic->match_criteria_lat = ANY_MATCH;
+}

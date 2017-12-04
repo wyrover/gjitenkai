@@ -4,22 +4,11 @@
 #include "radical_window.h"
 #include "kanji_item.h"
 
-//////////////////////
-//Menu items callbacks
-//Edit
-///Preferences
-G_MODULE_EXPORT void on_menuitem_edit_prefs_activate(GtkMenuItem *menuitem, kanjidic *kanjidic){
-  GtkDialog *prefs = (GtkDialog*)gtk_builder_get_object(kanjidic->definitions,
-                                                        "dialog_preferences");
-  //set size and display the preference window
-  gtk_window_set_default_size(GTK_WINDOW(prefs), 360, 320);
-  gtk_widget_show_all ((GtkWidget*)prefs);
-}
 
 ///////////////////
 //Filters callbacks
 G_MODULE_EXPORT void on_checkbutton_filter_strokes_toggled(GtkCheckButton *check_button,
-                                           kanjidic *kanjidic){
+							   kanjidic *kanjidic){
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
 
   //set widgets sensitivity
@@ -31,7 +20,7 @@ G_MODULE_EXPORT void on_checkbutton_filter_strokes_toggled(GtkCheckButton *check
 }
 
 G_MODULE_EXPORT void on_checkbutton_filter_radicals_toggled(GtkCheckButton *check_button,
-                                            kanjidic *kanjidic){
+							    kanjidic *kanjidic){
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
 
   //set the boolean variable
@@ -42,7 +31,7 @@ G_MODULE_EXPORT void on_checkbutton_filter_radicals_toggled(GtkCheckButton *chec
 }
 
 G_MODULE_EXPORT void on_checkbutton_filter_key_toggled(GtkCheckButton *check_button,
-                                            kanjidic *kanjidic){
+						       kanjidic *kanjidic){
   gboolean toggled = gtk_toggle_button_get_active((GtkToggleButton*)check_button);
 
   //set the boolean variable
@@ -51,13 +40,11 @@ G_MODULE_EXPORT void on_checkbutton_filter_key_toggled(GtkCheckButton *check_but
   //set widgets sensitivity
   set_ui_key_filter_sensitivity(toggled, kanjidic);
 }
-
-
 /**
    When a character is inserted in the filter by radical entry
    -Check if this is a kanji, if not, remove it
    -if this is a non-radical kanji, replace it by it's radicals
- */
+*/
 G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
                                                          const gchar *text,
                                                          gint         length,
@@ -72,8 +59,8 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
   if((!strcmp(text, carriage_return)) ||
      (!strcmp(text, backspace)) ||
      (!strcmp(text, delete))){
-       return;
-     }
+    return;
+  }
 
   //get the entered character in utf8 format
   gunichar unichar = g_utf8_get_char(text);
@@ -128,7 +115,7 @@ G_MODULE_EXPORT void on_entry_filter_radical_insert_text(GtkEntry    *entry,
 
   //get the radicals of the kanji and insert them into the entry
   GSList* kanji_radical_list = get_radical_of_kanji(unichar,
-                                             kanjidic->kanji_info_hash);
+						    kanjidic->kanji_info_hash);
 
   //if the kanji_radical_list size if of only one character,
   //and the kanji inserted is the radical found, return.
@@ -185,7 +172,7 @@ G_MODULE_EXPORT void on_button_show_radical_list_clicked(GtkButton *button, kanj
   radical_buttons_update(kanjidic);
 
   GtkWindow *radicals = (GtkWindow*)gtk_builder_get_object(kanjidic->definitions,
-                                                         "radical_list");
+							   "radical_list");
 
   //set size and display the preference window
   gtk_window_set_default_size(GTK_WINDOW(radicals), 320, 220);
