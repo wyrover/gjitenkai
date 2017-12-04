@@ -250,8 +250,7 @@ void display_candidates(kanjidic *kanjidic, GSList *kanji_list){
   gtk_widget_show_all(GTK_WIDGET(textview_kanji_result));
 }
 
-void display_kanji(kanjidic *kanjidic, const gchar* kanji)
-{
+void display_kanji(kanjidic *kanjidic, const gchar* kanji){
   //add a button in the history box
   //if the last added kanji is not the same as the kanji to add
   gboolean same_kanji = FALSE;
@@ -341,14 +340,16 @@ void display_kanji(kanjidic *kanjidic, const gchar* kanji)
       if(!strcmp(ki->gsettings_name, "radical") && kanjidic->rad_info_list){
         //list radicals without separation chars
         KanjiInfo *kanji_info = g_hash_table_lookup(kanjidic->kanji_info_hash, kanji);
-        GSList *kanji_info_list;
+	if(kanji_info){
+	  GSList *kanji_info_list;
 
-        for (kanji_info_list = kanji_info->rad_info_list;
-             kanji_info_list != NULL;
-             kanji_info_list = kanji_info_list->next) {
-          const char* str_radical = (const char*)((RadInfo *)kanji_info_list->data)->radical;
-          ki_string = g_string_append(ki_string, str_radical);
-        }
+	  for (kanji_info_list = kanji_info->rad_info_list;
+	       kanji_info_list != NULL;
+	       kanji_info_list = kanji_info_list->next) {
+	    const char* str_radical = (const char*)((RadInfo *)kanji_info_list->data)->radical;
+	    ki_string = g_string_append(ki_string, str_radical);
+	  }
+	}
       }
       else if(!strcmp(ki->gsettings_name, "strokes")){
         //strokes count

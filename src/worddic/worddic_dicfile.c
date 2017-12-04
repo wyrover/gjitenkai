@@ -74,7 +74,6 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
     gchar *outpath = g_strjoin (G_DIR_SEPARATOR_S, tmp_dir, id, NULL);
     g_free(id);
     g_free(tmp_dir);
-    printf("> OUT IS %s\n", outpath);
     FILE *file_output = fopen(outpath, "w");
 
     strm.zalloc = Z_NULL;
