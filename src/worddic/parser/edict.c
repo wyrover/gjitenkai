@@ -104,7 +104,7 @@ GjitenDicentry* parse_line(const gchar* p_line){
         //of the last pair of parentheses of this sub sense)
 	gloss *p_gloss = g_new0 (gloss, 1);
 	p_gloss->content = g_strdup(gloss_str);
-	strcpy(p_gloss->lang, "Eng");
+	strcpy(p_gloss->lang, "eng");
         p_sense->gloss = g_slist_prepend(p_sense->gloss,
                                              p_gloss);
 
