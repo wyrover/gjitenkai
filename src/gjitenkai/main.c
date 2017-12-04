@@ -201,6 +201,8 @@ int main( int argc, char **argv){
     fclose(fp);
   }
 
+  srand(time(NULL));
+
   //show and main loop
   gtk_widget_show_all ((GtkWidget*)window);
   gtk_main ();

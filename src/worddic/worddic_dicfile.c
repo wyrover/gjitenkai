@@ -49,6 +49,7 @@ gboolean worddic_dicfile_open_edict(WorddicDicfile *dicfile, FILE *fp){
 #define windowBits 15
 #define ENABLE_ZLIB_GZIP 32
 
+
 gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
   if(!path)path = dicfile->path;
 
@@ -64,15 +65,17 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
 
   if(!(strcmp("application/gzip", content_type))){
     const char * file_name = path;
-    FILE * file;
     z_stream strm = {0};
     unsigned char in[CHUNK];
     unsigned char out[CHUNK];
 
+    char *id = g_strdup_printf("%d", rand());
     gchar *tmp_dir = g_strdup(g_get_tmp_dir());
-    gchar *outpath = g_strjoin (G_DIR_SEPARATOR_S, tmp_dir, "DICT_XXXXXX", NULL);
+    gchar *outpath = g_strjoin (G_DIR_SEPARATOR_S, tmp_dir, id, NULL);
+    g_free(id);
     g_free(tmp_dir);
-    int fd = mkstemp(outpath);
+    printf("> OUT IS %s\n", outpath);
+    FILE *file_output = fopen(outpath, "w");
 
     strm.zalloc = Z_NULL;
     strm.zfree = Z_NULL;
@@ -86,13 +89,13 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
       exit (EXIT_FAILURE);
     }
 
-    file = fopen (file_name, "rb");
+    FILE *file_input = fopen (file_name, "rb");
 
     while (1) {
       int bytes_read;
       int zlib_status;
 
-      bytes_read = fread (in, sizeof (char), sizeof (in), file);
+      bytes_read = fread (in, sizeof (char), sizeof (in), file_input);
 
       strm.avail_in = bytes_read;
       strm.next_in = in;
@@ -114,17 +117,15 @@ gboolean worddic_dicfile_open(WorddicDicfile *dicfile, gchar *path){
 	  return -1;
 	}
 	have = CHUNK - strm.avail_out;
-	//fwrite (out, sizeof (unsigned char), have, outfile);
-	write(fd, out, strlen(out));
+	fwrite (out, sizeof (unsigned char), have, file_output);
       }
       while (strm.avail_out == 0);
-      if (feof (file)) {
+      if (feof (file_input)) {
 	inflateEnd (& strm);
 	break;
       }
     }
-    //fclose(outfile);
-    close(fd);
+    fclose(file_output);
 
     //open the inflated tmp file
     worddic_dicfile_open(dicfile, outpath);
